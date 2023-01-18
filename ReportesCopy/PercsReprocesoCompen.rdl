@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.21cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>5.7475cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.1175cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.46432cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Percepciones</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox8</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>3</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.46432cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Concepto</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Importe</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox6</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.29021cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Concepto.Value</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Importe">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Importe.Value</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <Format>C</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Importe</rd:DefaultName>
+                      <Style>
+                        <LeftBorder>
+                          <Style>Solid</Style>
+                        </LeftBorder>
+                        <RightBorder>
+                          <Style>Solid</Style>
+                        </RightBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.43116cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox19">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Total percepciones</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox19</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox21">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Importe.Value)</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Format>C</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox21</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>Solid</Style>
+                        </TopBorder>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="table1_Group1">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="table1_Details_Group">
+                    <DataElementName>Detail</DataElementName>
+                  </Group>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <DataElementName>Detail_Collection</DataElementName>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>dsPercepciones</DataSetName>
+        <Height>1.65001cm</Height>
+        <Width>9.075cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>1.65001cm</Height>
+    <Style />
+  </Body>
+  <Width>9.075cm</Width>
+  <Page>
+    <PageHeight>29.7cm</PageHeight>
+    <PageWidth>9cm</PageWidth>
+    <LeftMargin>1cm</LeftMargin>
+    <RightMargin>1cm</RightMargin>
+    <BottomMargin>0.5cm</BottomMargin>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Nomina">
+      <DataSourceReference>Nomina</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>aeecbd2c-177d-4c5b-80da-76602f188c14</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsPercepciones">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Anio">
+            <Value>=Parameters!pAnio.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdMes">
+            <Value>=Parameters!pIdMes.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdEmp">
+            <Value>=Parameters!pIdEmp.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@C1o2">
+            <Value>=Parameters!pC1o2.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Declare @TblCompen Table
+(IdEmp Int,
+IdPercDeduc Smallint,
+TipoPercDeduc Nvarchar(1),
+Importe Decimal(8, 2))
+
+Create Table #TblPercDeduc
+(IdEmp Int,
+IdPercDeduc Smallint,
+TipoPercDeduc Nvarchar(1),
+Importe Decimal(8, 2))
+
+Declare @IdQuincena Smallint
+
+Declare @TblQnas Table
+(IdQuincena Smallint)
+
+If @C1o2 = 1
+	Begin
+		Insert Into @TblCompen
+		Select IdEmp, IdPercDeduc, TipoPercDeduc, Sum(Importe) Importe
+		From (
+--			Select IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc, Importe
+--			From Compensaciones
+--			Where Anio =  @Anio And IdMes = @IdMes And IdEmp = @IdEmp
+			Select IdEmp, IdPercDeduc, TipoPercDeduc, Sum(Importe) Importe
+			From
+				(
+					Select IsNull(CD1.IdEmp,C1.IdEmp) IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc,
+						Case
+							When CD1.IdEmp Is Not Null Then C1.Importe - CD1.Importe
+							Else C1.Importe
+						End Importe,
+						1 C1o2
+					From Compensaciones C1
+						Left Join CompensacionesDevoluciones CD1 On CD1.IdEmp = C1.IdEmp And CD1.Anio = C1.Anio And CD1.IdMes = C1.IdMes And CD1.Adicional = C1.Adicional
+					Where C1.Anio = @Anio And C1.IdMes = @IdMes
+				) T1
+			Group By IdEmp, IdPercDeduc, TipoPercDeduc
+			Union All
+			Select C2.IdEmpAfectado IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc, Importe
+			From Compensaciones2 C2
+				Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C2.IdEmpAfectado
+			Where C2.Anio = @Anio And C2.IdMes = @IdMes
+/*
+			Union All
+			Select C2.IdEmpAfectado IdEmp, 4 IdPercDeduc, 'D' TipoPercDeduc, Importe
+			From Compensaciones2 C2
+				Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C2.IdEmpAfectado
+			Where C2.Anio = @Anio And C2.IdMes = @IdMes
+*/
+--			Union All
+--			Select 1991 IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc, Importe
+--			From Compensaciones2
+--			Where Anio =  @Anio And IdMes = @IdMes And ClaveCobro = '19907000'
+--			Union All
+--			Select 1991 IdEmp, 4 IdPercDeduc, 'D' TipoPercDeduc, Importe
+--			From Compensaciones2
+--			Where Anio =  @Anio And IdMes = @IdMes  And ClaveCobro = '19907000'
+			) T 
+		Group By IdEmp, IdPercDeduc, TipoPercDeduc
+	End
+Else
+	Begin
+		Insert Into @TblCompen
+		Select IdEmpUnicoPorMes IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc, Sum(Importe) Importe
+		From Compensaciones2
+		Where Anio =  @Anio And IdMes = @IdMes And IdEmpUnicoPorMes = @IdEmp
+		Group By IdEmpUnicoPorMes
+	End
+
+Insert Into @TblQnas
+Select IdQuincena
+From Quincenas
+Where Month(FechaDePago) = @IdMes And Year(FechaDePago) = @Anio
+
+Delete From #TblPercDeduc
+
+If @C1o2 = 1
+	Begin
+		Insert Into #TblPercDeduc
+		Select IdEmp, IdPercDeduc, TipoPercDeduc, Sum(Importe) Importe
+		From (
+			Select IdEmp, IdPercDeduc, TipoPercDeduc, Sum(Importe) Importe
+			From (
+				--Nómina
+				Select EP.IdEmp, HP.IdPercDeduc, HP.IdQuincenaAplicacion, HP.TipoPercDeduc, HP.Importe
+				From HistoriaPago HP
+					Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+					Inner Join @TblCompen A On A.IdEmp = EP.IdEmp
+				Where HP.IdQuincenaAplicacion In
+												(Select IdQuincena
+												From @TblQnas)
+					And EP.IdEmp = @IdEmp
+				Union All
+				--Recibos
+				Select R.IdEmp, RI.IdPercDeduc, RI.IdQuincenaAplicacion, RI.TipoPercDeduc, RI.Importe
+				From RecibosImportes RI
+					Inner Join Recibos R On R.IdRecibo = RI.IdRecibo
+					Inner Join @TblCompen A On A.IdEmp = R.IdEmp
+				Where (R.IdQuincenaAplicacion In
+											(Select IdQuincena
+											From @TblQnas)
+													   Or (Year(R.Fecha) = @Anio And Month(R.Fecha) = @IdMes))
+					And R.IdEstatusRecibo = 1 And R.IdEmp = @IdEmp And R.IdRecibo Not In (783)
+				Union All
+				Select IdEmp, IdPercDeduc, IdQuincenaAplicacion, TipoPercDeduc, Sum(Importe) Importe
+				From (
+					Select IdEmp, 19 IdPercDeduc, IdQuincenaAplicacion, 'P' TipoPercDeduc, Importe
+					From BonoAnualDeProductividad
+					Where IdEmp = @IdEmp And IdQuincenaAplicacion In (Select IdQuincena
+										From @TblQnas)
+					) T
+				Group By IdEmp, IdPercDeduc, IdQuincenaAplicacion, TipoPercDeduc
+				) T
+			Group By IdEmp, IdPercDeduc, TipoPercDeduc
+			Union All
+			--Compensaciones
+			Select IdEmp, IdPercDeduc, TipoPercDeduc, Importe
+			From @TblCompen
+			Where IdEmp = @IdEmp
+			) T
+		Group By IdEmp, IdPercDeduc, TipoPercDeduc
+	End
+Else
+	Begin
+		Insert Into #TblPercDeduc
+		Select IdEmp, IdPercDeduc, TipoPercDeduc, Importe
+		From @TblCompen
+		Where IdEmp = @IdEmp
+	End
+
+Select IdEmp, Clave, Concepto, Importe
+From (
+	Select A.*,  --P.ClavePercepcion Clave, P.NombrePercepcion Concepto
+		Case 
+			When P.ClavePercepcion Is Null Then D.ClaveDeduccion
+			Else P.ClavePercepcion
+		End Clave,
+		Case 
+			When P.ClavePercepcion Is Null Then D.NombreDeduccion
+			Else P.NombrePercepcion
+		End Concepto, P.Gravar
+	From #TblPercDeduc A
+		Left Join Percepciones P On P.IdPercepcion = A.IdPercDeduc And  A.TipoPercDeduc = 'P'
+		Left Join Deducciones D On D.IdDeduccion = A.IdPercDeduc And  A.TipoPercDeduc = 'D'
+	) T1
+Where IdEmp = @IdEmp And (TipoPercDeduc = 'P' And Gravar = 'S') Or (TipoPercDeduc = 'P' And Gravar = 'N' And IdPercDeduc In (9,10))
+Order By Clave
+
+Drop Table #TblPercDeduc</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Clave">
+          <DataField>Clave</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Concepto">
+          <DataField>Concepto</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Importe">
+          <DataField>Importe</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="pAnio">
+      <DataType>Integer</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Anio</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdMes">
+      <DataType>Integer</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Mes</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdEmp">
+      <DataType>Integer</DataType>
+      <Prompt>IdEmp</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pC1o2">
+      <DataType>Integer</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>pC1o2</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>es-MX</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>5a4e2100-d538-47a3-869b-d5daa825dfe4</rd:ReportID>
+</Report>

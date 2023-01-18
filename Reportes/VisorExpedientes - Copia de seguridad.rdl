@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <InteractiveHeight>27.94cm</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="pURLImagen">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>http://localhost:4812/Nomina/05329/053290600.jpg</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>URLImagen</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>21.59cm</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>0.5cm</RightMargin>
+  <LeftMargin>0.5cm</LeftMargin>
+  <BottomMargin>0.5cm</BottomMargin>
+  <rd:ReportID>88eefe17-2a30-46bd-bf3c-83c8d8b3e2b6</rd:ReportID>
+  <PageWidth>21.59cm</PageWidth>
+  <Width>20.59cm</Width>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Image Name="image1">
+        <Sizing>FitProportional</Sizing>
+        <Top>0.72cm</Top>
+        <Width>19.5cm</Width>
+        <MIMEType />
+        <Source>External</Source>
+        <Style />
+        <Left>0.545cm</Left>
+        <Height>25.5cm</Height>
+        <Value>=Parameters!pURLImagen.Value + ".jpg"</Value>
+      </Image>
+    </ReportItems>
+    <Height>26.94cm</Height>
+  </Body>
+  <Language>es-MX</Language>
+  <TopMargin>0.5cm</TopMargin>
+  <PageHeight>27.94cm</PageHeight>
+</Report>

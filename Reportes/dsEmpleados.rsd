@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <Description />
+  <DataSet Name="dsEmpleados">
+    <Query>
+      <DataSourceReference>Nomina</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@Ejercicio">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>true</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>Select
+	P.IdPlantel, P.ClavePlantel, P.ClavePlantel + ' - ' + P.DescPlantel Plantel,
+	EDL.NumEmp, E.RFCEmp, E.CURPEmp, LTRIM(RTRIM(ISNULL(E.ApePatEmp,'') + ' ' + ISNULL(E.ApeMatEmp,'') + ' ' + E.NomEmp)) NomEmp
+From EmpsExcParaCalculoDeDeclaracionAnual A
+	Inner Join Empleados E On E.IdEmp = A.IdEmp
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+	Inner Join Planteles P On P.IdPlantel = EDL.IdPlantel
+Where A.Anio = @Ejercicio --And EDL.NumEmp Not In ('03502')
+	and e.rfcemp not in
+		(
+			SELECT e.RFCEmp
+			FROM TblEmpsNoVis a
+			INNER JOIN Empleados e on e.idemp = a.idemp	
+		)
+
+Order By P.ClavePlantel, NomEmp</CommandText>
+      <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+    </Query>
+    <Fields>
+      <Field Name="IdPlantel">
+        <DataField>IdPlantel</DataField>
+        <rd:TypeName>System.Int16</rd:TypeName>
+      </Field>
+      <Field Name="ClavePlantel">
+        <DataField>ClavePlantel</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Plantel">
+        <DataField>Plantel</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="NumEmp">
+        <DataField>NumEmp</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="RFCEmp">
+        <DataField>RFCEmp</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="CURPEmp">
+        <DataField>CURPEmp</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="NomEmp">
+        <DataField>NomEmp</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

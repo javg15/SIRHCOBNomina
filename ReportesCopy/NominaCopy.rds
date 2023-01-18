@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="NominaCopy">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=s-rec-hum\SQLSRV2008R2;Initial Catalog=NominaCopy</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>d99ba007-b2b2-468d-89a5-05394b0dc5e4</DataSourceID>
+</RptDataSource>

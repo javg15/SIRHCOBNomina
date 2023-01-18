@@ -1,0 +1,60 @@
+﻿<%@ Master Language="VB" CodeFile="mpSesionIniciada.master.vb" Inherits="mpSesionIniciada"
+    ClientIDMode="AutoID"  %>
+<!--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
+<!DOCTYPE html />
+<html lang="es">
+<head runat="server">
+    <title>COBAEV</title>
+    <link href="StyleSheetAlternativa.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <form id="form1" runat="server">
+    <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" EnableScriptGlobalization="True"
+        EnableScriptLocalization="True" AsyncPostBackTimeout="0" EnablePartialRendering="true" >
+        <Services>
+            <asp:ServiceReference Path="~/WSBusquedas.asmx" />
+        </Services>
+    </ajaxToolkit:ToolkitScriptManager>
+    <div id="contenedorMain">
+        <div id="contenedorMenuSec">
+            <p class="pRight">
+                <asp:LoginStatus ID="LoginStatus1" runat="server"
+                LogoutAction="RedirectToLoginPage" LogoutPageUrl="~/Login.aspx"  />
+            </p>
+        </div>
+        <div id="contenedorHeader">
+            <p>
+            <asp:Image ID="imgHeader" runat="server" ImageUrl="~/Imagenes/HeaderSexenio2010_2016.jpg" Width="900px" Height="115px"></asp:Image> 
+            <asp:Image ID="ImgGifAnim" runat="server"  ImageUrl="~/Imagenes/ComodinBlanco.gif" Width="124px" Height="115px"/>
+            </p>
+        </div>
+        <div id="contenedorMenu">
+            <p>
+                <asp:Menu ID="Menu1" runat="server" Orientation="Horizontal" CssClass="Menu" RenderingMode="List" Width="1024px">
+                </asp:Menu>
+            </p>
+		</div>
+    </div>
+    <div>
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:Panel ID="pnlWarning2" CssClass="Warning1" runat="server" Visible="false">
+                    <b>¡Importante!</b> No hay quincenas abiertas para captura, por lo cual solo podrá
+                    navegar en esta página en modo consulta.
+                </asp:Panel>
+                <asp:LinkButton ID="lbAddPage" runat="server" CausesValidation="False" Font-Names="Verdana"
+                    Font-Size="7.5pt" Text="Agregar página al Catálogo"></asp:LinkButton>
+                <ajaxToolkit:ConfirmButtonExtender ID="lbAddPage_CBExtender" runat="server" ConfirmText="¿Está seguro de agregar ésta página al Catálogo?"
+                    Enabled="True" TargetControlID="lbAddPage">
+                </ajaxToolkit:ConfirmButtonExtender>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="lbAddPage" EventName="Click" />
+            </Triggers>
+        </asp:UpdatePanel>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>

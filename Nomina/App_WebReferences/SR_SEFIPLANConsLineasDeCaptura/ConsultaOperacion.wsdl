@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns0="http://sr/ConsultaOperacion.wsdl/types/" xmlns:tns="http://sr/ConsultaOperacion.wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" name="ConsultaOperacion" targetNamespace="http://sr/ConsultaOperacion.wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://sr/ConsultaOperacion.wsdl/types/" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" elementFormDefault="qualified" targetNamespace="http://sr/ConsultaOperacion.wsdl/types/">
+      <xsd:element name="consultaOperacionElement">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="pLineaCaptura" nillable="true" type="xsd:string" />
+            <xsd:element name="pComunidad" nillable="true" type="xsd:string" />
+            <xsd:element name="pUsuario" nillable="true" type="xsd:string" />
+            <xsd:element name="pPassword" nillable="true" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="consultaOperacionResponseElement">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="result" nillable="true" type="tns:ConsultaOperacionUser_consultaOperacion_Out" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="ConsultaOperacionUser_consultaOperacion_Out">
+        <xsd:sequence>
+          <xsd:element name="pfechaasignacionOut" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="pfechaoperacionbancariaOut" nillable="true" type="xsd:string" />
+          <xsd:element name="pmensajeOut" nillable="true" type="xsd:string" />
+          <xsd:element name="pestatusOut" nillable="true" type="xsd:string" />
+          <xsd:element name="pmanerapagoOut" nillable="true" type="xsd:string" />
+          <xsd:element name="pimportetotalOut" nillable="true" type="xsd:decimal" />
+          <xsd:element name="pfechacaducidadOut" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="presultadoOut" nillable="true" type="xsd:decimal" />
+          <xsd:element name="porigenpagoOut" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="pdetalleOut" nillable="true" type="tns:DetalleAdeudoTyUser" />
+          <xsd:element name="pnooperacionbancariaOut" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="DetalleAdeudoTyUser">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:DetalleAdeudoTyBase">
+            <xsd:sequence>
+              <xsd:element name="referencia" nillable="true" type="xsd:decimal" />
+              <xsd:element name="descripcion" nillable="true" type="xsd:string" />
+              <xsd:element name="vencimiento" nillable="true" type="xsd:string" />
+              <xsd:element name="importe" nillable="true" type="xsd:decimal" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="DetalleAdeudoTyBase">
+        <xsd:sequence />
+      </xsd:complexType>
+    </xsd:schema>
+  </types>
+  <message name="ConsultaOperacion_consultaOperacion">
+    <part name="parameters" element="tns0:consultaOperacionElement" />
+  </message>
+  <message name="ConsultaOperacion_consultaOperacionResponse">
+    <part name="parameters" element="tns0:consultaOperacionResponseElement" />
+  </message>
+  <portType name="ConsultaOperacion">
+    <operation name="consultaOperacion">
+      <input message="tns:ConsultaOperacion_consultaOperacion" />
+      <output message="tns:ConsultaOperacion_consultaOperacionResponse" />
+    </operation>
+  </portType>
+  <binding name="ConsultaOperacionSoapHttp" type="tns:ConsultaOperacion">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="consultaOperacion">
+      <soap:operation soapAction="http://sr/ConsultaOperacion.wsdl/consultaOperacion" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="ConsultaOperacion">
+    <port name="ConsultaOperacionSoapHttpPort" binding="tns:ConsultaOperacionSoapHttp">
+      <soap:address location="http://gevoasapp.veracruz.gob.mx/WSConsultaOperacionOVH/ConsultaOperacionSoapHttpPort" />
+    </port>
+  </service>
+</definitions>

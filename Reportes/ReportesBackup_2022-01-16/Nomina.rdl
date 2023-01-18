@@ -1,0 +1,678 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="dsNomina">
+      <DataSourceReference>Nomina</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>2a72b9a8-2e5f-4e66-9b34-8187ff514ebc</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsPlanteles">
+      <Query>
+        <DataSourceName>dsNomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdFondoPresup">
+            <Value>=Parameters!pIdFondoPresup.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@strPlanteles">
+            <Value>=Parameters!pstrPlanteles.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdZonaGeografica">
+            <Value>=Parameters!pIdZonaGeografica.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Declare @tblPlantelesNomina Table
+	(
+		IdPlantel Smallint
+	)
+
+Declare @tblPlanteles Table
+	(
+		IdPlantel Smallint
+	)
+Insert Into @tblPlantelesNomina
+Select Distinct EP.IdPlantel
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+Where HP.IdQuincenaAplicacion = @IdQuincena And TN.IdFondoPresup = @IdFondoPresup
+
+Declare @strPlanteles_Aux NVarchar(500)
+Declare @posComa Smallint
+Declare @IdPlantel NVarchar(4)
+
+--La impresión es de uno o varios planteles
+If RTRIM(@strPlanteles) &lt;&gt; '' And @strPlanteles Is Not Null
+	Begin
+		Set @strPlanteles_Aux = @strPlanteles
+		Set @posComa = CharIndex(',',@strPlanteles_Aux)
+		
+		While @posComa &lt;&gt; 0
+			Begin
+				Set @IdPlantel = Left(@strPlanteles_Aux, @posComa - 1)
+				
+				Insert Into @tblPlanteles
+				Select Convert(Smallint, @IdPlantel)
+				
+				Set @strPlanteles_Aux = Substring(@strPlanteles_Aux, @posComa + 1, Len(@strPlanteles_Aux) - @posComa)
+				Set @posComa = CharIndex(',',@strPlanteles_Aux)
+			End
+			
+			Insert Into @tblPlanteles
+			Select Convert(Smallint, @strPlanteles_Aux)
+			
+			SELECT 
+				P.IdPlantel, P.ClavePlantel, P.DescPlantel, P.ClavePlantel + ' - ' + P.DescPlantel TituloPlantel
+			FROM Planteles P
+				Inner Join @tblPlanteles A On A.IdPlantel = P.IdPlantel
+			WHERE (dbo.Fn_ObtenQnaPorId(@IdQuincena) Between dbo.Fn_ObtenQnaPorId(P.IdQnaIni) AND dbo.Fn_ObtenQnaPorId(P.IdQnaFin))
+				And P.IdPlantel In
+									(
+										Select IdPlantel
+										From @tblPlantelesNomina
+									)
+			ORDER BY P.IdZonaGeografica, P.ClavePlantel
+	End
+Else
+	Begin
+		If @IdZonaGeografica Is Not Null And Convert(NVarchar(3),@IdZonaGeografica) &lt;&gt; '' And @IdZonaGeografica &gt;= 0
+			Begin
+				SELECT 
+					IdPlantel, ClavePlantel, DescPlantel, ClavePlantel + ' - ' + DescPlantel TituloPlantel
+				FROM Planteles
+				WHERE (dbo.Fn_ObtenQnaPorId(@IdQuincena) BETWEEN dbo.Fn_ObtenQnaPorId(IdQnaIni) AND dbo.Fn_ObtenQnaPorId(IdQnaFin))
+					And IdPlantel In
+										(
+											Select IdPlantel
+											From @tblPlantelesNomina
+										)
+					And IdZonaGeografica = @IdZonaGeografica
+				ORDER BY IdZonaGeografica, ClavePlantel			
+			End
+		Else --La impresión es de todos los planteles
+			Begin
+				SELECT 
+					IdPlantel, ClavePlantel, DescPlantel, ClavePlantel + ' - ' + DescPlantel TituloPlantel
+				FROM Planteles
+				WHERE (dbo.Fn_ObtenQnaPorId(@IdQuincena) BETWEEN dbo.Fn_ObtenQnaPorId(IdQnaIni) AND dbo.Fn_ObtenQnaPorId(IdQnaFin))
+					And IdPlantel In
+										(
+											Select IdPlantel
+											From @tblPlantelesNomina
+										)
+				ORDER BY IdZonaGeografica, ClavePlantel
+			End
+	End</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="IdPlantel">
+          <DataField>IdPlantel</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="ClavePlantel">
+          <DataField>ClavePlantel</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="DescPlantel">
+          <DataField>DescPlantel</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="TituloPlantel">
+          <DataField>TituloPlantel</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsQuincena">
+      <Query>
+        <DataSourceName>dsNomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SET dateformat dmy 
+
+DECLARE @TblQna TABLE 
+	(Quincena NVarchar(9), Anio Smallint, Mes Tinyint, DiaInicial Tinyint, FechaDePago Datetime, 
+	Observaciones NVarchar(200), Adicional Tinyint, DiaFinal Tinyint)
+
+DECLARE @Quincena NVarchar(9), @Anio Smallint, @Mes Tinyint, @DiaInicial Tinyint 
+DECLARE @FechaDePago Datetime, @Observaciones NVarchar(200), @Adicional Tinyint 
+DECLARE @DiaFinal Tinyint
+
+INSERT INTO @TblQna
+SELECT T1.*,
+	CASE
+		WHEN T1.DiaInicial = 1 THEN 15
+		WHEN T1.Mes IN (1, 3, 5, 7, 8, 10, 12) THEN 31 
+		WHEN Mes IN (4, 6, 9, 11) THEN 30
+		WHEN dbo.Fn_ObtenSiAnioEsBisiesto(T1.Anio) = 1 THEN 29 
+		ELSE 28 
+	END DiaFinal
+FROM
+	(
+		SELECT dbo.Fn_ObtenQnaPorId(IdQuincena) Quincena, Anio,
+			CASE 
+				WHEN (Quincena % 2) = 0 THEN (Quincena / 2) 
+				ELSE (Quincena + 1) / 2 
+			END Mes, 
+			CASE
+				WHEN (Quincena % 2) = 0 THEN 16 
+				ELSE 1 
+			END DiaInicial, 
+			FechaDePago, UPPER(IsNull(Observaciones, '')) Observaciones, Adicional
+		FROM Quincenas
+		WHERE IdQuincena = @IdQuincena
+	) T1
+		
+SELECT @Quincena = Quincena, @Anio = Anio, @Mes = Mes, @DiaInicial = DiaInicial, @FechaDePago = FechaDePago, 
+	@Observaciones = Observaciones, @Adicional = Adicional, @DiaFinal = DiaFinal
+FROM @TblQna 
+
+IF @Observaciones &lt;&gt; ''
+	BEGIN
+		SELECT @Observaciones + ', QUINCENA ' + @Quincena TituloQuincena
+	END
+ELSE
+	BEGIN
+	  SELECT 'NÓMINA CORRESPONDIENTE A LA QUINCENA ' + @Quincena + ' DEL ' + CONVERT(NVarchar(2), @DiaInicial) 
+						+ ' AL ' + CONVERT(NVarchar(2), @DiaFinal) + ' DE ' + Upper(LTRIM(RTRIM(NombreMes))) 
+						+ ' DE ' + CONVERT(NVarchar(4), @Anio) TituloQuincena
+	  FROM     Meses
+	  WHERE  IdMes = @Mes
+	END</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="TituloQuincena">
+          <DataField>TituloQuincena</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsEmpresa">
+      <SharedDataSet>
+        <SharedDataSetReference>dsEmpresa</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="NombreEmpresa">
+          <DataField>NombreEmpresa</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OPD">
+          <DataField>OPD</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="TextoOPD">
+          <DataField>TextoOPD</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Rectangle Name="Rectangle2">
+            <ReportItems>
+              <Tablix Name="Tablix2">
+                <TablixBody>
+                  <TablixColumns>
+                    <TablixColumn>
+                      <Width>195.89999mm</Width>
+                    </TablixColumn>
+                  </TablixColumns>
+                  <TablixRows>
+                    <TablixRow>
+                      <Height>4.14792mm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="Subreport2">
+                              <ReportName>NominaDetalle</ReportName>
+                              <Parameters>
+                                <Parameter Name="pIdPlantel">
+                                  <Value>=Fields!IdPlantel.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdQuincena">
+                                  <Value>=Parameters!pIdQuincena.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdFondoPresup">
+                                  <Value>=Parameters!pIdFondoPresup.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Subreport>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>4.4125mm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Rectangle Name="Rectangle7">
+                              <PageBreak>
+                                <BreakLocation>Start</BreakLocation>
+                              </PageBreak>
+                              <KeepTogether>true</KeepTogether>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Rectangle>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>3.88333mm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="subreport4">
+                              <ReportName>NominaResumenesGlobalesPorPlantel</ReportName>
+                              <Parameters>
+                                <Parameter Name="pIdPlantel">
+                                  <Value>=Fields!IdPlantel.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdQuincena">
+                                  <Value>=Parameters!pIdQuincena.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdEmpFuncion">
+                                  <Value>=0</Value>
+                                </Parameter>
+                                <Parameter Name="pIdEmp">
+                                  <Value>=0</Value>
+                                </Parameter>
+                                <Parameter Name="pIdFondoPresup">
+                                  <Value>=Parameters!pIdFondoPresup.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <KeepTogether>true</KeepTogether>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Subreport>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                  </TablixRows>
+                </TablixBody>
+                <TablixColumnHierarchy>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixColumnHierarchy>
+                <TablixRowHierarchy>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="Detalles">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!IdPlantel.Value</GroupExpression>
+                        </GroupExpressions>
+                        <PageBreak>
+                          <BreakLocation>Between</BreakLocation>
+                          <ResetPageNumber>true</ResetPageNumber>
+                        </PageBreak>
+                      </Group>
+                      <TablixMembers>
+                        <TablixMember />
+                        <TablixMember />
+                        <TablixMember />
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixRowHierarchy>
+                <DataSetName>dsPlanteles</DataSetName>
+                <Top>0mm</Top>
+                <Left>0.00002mm</Left>
+                <Height>12.44375mm</Height>
+                <Width>195.89999mm</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                </Style>
+              </Tablix>
+            </ReportItems>
+            <KeepTogether>true</KeepTogether>
+            <Top>0mm</Top>
+            <Left>0mm</Left>
+            <Height>12.44375mm</Height>
+            <Width>195.90001mm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Rectangle>
+        </ReportItems>
+        <Height>1.24438cm</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>19.59cm</Width>
+      <Page>
+        <PageHeader>
+          <Height>1.62337cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!NombreEmpresa.Value, "dsEmpresa")</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Top>0mm</Top>
+              <Left>18.83833mm</Left>
+              <Height>3.97152mm</Height>
+              <Width>157.65047mm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox2">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!TextoOPD.Value, "dsEmpresa")</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Top>3.85271mm</Top>
+              <Left>18.83833mm</Left>
+              <Height>3.97152mm</Height>
+              <Width>157.65047mm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox3">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=IIF(Parameters!pIdFondoPresup.Value=1, "NÓMINA DE PRESUPUESTO REGULAR", "NÓMINA DE RECURSOS PROPIOS")</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Top>7.835mm</Top>
+              <Left>3.09562mm</Left>
+              <Height>3.97152mm</Height>
+              <Width>189.66504mm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox4">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!pTituloQna.Value</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Top>11.36261mm</Top>
+              <Left>3.09562mm</Left>
+              <Height>3.97152mm</Height>
+              <Width>189.66504mm</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>1.04cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox7">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Hoja: </Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Globals!PageNumber</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>/</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Globals!TotalPages</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox6</rd:DefaultName>
+              <Top>0.12589in</Top>
+              <Left>4.31005in</Left>
+              <Height>0.1875in</Height>
+              <Width>3.39249in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Textbox>
+            <Textbox Name="txtbxFecha">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Fecha: " + iif(Parameters!pFchImpRpt.Value is nothing, Today, Parameters!pFchImpRpt.Value)</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.27cm</Top>
+              <Height>0.5cm</Height>
+              <Width>5.75cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <TopBorder>
+              <Style>Solid</Style>
+            </TopBorder>
+          </Style>
+        </PageFooter>
+        <PageHeight>27.94cm</PageHeight>
+        <PageWidth>21.59cm</PageWidth>
+        <LeftMargin>1cm</LeftMargin>
+        <RightMargin>1cm</RightMargin>
+        <TopMargin>0.5cm</TopMargin>
+        <BottomMargin>0.5cm</BottomMargin>
+        <ColumnSpacing>0.13cm</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="pIdQuincena">
+      <DataType>Integer</DataType>
+      <Prompt>IdQuincena</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdFondoPresup">
+      <DataType>Integer</DataType>
+      <Prompt>IdFondoPresup</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pTituloQna">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsQuincena</DataSetName>
+          <ValueField>TituloQuincena</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Hidden>true</Hidden>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>dsQuincena</DataSetName>
+          <ValueField>TituloQuincena</ValueField>
+          <LabelField>TituloQuincena</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="pstrPlanteles">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>strPlanteles</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdZonaGeografica">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>IdZonaGeografica</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pFchImpRpt">
+      <DataType>DateTime</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>Fecha para impresión de reporte</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>es-MX</Language>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>e78ba279-e720-4f37-9d83-82b3fe62da49</rd:ReportID>
+</Report>

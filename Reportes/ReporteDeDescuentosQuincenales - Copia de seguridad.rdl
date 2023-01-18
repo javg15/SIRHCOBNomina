@@ -1,0 +1,2503 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="Nomina">
+      <rd:DataSourceID>e1ba71b5-23c4-4883-9667-3cf496150b10</rd:DataSourceID>
+      <DataSourceReference>Nomina</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>27.94cm</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="pIdDeduccion">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>IdDeduccion</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdQuincena">
+      <DataType>String</DataType>
+      <Prompt>IdQuincena</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pTerceroInstitucional">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsTerceroInstitucional</DataSetName>
+          <ValueField>Deduccion</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+    <ReportParameter Name="pTituloQuincena">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsQuincena</DataSetName>
+          <ValueField>TituloQuincena</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>21.59cm</InteractiveWidth>
+  <rd:GridSpacing>0.1cm</rd:GridSpacing>
+  <rd:SnapToGrid>false</rd:SnapToGrid>
+  <RightMargin>1cm</RightMargin>
+  <LeftMargin>1cm</LeftMargin>
+  <PageHeader>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="textbox6">
+        <Top>1.33544cm</Top>
+        <Width>16.09656cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Center</TextAlign>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+        <ZIndex>4</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>1.74672cm</Left>
+        <Height>0.35cm</Height>
+        <Value>=Parameters!pTituloQuincena.Value</Value>
+      </Textbox>
+      <Textbox Name="textbox5">
+        <Top>1.0119cm</Top>
+        <Width>11.3082cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Center</TextAlign>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+        <ZIndex>3</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>4.13667cm</Left>
+        <Height>0.35cm</Height>
+        <Value>=Parameters!pTerceroInstitucional.Value</Value>
+      </Textbox>
+      <Textbox Name="textbox13">
+        <Top>0.68835cm</Top>
+        <Width>8.29402cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Center</TextAlign>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+        <ZIndex>2</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>5.69667cm</Left>
+        <Height>0.30899cm</Height>
+        <Value>DEPARTAMENTO DE RECURSOS HUMANOS</Value>
+      </Textbox>
+      <Textbox Name="textbox12">
+        <Top>0.37063cm</Top>
+        <Width>9.43212cm</Width>
+        <Style>
+          <FontFamily>Algerian</FontFamily>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>5.24667cm</Left>
+        <Height>0.3619cm</Height>
+        <Value>ORGANISMO PÚBLICO DESCENTRALIZADO</Value>
+      </Textbox>
+      <Textbox Name="textbox2">
+        <rd:DefaultName>textbox2</rd:DefaultName>
+        <Width>12.69343cm</Width>
+        <Style>
+          <FontFamily>Algerian</FontFamily>
+          <FontSize>11pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>3.37792cm</Left>
+        <Height>0.41481cm</Height>
+        <Value>COLEGIO DE BACHILLERES DEL ESTADO DE VERACRUZ</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>2.2cm</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageHeader>
+  <BottomMargin>0.5cm</BottomMargin>
+  <rd:ReportID>e6fc191f-b535-49e3-9ce0-5059c5831c55</rd:ReportID>
+  <PageWidth>21.59cm</PageWidth>
+  <DataSets>
+    <DataSet Name="dsQuincena">
+      <Fields>
+        <Field Name="Quincena">
+          <DataField>Quincena</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Anio">
+          <DataField>Anio</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="Mes">
+          <DataField>Mes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DiaInicial">
+          <DataField>DiaInicial</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="FechaDePago">
+          <DataField>FechaDePago</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="DiaFinal">
+          <DataField>DiaFinal</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TituloQuincena">
+          <DataField>TituloQuincena</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>Set dateformat dmy
+Select T1.*,
+	'DESCUENTOS APLICADOS EN LA QUINCENA ' + T1.Quincena +
+	' DEL ' + Convert(Nvarchar(2), T1.DiaInicial) + ' AL ' + Convert(Nvarchar(2), T1.DiaFinal) + 
+	' DE ' + UPPER(M.NombreMes) + ' DE ' + Convert(Nvarchar(4), T1.Anio) TituloQuincena
+From (
+	Select T1.*,
+		Case
+									When T1.DiaInicial = 1 Then 15
+			When T1.Mes In (1, 3, 5, 7, 8, 10, 12) Then 31
+			When Mes In (4, 6, 9, 11) Then 30
+			When dbo.Fn_ObtenSiAnioEsBisiesto(T1.Anio) = 1 Then 29
+			Else 28
+		End DiaFinal
+	From (
+		Select dbo.Fn_ObtenQnaPorId(IdQuincena) Quincena, Anio,
+			Case 
+				When (Quincena % 2) = 0 Then (Quincena/2)
+				Else (Quincena + 1)/2
+			End Mes,
+			Case 
+				When (Quincena % 2) = 0 Then 16
+				Else 1
+			End DiaInicial, FechaDePago
+		From Quincenas
+		Where IdQuincena = @IdQuincena) T1
+	) T1
+	Inner Join Meses M On M.IdMes = T1.Mes</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="dsDeducciones">
+      <Fields>
+        <Field Name="ClaveCobro">
+          <DataField>ClaveCobro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApePat">
+          <DataField>ApePat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApeMat">
+          <DataField>ApeMat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Nombre">
+          <DataField>Nombre</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RFC">
+          <DataField>RFC</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClavePlantel">
+          <DataField>ClavePlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescPlantel">
+          <DataField>DescPlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ImporteEsperado">
+          <DataField>ImporteEsperado</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ImporteDescontado">
+          <DataField>ImporteDescontado</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="IdPlantel">
+          <DataField>IdPlantel</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="IdFondoPresup">
+          <DataField>IdFondoPresup</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="FondoPresup">
+          <DataField>FondoPresup</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FuenteDatos">
+          <DataField>FuenteDatos</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescFondoPresup">
+          <DataField>DescFondoPresup</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AbrevRegimenISSSTE">
+          <DataField>AbrevRegimenISSSTE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Vis">
+          <DataField>Vis</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>Declare @IdFormaDePago Tinyint
+
+Select Distinct @IdFormaDePago = IsNull(DFP.IdFormaDePago,7)
+From Deducciones D
+	Left Join DeduccionesFormaDePago DFP On DFP.IdDeduccion = D.IdDeduccion
+Where D.IdDeduccion = @IdDeduccion
+
+Declare @TblImportesPorEmpNomina Table
+(IdEmp Int,
+ImporteEsperado Decimal(8,2),
+ImporteDescontado Decimal(8,2))
+
+Declare @TblImportesPorEmpRecibo Table
+(IdEmp Int,
+ImporteEsperado Decimal(8,2),
+ImporteDescontado Decimal(8,2))
+
+Declare @TblPlazas Table
+(IdEmp Int,
+IdPlaza Int)
+
+Declare @TblDeduc Table
+(ClaveCobro Nvarchar(8), 
+ApePat Nvarchar(30),
+ApeMat Nvarchar(30),
+Nombre Nvarchar(30),
+RFC Nvarchar(13),
+ClavePlantel Nvarchar(2),
+DescPlantel Nvarchar(50),
+ImporteEsperado Decimal(8,2),
+ImporteDescontado Decimal(8,2),
+IdEmp Int,
+IdPlantel Smallint,
+IdFondoPresup Tinyint,
+FondoPresup Nvarchar(1),
+FuenteDatos Nvarchar(1),
+DescFondoPresup Nvarchar(50), 
+AbrevRegimenISSSTE Nvarchar(1))
+
+If (@IdFormaDePago = 6)
+	Begin
+		Insert Into @TblPlazas
+		Select Distinct EP.IdEmp, EP.IdPlaza
+		From(
+			Select Distinct EP.IdPlaza
+			From PlazasDeduccionesCantidadVariable A
+				Inner Join EmpleadosPlazas EP On EP.IdPlaza = A.IdPlaza
+			Where dbo.Fn_ObtenQnaPorId(@IdQuincena) Between  dbo.Fn_ObtenQnaPorId(A.IdQnaVigIniDeduc) And  dbo.Fn_ObtenQnaPorId(A.IdQnaVigFinDeduc)
+					And A.IdDeduccion = @IdDeduccion) T1
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = T1.IdPlaza
+			Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+		--Where E--P.PlazaEspecial = 0 And 
+			--Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+                                                --dbo.Fn_ObtenQnaPorId(@IdQuincena) Between dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni) And dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin)
+
+		Insert Into @TblImportesPorEmpNomina
+		Select T1.IdEmp, T1.Importe ImporteEsperado, IsNull(T2.Importe,0) ImporteDescontado
+		From (
+			Select Distinct EP.IdEmp, Sum(A.ImpDeduc) Importe
+			From PlazasDeduccionesCantidadVariable A
+				Inner Join EmpleadosPlazas EP On EP.IdPlaza = A.IdPlaza
+			Where --A.IdQnaVigIniDeduc = @IdQuincena And A.IdQnaVigFinDeduc = @IdQuincena
+					--Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between  Left(dbo.Fn_ObtenQnaPorId(A.IdQnaVigIniDeduc),6) And  Left(dbo.Fn_ObtenQnaPorId(A.IdQnaVigFinDeduc),6)
+                                                                 dbo.Fn_ObtenQnaPorId(@IdQuincena) Between dbo.Fn_ObtenQnaPorId(A.IdQnaVigIniDeduc) And  dbo.Fn_ObtenQnaPorId(A.IdQnaVigFinDeduc)
+				And A.IdDeduccion = @IdDeduccion
+			Group By EP.IdEmp
+			) T1
+			Left Join (
+					Select Distinct EP.IdEmp, Sum(HP.Importe) Importe
+					From HistoriaPago HP
+						Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+					Where HP.IdPercDeduc = @IdDeduccion And HP.TipoPercDeduc = 'D' And HP.IdQuincenaAplicacion = @IdQuincena
+					Group By EP.IdEmp) T2 On T2.IdEmp = T1.IdEmp
+/*
+		Insert Into @TblImportesPorEmpRecibo
+		Select Distinct T1.IdEmp, T1.Importe ImporteEsperado, IsNull(T2.Importe,0) ImporteDescontado
+		From (
+			Select EP.IdEmp, Sum(A.ImpDeduc) Importe
+			From PlazasDeduccionesCantidadVariable A
+				Inner Join EmpleadosPlazas EP On EP.IdPlaza = A.IdPlaza
+			Where --A.IdQnaVigIniDeduc = @IdQuincena And A.IdQnaVigFinDeduc = @IdQuincena
+					Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between  Left(dbo.Fn_ObtenQnaPorId(A.IdQnaVigIniDeduc),6) And  Left(dbo.Fn_ObtenQnaPorId(A.IdQnaVigFinDeduc),6)
+				And A.IdDeduccion = @IdDeduccion
+			Group By EP.IdEmp
+			) T1
+			Left Join (
+					Select EP.IdEmp, Sum(RI.Importe) Importe
+					From RecibosImportes RI
+						Inner Join Recibos R On R.IdRecibo = RI.IdRecibo
+						Inner Join EmpleadosPlazas EP On EP.IdPlaza = RI.IdPlaza
+					Where RI.IdPercDeduc = @IdDeduccion And RI.TipoPercDeduc = 'D' And RI.IdQuincenaAplicacion = @IdQuincena
+						And R.IdTipoRecibo = 4 And R.IdEstatusRecibo = 1
+					Group By EP.IdEmp) T2 On T2.IdEmp = T1.IdEmp
+		Where T1.IdEmp Not In (Select IdEmp From @TblImportesPorEmpNomina)
+*/
+		Goto Continua
+	End
+
+If (@IdFormaDePago In (5,7))
+	Begin
+		Insert Into @TblPlazas
+		Select Distinct EP.IdEmp, EP.IdPlaza
+		From HistoriaPago HP
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+		Where --EP.PlazaEspecial = 0 And 
+			HP.IdQuincenaAplicacion = @IdQuincena And HP.TipoPercDeduc = 'D' And HP.IdPercDeduc = @IdDeduccion
+
+		Insert Into @TblImportesPorEmpNomina
+		Select Distinct EP.IdEmp, Sum(HP.Importe) ImporteEsperado, Sum(HP.Importe) ImporteDescontado
+		From HistoriaPago HP
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+		Where HP.IdPercDeduc = @IdDeduccion And HP.TipoPercDeduc = 'D' And HP.IdQuincenaAplicacion = @IdQuincena
+		Group By EP.IdEmp
+/*
+		Insert Into @TblImportesPorEmpRecibo
+		Select Distinct EP.IdEmp, Sum(RI.Importe) ImporteEsperado, Sum(RI.Importe) ImporteDescontado
+		From RecibosImportes RI
+			Inner Join Recibos R On R.IdRecibo = RI.IdRecibo
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = RI.IdPlaza
+		Where RI.IdPercDeduc = @IdDeduccion And RI.TipoPercDeduc = 'D' And RI.IdQuincenaAplicacion = @IdQuincena
+			And R.IdTipoRecibo = 4 And R.IdEstatusRecibo = 1
+			And EP.IdEmp Not In (Select IdEmp From @TblImportesPorEmpNomina)
+		Group By EP.IdEmp
+*/
+		Goto Continua
+	End
+Continua:
+
+Insert Into @TblDeduc
+Select Replace(Left(dbo.Fn_ObtenPlazaVigentePorIdEmp(T.IdEmp, @IdQuincena), 10),'-', '') ClaveCobro,
+	IsNull(E.ApePatEmp,'') ApePat, IsNull(E.ApeMatEmp,'') ApeMat, IsNull(E.NomEmp,'') Nombre,
+	IsNull(E.RFCEmp,'') RFC, P.ClavePlantel, P.DescPlantel,
+	T.ImporteEsperado, T.ImporteDescontado,
+	T.IdEmp, EP.IdPlantel, FP.IdFondoPresup,
+	Case FP.ClaveFondoPresup
+		When '111' Then 'N'
+		Else 'R'
+	End FondoPresup, 'N' FuenteDatos, FP.DescFondoPresup,
+	RI.AbrevRegimenISSSTE
+From @TblImportesPorEmpNomina T
+	Inner Join Empleados E On E.IdEmp = T.IdEmp
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = T.IdEmp
+	Inner Join @TblPlazas TP On TP.IdEmp = T.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = TP.IdPlaza
+	Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+	Inner Join RegimenesISSSTE RI On RI.IdRegimenISSSTE = EDL.IdRegimenISSSTE
+Union All
+Select Replace(Left(dbo.Fn_ObtenPlazaVigentePorIdEmp(T.IdEmp, @IdQuincena), 10),'-', '') ClaveCobro,
+	IsNull(E.ApePatEmp,'') ApePat, IsNull(E.ApeMatEmp,'') ApeMat, IsNull(E.NomEmp,'') Nombre,
+	IsNull(E.RFCEmp,'') RFC, P.ClavePlantel, P.DescPlantel,
+	T.ImporteEsperado, T.ImporteDescontado,
+	T.IdEmp, EP.IdPlantel, FP.IdFondoPresup,
+	Case FP.ClaveFondoPresup
+		When '111' Then 'N'
+		Else 'R'
+	End FondoPresup, 'R' FuenteDatos, FP.DescFondoPresup,
+	RI.AbrevRegimenISSSTE
+From @TblImportesPorEmpRecibo T
+	Inner Join Empleados E On E.IdEmp = T.IdEmp
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = T.IdEmp
+	Inner Join @TblPlazas TP On TP.IdEmp = T.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = TP.IdPlaza
+	Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+	Inner Join RegimenesISSSTE RI On RI.IdRegimenISSSTE = EDL.IdRegimenISSSTE
+
+Select Distinct A.*,
+	Case
+		When B.IdEmp Is Null Then 'SI'
+		Else 'NO'
+	End Vis
+From @TblDeduc A
+	Left Join Bajas_Borrar B On B.IdEmp = A.IdEmp And B.IdQuincena = @IdQuincena
+Order By A.ClavePlantel, A.ApePat, A.ApeMat, A.Nombre</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@IdDeduccion">
+            <Value>=Parameters!pIdDeduccion.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="dsTerceroInstitucional">
+      <Fields>
+        <Field Name="ClaveDeduccion">
+          <DataField>ClaveDeduccion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NombreDeduccion">
+          <DataField>NombreDeduccion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NombreEmpresa">
+          <DataField>NombreEmpresa</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Deduccion">
+          <DataField>Deduccion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>Select D.ClaveDeduccion, D.NombreDeduccion, TI.NombreEmpresa, D.ClaveDeduccion + ' - ' + D.NombreDeduccion Deduccion
+From Deducciones D 
+	Left Join TercerosInstitucionales TI On D.IdDeduccion = TI.IdDeduccion
+Where D.IdDeduccion = @IdDeduccion</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@IdDeduccion">
+            <Value>=Parameters!pIdDeduccion.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="dsPercepciones">
+      <Fields>
+        <Field Name="ClaveCobro">
+          <DataField>ClaveCobro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApePat">
+          <DataField>ApePat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApeMat">
+          <DataField>ApeMat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Nombre">
+          <DataField>Nombre</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RFC">
+          <DataField>RFC</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClavePlantel">
+          <DataField>ClavePlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescPlantel">
+          <DataField>DescPlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ImporteDevolucion">
+          <DataField>ImporteDevolucion</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="IdPlantel">
+          <DataField>IdPlantel</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="IdFondoPresup">
+          <DataField>IdFondoPresup</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="FondoPresup">
+          <DataField>FondoPresup</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FuenteDatos">
+          <DataField>FuenteDatos</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescFondoPresup">
+          <DataField>DescFondoPresup</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AbrevRegimenISSSTE">
+          <DataField>AbrevRegimenISSSTE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>Declare @IdPercepcion Smallint
+
+Declare @TblImportesPorEmpNomina Table
+(IdEmp Int,
+ImporteDevolucion Decimal(8,2))
+
+Declare @TblImportesPorEmpRecibo Table
+(IdEmp Int,
+ImporteDevolucion Decimal(8,2))
+
+Declare @TblImportesPorEmpDevolucion Table
+(IdEmp Int,
+ImporteDevolucion Decimal(8,2))
+
+Declare @TblPlazas Table
+(IdEmp Int,
+IdPlaza Int)
+
+Declare @TblPerc Table
+(ClaveCobro Nvarchar(8), 
+ApePat Nvarchar(30),
+ApeMat Nvarchar(30),
+Nombre Nvarchar(30),
+RFC Nvarchar(13),
+ClavePlantel Nvarchar(2),
+DescPlantel Nvarchar(50),
+ImporteDevolucion Decimal(8,2),
+IdEmp Int,
+IdPlantel Smallint,
+IdFondoPresup Tinyint,
+FondoPresup Nvarchar(1),
+FuenteDatos Nvarchar(1),
+DescFondoPresup Nvarchar(50),
+AbrevRegimenISSSTE Nvarchar(1))
+
+Select @IdPercepcion = IdPercepcion
+From DeduccionesPercepcionesContrarias
+Where IdDeduccion = @IdDeduccion
+
+Insert Into @TblPlazas
+Select Distinct EP.IdEmp, EP.IdPlaza
+From PlazasPercepcionesCantidadVariable A
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = A.IdPlaza
+Where A.IdQnaVigIniPerc = @IdQuincena And A.IdQnaVigFinPerc = @IdQuincena
+		And A.IdPercepcion = @IdPercepcion 
+	And EP.PlazaEspecial = 0
+
+Insert Into @TblImportesPorEmpNomina
+Select EP.IdEmp, Sum(HP.Importe) Importe
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+Where HP.IdPercDeduc = @IdPercepcion And HP.TipoPercDeduc = 'P' And HP.IdQuincenaAplicacion = @IdQuincena
+Group By EP.IdEmp
+
+--Select T1.IdEmp, IsNull(T2.Importe,0) ImporteDevolucion
+--From (
+--	Select EP.IdEmp, Sum(A.ImpDeduc) Importe
+--	From PlazasDeduccionesCantidadVariable A
+--		Inner Join EmpleadosPlazas EP On EP.IdPlaza = A.IdPlaza
+--	Where A.IdQnaVigIniDeduc = @IdQuincena And A.IdQnaVigFinDeduc = @IdQuincena
+--		And A.IdDeduccion = @IdDeduccion
+--	Group By EP.IdEmp
+--	) T1
+--	Inner Join (
+--			Select EP.IdEmp, Sum(HP.Importe) Importe
+--			From HistoriaPago HP
+--				Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+--			Where HP.IdPercDeduc = @IdPercepcion And HP.TipoPercDeduc = 'P' And HP.IdQuincenaAplicacion = @IdQuincena
+--			Group By EP.IdEmp) T2 On T2.IdEmp = T1.IdEmp
+/*
+Insert Into @TblImportesPorEmpRecibo
+Select T1.IdEmp, IsNull(T2.Importe,0) ImporteDevolucion
+From (
+	Select EP.IdEmp, Sum(A.ImpPerc) Importe
+	From PlazasPercepcionesCantidadVariable A
+		Inner Join EmpleadosPlazas EP On EP.IdPlaza = A.IdPlaza
+	Where A.IdQnaVigIniPerc = @IdQuincena And A.IdQnaVigFinPerc = @IdQuincena
+		And A.IdPercepcion = @IdPercepcion
+	Group By EP.IdEmp
+	) T1
+	Inner Join (
+			Select EP.IdEmp, Sum(RI.Importe) Importe
+			From RecibosImportes RI
+				Inner Join Recibos R On R.IdRecibo = RI.IdRecibo
+				Inner Join EmpleadosPlazas EP On EP.IdPlaza = RI.IdPlaza
+			Where RI.IdPercDeduc = @IdPercepcion And RI.TipoPercDeduc = 'P' And RI.IdQuincenaAplicacion = @IdQuincena
+				And R.IdTipoRecibo = 4 And R.IdEstatusRecibo = 1
+			Group By EP.IdEmp) T2 On T2.IdEmp = T1.IdEmp
+Where T1.IdEmp Not In (Select IdEmp From @TblImportesPorEmpNomina)
+*/
+Insert Into @TblImportesPorEmpDevolucion
+Select T1.IdEmp, IsNull(T2.Importe,0) ImporteDevolucion
+From (
+	Select EP.IdEmp, Sum(A.ImpDeduc) Importe
+	From PlazasDeduccionesCantidadVariable A
+		Inner Join EmpleadosPlazas EP On EP.IdPlaza = A.IdPlaza
+	Where A.IdQnaVigIniDeduc = @IdQuincena And A.IdQnaVigFinDeduc = @IdQuincena
+		And A.IdDeduccion = @IdDeduccion
+	Group By EP.IdEmp
+	) T1
+	Inner Join (
+		Select HD.IdEmp, Sum(HD.Importe) Importe
+		From HistoriaDevoluciones HD
+			--Inner Join EmpleadosPlazas EP On EP.IdPlaza = HD.IdPlaza
+			--Inner Join Empleados E On E.IdEmp = HD.IdEmp
+		Where HD.IdPercDeduc = @IdDeduccion And HD.TipoPercDeduc = 'D' And HD.IdQuincenaDevolucion = @IdQuincena
+		Group By HD.IdEmp) T2 On T2.IdEmp = T1.IdEmp
+
+Insert Into @TblPerc
+Select Replace(Left(dbo.Fn_ObtenPlazaVigentePorIdEmp(T.IdEmp, @IdQuincena), 10),'-', '') ClaveCobro,
+	IsNull(E.ApePatEmp,'') ApePat, IsNull(E.ApeMatEmp,'') ApeMat, IsNull(E.NomEmp,'') Nombre,
+	IsNull(E.RFCEmp,'') RFC, P.ClavePlantel, P.DescPlantel,
+	T.ImporteDevolucion, T.IdEmp, EDL.IdPlantel, FP.IdFondoPresup,
+	Case FP.ClaveFondoPresup
+		When '111' Then 'N'
+		Else 'R'
+	End FondoPresup, 'N' FuenteDatos, FP.DescFondoPresup,
+	RI.AbrevRegimenISSSTE
+From @TblImportesPorEmpNomina T
+	Inner Join Empleados E On E.IdEmp = T.IdEmp
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = E.IdEmp
+	Inner Join Planteles P On P.IdPlantel = EDL.IdPlantel
+	Inner Join @TblPlazas TP On TP.IdEmp = T.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = TP.IdPlaza
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+	Inner Join RegimenesISSSTE RI On RI.IdRegimenISSSTE = EDL.IdRegimenISSSTE
+Union All
+Select Replace(Left(dbo.Fn_ObtenPlazaVigentePorIdEmp(T.IdEmp, @IdQuincena), 10),'-', '') ClaveCobro,
+	IsNull(E.ApePatEmp,'') ApePat, IsNull(E.ApeMatEmp,'') ApeMat, IsNull(E.NomEmp,'') Nombre,
+	IsNull(E.RFCEmp,'') RFC, P.ClavePlantel, P.DescPlantel,
+	T.ImporteDevolucion, T.IdEmp, EDL.IdPlantel, FP.IdFondoPresup,
+	Case FP.ClaveFondoPresup
+		When '111' Then 'N'
+		Else 'R'
+	End FondoPresup, 'R' FuenteDatos, FP.DescFondoPresup,
+	RI.AbrevRegimenISSSTE
+From @TblImportesPorEmpRecibo T
+	Inner Join Empleados E On E.IdEmp = T.IdEmp
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = T.IdEmp
+	Inner Join Planteles P On P.IdPlantel = EDL.IdPlantel
+	Inner Join @TblPlazas TP On TP.IdEmp = T.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = TP.IdPlaza
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+	Inner Join RegimenesISSSTE RI On RI.IdRegimenISSSTE = EDL.IdRegimenISSSTE
+Union All
+Select Replace(Left(dbo.Fn_ObtenPlazaVigentePorIdEmp(T.IdEmp, @IdQuincena), 10),'-', '') ClaveCobro,
+	IsNull(E.ApePatEmp,'') ApePat, IsNull(E.ApeMatEmp,'') ApeMat, IsNull(E.NomEmp,'') Nombre,
+	IsNull(E.RFCEmp,'') RFC, P.ClavePlantel, P.DescPlantel,
+	T.ImporteDevolucion, T.IdEmp, EDL.IdPlantel, FP.IdFondoPresup,
+	Case FP.ClaveFondoPresup
+		When '111' Then 'N'
+		Else 'R'
+	End FondoPresup, 'R' FuenteDatos, FP.DescFondoPresup,
+	RI.AbrevRegimenISSSTE
+From @TblImportesPorEmpDevolucion T
+	Inner Join Empleados E On E.IdEmp = T.IdEmp
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = T.IdEmp
+	Inner Join Planteles P On P.IdPlantel = EDL.IdPlantel
+	Inner Join @TblPlazas TP On TP.IdEmp = T.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = TP.IdPlaza
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+	Inner Join RegimenesISSSTE RI On RI.IdRegimenISSSTE = EDL.IdRegimenISSSTE
+
+Select *
+From @TblPerc
+Order By ClavePlantel, ApePat, ApeMat, Nombre</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@IdDeduccion">
+            <Value>=Parameters!pIdDeduccion.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Author>Fabio Rodríguez López</Author>
+  <Code>Public dim nombrevariable as String = ""
+
+Public dim i as Integer = 0
+
+Public Function FncCampoCabecera(byval valorCampo as String) as String
+i = i  + 1
+if i = 1 then
+nombrevariable = valorCampo
+end if
+return nombrevariable
+End Function</Code>
+  <Width>19.59cm</Width>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Textbox Name="textbox34">
+        <Top>5.89762cm</Top>
+        <Width>3.4127cm</Width>
+        <Style>
+          <BorderStyle>
+            <Default>Solid</Default>
+          </BorderStyle>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>7.5pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <Format>C</Format>
+          <TextAlign>Right</TextAlign>
+        </Style>
+        <ZIndex>3</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>13.47225cm</Left>
+        <Height>0.37037cm</Height>
+        <Value>=Sum(Fields!ImporteDescontado.Value, "dsDeducciones") - Sum(Fields!ImporteDevolucion.Value, "dsPercepciones")</Value>
+      </Textbox>
+      <Textbox Name="textbox23">
+        <rd:DefaultName>textbox23</rd:DefaultName>
+        <Top>5.89948cm</Top>
+        <Width>2.51323cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>7.5pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+        </Style>
+        <ZIndex>2</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>10.89947cm</Left>
+        <Height>0.37037cm</Height>
+        <Value>GRAN TOTAL</Value>
+      </Textbox>
+      <Table Name="table2">
+        <NoRows>Sin devoluciones</NoRows>
+        <ZIndex>1</ZIndex>
+        <DataSetName>dsPercepciones</DataSetName>
+        <KeepTogether>true</KeepTogether>
+        <Top>2.97434cm</Top>
+        <TableGroups>
+          <TableGroup>
+            <Grouping Name="table2_Group1">
+              <GroupExpressions>
+                <GroupExpression>=Fields!FondoPresup.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+            <Footer>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox17">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>18</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox19">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>17</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox20">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>16</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ColSpan>2</ColSpan>
+                      <ReportItems>
+                        <Textbox Name="textbox21">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <FontWeight>700</FontWeight>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>15</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>="SUBTOTAL " + Fields!DescFondoPresup.Value</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox24">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <Format>C</Format>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>14</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Sum(Fields!ImporteDevolucion.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox25">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>13</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox26">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>12</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox27">
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>11</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox68">
+                          <rd:DefaultName>textbox68</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>10</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.66138cm</Height>
+                </TableRow>
+              </TableRows>
+            </Footer>
+          </TableGroup>
+        </TableGroups>
+        <Width>18.36667cm</Width>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox28">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>9</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ClaveCobro.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox30">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>8</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!RFC.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox31">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>7</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ApePat.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox32">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>6</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ApeMat.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox33">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>5</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Nombre.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox35">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Format>C</Format>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                      <ZIndex>4</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ImporteDevolucion.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox36">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>3</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ClavePlantel.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox37">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>2</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!FondoPresup.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox38">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>1</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!FuenteDatos.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="AbrevRegimenISSSTE">
+                      <rd:DefaultName>AbrevRegimenISSSTE</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.37037cm</Height>
+            </TableRow>
+          </TableRows>
+        </Details>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Center</TextAlign>
+        </Style>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>9</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox39">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>39</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Empleados con devoluciones</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox22">
+                      <rd:DefaultName>textbox22</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>38</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.42328cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox40">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>37</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Clave de Cobro</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox41">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>36</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>RFC</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox42">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>35</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Apellido Paterno</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox43">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>34</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Apellido Materno</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox44">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>33</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Nombre</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox46">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>32</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Importe</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox47">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>31</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Pl</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox48">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>30</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>TN</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox49">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>29</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>FD</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox54">
+                      <rd:DefaultName>textbox54</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>28</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>RI</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.63492cm</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+        </Header>
+        <TableColumns>
+          <TableColumn>
+            <Width>1.66667cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.7cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.9cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.9cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>3.2cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.8cm</Width>
+          </TableColumn>
+        </TableColumns>
+        <Height>2.75133cm</Height>
+        <Footer>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox50">
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>27</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox51">
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>26</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox52">
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>25</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ColSpan>2</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox53">
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>24</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>TOTAL</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox56">
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Format>C</Format>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>23</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Sum(Fields!ImporteDevolucion.Value)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox57">
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>22</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox58">
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>21</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox59">
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>20</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox69">
+                      <rd:DefaultName>textbox69</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>19</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.66138cm</Height>
+            </TableRow>
+          </TableRows>
+        </Footer>
+        <Left>0.11167cm</Left>
+      </Table>
+      <Table Name="table1">
+        <DataSetName>dsDeducciones</DataSetName>
+        <KeepTogether>true</KeepTogether>
+        <TableGroups>
+          <TableGroup>
+            <Grouping Name="table1_Group1">
+              <GroupExpressions>
+                <GroupExpression>=Fields!FondoPresup.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+            <Footer>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox45">
+                          <rd:DefaultName>textbox45</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>20</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox55">
+                          <rd:DefaultName>textbox55</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>19</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox60">
+                          <rd:DefaultName>textbox60</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>18</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ColSpan>2</ColSpan>
+                      <ReportItems>
+                        <Textbox Name="textbox61">
+                          <rd:DefaultName>textbox61</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <FontWeight>700</FontWeight>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>17</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>="SUBTOTALES " + Fields!DescFondoPresup.Value</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox63">
+                          <rd:DefaultName>textbox63</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <Format>C</Format>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>16</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Sum(Fields!ImporteEsperado.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox64">
+                          <rd:DefaultName>textbox64</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <Format>C</Format>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>15</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Sum(Fields!ImporteDescontado.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox65">
+                          <rd:DefaultName>textbox65</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>14</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox66">
+                          <rd:DefaultName>textbox66</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>13</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox67">
+                          <rd:DefaultName>textbox67</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>12</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox81">
+                          <rd:DefaultName>textbox81</rd:DefaultName>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>7.5pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                          <ZIndex>11</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.66138cm</Height>
+                </TableRow>
+              </TableRows>
+            </Footer>
+          </TableGroup>
+        </TableGroups>
+        <Width>18.80054cm</Width>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <Visibility>
+                <Hidden>=iif(Fields!Vis.Value="SI",FALSE,TRUE)</Hidden>
+              </Visibility>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="ClaveCobro">
+                      <rd:DefaultName>ClaveCobro</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>10</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ClaveCobro.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="RFC">
+                      <rd:DefaultName>RFC</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>9</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!RFC.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="ApePat">
+                      <rd:DefaultName>ApePat</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>8</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ApePat.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="ApeMat">
+                      <rd:DefaultName>ApeMat</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>7</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ApeMat.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Nombre">
+                      <rd:DefaultName>Nombre</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>6</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Nombre.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="ImporteEsperado">
+                      <rd:DefaultName>ImporteEsperado</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Format>C</Format>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                      <ZIndex>5</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ImporteEsperado.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="ImporteDescontado">
+                      <rd:DefaultName>ImporteDescontado</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Format>C</Format>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                      <ZIndex>4</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ImporteDescontado.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="ClavePlantel">
+                      <rd:DefaultName>ClavePlantel</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>3</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!ClavePlantel.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="FondoPresup">
+                      <rd:DefaultName>FondoPresup</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>2</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!FondoPresup.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="FuenteDatos">
+                      <rd:DefaultName>FuenteDatos</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>1</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!FuenteDatos.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox80">
+                      <rd:DefaultName>textbox80</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                          <Bottom>Solid</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!AbrevRegimenISSSTE.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.37037cm</Height>
+            </TableRow>
+          </TableRows>
+        </Details>
+        <Style>
+          <FontSize>8pt</FontSize>
+        </Style>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>10</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox29">
+                      <rd:DefaultName>textbox29</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>43</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Empleados con descuento</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox62">
+                      <rd:DefaultName>textbox62</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>42</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.42328cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox10">
+                      <rd:DefaultName>textbox10</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>41</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Clave de Cobro</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox8">
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>40</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>RFC</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox11">
+                      <rd:DefaultName>textbox11</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>39</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Apellido Paterno</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox14">
+                      <rd:DefaultName>textbox14</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Left</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>38</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Apellido Materno</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox15">
+                      <rd:DefaultName>textbox15</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>37</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Nombre</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox3">
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>36</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Imp. Req.</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox4">
+                      <rd:DefaultName>textbox4</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>35</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Imp. Desc.</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox9">
+                      <rd:DefaultName>textbox9</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>34</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Pl</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox16">
+                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>33</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>TN</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox18">
+                      <rd:DefaultName>textbox18</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>32</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>FD</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox74">
+                      <rd:DefaultName>textbox74</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Top>Solid</Top>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <VerticalAlign>Bottom</VerticalAlign>
+                      </Style>
+                      <ZIndex>31</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>RI</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.63492cm</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+        </Header>
+        <TableColumns>
+          <TableColumn>
+            <Width>1.66667cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.7cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.8cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.66138cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.60847cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.58201cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.58201cm</Width>
+          </TableColumn>
+        </TableColumns>
+        <Height>2.75133cm</Height>
+        <Footer>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox70">
+                      <rd:DefaultName>textbox70</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>30</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox71">
+                      <rd:DefaultName>textbox71</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>29</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox72">
+                      <rd:DefaultName>textbox72</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>28</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ColSpan>2</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox73">
+                      <rd:DefaultName>textbox73</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>27</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>TOTALES</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox75">
+                      <rd:DefaultName>textbox75</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Format>C</Format>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>26</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Sum(Fields!ImporteEsperado.Value)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox76">
+                      <rd:DefaultName>textbox76</rd:DefaultName>
+                      <Style>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                        <Format>C</Format>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                      <ZIndex>25</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Sum(Fields!ImporteDescontado.Value)</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox77">
+                      <rd:DefaultName>textbox77</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>24</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox78">
+                      <rd:DefaultName>textbox78</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>23</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox79">
+                      <rd:DefaultName>textbox79</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>22</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox82">
+                      <rd:DefaultName>textbox82</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>7.5pt</FontSize>
+                      </Style>
+                      <ZIndex>21</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.66138cm</Height>
+            </TableRow>
+          </TableRows>
+        </Footer>
+        <Left>0.11167cm</Left>
+      </Table>
+    </ReportItems>
+    <Height>23.7cm</Height>
+    <Style>
+      <BackgroundColor>White</BackgroundColor>
+    </Style>
+  </Body>
+  <Language>es-MX</Language>
+  <PageFooter>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="textbox7">
+        <Top>0.25cm</Top>
+        <Width>5.75cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>7.5pt</FontSize>
+          <TextAlign>Left</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>0.295cm</Left>
+        <Height>0.5cm</Height>
+        <Value>="Fecha: " + Today</Value>
+      </Textbox>
+      <Textbox Name="textbox1">
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <Top>0.25cm</Top>
+        <Width>5.55cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>7.5pt</FontSize>
+          <TextAlign>Right</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>13.745cm</Left>
+        <Height>0.5cm</Height>
+        <Value>="Hoja: " + Globals!PageNumber.ToString + "/ " + Globals!TotalPages.ToString</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>1.04cm</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageFooter>
+  <TopMargin>0.5cm</TopMargin>
+  <PageHeight>27.94cm</PageHeight>
+</Report>

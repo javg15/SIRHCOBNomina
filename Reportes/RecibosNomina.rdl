@@ -1,0 +1,1763 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <Author>Fabio Rodríguez López</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Nomina">
+      <DataSourceReference>/Data Sources/Nomina</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>e1ba71b5-23c4-4883-9667-3cf496150b10</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsEmpleados">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@IdZonaGeografica">
+            <Value>=Parameters!pIdZonaGeografica.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@IdPlantel">
+            <Value>=Parameters!pIdPlantel.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@IdFondoPresup">
+            <Value>=Parameters!pIdFondoPresup.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@RFCEmp">
+            <Value>=Parameters!pRFCEmp.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Declare @IdFondoPresup2 Tinyint
+
+If @IdFondoPresup = 0
+	Begin
+		Set @IdFondoPresup2 = Null
+	End
+Else
+	Begin
+		Set @IdFondoPresup2 = @IdFondoPresup
+	End
+
+Declare @tblPlantelesNomina Table
+	(
+		IdPlantel Smallint
+	)
+
+If @IdPlantel Is Null And @IdZonaGeografica Is Null And @RFCEmp Is Null
+	Begin
+		Insert Into @tblPlantelesNomina
+		Select Distinct EP.IdPlantel
+		From HistoriaPago HP
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+			Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+		Where HP.IdQuincenaAplicacion = @IdQuincena And TN.IdFondoPresup = @IdFondoPresup2
+	End
+Else
+	Begin
+		If @IdPlantel Is Not Null And @IdZonaGeografica Is Null And @RFCEmp Is Null
+			Begin
+				Insert Into @tblPlantelesNomina
+				Select Distinct EP.IdPlantel
+				From HistoriaPago HP
+					Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+					Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+				Where HP.IdQuincenaAplicacion = @IdQuincena And TN.IdFondoPresup = @IdFondoPresup2 And EP.IdPlantel = @IdPlantel
+			End
+		Else
+			Begin
+				If @IdPlantel Is Null And @IdZonaGeografica Is Not Null And @RFCEmp Is Null
+					Begin			
+						Insert Into @tblPlantelesNomina
+						Select Distinct EP.IdPlantel
+						From HistoriaPago HP
+							Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+							Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+							Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+						Where HP.IdQuincenaAplicacion = @IdQuincena And TN.IdFondoPresup = @IdFondoPresup2 And P.IdZonaGeografica = @IdZonaGeografica
+					End
+				Else
+					Begin
+						Insert Into @tblPlantelesNomina
+						Select Distinct EP.IdPlantel
+						From HistoriaPago HP
+							Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+							Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+						Where HP.IdQuincenaAplicacion = @IdQuincena And EP.IdEmp = dbo.Fn_ObtenIdEmp(@RFCEmp)
+
+						Select @IdFondoPresup2 = TN.IdFondoPresup
+						From HistoriaPago HP
+							Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+							Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+						Where HP.IdQuincenaAplicacion = @IdQuincena And EP.IdEmp = dbo.Fn_ObtenIdEmp(@RFCEmp)
+
+					End
+			End
+	End
+
+Declare @Tbl1 Table
+(IdEmp Int,
+IdPercDeduc Smallint,
+TipoPercDeduc Char(1),
+Importe Decimal(8,2))
+
+Declare @Tbl2 Table
+(IdEmp Int,
+ImportePerc Decimal(8,2),
+ImporteDeduc Decimal(8,2),
+ImporteNeto Decimal(8,2),
+IdZonaGeografica Tinyint)
+
+Declare @Tbl3 Table
+(IdEmp Int,
+ImporteDeduc Decimal(8,2))
+
+Declare @Tbl4 Table
+(IdEmp Int,
+Plaza Nvarchar(30))
+
+Declare @Tbl5 Table
+(IdEmp Int,
+IdPlaza Int)
+
+If @RFCEmp Is Null
+	Begin
+		Insert Into @Tbl5
+		SELECT Distinct EP.IdEmp, EP.IdPlaza
+		FROM HistoriaPago H
+			INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+			INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+			INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+			INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+		WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+			And FP.IdFondoPresup = @IdFondoPresup2 And EP.PlazaEspecial = 0
+			And EP.IdPlantel In
+								(
+									Select IdPlantel
+									From @tblPlantelesNomina
+								)
+	End
+Else
+	Begin
+		Insert Into @Tbl5
+		SELECT Distinct EP.IdEmp, EP.IdPlaza
+		FROM HistoriaPago H
+			INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+			INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+			INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+			INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+		WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+			And FP.IdFondoPresup = @IdFondoPresup2 And EP.PlazaEspecial = 0
+			And EP.IdPlantel In
+								(
+									Select IdPlantel
+									From @tblPlantelesNomina
+								)
+			And EP.IdEmp = dbo.Fn_ObtenIdEmp(@RFCEmp)	
+	End
+
+Delete @Tbl5
+Where IdEmp In
+		(Select IdEmp 
+		From Bajas_Borrar 
+		Where IdQuincena = @IdQuincena)
+
+Insert Into @Tbl1
+SELECT Distinct EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc, Sum(H.Importe) Importe
+FROM HistoriaPago H
+	Inner Join Percepciones P On P.IdPercepcion = H.IdPercDeduc
+	INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+	INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+	INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+	And FP.IdFondoPresup = @IdFondoPresup2 
+                And H.TipoPercDeduc = 'P'
+Group By EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc
+Union
+SELECT Distinct EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc, Sum(H.Importe) Importe
+FROM HistoriaPago H
+	Inner Join Percepciones P On P.IdPercepcion = H.IdPercDeduc
+	INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+	INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+	INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+	And FP.IdFondoPresup = @IdFondoPresup2 
+               And H.TipoPercDeduc = 'D'
+Group By EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc
+
+Insert Into @Tbl2
+Select T.*, P.IdZonaGeografica
+From (
+	Select IdEmp, Sum(Importe) TotalPerc, 0 IP, 0 ID
+	From @Tbl1
+	Where TipoPercDeduc = 'P'
+	Group By IdEmp
+	) T
+	Inner Join @Tbl5 T5 On T5.IdEmp = T.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = T5.IdPlaza
+	Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+Where P.IdQnaFin = 32767
+
+Insert Into @Tbl3
+Select IdEmp, Sum(Importe) TotalDeduc
+From @Tbl1
+Where TipoPercDeduc = 'D'
+Group By IdEmp
+
+Update @Tbl2
+Set ImporteDeduc = IsNull(B.ImporteDeduc,0), ImporteNeto = A.ImportePerc - IsNull(B.ImporteDeduc,0)
+From @Tbl2 A
+	Left Join @Tbl3 B On B.IdEmp = A.IdEmp
+
+Insert Into @Tbl4
+Select A.IdEmp, Convert(Nvarchar(1), EF.IdEmpFuncion) + '-' + Right(IsNull(dbo.Fn_ObtenClaveCT(CDT2.IdCT, @IdQuincena), CDT2.ClaveCT), 2)
+	+ '-' + EDL.NumEmp + '-' + TDN.ClaveTipoNomina + '-' +
+	IsNull(dbo.Fn_ObtenClaveCT(CDT2.IdCT, @IdQuincena), CDT.ClaveCT) + '-' + C.ClaveCategoria + '-' + 
+	Case 
+		When IsNull(EP.Horas, 0) &gt;= 10 Then Convert(Nvarchar(2), EP.Horas)
+		Else '0' + Convert(Nvarchar(1), IsNull(EP.Horas, 0))
+	End
+	+ '-' + Convert(Nvarchar(3), FP.ClaveFondoPresup)
+	As Plazas
+From @Tbl2 A
+	Inner Join Empleados E On E.IdEmp = A.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdEmp = E.IdEmp
+	Inner Join EmpleadosFunciones EF On EF.IdEmpFuncion = EP.IdEmpFuncion
+	Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = E.IdEmp
+	Inner Join TiposDeNominas TDN On TDN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join CentrosDeTrabajo CDT On CDT.IdCT = EP.IdCT
+	Inner Join CentrosDeTrabajo CDT2 On CDT2.IdCT = P.IdCT
+	Inner Join Categorias C On C.IdCategoria = EP.IdCategoria
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TDN.IdFondoPresup
+	Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+	Inner Join Sindicatos S On S.IdSindicato = EP.IdSindicato
+	Inner Join TipoEmpleado TE On TE.IdTipoEmp = EP.IdTipoEmp
+                Inner Join HistoriaPago HP On HP.IdPlaza = EP.IdPlaza
+Where E.IdEmp = A.IdEmp And EP.PlazaEspecial = 0
+                And HP.IdQuincenaAplicacion = @IdQuincena
+	--And Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+
+--If Not Exists(Select 1 From @Tbl1 Where TipoPercDeduc = 'D' And IdPercDeduc = 1)
+--	Begin
+		Insert Into @Tbl1
+		Select IdEmp, 0, 'D', 0
+		From @Tbl1
+--		Where IdEmp Not In
+--						(Select IdEmp From @Tbl1 Where TipoPercDeduc = 'D' And IdPercDeduc = 1)
+--	End
+
+Select T.*, B.ImporteNeto
+From (
+	Select A.*, P.ClavePercepcion ClaveConcepto, P.NombrePercepcion Concepto, 
+		IsNull(E.NomEmp,'') + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,'') NomEmp,
+		Replace(B.Plaza, '-00-', '-') Plaza, 
+		IsNull(EDL.NSS,'') NSS,
+		IsNull(E.CURPEmp,'') CURPEmp, IsNull(E.RFCEmp,'') RFCEmp,
+		Pl.DescPlantel
+	From @Tbl1 A
+		Inner Join @Tbl4 B On B.IdEmp = A.IdEmp
+		Inner Join Empleados E On E.IdEmp = A.IdEmp
+		Inner Join Percepciones P On P.IdPercepcion = A.IdPercDeduc
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+		Inner Join @Tbl5 T5 On T5.IdEmp = A.IdEmp
+		Inner Join EmpleadosPlazas EP On EP.IdPlaza = T5.IdPlaza And EP.IdEmp = T5.IdEmp
+		Inner Join Planteles Pl On Pl.IdPlantel = EP.IdPlantel
+	Where A.TipoPercDeduc = 'P'
+	Union
+	Select A.*, IsNull(D.ClaveDeduccion,'') ClaveConcepto, IsNull(dbo.Fn_ObtenNombreDeduccion(D.IdDeduccion,@IdQuincena),'') Concepto, 
+		IsNull(E.NomEmp,'') + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,'') NomEmp,
+		Replace(B.Plaza, '-00-', '-') Plaza, 
+		IsNull(EDL.NSS,'') NSS,
+		IsNull(E.CURPEmp,'') CURPEmp, IsNull(E.RFCEmp,'') RFCEmp,
+		P.DescPlantel
+	From @Tbl1 A
+		Inner Join @Tbl4 B On B.IdEmp = A.IdEmp
+		Inner Join Empleados E On E.IdEmp = A.IdEmp
+		Left Join Deducciones D On D.IdDeduccion = A.IdPercDeduc
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+		Inner Join @Tbl5 T5 On T5.IdEmp = A.IdEmp
+		Inner Join EmpleadosPlazas EP On EP.IdPlaza = T5.IdPlaza And EP.IdEmp = T5.IdEmp
+		Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+	Where A.TipoPercDeduc = 'D'
+	) T
+	Inner Join @Tbl2 B On B.IdEmp = T.IdEmp
+Where T.IdEmp Not In (Select IdEmp From TblEmpsNoVis)
+Order By IdZonaGeografica Desc, DescPlantel, Substring(Plaza, 15, 4), NomEmp
+
+/*
+Declare @IdFondoPresup2 Tinyint
+
+If @IdFondoPresup = 0
+	Begin
+		Set @IdFondoPresup2 = Null
+	End
+Else
+	Begin
+		Set @IdFondoPresup2 = @IdFondoPresup
+	End
+
+Declare @tblPlantelesNomina Table
+	(
+		IdPlantel Smallint
+	)
+
+If @IdPlantel Is Null And @IdZonaGeografica Is Null And @RFCEmp Is Null
+	Begin
+		Insert Into @tblPlantelesNomina
+		Select Distinct EP.IdPlantel
+		From HistoriaPago HP
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+			Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+		Where HP.IdQuincenaAplicacion = @IdQuincena And TN.IdFondoPresup = @IdFondoPresup2
+	End
+Else
+	Begin
+		If @IdPlantel Is Not Null And @IdZonaGeografica Is Null And @RFCEmp Is Null
+			Begin
+				Insert Into @tblPlantelesNomina
+				Select Distinct EP.IdPlantel
+				From HistoriaPago HP
+					Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+					Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+				Where HP.IdQuincenaAplicacion = @IdQuincena And TN.IdFondoPresup = @IdFondoPresup2 And EP.IdPlantel = @IdPlantel
+			End
+		Else
+			Begin
+				If @IdPlantel Is Null And @IdZonaGeografica Is Not Null And @RFCEmp Is Null
+					Begin			
+						Insert Into @tblPlantelesNomina
+						Select Distinct EP.IdPlantel
+						From HistoriaPago HP
+							Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+							Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+							Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+						Where HP.IdQuincenaAplicacion = @IdQuincena And TN.IdFondoPresup = @IdFondoPresup2 And P.IdZonaGeografica = @IdZonaGeografica
+					End
+				Else
+					Begin
+						Insert Into @tblPlantelesNomina
+						Select Distinct EP.IdPlantel
+						From HistoriaPago HP
+							Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+							Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+						Where HP.IdQuincenaAplicacion = @IdQuincena And EP.IdEmp = dbo.Fn_ObtenIdEmp(@RFCEmp)
+
+						Select @IdFondoPresup2 = TN.IdFondoPresup
+						From HistoriaPago HP
+							Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+							Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+						Where HP.IdQuincenaAplicacion = @IdQuincena And EP.IdEmp = dbo.Fn_ObtenIdEmp(@RFCEmp)
+
+					End
+			End
+	End
+
+Declare @Tbl1 Table
+(IdEmp Int,
+IdPercDeduc Smallint,
+TipoPercDeduc Char(1),
+Importe Decimal(8,2))
+
+Declare @Tbl2 Table
+(IdEmp Int,
+ImportePerc Decimal(8,2),
+ImporteDeduc Decimal(8,2),
+ImporteNeto Decimal(8,2),
+IdZonaGeografica Tinyint)
+
+Declare @Tbl3 Table
+(IdEmp Int,
+ImporteDeduc Decimal(8,2))
+
+Declare @Tbl4 Table
+(IdEmp Int,
+Plaza Nvarchar(30),
+IdPlaza INT)
+
+Declare @Tbl5 Table
+(IdEmp Int,
+IdPlaza Int)
+
+Declare @Tbl6 Table
+(IdEmp Int,
+IdPlaza Int)
+
+If @RFCEmp Is Null
+	Begin
+		Insert Into @Tbl5
+		SELECT Distinct EP.IdEmp, EP.IdPlaza
+		FROM HistoriaPago H
+			INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+			INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+			INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+			INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+		WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+			And FP.IdFondoPresup = @IdFondoPresup2 And EP.PlazaEspecial = 0
+			And EP.IdPlantel In
+								(
+									Select IdPlantel
+									From @tblPlantelesNomina
+								)
+	End
+Else
+	Begin
+		Insert Into @Tbl5
+		SELECT Distinct EP.IdEmp, EP.IdPlaza
+		FROM HistoriaPago H
+			INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+			INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+			INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+			INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+		WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+			And FP.IdFondoPresup = @IdFondoPresup2 And EP.PlazaEspecial = 0
+			And EP.IdPlantel In
+								(
+									Select IdPlantel
+									From @tblPlantelesNomina
+								)
+			And EP.IdEmp = dbo.Fn_ObtenIdEmp(@RFCEmp)	
+	End
+
+Delete @Tbl5
+Where IdEmp In
+		(Select IdEmp 
+		From Bajas_Borrar 
+		Where IdQuincena = @IdQuincena)
+
+INSERT INTO @Tbl6
+SELECT IdEmp, MAX(IdPlaza)
+FROM @Tbl5
+GROUP BY IdEmp
+
+DELETE FROM @Tbl5
+
+INSERT INTO @Tbl5
+SELECT * FROM @Tbl6
+
+Insert Into @Tbl1
+SELECT Distinct EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc, Sum(H.Importe) Importe
+FROM HistoriaPago H
+	Inner Join Percepciones P On P.IdPercepcion = H.IdPercDeduc
+	INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+	INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+	INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+	And FP.IdFondoPresup = @IdFondoPresup2 
+                And H.TipoPercDeduc = 'P'
+Group By EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc
+Union
+SELECT Distinct EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc, Sum(H.Importe) Importe
+FROM HistoriaPago H
+	Inner Join Percepciones P On P.IdPercepcion = H.IdPercDeduc
+	INNER JOIN EmpleadosPlazas EP On EP.IdPlaza = H.IdPlaza
+	INNER JOIN EmpleadosDatosLaborales EDL On EDL.IdEmp = EP.IdEmp
+	INNER JOIN TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	INNER JOIN FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+WHERE (H.IdQuincenaAplicacion = @IdQuincena)
+	And FP.IdFondoPresup = @IdFondoPresup2 
+               And H.TipoPercDeduc = 'D'
+Group By EP.IdEmp, H.IdPercDeduc, H.TipoPercDeduc
+
+Insert Into @Tbl2
+Select DISTINCT T.*, P.IdZonaGeografica
+From (
+	Select IdEmp, Sum(Importe) TotalPerc, 0 IP, 0 ID
+	From @Tbl1
+	Where TipoPercDeduc = 'P'
+	Group By IdEmp
+	) T
+	Inner Join @Tbl5 T5 On T5.IdEmp = T.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = T5.IdPlaza
+	Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+Where P.IdQnaFin = 32767
+
+Insert Into @Tbl3
+Select IdEmp, Sum(Importe) TotalDeduc
+From @Tbl1
+Where TipoPercDeduc = 'D'
+Group By IdEmp
+
+Update @Tbl2
+Set ImporteDeduc = IsNull(B.ImporteDeduc,0), ImporteNeto = A.ImportePerc - IsNull(B.ImporteDeduc,0)
+From @Tbl2 A
+	Left Join @Tbl3 B On B.IdEmp = A.IdEmp
+
+Insert Into @Tbl4
+Select DISTINCT A.IdEmp, Convert(Nvarchar(1), EF.IdEmpFuncion) + '-' + Right(IsNull(dbo.Fn_ObtenClaveCT(CDT2.IdCT, @IdQuincena), CDT2.ClaveCT), 2)
+	+ '-' + EDL.NumEmp + '-' + TDN.ClaveTipoNomina + '-' +
+	IsNull(dbo.Fn_ObtenClaveCT(CDT2.IdCT, @IdQuincena), CDT.ClaveCT) + '-' + C.ClaveCategoria + '-' + 
+	Case 
+		When IsNull(EP.Horas, 0) &gt;= 10 Then Convert(Nvarchar(2), EP.Horas)
+		Else '0' + Convert(Nvarchar(1), IsNull(EP.Horas, 0))
+	End
+	+ '-' + Convert(Nvarchar(3), FP.ClaveFondoPresup)
+	As Plazas,
+	EP.IdPlaza
+From @Tbl2 A
+	Inner Join Empleados E On E.IdEmp = A.IdEmp
+	Inner Join EmpleadosPlazas EP On EP.IdEmp = E.IdEmp
+	Inner Join @Tbl5 T5 ON T5.IdPlaza = EP.IdPlaza AND T5.IdEmp = EP.IdEmp
+	Inner Join EmpleadosFunciones EF On EF.IdEmpFuncion = EP.IdEmpFuncion
+	Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+	Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = E.IdEmp
+	Inner Join TiposDeNominas TDN On TDN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join CentrosDeTrabajo CDT On CDT.IdCT = EP.IdCT
+	Inner Join CentrosDeTrabajo CDT2 On CDT2.IdCT = P.IdCT
+	Inner Join Categorias C On C.IdCategoria = EP.IdCategoria
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TDN.IdFondoPresup
+	Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+	Inner Join Sindicatos S On S.IdSindicato = EP.IdSindicato
+	Inner Join TipoEmpleado TE On TE.IdTipoEmp = EP.IdTipoEmp
+                Inner Join HistoriaPago HP On HP.IdPlaza = EP.IdPlaza
+Where E.IdEmp = A.IdEmp And EP.PlazaEspecial = 0
+                And HP.IdQuincenaAplicacion = @IdQuincena
+	--And Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+
+--If Not Exists(Select 1 From @Tbl1 Where TipoPercDeduc = 'D' And IdPercDeduc = 1)
+--	Begin
+		Insert Into @Tbl1
+		Select DISTINCT IdEmp, 0, 'D', 0
+		From @Tbl1
+--		Where IdEmp Not In
+--						(Select IdEmp From @Tbl1 Where TipoPercDeduc = 'D' And IdPercDeduc = 1)
+--	End
+
+Select T.*, B.ImporteNeto
+From (
+	Select A.*, P.ClavePercepcion ClaveConcepto, P.NombrePercepcion Concepto, 
+		IsNull(E.NomEmp,'') + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,'') NomEmp,
+		Replace(B.Plaza, '-00-', '-') Plaza, 
+		IsNull(EDL.NSS,'') NSS,
+		IsNull(E.CURPEmp,'') CURPEmp, IsNull(E.RFCEmp,'') RFCEmp,
+		Pl.DescPlantel
+	From @Tbl1 A
+		Inner Join @Tbl4 B On B.IdEmp = A.IdEmp
+		Inner Join Empleados E On E.IdEmp = A.IdEmp
+		Inner Join Percepciones P On P.IdPercepcion = A.IdPercDeduc
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+		Inner Join @Tbl5 T5 On T5.IdEmp = A.IdEmp
+		Inner Join EmpleadosPlazas EP On EP.IdPlaza = T5.IdPlaza And EP.IdEmp = T5.IdEmp
+		Inner Join Planteles Pl On Pl.IdPlantel = EP.IdPlantel
+	Where A.TipoPercDeduc = 'P'
+	Union
+	Select A.*, IsNull(D.ClaveDeduccion,'') ClaveConcepto, IsNull(dbo.Fn_ObtenNombreDeduccion(D.IdDeduccion,@IdQuincena),'') Concepto, 
+		IsNull(E.NomEmp,'') + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,'') NomEmp,
+		Replace(B.Plaza, '-00-', '-') Plaza, 
+		IsNull(EDL.NSS,'') NSS,
+		IsNull(E.CURPEmp,'') CURPEmp, IsNull(E.RFCEmp,'') RFCEmp,
+		P.DescPlantel
+	From @Tbl1 A
+		Inner Join @Tbl4 B On B.IdEmp = A.IdEmp
+		Inner Join Empleados E On E.IdEmp = A.IdEmp
+		Left Join Deducciones D On D.IdDeduccion = A.IdPercDeduc
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+		Inner Join @Tbl5 T5 On T5.IdEmp = A.IdEmp
+		Inner Join EmpleadosPlazas EP On EP.IdPlaza = T5.IdPlaza And EP.IdEmp = T5.IdEmp
+		Inner Join Planteles P On P.IdPlantel = EP.IdPlantel
+	Where A.TipoPercDeduc = 'D'
+	) T
+	Inner Join @Tbl2 B On B.IdEmp = T.IdEmp
+Where T.IdEmp Not In (Select IdEmp From TblEmpsNoVis)
+Order By B.IdZonaGeografica Desc, T.DescPlantel, Substring(T.Plaza, 15, 4), T.NomEmp
+*/</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="IdPercDeduc">
+          <DataField>IdPercDeduc</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="TipoPercDeduc">
+          <DataField>TipoPercDeduc</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Importe">
+          <DataField>Importe</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ClaveConcepto">
+          <DataField>ClaveConcepto</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Concepto">
+          <DataField>Concepto</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NomEmp">
+          <DataField>NomEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Plaza">
+          <DataField>Plaza</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NSS">
+          <DataField>NSS</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CURPEmp">
+          <DataField>CURPEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RFCEmp">
+          <DataField>RFCEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescPlantel">
+          <DataField>DescPlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ImporteNeto">
+          <DataField>ImporteNeto</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsQuincenas">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Set dateformat dmy
+Select T1.*,
+	Case
+                                When T1.DiaInicial = 1 Then 15
+		When T1.Mes In (1, 3, 5, 7, 8, 10, 12) Then 31
+		When Mes In (4, 6, 9, 11) Then 30
+		When dbo.Fn_ObtenSiAnioEsBisiesto(T1.Anio) = 1 Then 29
+		Else 28
+	End DiaFinal
+From (
+	Select dbo.Fn_ObtenQnaPorId(IdQuincena) Quincena, Anio,
+		Case 
+			When (Quincena % 2) = 0 Then (Quincena/2)
+			Else (Quincena + 1)/2
+		End Mes,
+		Case 
+			When (Quincena % 2) = 0 Then 16
+			Else 1
+		End DiaInicial, FechaDePago,
+                                UPPER(IsNull(Observaciones,'')) Observaciones,
+                                Adicional
+	From Quincenas
+	Where IdQuincena = @IdQuincena) T1</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Quincena">
+          <DataField>Quincena</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Anio">
+          <DataField>Anio</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="Mes">
+          <DataField>Mes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DiaInicial">
+          <DataField>DiaInicial</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="FechaDePago">
+          <DataField>FechaDePago</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Observaciones">
+          <DataField>Observaciones</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Adicional">
+          <DataField>Adicional</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="DiaFinal">
+          <DataField>DiaFinal</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsReciboLeyenda">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@RFCEmp">
+            <Value>=Parameters!pRFCEmp.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Select Leyenda
+From RecibosLeyendas
+Where Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between  Left(dbo.Fn_ObtenQnaPorId(IdQnaIni),6) And  Left(dbo.Fn_ObtenQnaPorId(IdQnaFin),6)
+UNION ALL
+SELECT dbo.Fn_ObtenerHorasParaRecibo(@RFCEmp,@IdQuincena)</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Leyenda">
+          <DataField>Leyenda</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="list1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>21.59cm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>3.72937cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="list1_Contents">
+                          <ReportItems>
+                            <Textbox Name="NomEmp">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=First(Fields!NomEmp.Value)</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>NomEmp</rd:DefaultName>
+                              <Top>1.65cm</Top>
+                              <Left>0.54233cm</Left>
+                              <Height>0.3cm</Height>
+                              <Width>11.73545cm</Width>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Tablix Name="table1">
+                              <TablixBody>
+                                <TablixColumns>
+                                  <TablixColumn>
+                                    <Width>1.22028cm</Width>
+                                  </TablixColumn>
+                                  <TablixColumn>
+                                    <Width>5.81429cm</Width>
+                                  </TablixColumn>
+                                  <TablixColumn>
+                                    <Width>1.80601cm</Width>
+                                  </TablixColumn>
+                                </TablixColumns>
+                                <TablixRows>
+                                  <TablixRow>
+                                    <Height>0.2cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="ClaveConcepto">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Fields!ClaveConcepto.Value</Value>
+                                                    <Style>
+                                                      <FontSize>6pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Center</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>ClaveConcepto</rd:DefaultName>
+                                            <ZIndex>2</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="Concepto">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Fields!Concepto.Value</Value>
+                                                    <Style>
+                                                      <FontSize>6pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>Concepto</rd:DefaultName>
+                                            <ZIndex>1</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="ImporteP">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Fields!Importe.Value</Value>
+                                                    <Style>
+                                                      <FontSize>6pt</FontSize>
+                                                      <Format>N</Format>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Right</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.07938cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox2">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value />
+                                                    <Style>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>textbox2</rd:DefaultName>
+                                            <ZIndex>5</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox6">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value />
+                                                    <Style>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <rd:DefaultName>textbox6</rd:DefaultName>
+                                            <ZIndex>4</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                              <PaddingLeft>2pt</PaddingLeft>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="SubTotalP">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Switch(Fields!TipoPercDeduc.Value="P", Sum(Fields!Importe.Value))</Value>
+                                                    <Style>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <ZIndex>3</ZIndex>
+                                            <Visibility>
+                                              <Hidden>true</Hidden>
+                                            </Visibility>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                </TablixRows>
+                              </TablixBody>
+                              <TablixColumnHierarchy>
+                                <TablixMembers>
+                                  <TablixMember />
+                                  <TablixMember />
+                                  <TablixMember />
+                                </TablixMembers>
+                              </TablixColumnHierarchy>
+                              <TablixRowHierarchy>
+                                <TablixMembers>
+                                  <TablixMember>
+                                    <Group Name="table1_Details_Group">
+                                      <DataElementName>Detail</DataElementName>
+                                    </Group>
+                                    <SortExpressions>
+                                      <SortExpression>
+                                        <Value>=Fields!ClaveConcepto.Value</Value>
+                                      </SortExpression>
+                                    </SortExpressions>
+                                    <TablixMembers>
+                                      <TablixMember />
+                                    </TablixMembers>
+                                    <DataElementName>Detail_Collection</DataElementName>
+                                    <DataElementOutput>Output</DataElementOutput>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <KeepWithGroup>Before</KeepWithGroup>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                </TablixMembers>
+                              </TablixRowHierarchy>
+                              <KeepTogether>true</KeepTogether>
+                              <DataSetName>dsEmpleados</DataSetName>
+                              <Filters>
+                                <Filter>
+                                  <FilterExpression>=Fields!TipoPercDeduc.Value</FilterExpression>
+                                  <Operator>Equal</Operator>
+                                  <FilterValues>
+                                    <FilterValue>P</FilterValue>
+                                  </FilterValues>
+                                </Filter>
+                              </Filters>
+                              <Top>3.35cm</Top>
+                              <Left>0.34815cm</Left>
+                              <Height>0.27938cm</Height>
+                              <Width>8.84058cm</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>6pt</FontSize>
+                              </Style>
+                            </Tablix>
+                            <Tablix Name="table5">
+                              <TablixBody>
+                                <TablixColumns>
+                                  <TablixColumn>
+                                    <Width>1.22028cm</Width>
+                                  </TablixColumn>
+                                  <TablixColumn>
+                                    <Width>5.81429cm</Width>
+                                  </TablixColumn>
+                                  <TablixColumn>
+                                    <Width>1.80601cm</Width>
+                                  </TablixColumn>
+                                </TablixColumns>
+                                <TablixRows>
+                                  <TablixRow>
+                                    <Height>0.2cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox10">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Fields!ClaveConcepto.Value</Value>
+                                                    <Style>
+                                                      <FontSize>6pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Center</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <ZIndex>2</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox11">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Fields!Concepto.Value</Value>
+                                                    <Style>
+                                                      <FontSize>6pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <ZIndex>1</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                              <PaddingLeft>4pt</PaddingLeft>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox13">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Fields!Importe.Value</Value>
+                                                    <Style>
+                                                      <FontSize>6pt</FontSize>
+                                                      <Format>N</Format>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style>
+                                                  <TextAlign>Right</TextAlign>
+                                                </Style>
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.07938cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox14">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value />
+                                                    <Style>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <ZIndex>5</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="textbox15">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value />
+                                                    <Style>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <ZIndex>4</ZIndex>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Textbox Name="SubTotalD">
+                                            <CanGrow>true</CanGrow>
+                                            <KeepTogether>true</KeepTogether>
+                                            <Paragraphs>
+                                              <Paragraph>
+                                                <TextRuns>
+                                                  <TextRun>
+                                                    <Value>=Switch(Fields!TipoPercDeduc.Value="D", Sum(Fields!Importe.Value))</Value>
+                                                    <Style>
+                                                      <FontFamily>Verdana</FontFamily>
+                                                      <FontSize>7pt</FontSize>
+                                                    </Style>
+                                                  </TextRun>
+                                                </TextRuns>
+                                                <Style />
+                                              </Paragraph>
+                                            </Paragraphs>
+                                            <ZIndex>3</ZIndex>
+                                            <Visibility>
+                                              <Hidden>true</Hidden>
+                                            </Visibility>
+                                            <Style>
+                                              <VerticalAlign>Bottom</VerticalAlign>
+                                            </Style>
+                                          </Textbox>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                </TablixRows>
+                              </TablixBody>
+                              <TablixColumnHierarchy>
+                                <TablixMembers>
+                                  <TablixMember />
+                                  <TablixMember />
+                                  <TablixMember />
+                                </TablixMembers>
+                              </TablixColumnHierarchy>
+                              <TablixRowHierarchy>
+                                <TablixMembers>
+                                  <TablixMember>
+                                    <Group Name="table5_Details_Group">
+                                      <DataElementName>Detail</DataElementName>
+                                    </Group>
+                                    <SortExpressions>
+                                      <SortExpression>
+                                        <Value>=Fields!ClaveConcepto.Value</Value>
+                                      </SortExpression>
+                                    </SortExpressions>
+                                    <TablixMembers>
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>=IIF(Fields!Importe.Value=0,True,False)</Hidden>
+                                        </Visibility>
+                                      </TablixMember>
+                                    </TablixMembers>
+                                    <DataElementName>Detail_Collection</DataElementName>
+                                    <DataElementOutput>Output</DataElementOutput>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <KeepWithGroup>Before</KeepWithGroup>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                </TablixMembers>
+                              </TablixRowHierarchy>
+                              <KeepTogether>true</KeepTogether>
+                              <NoRowsMessage>Sin deducciones</NoRowsMessage>
+                              <DataSetName>dsEmpleados</DataSetName>
+                              <Filters>
+                                <Filter>
+                                  <FilterExpression>=Fields!TipoPercDeduc.Value</FilterExpression>
+                                  <Operator>Equal</Operator>
+                                  <FilterValues>
+                                    <FilterValue>D</FilterValue>
+                                  </FilterValues>
+                                </Filter>
+                              </Filters>
+                              <Top>3.35cm</Top>
+                              <Left>9.37656cm</Left>
+                              <Height>0.27938cm</Height>
+                              <Width>8.84058cm</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </Tablix>
+                            <Textbox Name="ImporteNeto">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!ImporteNeto.Value</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Right</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>0.05291cm</Top>
+                              <Left>0.54233cm</Left>
+                              <Height>0.42328cm</Height>
+                              <Width>3.04232cm</Width>
+                              <ZIndex>3</ZIndex>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
+                              <Style>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox3">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=First(Fields!Plaza.Value)</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.65cm</Top>
+                              <Left>12.28945cm</Left>
+                              <Height>0.3cm</Height>
+                              <Width>3.85cm</Width>
+                              <ZIndex>4</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox4">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=StrDup(15-Len(Fields!IdEmp.Value.ToString + Parameters!pIdQuincena.Value.ToString), "0")
++ Fields!IdEmp.Value.ToString + Parameters!pIdQuincena.Value.ToString</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.65cm</Top>
+                              <Left>16.2048cm</Left>
+                              <Height>0.3cm</Height>
+                              <Width>2.6cm</Width>
+                              <ZIndex>5</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox5">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!NSS.Value</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.65cm</Top>
+                              <Left>0.3746cm</Left>
+                              <Height>0.3cm</Height>
+                              <Width>3.31481cm</Width>
+                              <ZIndex>6</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox7">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!CURPEmp.Value</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.65cm</Top>
+                              <Left>3.70955cm</Left>
+                              <Height>0.3cm</Height>
+                              <Width>3.5cm</Width>
+                              <ZIndex>7</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox8">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!RFCEmp.Value</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.65cm</Top>
+                              <Left>7.22807cm</Left>
+                              <Height>0.3cm</Height>
+                              <Width>3.5cm</Width>
+                              <ZIndex>8</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox9">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=First(Fields!DescPlantel.Value)</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.35cm</Top>
+                              <Left>10.72013cm</Left>
+                              <Height>0.6cm</Height>
+                              <Width>3.5cm</Width>
+                              <ZIndex>9</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox12">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=IIF(First(Fields!Observaciones.Value, "dsQuincenas")&lt;&gt;"",
+First(Fields!Observaciones.Value, "dsQuincenas"),
+"DEL " + First(Fields!DiaInicial.Value, "dsQuincenas").ToString + " AL " + First(Fields!DiaFinal.Value, "dsQuincenas").ToString + " DE " + MonthName(First(Fields!Mes.Value, "dsQuincenas")).ToUpper)</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                        <Format>d</Format>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.35cm</Top>
+                              <Left>14.2122cm</Left>
+                              <Height>0.6cm</Height>
+                              <Width>3.5cm</Width>
+                              <ZIndex>10</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Leyenda">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=First(Fields!Leyenda.Value, "dsReciboLeyenda")</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Right</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>0.05291cm</Top>
+                              <Left>3.72543cm</Left>
+                              <Height>0.42328cm</Height>
+                              <Width>3.04232cm</Width>
+                              <ZIndex>11</ZIndex>
+                              <Visibility>
+                                <Hidden>true</Hidden>
+                              </Visibility>
+                              <Style>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox16">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=First(Fields!FechaDePago.Value, "dsQuincenas")</Value>
+                                      <Style>
+                                        <FontSize>7pt</FontSize>
+                                        <Format>d</Format>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.65cm</Top>
+                              <Left>18.0455cm</Left>
+                              <Height>0.3cm</Height>
+                              <Width>2.70634cm</Width>
+                              <ZIndex>12</ZIndex>
+                              <Style>
+                                <VerticalAlign>Bottom</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style />
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="list1_Details_Group">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+                    </GroupExpressions>
+                    <PageBreak>
+                      <BreakLocation>Between</BreakLocation>
+                    </PageBreak>
+                  </Group>
+                  <DataElementOutput>Output</DataElementOutput>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>dsEmpleados</DataSetName>
+            <PageBreak>
+              <BreakLocation>End</BreakLocation>
+            </PageBreak>
+            <Height>3.72937cm</Height>
+            <Width>21.59cm</Width>
+            <Style />
+          </Tablix>
+        </ReportItems>
+        <Height>3.72937cm</Height>
+        <Style />
+      </Body>
+      <Width>21.59cm</Width>
+      <Page>
+        <PageFooter>
+          <Height>2.1cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="SubTotalP2">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=ReportItems!SubTotalP.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <Format>N</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.07354cm</Top>
+              <Left>7.3381cm</Left>
+              <Height>0.3cm</Height>
+              <Width>1.85cm</Width>
+              <Style>
+                <VerticalAlign>Bottom</VerticalAlign>
+              </Style>
+            </Textbox>
+            <Textbox Name="SubTotalD2">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=ReportItems!SubTotalD.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <Format>N</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.07354cm</Top>
+              <Left>16.37936cm</Left>
+              <Height>0.3cm</Height>
+              <Width>1.85cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <VerticalAlign>Bottom</VerticalAlign>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=ReportItems!ImporteNeto.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <Format>N</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.7cm</Top>
+              <Left>18.50265cm</Left>
+              <Height>0.3cm</Height>
+              <Width>2.35cm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <VerticalAlign>Bottom</VerticalAlign>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox17">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="""" + ReportItems!Leyenda.Value + """"</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.7cm</Top>
+              <Left>0.5291cm</Left>
+              <Height>0.3cm</Height>
+              <Width>17.41799cm</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <VerticalAlign>Bottom</VerticalAlign>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style />
+        </PageFooter>
+        <PageHeight>9.6cm</PageHeight>
+        <PageWidth>21.59cm</PageWidth>
+        <InteractiveHeight>27.94cm</InteractiveHeight>
+        <ColumnSpacing>1cm</ColumnSpacing>
+        <Style>
+          <BackgroundColor>White</BackgroundColor>
+        </Style>
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="pIdPlantel">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>Plantel</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdQuincena">
+      <DataType>Integer</DataType>
+      <Prompt>IdQuincena</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdFondoPresup">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>IdFondoPresup</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdZonaGeografica">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>IdZonaGeografica</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pRFCEmp">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <DefaultValue>
+        <Values>
+          <Value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        </Values>
+      </DefaultValue>
+      <Prompt>RFCEmp</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>es-MX</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportServerUrl>http://s-rec-hum/ReportServer_SQLSRV2008R2</rd:ReportServerUrl>
+  <rd:ReportID>e6fc191f-b535-49e3-9ce0-5059c5831c55</rd:ReportID>
+</Report>

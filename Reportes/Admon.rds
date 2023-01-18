@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="Admon">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=PCNOMINA02\SQLSERVER;Initial Catalog=Administracion</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>fd5ac52b-31ba-40e8-804d-a77eca5fdc03</DataSourceID>
+</RptDataSource>

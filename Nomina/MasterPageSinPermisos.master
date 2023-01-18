@@ -1,0 +1,51 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPageSinPermisos.master.vb" Inherits="MasterPageSinPermisos" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>COBAEV</title>
+    <link href="StyleSheetAlternativa.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" language="javascript" src="<%= ResolveClientUrl("~/JavaScript.js") %>"></script>
+</head>
+<body style="width: 100%; margin-top: 0px; margin-left: 0px;">
+    <form id="form1" runat="server">
+    <div>
+        <table border="0" cellpadding="0" cellspacing="0" 
+            style="width: 80%; height: 100%" align="center">
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 100%" align="center">
+                        <tr>
+                            <td rowspan="1">
+                                <table border="0" cellpadding="0" cellspacing="0" 
+                                    style="border-right: maroon thick inset;
+                                    border-top: maroon thick inset; border-left: maroon thick inset; width: 100%;
+                                    border-bottom: maroon thick inset; height: 100%; border: thick groove #339966;">
+                                    <tr>
+                                        <td rowspan="1"  style="vertical-align: middle; height: 116px; background-color: white; text-align: center">
+                                            <asp:Image ID="Image7" runat="server" 
+                                                ImageUrl="~/Imagenes/HeaderSexenio2018_2024.jpg" Width="100%" 
+                                                Height="113px" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" rowspan="1" style="text-align: right; padding-right:5px; padding-bottom:3px;" >
+                                                        <asp:LoginStatus ID="LoginStatus1" runat="server" Font-Names="Verdana" Font-Size="X-Small"
+                                                            LogoutAction="RedirectToLoginPage" LogoutPageUrl="~/Login.aspx" ForeColor="Maroon" />
+                                        </td>
+                                    </tr>
+                                </table>
+                             </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+                    </asp:contentplaceholder>
+                </td>
+            </tr>
+        </table>
+    </div>
+     </form>
+</body>
+</html>

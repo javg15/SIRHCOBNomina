@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="Nomina">
+      <rd:DataSourceID>e1ba71b5-23c4-4883-9667-3cf496150b10</rd:DataSourceID>
+      <DataSourceReference>Nomina</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>27.94cm</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="pAnio">
+      <DataType>String</DataType>
+      <Prompt>Año</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdMes">
+      <DataType>String</DataType>
+      <Prompt>Mes</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pTitulo1">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsTitulo</DataSetName>
+          <ValueField>TITULO1REPORTE</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+    <ReportParameter Name="pTitulo2">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsTitulo</DataSetName>
+          <ValueField>TITULO2REPORTE</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>21.59cm</InteractiveWidth>
+  <rd:GridSpacing>0.1cm</rd:GridSpacing>
+  <rd:SnapToGrid>false</rd:SnapToGrid>
+  <RightMargin>1cm</RightMargin>
+  <LeftMargin>1cm</LeftMargin>
+  <PageHeader>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="textbox4">
+        <Top>0.62731cm</Top>
+        <Width>17.25cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+        <ZIndex>4</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>1.17cm</Left>
+        <Height>0.3cm</Height>
+        <Value>PAPEL DE TRABAJO</Value>
+      </Textbox>
+      <Textbox Name="textbox3">
+        <Top>1.25873cm</Top>
+        <Width>17.25cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+        <ZIndex>3</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>1.17cm</Left>
+        <Height>0.35cm</Height>
+        <Value>=Parameters!pTitulo2.Value</Value>
+      </Textbox>
+      <Textbox Name="textbox13">
+        <Top>0.95873cm</Top>
+        <Width>17.25cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+        <ZIndex>2</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>1.17cm</Left>
+        <Height>0.3cm</Height>
+        <Value>=Parameters!pTitulo1.Value</Value>
+      </Textbox>
+      <Textbox Name="textbox12">
+        <Top>0.26481cm</Top>
+        <Width>10.25cm</Width>
+        <Style>
+          <FontFamily>Algerian</FontFamily>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>4.67cm</Left>
+        <Height>0.525cm</Height>
+        <Value>ORGANISMO PÚBLICO DESCENTRALIZADO</Value>
+      </Textbox>
+      <Textbox Name="textbox2">
+        <rd:DefaultName>textbox2</rd:DefaultName>
+        <Top>0.01481cm</Top>
+        <Width>12.725cm</Width>
+        <Style>
+          <FontFamily>Algerian</FontFamily>
+          <FontSize>11pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>3.4325cm</Left>
+        <Height>0.3cm</Height>
+        <Value>COLEGIO DE BACHILLERES DEL ESTADO DE VERACRUZ</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>1.925cm</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+    <Style>
+      <BorderStyle>
+        <Bottom>Solid</Bottom>
+      </BorderStyle>
+    </Style>
+  </PageHeader>
+  <BottomMargin>0.5cm</BottomMargin>
+  <rd:ReportID>e6fc191f-b535-49e3-9ce0-5059c5831c55</rd:ReportID>
+  <PageWidth>21.59cm</PageWidth>
+  <DataSets>
+    <DataSet Name="dsTitulo">
+      <Fields>
+        <Field Name="TITULO1REPORTE">
+          <DataField>TITULO1REPORTE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TITULO2REPORTE">
+          <DataField>TITULO2REPORTE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>Declare @NombreMes Nvarchar(15)
+
+Select @NombreMes = UPPER(NombreMes)
+From Meses
+Where IdMes = @IdMes
+
+Select 'RECALCULO DE I.S.R. POR PAGO DE COMPENSACIONES CONSIDERANDO IMPORTES BRUTOS' TITULO1REPORTE,
+'CORRESPONDIENTE AL MES DE ' + @NombreMes + ' DE ' + Convert(Nvarchar(4), @Anio)  TITULO2REPORTE</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@Anio">
+            <Value>=Parameters!pAnio.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdMes">
+            <Value>=Parameters!pIdMes.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="dsEmps">
+      <Fields>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumEmp">
+          <DataField>NumEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClavePlantel">
+          <DataField>ClavePlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescPlantel">
+          <DataField>DescPlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RFCEmp">
+          <DataField>RFCEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Nombre">
+          <DataField>Nombre</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClaveCategoria">
+          <DataField>ClaveCategoria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescCategoria">
+          <DataField>DescCategoria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="C1o2">
+          <DataField>C1o2</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NomEmp">
+          <DataField>NomEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApePatEmp">
+          <DataField>ApePatEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApeMatEmp">
+          <DataField>ApeMatEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>Declare @TblCategos Table
+(IdEmp Int, 
+IdCategoria Smallint,
+ClaveCategoria Nvarchar(3),
+DescCategoria Nvarchar(50))
+
+Declare @TblQnas Table
+(IdQuincena Smallint)
+
+Declare @TblCompen Table
+(IdEmp Int)
+
+Insert Into @TblCompen
+Select Distinct IdEmp
+From (
+	Select IdEmp, IdPercDeduc, TipoPercDeduc, Sum(Importe) Importe
+	From
+		(
+			Select IsNull(CD1.IdEmp,C1.IdEmp) IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc,
+				Case
+					When CD1.IdEmp Is Not Null Then C1.Importe - CD1.Importe
+					Else C1.Importe
+				End Importe,
+				1 C1o2
+			From Compensaciones C1
+				Left Join CompensacionesDevoluciones CD1 On CD1.IdEmp = C1.IdEmp And CD1.Anio = C1.Anio And CD1.IdMes = C1.IdMes And CD1.Adicional = C1.Adicional
+			Where C1.Anio = @Anio And C1.IdMes = @IdMes
+		) T1
+	Group By IdEmp, IdPercDeduc, TipoPercDeduc
+	Union All
+	Select C2.IdEmpAfectado IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc, Importe
+	From Compensaciones2 C2
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C2.IdEmpAfectado
+	Where C2.Anio = @Anio And C2.IdMes = @IdMes
+	Union All
+	Select C2.IdEmpAfectado IdEmp, 4 IdPercDeduc, 'D' TipoPercDeduc, Importe
+	From Compensaciones2 C2
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C2.IdEmpAfectado
+	Where C2.Anio = @Anio And C2.IdMes = @IdMes
+	) T 
+Group By IdEmp, IdPercDeduc, TipoPercDeduc
+
+Insert Into @TblQnas
+Select IdQuincena
+From Quincenas
+--Where Anio = @Anio And Quincena Between ((@IdMes * 2) - 1) And (@IdMes * 2)
+Where Month(FechaDePago) = @IdMes And Year(FechaDePago) = @Anio
+
+Insert Into @TblCategos
+Select Distinct EP.IdEmp, C.IdCategoria, C.ClaveCategoria, C.DescCategoria
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join Categorias C On C.IdCategoria = EP.IdCategoria
+	Inner Join @TblCompen A On A.IdEmp = EP.IdEmp
+Where HP.IdQuincenaAplicacion In
+							(Select IdQuincena
+							From Quincenas
+							Where Anio = @Anio And Quincena = (@IdMes * 2) And Adicional = 0)
+	And EP.PlazaEspecial = 0
+
+--Para los que cambiaron de categoria durante el mes
+If (Select Count(*) From @TblCategos) &lt;&gt; (Select Count(*) From @TblCompen)
+	Begin
+		Insert Into @TblCategos
+		Select Distinct EP.IdEmp, C.IdCategoria, C.ClaveCategoria, C.DescCategoria
+		From HistoriaPago HP
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+			Inner Join Categorias C On C.IdCategoria = EP.IdCategoria
+			Inner Join 
+					(Select IdEmp
+					From @TblCompen
+					Except
+					Select IdEmp
+					From @TblCategos) A On A.IdEmp = EP.IdEmp
+		Where HP.IdQuincenaAplicacion In
+									(Select IdQuincena
+									From Quincenas
+									Where Anio = @Anio And Quincena = ((@IdMes * 2) - 1) And Adicional = 0)
+			And EP.PlazaEspecial = 0
+	End
+
+If (Select Count(*) From @TblCategos) &lt;&gt; (Select Count(*) From @TblCompen)
+	Begin
+		Insert Into @TblCategos
+		Select Distinct A.IdEmp, C.IdCategoria, C.ClaveCategoria, C.DescCategoria
+		From EmpsCategosParaCompe T1
+			Inner Join Categorias C On C.IdCategoria = T1.IdCategoria
+			Inner Join 
+					(Select IdEmp
+					From @TblCompen
+					Except
+					Select IdEmp
+					From @TblCategos) A On A.IdEmp = T1.IdEmp
+		Where Convert(Nvarchar(4), @Anio) + Replicate('0', 2 - Len(Convert(Nvarchar(2), @IdMes))) + Convert(Nvarchar(2), @IdMes)
+				Between Convert(Nvarchar(4), AnioIni) + Replicate('0', 2 - Len(Convert(Nvarchar(2), IdMesIni))) + Convert(Nvarchar(2), IdMesIni)
+					And Convert(Nvarchar(4), AnioFin) + Replicate('0', 2 - Len(Convert(Nvarchar(2), IdMesFin))) + Convert(Nvarchar(2), IdMesFin)
+	End
+
+Select Distinct *
+From (
+	Select EDL.IdEmp, EDL.NumEmp, P.ClavePlantel, P.DescPlantel, E.RFCEmp, RTrim(LTrim(E.NomEmp + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) Nombre,
+		IsNull(A.ClaveCategoria,'') ClaveCategoria, LTrim(RTrim(IsNull(A.DescCategoria,''))) DescCategoria, 1 C1o2, 
+                                E.NomEmp,  IsNull(E.ApePatEmp,'') ApePatEmp, IsNull(E.ApeMatEmp,'') ApeMatEmp
+	From Compensaciones C
+		Inner Join Empleados E On E.IdEmp = C.IdEmp
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C.IdEmp
+		Inner Join Planteles P On P.IdPlantel = EDL.IdPlantel
+		Left Join @TblCategos A On A.IdEmp = C.IdEmp
+	Where C.Anio = @Anio And C.IdMes = @IdMes
+	Union All
+	Select C.IdEmpUnicoPorMes IdEmp, Right(C.ClaveCobro, 5) NumEmp, P.ClavePlantel, P.DescPlantel, '' RFCEmp, RTrim(LTrim(C.Nombre + ' ' + IsNull(C.ApePat,'') + ' ' + IsNull(C.ApeMat,''))) Nombre,
+		'' ClaveCategoria, '' DescCategoria, 2 C1o2,
+                               C.Nombre NomEmp,  IsNull(C.ApePat,'') ApePatEmp, IsNull(C.ApeMat,'') ApeMatEmp
+	From Compensaciones2 C
+		Inner Join Planteles P On P.ClavePlantel = Right(Left(C.ClaveCobro,3),2)
+	Where C.Anio = @Anio And C.IdMes = @IdMes And C.IdEmpAfectado Is Null
+	) T
+Order By Nombre</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@Anio">
+            <Value>=Parameters!pAnio.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdMes">
+            <Value>=Parameters!pIdMes.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Author>Fabio Rodríguez López</Author>
+  <Code>Public dim nombrevariable as String = ""
+
+Public dim i as Integer = 0
+
+Public Function FncCampoCabecera(byval valorCampo as String) as String
+i = i  + 1
+if i = 1 then
+nombrevariable = valorCampo
+end if
+return nombrevariable
+End Function</Code>
+  <Width>19.59cm</Width>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Rectangle Name="rectangle1">
+        <Left>0.3cm</Left>
+        <ReportItems>
+          <Table Name="table1">
+            <DataSetName>dsEmps</DataSetName>
+            <KeepTogether>true</KeepTogether>
+            <TableGroups>
+              <TableGroup>
+                <Grouping Name="table1_Group1">
+                  <GroupExpressions>
+                    <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+                    <GroupExpression>=Fields!C1o2.Value</GroupExpression>
+                  </GroupExpressions>
+                </Grouping>
+                <Header>
+                  <TableRows>
+                    <TableRow>
+                      <TableCells>
+                        <TableCell>
+                          <ColSpan>2</ColSpan>
+                          <ReportItems>
+                            <Textbox Name="RFCEmp">
+                              <rd:DefaultName>RFCEmp</rd:DefaultName>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>7pt</FontSize>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                              </Style>
+                              <ZIndex>11</ZIndex>
+                              <CanGrow>true</CanGrow>
+                              <Value>=First(Fields!NumEmp.Value) + " === " + First(Fields!RFCEmp.Value) + " === " + First(Fields!Nombre.Value) + " === " + First(Fields!DescCategoria.Value) 
++ " === " + First(Fields!ClavePlantel.Value) + "-" + First(Fields!DescPlantel.Value)</Value>
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                      </TableCells>
+                      <Height>0.45cm</Height>
+                    </TableRow>
+                  </TableRows>
+                </Header>
+                <Footer>
+                  <TableRows>
+                    <TableRow>
+                      <TableCells>
+                        <TableCell>
+                          <ColSpan>2</ColSpan>
+                          <ReportItems>
+                            <Textbox Name="textbox6">
+                              <rd:DefaultName>textbox6</rd:DefaultName>
+                              <Style>
+                                <BorderStyle>
+                                  <Bottom>Dotted</Bottom>
+                                </BorderStyle>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                              <ZIndex>1</ZIndex>
+                              <CanGrow>true</CanGrow>
+                              <Value />
+                            </Textbox>
+                          </ReportItems>
+                        </TableCell>
+                      </TableCells>
+                      <Height>0.2381cm</Height>
+                    </TableRow>
+                  </TableRows>
+                </Footer>
+              </TableGroup>
+            </TableGroups>
+            <Width>18.75cm</Width>
+            <Details>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Subreport Name="subreport1">
+                          <Parameters>
+                            <Parameter Name="pAnio">
+                              <Value>=Parameters!pAnio.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdMes">
+                              <Value>=Parameters!pIdMes.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdEmp">
+                              <Value>=Fields!IdEmp.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pC1o2">
+                              <Value>=Fields!C1o2.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <ReportName>PercsReprocesoCompen</ReportName>
+                          <ZIndex>10</ZIndex>
+                        </Subreport>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Subreport Name="subreport2">
+                          <Parameters>
+                            <Parameter Name="pAnio">
+                              <Value>=Parameters!pAnio.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdMes">
+                              <Value>=Parameters!pIdMes.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdEmp">
+                              <Value>=Fields!IdEmp.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pC1o2">
+                              <Value>=Fields!C1o2.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <ReportName>DeducsReprocesoCompen</ReportName>
+                          <ZIndex>9</ZIndex>
+                        </Subreport>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.46897cm</Height>
+                </TableRow>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox16">
+                          <rd:DefaultName>textbox16</rd:DefaultName>
+                          <ZIndex>8</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox17">
+                          <rd:DefaultName>textbox17</rd:DefaultName>
+                          <ZIndex>7</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.2381cm</Height>
+                </TableRow>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox14">
+                          <rd:DefaultName>textbox14</rd:DefaultName>
+                          <ZIndex>6</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Subreport Name="subreport3">
+                          <Parameters>
+                            <Parameter Name="pAnio">
+                              <Value>=Parameters!pAnio.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdMes">
+                              <Value>=Parameters!pIdMes.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdEmp">
+                              <Value>=Fields!IdEmp.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pC1o2">
+                              <Value>=Fields!C1o2.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <ReportName>NetosReprocesoCompen</ReportName>
+                          <ZIndex>5</ZIndex>
+                        </Subreport>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.46897cm</Height>
+                </TableRow>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox20">
+                          <rd:DefaultName>textbox20</rd:DefaultName>
+                          <ZIndex>4</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox21">
+                          <rd:DefaultName>textbox21</rd:DefaultName>
+                          <ZIndex>3</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.2381cm</Height>
+                </TableRow>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ColSpan>2</ColSpan>
+                      <ReportItems>
+                        <Subreport Name="subreport4">
+                          <Parameters>
+                            <Parameter Name="pAnio">
+                              <Value>=Parameters!pAnio.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdMes">
+                              <Value>=Parameters!pIdMes.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdEmp">
+                              <Value>=Fields!IdEmp.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pC1o2">
+                              <Value>=Fields!C1o2.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <ReportName>ImportesReprocesoCompen</ReportName>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                          </Style>
+                        </Subreport>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.46897cm</Height>
+                </TableRow>
+              </TableRows>
+              <Grouping Name="table1_Details_Group">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </Details>
+            <TableColumns>
+              <TableColumn>
+                <Width>9.375cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>9.375cm</Width>
+              </TableColumn>
+            </TableColumns>
+            <Footer>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ColSpan>2</ColSpan>
+                      <ReportItems>
+                        <Subreport Name="subreport5">
+                          <Parameters>
+                            <Parameter Name="pAnio">
+                              <Value>=Parameters!pAnio.Value</Value>
+                            </Parameter>
+                            <Parameter Name="pIdMes">
+                              <Value>=Parameters!pIdMes.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <ReportName>ResumenReprocesoCompen</ReportName>
+                          <Style>
+                            <PaddingTop>15pt</PaddingTop>
+                          </Style>
+                          <ZIndex>2</ZIndex>
+                        </Subreport>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.46897cm</Height>
+                </TableRow>
+              </TableRows>
+            </Footer>
+            <Left>0.14881cm</Left>
+          </Table>
+        </ReportItems>
+        <Width>19.04762cm</Width>
+        <Height>3.04018cm</Height>
+      </Rectangle>
+    </ReportItems>
+    <Height>23.975cm</Height>
+    <Style>
+      <BackgroundColor>White</BackgroundColor>
+    </Style>
+  </Body>
+  <Language>es-MX</Language>
+  <PageFooter>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="textbox7">
+        <Top>0.25cm</Top>
+        <Width>5.75cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Left</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>0.295cm</Left>
+        <Height>0.5cm</Height>
+        <Value>="Fecha: " + Today</Value>
+      </Textbox>
+      <Textbox Name="textbox1">
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <Top>0.25cm</Top>
+        <Width>5.55cm</Width>
+        <Style>
+          <FontFamily>Verdana</FontFamily>
+          <FontSize>8pt</FontSize>
+          <TextAlign>Right</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>13.745cm</Left>
+        <Height>0.5cm</Height>
+        <Value>="Hoja: " + Globals!PageNumber.ToString + "/ " + Globals!TotalPages.ToString</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>1.04cm</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+    <Style>
+      <BorderStyle>
+        <Top>Solid</Top>
+      </BorderStyle>
+    </Style>
+  </PageFooter>
+  <TopMargin>0.5cm</TopMargin>
+  <PageHeight>27.94cm</PageHeight>
+</Report>

@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Reportes", "Reportes.rptproj", "{505CA338-6054-408E-B949-034B60F63D5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Production|Default = Production|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{505CA338-6054-408E-B949-034B60F63D5B}.Debug|Default.ActiveCfg = Debug
+		{505CA338-6054-408E-B949-034B60F63D5B}.Debug|Default.Build.0 = DebugLocal
+		{505CA338-6054-408E-B949-034B60F63D5B}.Debug|Default.Deploy.0 = DebugLocal
+		{505CA338-6054-408E-B949-034B60F63D5B}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{505CA338-6054-408E-B949-034B60F63D5B}.DebugLocal|Default.Build.0 = DebugLocal
+		{505CA338-6054-408E-B949-034B60F63D5B}.DebugLocal|Default.Deploy.0 = DebugLocal
+		{505CA338-6054-408E-B949-034B60F63D5B}.Production|Default.ActiveCfg = Production
+		{505CA338-6054-408E-B949-034B60F63D5B}.Production|Default.Build.0 = Production
+		{505CA338-6054-408E-B949-034B60F63D5B}.Production|Default.Deploy.0 = Production
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

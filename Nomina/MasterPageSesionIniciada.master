@@ -1,0 +1,114 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPageSesionIniciada.master.vb" Inherits="MasterPageSesionIniciada"
+    ClientIDMode="AutoID" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>COBAEV</title>
+    <link href="StyleSheetAlternativa.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="width: 100%; margin-top: 0px; margin-left: 0px;">
+    <form id="form1" runat="server">
+    <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" EnableScriptGlobalization="True"
+        EnableScriptLocalization="True" AsyncPostBackTimeout="0" EnablePartialRendering="true">
+        <Services>
+            <asp:ServiceReference Path="~/WSBusquedas.asmx" />
+        </Services>
+    </ajaxToolkit:ToolkitScriptManager>
+    <div>
+        <table border="0" cellpadding="0" cellspacing="0" style="width: 80%; height: 100%"
+            align="center">
+            <tr>
+                <td align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%; height: 100%">
+                        <tr>
+                            <td rowspan="1">
+                                <table border="0" cellpadding="0" cellspacing="0" 
+                                    style="border-right: maroon thick inset;
+                                    border-top: maroon thick inset; border-left: maroon thick inset; width: 100%;
+                                    border-bottom: maroon thick inset; height: 100%; border: thick groove #339966;">
+                                    <tr>
+                                        <td rowspan="1" style="vertical-align: middle; background-color: white; text-align: left">
+                                            <asp:Image ID="Image7" runat="server" ImageUrl="~/Imagenes/HeaderSexenio2018_2024.jpg"
+                                                Width="100%" Height="113px" />
+                                        </td>
+                                        <td rowspan="1" style="height: 116px; background-color: white; text-align: center;
+                                            vertical-align: middle;">
+                                            <asp:Image ID="ImgGifAnim" runat="server" Height="50%" Width="50%" ImageUrl="~/Imagenes/ComodinBlanco.gif" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left; padding-left: 5px;">
+                                            <asp:ImageButton ID="ibHomePage" runat="server" CausesValidation="False" ImageUrl="~/Imagenes/Home1.png"
+                                                PostBackUrl="~/Administracion/Quincenas/Quincenas.aspx" ToolTip="Ir a la página inicial del sistema" />
+                                            &nbsp;<asp:ImageButton ID="ibGroup" runat="server" CausesValidation="False" ImageUrl="~/Imagenes/Group1.png"
+                                                PostBackUrl="~/Consultas/ZonasGeograficas/wfZonasGeograficas.aspx" ToolTip="Ver analistas de zona" />
+                                            &nbsp;<asp:ImageButton ID="ibBuscarPlanteles" runat="server" CausesValidation="False"
+                                                ImageUrl="~/Imagenes/searchschools.png" PostBackUrl="~/Consultas/Planteles/wfPlanteles.aspx?TipoOperacion=4"
+                                                ToolTip="Buscar planteles" />
+                                            &nbsp;<asp:ImageButton ID="ibBusquedasVarias" runat="server" CausesValidation="False"
+                                                ImageUrl="~/Imagenes/Buscar4.png" PostBackUrl="~/Busquedas/BusquedasVarias.aspx?TipoOperacion=4"
+                                                ToolTip="Búsquedas varias" />
+                                        </td>
+                                        <td rowspan="1" style="text-align: right; padding-right: 5px;">
+                                            <asp:LoginStatus ID="LoginStatus1" runat="server" Font-Names="Verdana" Font-Size="X-Small"
+                                                LogoutAction="Redirect" LogoutPageUrl="~/Login.aspx" ForeColor="Maroon" LoginImageUrl="~/Imagenes/power_on.png"
+                                                LoginText="" LogoutImageUrl="~/Imagenes/power_off.png" LogoutText="" ToolTip="Cerrar sesión" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" rowspan="1" style="background-color: #fffbd6; text-align: left;">
+                                <asp:Menu ID="Menu1" runat="server" BackColor="White" Font-Names="Verdana" Font-Size="9pt"
+                                    ForeColor="#666666" Orientation="Horizontal" Width="100%" StaticSubMenuIndent="10px"
+                                    DynamicHorizontalOffset="0" BorderColor="#333333" BorderStyle="Solid" 
+                                    BorderWidth="1px" RenderingMode="Table">
+                                    <StaticSelectedStyle BackColor="White" />
+                                    <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                                    <DynamicHoverStyle BackColor="#F2FBF2" ForeColor="#339933" />
+                                    <DynamicMenuStyle BackColor="White" BorderColor="Black" BorderStyle="Solid" BorderWidth="1px" />
+                                    <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px"/>
+                                    <DynamicSelectedStyle BackColor="White" />
+                                    <StaticHoverStyle BackColor="White" ForeColor="#339933"/>
+                                </asp:Menu>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: left;">
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <asp:Panel ID="pnlWarning2" CssClass="Warning1" runat="server" Visible="false">
+                                            <b>¡Importante!</b> No hay quincenas abiertas para captura, por lo cual solo podrá
+                                            navegar en esta página en modo consulta.
+                                        </asp:Panel>
+                                        <asp:LinkButton ID="lbAddPage" runat="server" CausesValidation="False" Font-Names="Verdana"
+                                            Font-Size="8.5pt" Text="Agregar página al Catálogo"></asp:LinkButton>
+                                        <ajaxToolkit:ConfirmButtonExtender ID="lbAddPage_CBExtender" runat="server" ConfirmText="¿Está seguro de agregar ésta página al Catálogo?"
+                                            Enabled="True" TargetControlID="lbAddPage">
+                                        </ajaxToolkit:ConfirmButtonExtender>
+                                        &nbsp;<asp:LinkButton ID="lnkbtnNotific" runat="server" CausesValidation="False"
+                                            Font-Names="Verdana" Font-Size="8.5pt" PostBackUrl="~/Consultas/Usuarios/wfMsjsPorUsr.aspx"
+                                            Text="Notificaciones"></asp:LinkButton>
+                                    </ContentTemplate>
+                                    <Triggers>
+                                        <asp:AsyncPostBackTrigger ControlID="lbAddPage" EventName="Click" />
+                                    </Triggers>
+                                </asp:UpdatePanel>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </form>
+</body>
+</html>

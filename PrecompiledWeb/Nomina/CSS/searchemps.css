@@ -1,0 +1,161 @@
+﻿* {
+	box-sizing: border-box;
+}
+
+.clearfix {
+	clear:both;
+}
+
+html, body
+{
+    padding: 0;
+    margin: 0;
+}
+
+body {
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 15px;
+}
+
+a
+{
+    color: Black;
+}
+
+a:hover
+{
+    color: White;
+}
+
+#contenedorSearchEmps{
+	width: 1024px;
+	padding: 10px 0 0 0;
+	margin: 0px auto;
+	text-align:left;
+}
+#contenedorMain{
+	margin: 0px auto;
+}
+#contenedorHeader{
+	margin: 0px auto;
+}
+#contenedorHeader p
+{
+    width:1024px;
+    margin: 0px auto;
+    display: flex;
+}
+div[id^='contenedorMenu'] 
+{
+    padding: 0 0 0 0;
+    margin: 0px auto;
+    /*background-color: whitesmoke;*/
+    height:30px;
+    width: 1024px;
+    background: #7795BD url('../Imagenes/menu_bg.gif') repeat-x;
+}
+div[id^='contenedorMenu'] p
+{
+    width:1024px;
+    margin: 0px auto;
+    /*background-color: #B5C7DE;*/
+    background: #7795BD url('../Imagenes/menu_bg.gif') repeat-x;
+}
+div[id^='contenedorMenu'] .pRight
+{
+    width:1024px;
+    margin: 0px auto;
+    /*background-color: #B5C7DE;*/
+    background: #7795BD url('../Imagenes/menu_bg.gif') repeat-x;    
+    padding: 10px 5px 0px 0px;
+    text-align:right;
+    height: 30px;
+}
+#contenedorSearchEmps .btn
+{
+    height: 30px;
+    width: 100px;
+}
+#contenedorSearchEmps .btn:Hover
+{
+    background-color: #3366CC;
+    border: #4e667d solid;
+    height: 30px;
+    color: white;
+}
+#contenedorSearchEmps .txtbx,.ddl
+{
+        height:30px;
+        width: 350px;
+        vertical-align:middle;
+        padding: 0 5px 0 5px;
+        font-size: 15px;
+}
+#contenedorSearchEmps .pLabel
+{
+        padding: 7px 0 3px 0;
+}
+#contenedorSearchEmps .pLegend
+{
+    padding: 0 5px 7px 0px;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: underline;
+}
+#contenedorSearchEmps .pFieldSet
+{
+    padding: 0px 0px 10px 0px;
+    border-bottom-style: ridge;
+    border-bottom-width: 2px;
+    border-bottom-color: #C0C0C0;
+}
+#contenedorSearchEmps .pBusqueda
+{
+        float:left;
+}
+
+/*MENU*/
+.Menu
+{
+
+}
+
+.Menu ul
+{  
+    background:#7795BD;
+    width:1024px;
+}
+
+.Menu ul li
+{
+    background: #7795BD url('../Imagenes/menu_bg.gif') repeat-x;
+    background-size: cover;
+    text-align: left; /* set width if needed. width: auto;*/
+    height:30px;
+}
+
+.Menu ul li a
+{
+    color: black;
+    padding: 6px 2px 4px 8px;
+    border: 1px solid #648ABD;
+    border-bottom: 0;
+    height: 30px;
+}
+
+.Menu ul li a:hover
+{
+    background-image: none;
+}
+
+.Menu ul li a:hover
+{
+    color: White;
+}
+
+.Menu ul li a
+{
+    color: Black;
+}
+
+/*MENU*/

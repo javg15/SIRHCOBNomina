@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="Nomina">
+      <rd:DataSourceID>bd0fe88a-de7f-499f-be70-86507fe3b7f9</rd:DataSourceID>
+      <DataSourceReference>Nomina</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>27.94cm</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="pEjercicio">
+      <DataType>Integer</DataType>
+      <Prompt>Ejercicio</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pTodasLasConstancias">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>TodasLasConstancias</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pRFCEmp">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>RFCEmp</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>21.59cm</InteractiveWidth>
+  <rd:GridSpacing>0.25cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>0.5cm</RightMargin>
+  <LeftMargin>0.5cm</LeftMargin>
+  <PageHeader>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="txtbxTitulo">
+        <Top>0.125cm</Top>
+        <Width>19cm</Width>
+        <Style>
+          <BorderStyle>
+            <Default>Solid</Default>
+          </BorderStyle>
+          <FontFamily>Arial Narrow</FontFamily>
+          <FontSize>12pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>0.75cm</Left>
+        <Height>1.25cm</Height>
+        <Value>CONSTANCIA DE SUELDOS, SALARIOS, CONCEPTOS ASIMILADOS, CRÉDITO AL SALARIO
+Y SUBSIDIO PARA EL EMPLEO (INCLUYE INGRESOS POR ACCIONES)</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>1.5cm</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageHeader>
+  <BottomMargin>0.5cm</BottomMargin>
+  <rd:ReportID>3eb1c2a2-44af-431d-b317-8f99ff54c317</rd:ReportID>
+  <PageWidth>21.59cm</PageWidth>
+  <DataSets>
+    <DataSet Name="dsDecAnualGlobal">
+      <Fields>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Campo9">
+          <DataField>Campo9</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Campo30">
+          <DataField>Campo30</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PL">
+          <DataField>PL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>If @TodasLasConstancias= 'SI'
+	Begin
+		Select Distinct
+			DA.IdEmp,
+			Case
+				When DA.Campo9 = '1' Then 'SI'
+				Else 'NO'
+			End Campo9,
+			Case
+				When DA.Campo30 = '1' Then 'SI'
+				Else 'NO'
+			End Campo30, DA.PL
+		From DeclaracionesAnuales DA
+		Where DA.Ejercicio = @Ejercicio
+			And DA.IdEmp In
+						(
+							Select Distinct IdEmp
+							From EmpsExcParaCalculoDeDeclaracionAnual
+							Where Anio = @Ejercicio
+						)
+		Order By DA.PL
+	End
+Else
+	Begin
+		If @RFCEmp &lt;&gt; ''
+			Begin
+				Select Distinct
+					DA.IdEmp,
+					Case
+						When DA.Campo9 = '1' Then 'SI'
+						Else 'NO'
+					End Campo9,
+					Case
+						When DA.Campo30 = '1' Then 'SI'
+						Else 'NO'
+					End Campo30, DA.PL
+				From DeclaracionesAnuales DA
+				Where DA.Ejercicio = @Ejercicio And da.IdEmp = dbo.Fn_ObtenIdEmp(@RFCEmp)
+			End
+	End</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@Ejercicio">
+            <Value>=Parameters!pEjercicio.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@TodasLasConstancias">
+            <Value>=Parameters!pTodasLasConstancias.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@RFCEmp">
+            <Value>=Parameters!pRFCEmp.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Width>20.5cm</Width>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Table Name="table1">
+        <DataSetName>dsDecAnualGlobal</DataSetName>
+        <TableGroups>
+          <TableGroup>
+            <Grouping Name="table1_Group1">
+              <GroupExpressions>
+                <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+          </TableGroup>
+        </TableGroups>
+        <Width>20.00001cm</Width>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>3</ColSpan>
+                  <ReportItems>
+                    <Subreport Name="subreport1">
+                      <Parameters>
+                        <Parameter Name="pEjercicio">
+                          <Value>=Parameters!pEjercicio.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pIdEmp">
+                          <Value>=Fields!IdEmp.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pCampo30">
+                          <Value>=Fields!Campo30.Value</Value>
+                        </Parameter>
+                      </Parameters>
+                      <ReportName>ConstanciaSueldosParte1</ReportName>
+                      <Style>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>4</ZIndex>
+                    </Subreport>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+            <TableRow>
+              <Visibility>
+                <Hidden>=IIF(Fields!Campo30.Value="SI",False,True)</Hidden>
+              </Visibility>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>3</ColSpan>
+                  <ReportItems>
+                    <Subreport Name="subreport2">
+                      <Parameters>
+                        <Parameter Name="pEjercicio">
+                          <Value>=Parameters!pEjercicio.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pIdEmp">
+                          <Value>=Fields!IdEmp.Value</Value>
+                        </Parameter>
+                      </Parameters>
+                      <ReportName>ConstanciaSueldosParte2</ReportName>
+                      <Style>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>3</ZIndex>
+                    </Subreport>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>3</ColSpan>
+                  <ReportItems>
+                    <Subreport Name="subreport3">
+                      <Parameters>
+                        <Parameter Name="pEjercicio">
+                          <Value>=Parameters!pEjercicio.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pIdEmp">
+                          <Value>=Fields!IdEmp.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pCampo30">
+                          <Value>=Fields!Campo30.Value</Value>
+                        </Parameter>
+                      </Parameters>
+                      <ReportName>ConstanciaSueldosParte3</ReportName>
+                      <Style>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>2</ZIndex>
+                    </Subreport>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>3</ColSpan>
+                  <ReportItems>
+                    <Subreport Name="subreport5">
+                      <Parameters>
+                        <Parameter Name="pEjercicio">
+                          <Value>=Parameters!pEjercicio.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pIdEmp">
+                          <Value>=Fields!IdEmp.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pCampo30">
+                          <Value>=Fields!Campo30.Value</Value>
+                        </Parameter>
+                      </Parameters>
+                      <ReportName>ConstanciaSueldosParte4</ReportName>
+                      <Style>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>1</ZIndex>
+                    </Subreport>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>3</ColSpan>
+                  <ReportItems>
+                    <Subreport Name="subreport4">
+                      <Parameters>
+                        <Parameter Name="pEjercicio">
+                          <Value>=Parameters!pEjercicio.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pIdEmp">
+                          <Value>=Fields!IdEmp.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pCampo30">
+                          <Value>=Fields!Campo30.Value</Value>
+                        </Parameter>
+                        <Parameter Name="pCampo9">
+                          <Value>=Fields!Campo9.Value</Value>
+                        </Parameter>
+                      </Parameters>
+                      <ReportName>ConstanciaSueldosParte5</ReportName>
+                      <Style>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                    </Subreport>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.5cm</Height>
+            </TableRow>
+          </TableRows>
+        </Details>
+        <Style>
+          <FontSize>8pt</FontSize>
+        </Style>
+        <TableColumns>
+          <TableColumn>
+            <Width>6.66667cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>6.66667cm</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>6.66667cm</Width>
+          </TableColumn>
+        </TableColumns>
+        <Height>2.5cm</Height>
+        <Left>0.25cm</Left>
+      </Table>
+    </ReportItems>
+    <Height>2.75cm</Height>
+  </Body>
+  <Language>es-MX</Language>
+  <TopMargin>0.5cm</TopMargin>
+  <PageHeight>27.94cm</PageHeight>
+</Report>

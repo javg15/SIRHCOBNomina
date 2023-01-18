@@ -1,0 +1,57 @@
+﻿<asp:Button SkinId="SkinBoton" runat="server" BackColor="White" BorderColor="#CC9966"
+    BorderStyle="Solid" BorderWidth="1px" Font-Names="Verdana"
+    Font-Size="10pt" ForeColor="#990000" />
+<asp:GridView SkinId="SkinGridView2" runat="server" AutoGenerateColumns="False"
+    CaptionAlign="Left" CellPadding="3" ForeColor="#333333" EmptyDataText="No hubo coincidencias" Font-Names="Verdana" Font-Size="XX-Small" PageSize="20">
+    <HeaderStyle BackColor="#990000" CssClass="dgheader" Font-Bold="True" ForeColor="White" Font-Names="Verdana" Font-Size="XX-Small" />
+    <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <RowStyle BackColor="#FFFBD6" ForeColor="#333333" Font-Names="Verdana" Font-Size="XX-Small" />
+    <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" Font-Names="Verdana" Font-Size="XX-Small" />
+    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" Font-Names="Verdana" Font-Size="XX-Small" />
+    <AlternatingRowStyle BackColor="White" Font-Names="Verdana" Font-Size="XX-Small" />
+    <EmptyDataRowStyle Font-Bold="True" Font-Italic="True" Font-Names="Verdana" Font-Size="XX-Small"
+        ForeColor="#004040" />
+</asp:GridView>    
+<asp:GridView SkinId="SkinGridView" runat="server" AutoGenerateColumns="False"
+    CaptionAlign="Left" CellPadding="3" ForeColor="#333333" EmptyDataText="No hubo coincidencias" Font-Names="Verdana" Font-Size="10pt" PageSize="20">
+    <HeaderStyle BackColor="#990000" CssClass="dgheader" Font-Bold="True" ForeColor="White" />
+    <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
+    <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
+    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
+    <AlternatingRowStyle BackColor="White" />
+    <EmptyDataRowStyle Font-Bold="True" Font-Italic="True" Font-Names="Verdana" Font-Size="10pt"
+        ForeColor="#004040" />
+</asp:GridView>
+<asp:GridView SkinId="SkinGridViewEmpty" runat="server" AutoGenerateColumns="False"
+    CaptionAlign="Left" CellPadding="3" ForeColor="#333333" EmptyDataText="No hubo coincidencias" Font-Names="Verdana" Font-Size="X-Small" PageSize="20">
+    <HeaderStyle BackColor="#990000" CssClass="dgheader" Font-Bold="True" ForeColor="White" />
+    <FooterStyle BackColor="#FFFBD6" Font-Bold="True" ForeColor="White" />
+    <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
+    <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
+    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
+    <AlternatingRowStyle BackColor="White" />
+</asp:GridView>
+<asp:Label SkinId="SkinLblNormal" runat="server" Font-Names="Verdana" Font-Size="7.5pt" />
+<asp:Label SkinId="SkinLblDatos" runat="server" Font-Names="Verdana" Font-Size="10pt" Font-Strikeout="False" Font-Underline="True" ForeColor="#004040" />
+<asp:Label SkinId="SkinLblMsjErrores" runat="server" Font-Names="Verdana" Font-Size="10pt" ForeColor="Red"/>
+<asp:Label SkinId="SkinLblMsjExito" runat="server" Font-Names="Verdana" Font-Size="10pt" ForeColor="#004040"/>
+<asp:Label SkinId="SkinLblHeader" runat="server" BackColor="#990000" Font-Bold="True" Font-Names="Verdana" 
+    Font-Size="Larger" ForeColor="White" Height="100%"  Width="100%" />
+<asp:Label SkinId="SkinlblGris" runat="server" Font-Names="Verdana" Font-Size="10pt" ForeColor="Gray" />
+<asp:TextBox SkinId="SkinTextBox" runat="server" Font-Names="Verdana" Font-Size="10pt" />
+<asp:DetailsView SkinId="SkinDetailsView" runat="server" CellPadding="2" ForeColor="#333333"
+    GridLines="Horizontal" Height="50px" Width="125px" EmptyDataText="No existen datos">
+    <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <CommandRowStyle BackColor="#FFFFC0" Font-Bold="True" />
+    <RowStyle BackColor="#FFFBD6" ForeColor="#333333" Font-Names="Verdana" Font-Size="X-Small" />
+    <FieldHeaderStyle BackColor="#990000" Font-Bold="True" Font-Names="Verdana" Font-Size="X-Small" ForeColor="White" Wrap="True" />
+    <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
+    <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
+    <AlternatingRowStyle BackColor="White" Font-Names="Verdana" Font-Size="X-Small" ForeColor="#333333" />
+    <EmptyDataRowStyle Font-Bold="True" Font-Italic="True" Font-Names="Verdana" Font-Size="7.5pt"
+        ForeColor="#004040" />
+</asp:DetailsView>
+<asp:DropDownList SkinId="SkinDropDownList" runat="server" Font-Names="Verdana" Font-Size="7.5pt" />
+<asp:LinkButton  SkinId="SkinLinkButton" runat="server" Font-Size="7.5pt" Font-Names="Verdana" />
+<asp:CheckBox SkinId="SkinCheckBox" runat="server" Font-Names="Verdana" Font-Size="10pt" />

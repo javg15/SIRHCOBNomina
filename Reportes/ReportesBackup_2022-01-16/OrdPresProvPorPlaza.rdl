@@ -1,0 +1,1943 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Textbox Name="textbox1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="Orden de presentación RH.CBV" + 
+IIF(First(Fields!NumRomanoZonaGeo.Value, "dsCadenasPlazas")="","","." + First(Fields!NumRomanoZonaGeo.Value, "dsCadenasPlazas")) +
+"/" + First(Fields!NumOrdPres.Value, "dsCadenasPlazas") + "/" + First(Fields!Ejercicio.Value, "dsCadenasPlazas").ToString</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>textbox1</rd:DefaultName>
+        <Top>0.02645cm</Top>
+        <Left>10.12829cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>9.44444cm</Width>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="Xalapa, Ver., a " + 
+Day(First(Fields!FchParaOrdDePres.Value, "dsCadenasPlazas")).ToString + " de " + 
+UCase(Left(MonthName(Month(First(Fields!FchParaOrdDePres.Value, "dsCadenasPlazas"))),1)) + 
+LCase(Right(MonthName(Month(First(Fields!FchParaOrdDePres.Value, "dsCadenasPlazas"))), Len(MonthName(Month(First(Fields!FchParaOrdDePres.Value, "dsCadenasPlazas")))) - 1)) 
++ " de " + Year(First(Fields!FchParaOrdDePres.Value, "dsCadenasPlazas")).ToString</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Right</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>0.38094cm</Top>
+        <Left>10.12829cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>9.44444cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox3">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="C. " + First(Fields!NomEmp.Value, "dsEmpleado")</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.37567cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>9.44444cm</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox4">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>P r e s e n t e</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>1.69841cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>9.44444cm</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox7">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="          Lo  anterior, de  conformidad  con  las  cláusulas  31  y  36  del Contrato Colectivo del Trabajo que rigen las" &amp;
+ " relaciones laborales entre los trabajadores y esta Entidad."</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>6.62441cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>18.08739cm</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox9">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="          Sin otro particular, quedo de usted."</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>7.60325cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>18.08739cm</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox10">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>A T E N T A M E N T E</Value>
+                <Style>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>11.95762cm</Top>
+        <Left>5.75128cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>9.44444cm</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="table1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>5.44186cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>12.64554cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.44974cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Información sobre la plaza:</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox11</rd:DefaultName>
+                      <ZIndex>8</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Silver</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                    <ColSpan>2</ColSpan>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell />
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.44974cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Tipo de plaza:</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Silver</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIF(FIRST(Fields!IdEmpFuncion.Value, "dsEmpleado")="1","ADMINISTRATIVA","DOCENTE")</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.44974cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox14">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Categoría:</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox14</rd:DefaultName>
+                      <ZIndex>7</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Silver</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=UCASE(Fields!Categoria.Value)</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox15</rd:DefaultName>
+                      <ZIndex>6</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.44974cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox13">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Tipo de nombramiento:</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox13</rd:DefaultName>
+                      <ZIndex>5</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Silver</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox16">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=IIF(Fields!AbrevTipoEmp.Value="I","INTERINO",IIF(Fields!AbrevTipoEmp.Value="P","PROVISIONAL",""))</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox16</rd:DefaultName>
+                      <ZIndex>4</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.44974cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Inicio del nombramiento:</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox12</rd:DefaultName>
+                      <ZIndex>3</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Silver</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=UCASE(First(Fields!EfectoIni.Value, "dsEfectos"))</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox17</rd:DefaultName>
+                      <ZIndex>2</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.44974cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox25">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Adscripción:</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox25</rd:DefaultName>
+                      <ZIndex>1</ZIndex>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Silver</BackgroundColor>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="textbox26">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=UCASE(TRIM(Fields!NombreCT.Value))</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>textbox26</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>1pt</PaddingRight>
+                        <PaddingTop>1pt</PaddingTop>
+                        <PaddingBottom>1pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="table1_Details_Group">
+                <DataElementName>Detail</DataElementName>
+              </Group>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+              <DataElementName>Detail_Collection</DataElementName>
+              <DataElementOutput>Output</DataElementOutput>
+              <KeepTogether>true</KeepTogether>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>dsEmpleado</DataSetName>
+        <Top>3.52911cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>2.69844cm</Height>
+        <Width>18.0874cm</Width>
+        <ZIndex>7</ZIndex>
+        <Style />
+      </Tablix>
+      <Textbox Name="textbox20">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>="          Me  permito comunicarle que ha sido " + IIF(First(Fields!Sexo.Value, "dsEmpleado")="H","designado","designada") +
+" para cubrir una plaza dentro del Colegio de Bachilleres del Estado de Veracruz, bajo las siguientes condiciones:"</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>2.72489cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>18.08739cm</Width>
+        <ZIndex>8</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox30">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>C.c.p.</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>15.51568cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>1.16402cm</Width>
+        <ZIndex>9</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox31">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Profesion.Value, "dsTitularCT") + " " + First(Fields!NomEmp.Value, "dsTitularCT") + ".- " + First(Fields!Cargo.Value, "dsTitularCT") +
+".- Mismo Fin."</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                  <Color>=IIF(First(Fields!IdTipoCT.Value, "dsTitularCT")="8","White","Black")</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>15.85961cm</Top>
+        <Left>2.59382cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>16.92337cm</Width>
+        <ZIndex>10</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox32">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Profesion.Value, "dsCopiaSindicato") + " " + First(Fields!NomEmp.Value, "dsCopiaSindicato") + ".- " + First(Fields!Cargo.Value, "dsCopiaSindicato") +
+".- Para su conocimiento."</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>15.51568cm</Top>
+        <Left>2.59382cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>16.92337cm</Width>
+        <ZIndex>11</ZIndex>
+        <Visibility>
+          <Hidden>=IIF(First(Fields!IdSindicato.Value, "dsEmpleado")="3",True,False)</Hidden>
+        </Visibility>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox33">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>EXPEDIENTE</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>16.20353cm</Top>
+        <Left>2.59382cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>16.92337cm</Width>
+        <ZIndex>12</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox34">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>ARCHIVO</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>16.54745cm</Top>
+        <Left>2.59382cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>16.92337cm</Width>
+        <ZIndex>13</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox36">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=IIF(First(Fields!OficioDePropuesta.Value, "dsCadenasPlazas") &lt;&gt; "", "Propuesta: " + First(Fields!OficioDePropuesta.Value, "dsCadenasPlazas"), "")</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>18.09513cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.34392cm</Height>
+        <Width>16.26984cm</Width>
+        <ZIndex>14</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox35">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=IIF(First(Fields!NumCadena.Value, "dsCadenasPlazas") &lt;&gt; "", "Cadena: " + First(Fields!NumCadena.Value, "dsCadenasPlazas"), "")</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>18.37555cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.34392cm</Height>
+        <Width>16.26984cm</Width>
+        <ZIndex>15</ZIndex>
+        <Visibility>
+          <Hidden>=IIf(First(Fields!IdCadena.Value, "dsCadenasPlazas")="-1",True,False)</Hidden>
+        </Visibility>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox27">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>DIRECCIÓN ADMINISTRATIVA</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>14.2723cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>8.5cm</Width>
+        <ZIndex>16</ZIndex>
+        <Style>
+          <TopBorder>
+            <Style>Solid</Style>
+          </TopBorder>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox28">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Profesion.Value, "dsFirmanteOP") + " " + First(Fields!DirectorAdmvo.Value, "dsFirmanteOP")</Value>
+                <Style>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>13.82256cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>8.5cm</Width>
+        <ZIndex>17</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox37">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Autoriza</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>14.56331cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>8.5cm</Width>
+        <ZIndex>18</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox40">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>DEPARTAMENTO DE RECURSOS HUMANOS</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>14.2723cm</Top>
+        <Left>11.01719cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>8.5cm</Width>
+        <ZIndex>19</ZIndex>
+        <Style>
+          <TopBorder>
+            <Style>Solid</Style>
+          </TopBorder>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox39">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Last(Fields!Profesion.Value, "dsFirmanteOP") + " " + Last(Fields!DirectorAdmvo.Value, "dsFirmanteOP")</Value>
+                <Style>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>13.82256cm</Top>
+        <Left>11.01719cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>8.5cm</Width>
+        <ZIndex>20</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox38">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Vo.Bo.</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>14.56331cm</Top>
+        <Left>11.01719cm</Left>
+        <Height>0.44974cm</Height>
+        <Width>8.5cm</Width>
+        <ZIndex>21</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="textbox6">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!Iniciales.Value, "dsUsuario")</Value>
+                <Style>
+                  <FontSize>7pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>18.63743cm</Top>
+        <Left>1.4298cm</Left>
+        <Height>0.34392cm</Height>
+        <Width>16.26984cm</Width>
+        <ZIndex>22</ZIndex>
+        <Style>
+          <VerticalAlign>Middle</VerticalAlign>
+          <PaddingLeft>1pt</PaddingLeft>
+          <PaddingRight>1pt</PaddingRight>
+          <PaddingTop>1pt</PaddingTop>
+          <PaddingBottom>1pt</PaddingBottom>
+        </Style>
+      </Textbox>
+    </ReportItems>
+    <Height>19.05542cm</Height>
+    <Style />
+  </Body>
+  <Width>20cm</Width>
+  <Page>
+    <PageHeader>
+      <Height>2.9464cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Image Name="image1">
+          <Source>External</Source>
+          <Value>HeaderDocsOficiales.jpg</Value>
+          <Sizing>Fit</Sizing>
+          <Left>0.795cm</Left>
+          <Height>2.9464cm</Height>
+          <Width>2.1463cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+        <Image Name="image5">
+          <Source>External</Source>
+          <Value>HeaderDocsOficiales2.jpg</Value>
+          <Sizing>Fit</Sizing>
+          <Top>0.70556cm</Top>
+          <Left>15.18276cm</Left>
+          <Height>2.16323cm</Height>
+          <Width>4.38997cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+      </ReportItems>
+      <Style />
+    </PageHeader>
+    <PageFooter>
+      <Height>2.29175cm</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Image Name="image4">
+          <Source>External</Source>
+          <Value>FooterDocsOficiales3.jpg</Value>
+          <Sizing>FitProportional</Sizing>
+          <Top>0cm</Top>
+          <Left>12.22719cm</Left>
+          <Height>2.26cm</Height>
+          <Width>7.29cm</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+        <Image Name="image2">
+          <Source>External</Source>
+          <Value>FooterDocsOficiales1.jpg</Value>
+          <Sizing>FitProportional</Sizing>
+          <Top>0.41275cm</Top>
+          <Left>0.795cm</Left>
+          <Height>1.24561cm</Height>
+          <Width>9.1348cm</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+        <Image Name="image6">
+          <Source>External</Source>
+          <Value>FooterDocsOficiales2.jpg</Value>
+          <Sizing>Fit</Sizing>
+          <Top>1.64cm</Top>
+          <Left>0.795cm</Left>
+          <Height>0.62cm</Height>
+          <Width>3.18017cm</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+      </ReportItems>
+      <Style />
+    </PageFooter>
+    <PageHeight>27.94cm</PageHeight>
+    <PageWidth>21.59cm</PageWidth>
+    <LeftMargin>0.5cm</LeftMargin>
+    <RightMargin>0.5cm</RightMargin>
+    <TopMargin>0.5cm</TopMargin>
+    <BottomMargin>0.5cm</BottomMargin>
+    <ColumnSpacing>0.5cm</ColumnSpacing>
+    <Style>
+      <BackgroundColor>White</BackgroundColor>
+      <BackgroundImage>
+        <Source>External</Source>
+        <Value>=IIf(First(Fields!IdEstatusOP.Value, "dsCadenasPlazas")&lt;&gt;"3","","ImgCancelado.jpg")</Value>
+        <BackgroundRepeat>RepeatY</BackgroundRepeat>
+      </BackgroundImage>
+    </Style>
+  </Page>
+  <Author>Fabio Rodríguez López</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Nomina">
+      <DataSourceReference>Nomina</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>98331b76-1050-4be6-85ef-bd386c4b0d4d</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="Admon">
+      <DataSourceReference>Admon</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>3e02e060-69ee-4fbd-88e3-79932bf91bfd</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsCadenasPlazas">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdOrdenDePres">
+            <Value>=Parameters!pIdOrdenDePres.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>SP_SCadenasPlazas</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="IdCadena">
+          <DataField>IdCadena</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumCadena">
+          <DataField>NumCadena</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TipoMov">
+          <DataField>TipoMov</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FchParaOrdDePres">
+          <DataField>FchParaOrdDePres</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="IdOrdenDePres">
+          <DataField>IdOrdenDePres</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumOrdPres">
+          <DataField>NumOrdPres</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NumRomanoZonaGeo">
+          <DataField>NumRomanoZonaGeo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Ejercicio">
+          <DataField>Ejercicio</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="IdCT">
+          <DataField>IdCT</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="OficioDePropuesta">
+          <DataField>OficioDePropuesta</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IdUsuarioCreador">
+          <DataField>IdUsuarioCreador</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="IdEstatusOP">
+          <DataField>IdEstatusOP</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsEmpleado">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdPlaza">
+            <Value>=Parameters!pIdPlaza.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Select RTRIM(LTRIM(E.NomEmp + ' ' + E.ApePatEmp + ' ' + E.ApeMatEmp)) NomEmp, Right(Left(E.CURPEmp,11),1) Sexo,
+	Case
+		When TE.AbrevTipoEmp = 'I' Then 'Interinamente'
+		When TE.AbrevTipoEmp = 'P' Then 'Provisionalmente'
+		Else ''
+	End TipoOcupacion,
+	TE.AbrevTipoEmp,
+	LTRIM(RTRIM(C.DescCategoria)) Categoria,
+	CT.IdCT, CT.NombreCT, EP.IdSindicato, EP.IdEmpFuncion, EP.IdEmp
+From EmpleadosPlazas EP
+	Inner Join Empleados E On E.IdEmp = EP.IdEmp
+	Inner Join TipoEmpleado TE On TE.IdTipoEmp = EP.IdTipoEmp
+	Inner Join Categorias C On C.IdCategoria = EP.IdCategoria
+	Inner Join CentrosDeTrabajo CT On CT.IdCT = EP.IdCT
+Where EP.IdPlaza = @IdPlaza</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="NomEmp">
+          <DataField>NomEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sexo">
+          <DataField>Sexo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TipoOcupacion">
+          <DataField>TipoOcupacion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AbrevTipoEmp">
+          <DataField>AbrevTipoEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Categoria">
+          <DataField>Categoria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IdCT">
+          <DataField>IdCT</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="NombreCT">
+          <DataField>NombreCT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IdSindicato">
+          <DataField>IdSindicato</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="IdEmpFuncion">
+          <DataField>IdEmpFuncion</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsEfectos">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdPlaza">
+            <Value>=Parameters!pIdPlaza.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Set DateFormat dmy
+
+Declare @IdQnaIni Smallint
+Declare @IdQnaFin Smallint
+Declare @IdEmp Int
+Declare @DiasPagoQnaIni Tinyint
+Declare @QnaIni Tinyint
+Declare @AnioIni Smallint
+Declare @DiaIni Tinyint
+Declare @MesIni Tinyint
+Declare @QnaFin Tinyint
+Declare @AnioFin Smallint
+Declare @DiaFin Tinyint
+Declare @MesFin Tinyint
+Declare @NumDiasMesIni Tinyint
+Declare @EfectoIni NVarchar(100)
+Declare @EfectoFin NVarchar(100)
+
+Select @IdEmp = EP.IdEmp, @IdQnaIni = PH.IdQnaVigIni, @IdQnaFin = PH.IdQnaVigFin
+From EmpleadosPlazas EP
+	Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+Where EP.IdPlaza = @IdPlaza
+
+Select @DiasPagoQnaIni = NumDiasAPagar
+From EmpsDiasParaPagoQnal
+Where IdEmp = @IdEmp And IdQuincena = @IdQnaIni
+
+Select @AnioIni = Anio, @QnaIni = Quincena
+From Quincenas
+Where IdQuincena = @IdQnaIni
+
+If @DiasPagoQnaIni Is Null
+	Begin
+		If @QnaIni % 2 = 0
+			Begin
+				Set @DiaIni = 16
+				Set @MesIni = @QnaIni/2
+			End
+		Else
+			Begin
+				Set @DiaIni = 1
+				Set @MesIni = (@QnaIni+1)/2
+			End
+	End
+Else
+	Begin		
+		If @QnaIni % 2 = 0
+			Begin
+				Set @MesIni = @QnaIni/2
+
+				--If dbo.Fn_ObtenSiAnioEsBisiesto(@AnioFin) = 1 And @MesIni = 2
+				--	Begin
+				--		Set @NumDiasMesIni = 29
+				--	End
+				--Else
+				--	Begin
+				--		Select @NumDiasMesIni = NumDiasMes
+				--		From Meses
+				--		Where IdMes = @MesIni
+				--	End
+				--Set @DiaIni = (@NumDiasMesIni - @DiasPagoQnaIni) + 1
+				Set @DiaIni = (30 - @DiasPagoQnaIni) + 1
+			End
+		Else
+			Begin
+				Set @DiaIni = (15 - @DiasPagoQnaIni) + 1
+				Set @MesIni = (@QnaIni+1)/2
+			End
+	End
+	
+Select @AnioFin = Anio, @QnaFin = Quincena
+From Quincenas
+Where IdQuincena = @IdQnaFin
+
+If @QnaFin % 2 = 0
+	Begin
+		Set @MesFin = @QnaFin/2
+		
+		If dbo.Fn_ObtenSiAnioEsBisiesto(@AnioFin) = 1 And @MesFin = 2
+			Begin
+				Set @DiaFin = 29
+			End
+		Else
+			Begin
+				Select @DiaFin = NumDiasMes
+				From Meses
+				Where IdMes = @MesFin
+			End
+	End
+Else
+	Begin
+		Set @DiaFin = 15
+		Set @MesFin = (@QnaFin+1)/2
+	End
+	
+Select @EfectoIni = Convert(NVarchar(2), @DiaIni) + ' de '  + NombreMes + ' de ' +  Convert(NVarchar(4), @AnioIni)
+From Meses
+Where IdMes = @MesIni
+
+Select @EfectoFin = Convert(NVarchar(2), @DiaFin) + ' de '  + NombreMes + ' de ' +  Convert(NVarchar(4), @AnioFin)
+From Meses
+Where IdMes = @MesFin
+
+Select @EfectoIni EfectoIni, @EfectoFin EfectoFin, @IdQnaIni IdQnaIni, @IdQnaFin IdQnaFin</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="EfectoIni">
+          <DataField>EfectoIni</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EfectoFin">
+          <DataField>EfectoFin</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IdQnaIni">
+          <DataField>IdQnaIni</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="IdQnaFin">
+          <DataField>IdQnaFin</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsFirmanteOP">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdQnaIni">
+            <Value>=Parameters!pIdQnaIni.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Declare @IdTipoSemestre Tinyint --18/10/2012
+
+--18/10/2012
+Select @IdTipoSemestre = ISNULL(ST.IdTipoSemestre,3)
+From Semestres S
+	Inner Join SemestresTipos ST On ST.TipoSemestre = S.TipoSemestre
+Where @IdQnaIni Between IdQuincenaIni And IdQuincenaFin
+--18/10/2012
+
+Select T1.*
+From (
+	Select LTRIM(RTRIM(IsNull(P.AbrevProfesion, 'LIC.'))) Profesion,
+		LTRIM(RTRIM(IsNull(E.NomEmp,'') + ' ' +  IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) DirectorAdmvo,
+		1 Orden
+	From EmpleadosPlazas EP
+		Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+		Inner Join CentrosDeTrabajo CT On CT.IdCT = EP.IdCT
+		Inner Join Empleados E On E.IdEmp = EP.IdEmp
+		Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+		Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+	Where Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+		And CT.IdCT In (4,119) And EP.IdCategoria In (2)
+		And EP.IdTipoSemestre In (@IdTipoSemestre,3) --18/10/2012
+	Union All
+	Select LTRIM(RTRIM(IsNull(P.AbrevProfesion, 'LIC.'))) Profesion,
+		LTRIM(RTRIM(IsNull(E.NomEmp,'') + ' ' +  IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) DirectorAdmvo,
+		2 Orden
+	From EmpleadosPlazas EP
+		Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+		Inner Join CentrosDeTrabajo CT On CT.IdCT = EP.IdCT
+		Inner Join Empleados E On E.IdEmp = EP.IdEmp
+		Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+		Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+	Where Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+		And CT.IdCT In (5,120) And EP.IdCategoria In (10)
+		And EP.IdTipoSemestre In (@IdTipoSemestre,3) --18/10/2012
+	) T1
+Order By T1.Orden Asc</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Profesion">
+          <DataField>Profesion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DirectorAdmvo">
+          <DataField>DirectorAdmvo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Orden">
+          <DataField>Orden</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsCopiaSindicato">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdSindicato">
+            <Value>=Parameters!pIdSindicato.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdQnaIni">
+            <Value>=Parameters!pIdQnaIni.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Select LTRIM(RTRIM(IsNull(P.AbrevProfesion, 'LIC.'))) Profesion,
+	RTRIM(LTRIM(IsNull(E.NomEmp,'') + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) NomEmp,
+	Case
+		When  Right(Left(E.CURPEmp,11),1) = 'M' Then 'SECRETARIA GENERAL DEL ' + LTRIM(RTRIM(S.SiglasSindicato))
+		When  Right(Left(E.CURPEmp,11),1) = 'H' Then 'SECRETARIO GENERAL DEL ' + LTRIM(RTRIM(S.SiglasSindicato))
+	End Cargo
+From HistoriaLideresSindicales HLS
+	Inner Join Sindicatos S On S.IdSindicato = HLS.IdSindicato
+	Inner Join Empleados E On E.IdEmp = HLS.IdEmp
+	Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+	Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+Where HLS.IdSindicato = @IdSindicato And
+	Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(HLS.IdQnaIni),6) And Left(dbo.Fn_ObtenQnaPorId(HLS.IdQnaFin),6)</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Profesion">
+          <DataField>Profesion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NomEmp">
+          <DataField>NomEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cargo">
+          <DataField>Cargo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsTitularCT">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdQnaIni">
+            <Value>=Parameters!pIdQnaIni.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdOrdenDePres">
+            <Value>=Parameters!pIdOrdenDePres.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdEmp">
+            <Value>=Parameters!pIdEmp.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Declare @IdOrigenPropuesta Tinyint
+Declare @IdTipoSemestre Tinyint --18/10/2012
+
+Select @IdOrigenPropuesta = IdOrigenPropuesta
+From OrdenesDePresentacion
+Where IdOrdenDePres = @IdOrdenDePres
+
+--18/10/2012
+Select @IdTipoSemestre = ISNULL(ST.IdTipoSemestre,3)
+From Semestres S
+	Inner Join SemestresTipos ST On ST.TipoSemestre = S.TipoSemestre
+Where @IdQnaIni Between IdQuincenaIni And IdQuincenaFin
+--18/10/2012
+
+Declare @IdCT Smallint
+
+Select @IdCT = EP.IdCT
+From EmpleadosPlazas EP
+	Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+Where Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+	And EP.PlazaEspecial = 0 And EP.IdEmp = @IdEmp
+	And EP.IdTipoSemestre In (@IdTipoSemestre,3) --18/10/2012
+
+If Exists
+	(Select 1
+	From CentrosDeTrabajo
+	Where IdCT = @IdCT And IdTipoCT = 7)
+	Begin
+		Select @IdCT = CT.IdCT
+		From OrdenesDePresentacionHoras OPPH
+			Inner Join Horas H On H.IdHora = OPPH.IdHora
+			Inner Join Planteles P On P.IdPlantel = H.IdPlantel
+			Inner Join CentrosDeTrabajo CT On CT.IdPlantel = P.IdPlantel
+		Where OPPH.IdOrdenDePres = @IdOrdenDePres
+			And @IdQnaIni Between P.IdQnaIni And P.IdQnaFin
+			And @IdQnaIni Between CT.IdQnaIni And CT.IdQnaFin
+
+		Select LTRIM(RTRIM(IsNull(P.AbrevProfesion, 'LIC.'))) Profesion,
+			LTRIM(RTRIM(IsNull(E.NomEmp,'') + ' ' +  IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) NomEmp,
+			CT.DescDelTitular Cargo, 
+			Case
+				When CT.IdTipoCT = 7 Then 'Plantel ' + Right(CT.ClaveCT,2) + '-' + CT.NombreCT
+				Else CT.NombreCT
+			End NombreCT, CT.IdTipoCT
+		From EmpleadosPlazas EP
+			Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+			Inner Join CentrosDeTrabajo CT On CT.IdCT = EP.IdCT
+			Inner Join Empleados E On E.IdEmp = EP.IdEmp
+			Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+			Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+		Where --Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+			@IdQnaIni Between PH.IdQnaVigIni And PH.IdQnaVigFin
+			And EP.IdFuncionPri Not In (6,8,9,10,11) And EP.IdTipoNomina = 1
+			And EP.IdCT = @IdCT
+			And EP.IdTipoSemestre In (@IdTipoSemestre,3) --18/10/2012
+		Order By  CT.DescDelTitular
+	End
+Else
+	Begin
+		If Exists
+			(Select 1
+			From CentrosDeTrabajo
+			Where IdCT = @IdCT And IdTipoCT = 8)
+			Begin	
+				Select LTRIM(RTRIM(IsNull(P.AbrevProfesion, 'LIC.'))) Profesion,
+					RTRIM(LTRIM(IsNull(E.NomEmp,'') + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) NomEmp,
+					Case
+						When  Right(Left(E.CURPEmp,11),1) = 'M' Then 'SECRETARIA GENERAL DEL ' + LTRIM(RTRIM(S.SiglasSindicato))
+						When  Right(Left(E.CURPEmp,11),1) = 'H' Then 'SECRETARIO GENERAL DEL ' + LTRIM(RTRIM(S.SiglasSindicato))
+					End Cargo, 'COMITE EJECUTIVO SUIT' NombreCT, 8 IdTipoCT
+				From HistoriaLideresSindicales HLS
+					Inner Join Sindicatos S On S.IdSindicato = HLS.IdSindicato
+					Inner Join Empleados E On E.IdEmp = HLS.IdEmp
+					Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+					Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+				Where HLS.IdSindicato = @IdOrigenPropuesta And
+					Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(HLS.IdQnaIni),6) And Left(dbo.Fn_ObtenQnaPorId(HLS.IdQnaFin),6)	
+			End
+		Else
+			Begin
+				If Exists
+					(
+						Select 1
+						From EmpleadosPlazas EP
+							Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+							Inner Join CentrosDeTrabajo CT On CT.IdCT = EP.IdCT
+							Inner Join Empleados E On E.IdEmp = EP.IdEmp
+							Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+							Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+						Where Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+							And EP.IdFuncionPri Not In (6,8,9,10,11) And EP.IdTipoNomina &lt;&gt; 5
+							And EP.IdCT = @IdCT
+							And EP.IdTipoSemestre In (@IdTipoSemestre,3) --18/10/2012
+						--Order By  CT.DescDelTitular					
+					)
+					Begin
+						Select LTRIM(RTRIM(IsNull(P.AbrevProfesion, 'LIC.'))) Profesion,
+							LTRIM(RTRIM(IsNull(E.NomEmp,'') + ' ' +  IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) NomEmp,
+							CT.DescDelTitular Cargo, 
+							Case
+								When CT.IdTipoCT = 7 Then 'Plantel ' + Right(CT.ClaveCT,2) + '-' + CT.NombreCT
+								Else CT.NombreCT
+							End NombreCT, CT.IdTipoCT
+						From EmpleadosPlazas EP
+							Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+							Inner Join CentrosDeTrabajo CT On CT.IdCT = EP.IdCT
+							Inner Join Empleados E On E.IdEmp = EP.IdEmp
+							Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+							Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+						Where Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigIni),6) And Left(dbo.Fn_ObtenQnaPorId(PH.IdQnaVigFin),6)
+							And EP.IdFuncionPri Not In (6,8,9,10,11) And EP.IdTipoNomina &lt;&gt; 5
+							And EP.IdCT = @IdCT
+							And EP.IdTipoSemestre In (@IdTipoSemestre,3) --18/10/2012
+						Order By  CT.DescDelTitular
+					End
+				Else
+					Begin
+						Select LTRIM(RTRIM(IsNull(P.AbrevProfesion, 'LIC.'))) Profesion,
+							LTRIM(RTRIM(IsNull(E.NomEmp,'') + ' ' +  IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) NomEmp,
+							CT.DescDelTitular Cargo, 
+							Case
+								When CT.IdTipoCT = 7 Then 'Plantel ' + Right(CT.ClaveCT,2) + '-' + CT.NombreCT
+								Else CT.NombreCT
+							End NombreCT, CT.IdTipoCT
+						From EmpsSoloCompenPlazas EP
+							--Inner Join PlazasHistoria PH On PH.IdPlaza = EP.IdPlaza
+							Inner Join CentrosDeTrabajo CT On CT.IdCT = EP.IdCT
+							Inner Join EmpleadosDatosLaborales EDL On EDl.NumEmp = EP.NumEmp
+							Inner Join Empleados E On E.IdEmp = EDL.IdEmp
+							Left Join EmpleadosDatosAcademicos EDA On EDA.IdEmp = E.IdEmp
+							Left Join Profesiones P On P.IdProfesion = EDA.IdProfesion
+						Where Left(dbo.Fn_ObtenQnaPorId(@IdQnaIni),6) Between Left(dbo.Fn_ObtenQnaPorId(EP.IdQuincenaIni),6) And Left(dbo.Fn_ObtenQnaPorId(EP.IdQuincenaFin),6)
+							And EP.IdFuncionPri Not In (6,8,9,10,11) --And EP.IdTipoNomina &lt;&gt; 5
+							And EP.IdCT = @IdCT
+							--And EP.IdTipoSemestre In (@IdTipoSemestre,3) --18/10/2012
+						Order By  CT.DescDelTitular					
+					End
+			End
+	End</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Profesion">
+          <DataField>Profesion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NomEmp">
+          <DataField>NomEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Cargo">
+          <DataField>Cargo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NombreCT">
+          <DataField>NombreCT</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IdTipoCT">
+          <DataField>IdTipoCT</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsUsuario">
+      <Query>
+        <DataSourceName>Admon</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdUsuario">
+            <Value>=Parameters!pIdUsuarioCreador.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Select Iniciales
+From Usuarios
+Where IdUsuario = @IdUsuario</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Iniciales">
+          <DataField>Iniciales</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsPlaza">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@IdOrdenDePres">
+            <Value>=Parameters!pIdOrdenDePres.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Select IdPlaza
+From OrdenesDePresentacionPlazas
+Where IdOrdenDePres = @IdOrdenDePres</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="IdPlaza">
+          <DataField>IdPlaza</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="pIdOrdenDePres">
+      <DataType>Integer</DataType>
+      <Prompt>IdOrdenDePres</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdPlaza">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsPlaza</DataSetName>
+          <ValueField>IdPlaza</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="pIdQnaIni">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsEfectos</DataSetName>
+          <ValueField>IdQnaIni</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+    <ReportParameter Name="pIdSindicato">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsEmpleado</DataSetName>
+          <ValueField>IdSindicato</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+    <ReportParameter Name="pIdCT">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsCadenasPlazas</DataSetName>
+          <ValueField>IdCT</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+    <ReportParameter Name="pIdUsuarioCreador">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsCadenasPlazas</DataSetName>
+          <ValueField>IdUsuarioCreador</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+    <ReportParameter Name="pIdEmp">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsEmpleado</DataSetName>
+          <ValueField>IdEmp</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public dim nombrevariable as String = ""
+
+Public dim i as Integer = 0
+
+Public Function FncCampoCabecera(byval valorCampo as String) as String
+i = i  + 1
+if i = 1 then
+nombrevariable = valorCampo
+end if
+return nombrevariable
+End Function</Code>
+  <Language>es-MX</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>e6fc191f-b535-49e3-9ce0-5059c5831c55</rd:ReportID>
+</Report>

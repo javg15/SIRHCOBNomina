@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <Description />
+  <DataSet Name="dsConcentradoConciliacion">
+    <Query>
+      <DataSourceReference>AdmonCopy</DataSourceReference>
+      <CommandText>Declare @TblFinal Table
+(ClavePlantel Nvarchar(3) Null,
+DescPlantel Nvarchar(50) Null,
+ImportePR Decimal(9,2) Null,
+ImporteRP Decimal(9,2) Null,
+ImportePensionAlimenticia Decimal(9,2) Null,
+ImportePensionAlimenticiaDeposito Decimal(9,2) Null,
+ImporteNominas Decimal(9,2) Null,
+ImporteRadicHaciaEste Decimal(9,2) Null,
+ImporteRadicHaciaOtro Decimal(9,2) Null,
+ImporteTotalPagos Decimal(9,2) Null,
+ImporteBancomer Decimal(9,2) Null,
+ImporteBanamex Decimal(9,2) Null,
+ImporteCheque Decimal(9,2) Null,
+ImporteTotalRadicar Decimal(9,2),
+ImporteTotalFlujo Decimal(9,2))
+
+Declare @Tbl1 Table
+(IdPlaza Int,
+IdEmp Int,
+IdPlantel Smallint,
+TipoNomina Nvarchar(2))
+
+Insert Into @Tbl1
+Select Distinct EP.IdPlaza, EP.IdEmp, EP.IdPlantel,
+	Case FP.ClaveFondoPresup
+		When 111 Then 'PR'
+		Else 'RP'
+	End TipoNomina
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+Where HP.IdQuincenaAplicacion = @IdQuincena And EP.PlazaEspecial = 0 And FP.ClaveFondoPresup = 111
+
+Insert Into @TblFinal
+Select P.ClavePlantel, P.DescPlantel, Sum(HPT.ImporteNeto) ImportePR, 0 ImporteRP, 0 ImportePensionAlimenticia, 
+	0 ImportePensionAlimenticiaDeposito, 0 ImporteNominas,
+	0 ImporteRadicHaciaEste, 0 ImporteRadicHaciaOtro, 0 ImporteTotalPagos, 0 ImporteBancomer, 0 ImporteBanamex, 0 ImporteCheque,
+	0 ImporteTotalRadicar, 0 ImporteTotalFlujo
+From @Tbl1 A
+	Inner Join HistoriaPagoTotales HPT On HPT.IdEmp = A.IdEmp
+	Inner Join Planteles P On P.IdPlantel = A.IdPlantel
+Where HPT.IdQuincenaAplicacion = @IdQuincena
+Group By P.ClavePlantel, P.DescPlantel, A.TipoNomina
+
+If Not Exists
+	(Select 1
+	From @TblFinal
+	Where ClavePlantel = '99')
+	Begin
+		Insert Into @TblFinal
+		Select '99' ClavePlantel, 'ADMINISTRACION CENTRAL' DescPlantel, 0 ImportePR, 0 ImporteRP, 0 ImportePensionAlimenticia, 
+		0 ImportePensionAlimenticiaDeposito, 0 ImporteNominas,
+		0 ImporteRadicHaciaEste, 0 ImporteRadicHaciaOtro, 0 ImporteTotalPagos, 0 ImporteBancomer, 0 ImporteBanamex, 0 ImporteCheque,
+		0 ImporteTotalRadicar, 0 ImporteTotalFlujo
+	End
+
+If Not Exists
+	(Select 1
+	From @TblFinal
+	Where ClavePlantel = '13')
+	Begin
+		Insert Into @TblFinal
+		Select '13' ClavePlantel, 'PLAYA VICENTE' DescPlantel, 0 ImportePR, 0 ImporteRP, 0 ImportePensionAlimenticia, 
+		0 ImportePensionAlimenticiaDeposito, 0 ImporteNominas,
+		0 ImporteRadicHaciaEste, 0 ImporteRadicHaciaOtro, 0 ImporteTotalPagos, 0 ImporteBancomer, 0 ImporteBanamex, 0 ImporteCheque,
+		0 ImporteTotalRadicar, 0 ImporteTotalFlujo
+	End
+Delete From @Tbl1
+
+Insert Into @Tbl1
+Select Distinct EP.IdPlaza, EP.IdEmp, EP.IdPlantel,
+	Case FP.ClaveFondoPresup
+		When 111 Then 'PR'
+		Else 'RP'
+	End TipoNomina
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+	Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+Where HP.IdQuincenaAplicacion = @IdQuincena And EP.PlazaEspecial = 0 And FP.ClaveFondoPresup = 112
+
+Update @TblFinal
+Set ImporteRP = B.ImporteRP
+From @TblFinal A
+	Inner Join
+			(Select P.ClavePlantel, Sum(HPT.ImporteNeto) ImporteRP
+			From @Tbl1 A
+				Inner Join HistoriaPagoTotales HPT On HPT.IdEmp = A.IdEmp
+				Inner Join Planteles P On P.IdPlantel = A.IdPlantel
+			Where HPT.IdQuincenaAplicacion = @IdQuincena
+			Group By P.ClavePlantel, P.DescPlantel, A.TipoNomina) B On A.ClavePlantel = B.ClavePlantel
+
+Declare @Tbl2 Table
+(IdEmp Int,
+IdPlantel Smallint)
+
+Insert Into @Tbl2
+Select Distinct EP.IdEmp, EP.IdPlantel
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+Where EP.PlazaEspecial = 0 And HP.IdQuincenaAplicacion = @IdQuincena
+
+Update @TblFinal
+Set ImportePensionAlimenticia = B.ImportePensionAlimenticia
+From @TblFinal A
+	Inner Join
+			(Select *
+			From (
+				Select P.ClavePlantel, Sum(HPA.Importe) ImportePensionAlimenticia
+				From HistoriaPensionAlimenticia HPA
+					Inner Join BeneficiariosPensionAlimenticia BPA On BPA.IdBeneficiario = HPA.IdBeneficiario
+					Inner Join @Tbl2 A On A.IdEmp = BPA.IdEmp
+					Inner Join Planteles P On P.IdPlantel = BPA.IdPlantel
+				Where HPA.IdQuincenaAplicacion = @IdQuincena
+				Group By P.ClavePlantel
+				) T1) B On B.ClavePlantel = A.ClavePlantel
+
+Update @TblFinal
+Set ImportePensionAlimenticiaDeposito = B.ImportePensionAlimenticia
+From @TblFinal A
+	Inner Join
+			(Select *
+			From (
+				Select P.ClavePlantel, Sum(HPA.Importe) ImportePensionAlimenticia
+				From HistoriaPensionAlimenticia HPA
+					Inner Join BeneficiariosPensionAlimenticia BPA On BPA.IdBeneficiario = HPA.IdBeneficiario
+					Inner Join @Tbl2 A On A.IdEmp = BPA.IdEmp
+					Inner Join Planteles P On P.IdPlantel = BPA.IdPlantel
+				Where HPA.IdQuincenaAplicacion = @IdQuincena And BPA.IncluirEnPagomatico = 1
+				Group By P.ClavePlantel
+				) T1) B On B.ClavePlantel = A.ClavePlantel
+
+Update @TblFinal
+Set ImporteNominas = ImportePR + ImporteRP + ImportePensionAlimenticia 
+
+Delete From  @Tbl2
+
+Insert Into @Tbl2
+Select Distinct ECRDP.IdEmp, ECRDP.IdPlantel
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join EmpleadosConRadicacionesDePago ECRDP On ECRDP.IdEmp = EP.IdEmp
+Where HP.IdQuincenaAplicacion = @IdQuincena And EP.PlazaEspecial = 0
+	And EP.IdPlantel &lt;&gt; ECRDP.IdPlantel
+	And Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between Left(dbo.Fn_ObtenQnaPorId(ECRDP.IdQnaIni),6) And Left(dbo.Fn_ObtenQnaPorId(ECRDP.IdQnaFin),6)
+
+Update @TblFinal
+Set ImporteRadicHaciaEste = B.ImporteRadicHaciaEste
+From @TblFinal A
+	Inner Join 
+			(Select P.ClavePlantel, B.ImporteRadicHaciaEste
+			From (
+				Select Distinct A.IdPlantel, Sum(HPT.ImporteNeto) ImporteRadicHaciaEste
+				From @Tbl2 A
+					Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+					Inner Join HistoriaPagoTotales HPT On HPT.IdEmp = A.IdEmp
+				Where HPT.IdQuincenaAplicacion = @IdQuincena 
+				Group By A.IdPlantel
+				) B
+				Inner Join Planteles P On P.IdPlantel = B.IdPlantel
+			) B On B.ClavePlantel = A.ClavePlantel
+
+Delete From  @Tbl2
+
+Insert Into @Tbl2
+Select Distinct EP.IdEmp, EP.IdPlantel
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join EmpleadosConRadicacionesDePago ECRDP On ECRDP.IdEmp = EP.IdEmp
+Where HP.IdQuincenaAplicacion = @IdQuincena And EP.PlazaEspecial = 0
+	And EP.IdPlantel &lt;&gt; ECRDP.IdPlantel
+	And Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between Left(dbo.Fn_ObtenQnaPorId(ECRDP.IdQnaIni),6) And Left(dbo.Fn_ObtenQnaPorId(ECRDP.IdQnaFin),6)
+
+Update @TblFinal
+Set ImporteRadicHaciaOtro = B.ImporteRadicHaciaOtro
+From @TblFinal A
+	Inner Join 
+			(
+			Select P.ClavePlantel, A.ImporteRadicHaciaOtro
+			From (
+				Select Distinct A.IdPlantel, Sum(HPT.ImporteNeto) ImporteRadicHaciaOtro
+				From @Tbl2 A
+					Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+					Inner Join HistoriaPagoTotales HPT On HPT.IdEmp = A.IdEmp
+				Where HPT.IdQuincenaAplicacion = @IdQuincena 
+				Group By A.IdPlantel
+				) A
+				Inner Join Planteles P On P.IdPlantel = A.IdPlantel
+			) B On B.ClavePlantel = A.ClavePlantel
+
+Update @TblFinal
+Set ImporteTotalPagos = ImporteNominas + ImporteRadicHaciaEste - ImporteRadicHaciaOtro
+
+Delete From @Tbl2
+
+Insert Into @Tbl2
+Select Distinct EP.IdEmp, EP.IdPlantel
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+Where HP.IdQuincenaAplicacion = @IdQuincena And EP.PlazaEspecial = 0
+
+Declare @TblBancos Table
+(ClavePlantel Nvarchar(3),
+IdBanco Tinyint,
+NombreCortoBanco Nvarchar(20),
+TotalBanco Decimal(9,2))
+
+Insert Into @TblBancos
+Select ClavePlantel, IdBanco, NombreCortoBanco, Sum(TotalBanco) TotalBanco
+From (
+	Select P.ClavePlantel, HPT.IdBanco, LTRIM(RTRIM(B.NombreCortoBanco)) NombreCortoBanco, Sum(HPT.ImporteNeto) TotalBanco
+	From @Tbl2 A
+		Inner Join HistoriaPagoTotales HPT On HPT.IdEmp = A.IdEmp
+		Inner Join Bancos B On B.Idbanco = HPT.IdBanco
+		Inner Join Planteles P On P.IdPlantel = A.IdPlantel
+	Where HPT.IdQuincenaAplicacion = @IdQuincena
+		And HPT.IncluirEnPagomatico = 1 And (LTrim(RTrim(HPT.CuentaBancaria)) &lt;&gt; ''
+		Or HPT.CuentaBancaria Is Not Null)
+	Group By P.ClavePlantel, HPT.IdBanco, B.NombreCortoBanco
+	Union
+	Select P.ClavePlantel, BPA.IdBanco, LTRIM(RTRIM(B.NombreCortoBanco)) NombreCortoBanco, Sum(HPA.Importe) TotalBanco
+	From HistoriaPensionAlimenticia HPA
+		Inner Join BeneficiariosPensionAlimenticia BPA On BPA.IdBeneficiario = HPA.IdBeneficiario
+		Inner Join @Tbl2 A On A.IdEmp = BPA.IdEmp
+		Inner Join Planteles P On P.IdPlantel = A.IdPlantel
+		Inner Join Bancos B On B.Idbanco = BPA.IdBanco
+	Where HPA.IdQuincenaAplicacion = @IdQuincena
+		And BPA.IncluirEnPagomatico = 1
+	Group By P.ClavePlantel, BPA.IdBanco, B.NombreCortoBanco
+	) T
+Group By ClavePlantel, IdBanco, NombreCortoBanco
+
+Update @TblFinal
+Set ImporteBanamex = B.TotalBanco
+From @TblFinal A
+	Inner Join @TblBancos B On B.ClavePlantel = A.ClavePlantel
+Where B.IdBanco = 1
+
+Update @TblFinal
+Set ImporteBancomer = B.TotalBanco
+From @TblFinal A
+	Inner Join @TblBancos B On B.ClavePlantel = A.ClavePlantel
+Where B.IdBanco = 2
+
+Delete From  @Tbl2
+Insert Into @Tbl2
+Select Distinct ECRDP.IdEmp, ECRDP.IdPlantel
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join EmpleadosConRadicacionesDePago ECRDP On ECRDP.IdEmp = EP.IdEmp
+Where HP.IdQuincenaAplicacion = @IdQuincena And EP.PlazaEspecial = 0
+	And EP.IdPlantel &lt;&gt; ECRDP.IdPlantel
+	And Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between Left(dbo.Fn_ObtenQnaPorId(ECRDP.IdQnaIni),6) And Left(dbo.Fn_ObtenQnaPorId(ECRDP.IdQnaFin),6)
+
+Declare @Tbl3 Table
+(IdEmp Int,
+IdPlantel Smallint)
+
+Insert Into @Tbl3
+Select Distinct EP.IdEmp, EP.IdPlantel
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+Where HP.IdQuincenaAplicacion = @IdQuincena And EP.PlazaEspecial = 0
+
+Update @TblFinal
+Set ImporteCheque = B.ImporteCheque
+From @TblFinal A
+	Inner Join 
+			(Select ClavePlantel, Sum(Total) ImporteCheque
+			From (
+				Select P.ClavePlantel, A.Total
+				From (
+					Select Distinct A.IdPlantel, Sum(HPT.ImporteNeto) Total
+					From @Tbl2 A
+						Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+						Inner Join HistoriaPagoTotales HPT On HPT.IdEmp = A.IdEmp
+					Where HPT.IdQuincenaAplicacion = @IdQuincena 
+					Group By A.IdPlantel
+					) A
+					Inner Join Planteles P On P.IdPlantel = A.IdPlantel
+				Union All
+				Select P.ClavePlantel, A.Total
+				From (
+					Select Distinct A.IdPlantel, Sum(HPT.ImporteNeto) Total
+					From @Tbl3 A
+						Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = A.IdEmp
+						Inner Join HistoriaPagoTotales HPT On HPT.IdEmp = A.IdEmp
+					Where HPT.IdQuincenaAplicacion = @IdQuincena
+						And HPT.IncluirEnPagomatico = 0
+						And A.IdEmp Not In
+											(Select IdEmp
+											From EmpleadosConRadicacionesDePago
+											Where Left(dbo.Fn_ObtenQnaPorId(@IdQuincena),6) Between Left(dbo.Fn_ObtenQnaPorId(IdQnaIni),6) And Left(dbo.Fn_ObtenQnaPorId(IdQnaFin),6))
+					Group By A.IdPlantel
+					) A
+					Inner Join Planteles P On P.IdPlantel = A.IdPlantel
+					) T1
+			Group By ClavePlantel
+			) B On B.ClavePlantel = A.ClavePlantel
+
+Update @TblFinal
+Set ImporteTotalRadicar = (ImportePensionAlimenticia - ImportePensionAlimenticiaDeposito) + ImporteCheque
+
+Update @TblFinal
+Set ImporteTotalFlujo = ImporteBancomer + ImporteBanamex + ImporteTotalRadicar 
+
+Select *
+From @TblFinal
+Order By ClavePlantel</CommandText>
+      <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+    </Query>
+  </DataSet>
+</SharedDataSet>

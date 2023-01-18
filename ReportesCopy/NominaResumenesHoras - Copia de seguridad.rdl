@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="Nomina">
+      <rd:DataSourceID>28df4e18-be18-4503-bd9b-4a442e27709d</rd:DataSourceID>
+      <DataSourceReference>Nomina</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>29.7cm</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="pIdQuincena">
+      <DataType>Integer</DataType>
+      <Prompt>IdQuincena</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdEmp">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>IdEmp</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdPlantel">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>IdPlantel</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdFondoPresup">
+      <DataType>Integer</DataType>
+      <Prompt>TipoDeNomina</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>9cm</InteractiveWidth>
+  <rd:GridSpacing>0.15cm</rd:GridSpacing>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>1cm</RightMargin>
+  <LeftMargin>1cm</LeftMargin>
+  <BottomMargin>0.5cm</BottomMargin>
+  <rd:ReportID>5a4e2100-d538-47a3-869b-d5daa825dfe4</rd:ReportID>
+  <PageWidth>9cm</PageWidth>
+  <DataSets>
+    <DataSet Name="dsHoras">
+      <Fields>
+        <Field Name="ClavePercepcion">
+          <DataField>ClavePercepcion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NombrePercepcion">
+          <DataField>NombrePercepcion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Horas">
+          <DataField>Horas</DataField>
+          <rd:TypeName>System.Byte</rd:TypeName>
+        </Field>
+        <Field Name="ClaveZonaEco">
+          <DataField>ClaveZonaEco</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <CommandText>If @IdEmp Is Not Null And @IdEmp &lt;&gt; 0
+	Begin
+	                Select Distinct P.ClavePercepcion, P.NombrePercepcion, DP.Horas,  ZE.ClaveZonaEco --, C.ClaveCategoria, C.DescCategoria, ZE.ClaveZonaEco
+		From DetallePago DP
+		                Inner Join CategoriasPercepcionesHoras CPH On CPH.IdCategoria = DP.IdCategoria
+			Inner Join Percepciones P On P.IdPercepcion = CPH.IdPercepcion
+			Inner Join ZonasEconomicas ZE On ZE.IdZonaEco = DP.IdZonaEco
+			Inner Join Empleados E On E.IdEmp = DP.IdEmp
+		Where E.IdEmp = @IdEmp And DP.IdQuincena = @IdQuincena And  DP.IdQuincenaAplicacion = @IdQuincena 
+		Order By P.ClavePercepcion
+	End
+Else
+	Begin
+		SELECT ClavePercepcion, NombrePercepcion, Sum(Horas) Horas
+		From (			
+			SELECT Distinct  DP.IdEmp, P.ClavePercepcion, P.NombrePercepcion, DP.Horas 
+			From DetallePago DP
+				Inner Join CategoriasPercepcionesHoras CPH On CPH.IdCategoria = DP.IdCategoria
+				Inner Join Percepciones P On P.IdPercepcion = CPH.IdPercepcion
+				Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = DP.IdEmp
+				Inner Join EmpleadosPlazas EP On EP.IdEmp = DP.IdEmp
+				Inner Join TiposDeNominas TN On TN.IdTipoNomina = EP.IdTipoNomina
+				Inner Join FondosPresupuestales FP On FP.IdFondoPresup = TN.IdFondoPresup
+			WHERE DP.IdQuincenaAplicacion = @IdQuincena
+				And EDL.IdPlantel = @IdPlantel
+				And EP.IdPlaza In 
+								(Select IdPlaza
+								From HistoriaPago
+								Where IdQuincenaAplicacion = @IdQuincena)
+				And EP.IdEmpFuncion = 2 And FP.IdFondoPresup = @IdFondoPresup) T
+		GROUP BY ClavePercepcion, NombrePercepcion
+		ORDER BY ClavePercepcion, NombrePercepcion
+	End</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@IdEmp">
+            <Value>=Parameters!pIdEmp.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdQuincena">
+            <Value>=Parameters!pIdQuincena.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdPlantel">
+            <Value>=Parameters!pIdPlantel.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdFondoPresup">
+            <Value>=Parameters!pIdFondoPresup.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Width>9cm</Width>
+  <Body>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <ReportItems>
+      <Rectangle Name="rectangle1">
+        <Left>0.25cm</Left>
+        <ReportItems>
+          <Table Name="table1">
+            <DataSetName>dsHoras</DataSetName>
+            <Details>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="ClavePercepcion">
+                          <rd:DefaultName>ClavePercepcion</rd:DefaultName>
+                          <CanShrink>true</CanShrink>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>1pt</PaddingLeft>
+                            <PaddingRight>1pt</PaddingRight>
+                          </Style>
+                          <ZIndex>1</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=IIf(Parameters!pIdPlantel.Value=0, Fields!NombrePercepcion.Value, Fields!ClavePercepcion.Value + "-" + Fields!NombrePercepcion.Value)</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="Importe">
+                          <rd:DefaultName>Importe</rd:DefaultName>
+                          <CanShrink>true</CanShrink>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <TextAlign>Right</TextAlign>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>1pt</PaddingLeft>
+                            <PaddingRight>1pt</PaddingRight>
+                          </Style>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Fields!Horas.Value</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.07937cm</Height>
+                </TableRow>
+              </TableRows>
+            </Details>
+            <Style>
+              <VerticalAlign>Middle</VerticalAlign>
+            </Style>
+            <TableColumns>
+              <TableColumn>
+                <Width>6.76136cm</Width>
+              </TableColumn>
+              <TableColumn>
+                <Width>1.73864cm</Width>
+              </TableColumn>
+            </TableColumns>
+            <Footer>
+              <TableRows>
+                <TableRow>
+                  <Visibility>
+                    <Hidden>=IIF(Parameters!pIdPlantel.Value=0, True, False)</Hidden>
+                  </Visibility>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox1">
+                          <rd:DefaultName>textbox1</rd:DefaultName>
+                          <CanShrink>true</CanShrink>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <FontWeight>700</FontWeight>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>3</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>TOTAL</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox2">
+                          <rd:DefaultName>textbox2</rd:DefaultName>
+                          <CanShrink>true</CanShrink>
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>8pt</FontSize>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                          <ZIndex>2</ZIndex>
+                          <CanGrow>true</CanGrow>
+                          <Value>=Sum(Fields!Horas.Value, "dsHoras")</Value>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.07937cm</Height>
+                </TableRow>
+              </TableRows>
+            </Footer>
+          </Table>
+        </ReportItems>
+        <Width>8.5cm</Width>
+        <Height>0.15874cm</Height>
+      </Rectangle>
+    </ReportItems>
+    <Height>0.85cm</Height>
+  </Body>
+  <Language>es-MX</Language>
+  <PageHeight>29.7cm</PageHeight>
+</Report>

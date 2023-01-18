@@ -1,0 +1,36 @@
+﻿<%@ master language="VB" inherits="MasterPageBlanca, App_Web_1ioibzdf" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>COBAEV</title>
+    <base target="_self" />
+    <link href="StyleSheetAlternativa.css" rel="stylesheet" type="text/css" />
+   
+</head>
+<body style="width: 100%; margin-top: 0px; margin-left: 0px;">
+
+    <form id="form1" runat="server">
+    <div style="text-align: left">
+        <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server" AsyncPostBackTimeout="0"  EnableScriptGlobalization="True"
+        EnableScriptLocalization="True" >
+        </ajaxToolkit:ToolkitScriptManager >
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:LinkButton ID="lbAddPage" runat="server" CausesValidation="False" 
+                    Font-Names="Verdana" Font-Size="7.5pt" Text="Agregar página al Catálogo"></asp:LinkButton>
+                <ajaxToolkit:ConfirmButtonExtender ID="lbAddPage_CBExtender" runat="server" 
+                    ConfirmText="¿Está seguro de agregar ésta página al Catálogo?" Enabled="True" 
+                    TargetControlID="lbAddPage">
+                </ajaxToolkit:ConfirmButtonExtender>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="lbAddPage" EventName="Click" />
+            </Triggers>
+        </asp:UpdatePanel>
+        <asp:contentplaceholder id="ContentPlaceHolder1" runat="server">
+        </asp:contentplaceholder>
+    </div>
+    </form>
+</body>
+</html>

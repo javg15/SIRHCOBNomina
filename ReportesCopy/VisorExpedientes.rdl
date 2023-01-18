@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Image Name="image1">
+        <Source>External</Source>
+        <Value>=Parameters!pURLImagen.Value + ".jpg"</Value>
+        <MIMEType>image/jpg</MIMEType>
+        <Sizing>FitProportional</Sizing>
+        <Top>0.72cm</Top>
+        <Left>0.545cm</Left>
+        <Height>25.5cm</Height>
+        <Width>19.5cm</Width>
+        <Style />
+      </Image>
+    </ReportItems>
+    <Height>26.22cm</Height>
+    <Style />
+  </Body>
+  <Width>20.59cm</Width>
+  <Page>
+    <PageHeight>27.94cm</PageHeight>
+    <PageWidth>21.59cm</PageWidth>
+    <LeftMargin>0.5cm</LeftMargin>
+    <RightMargin>0.5cm</RightMargin>
+    <TopMargin>0.5cm</TopMargin>
+    <BottomMargin>0.5cm</BottomMargin>
+    <ColumnSpacing>1cm</ColumnSpacing>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <ReportParameters>
+    <ReportParameter Name="pURLImagen">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>http://localhost:4812/Nomina/05329/053290600.jpg</Value>
+        </Values>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>URLImagen</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Language>es-MX</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>88eefe17-2a30-46bd-bf3c-83c8d8b3e2b6</rd:ReportID>
+</Report>

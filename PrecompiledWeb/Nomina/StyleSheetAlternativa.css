@@ -1,0 +1,575 @@
+﻿h2
+{
+    font-size: 1.3em;
+    color: #666666;
+    font-variant: small-caps;
+    text-transform: none;
+    font-weight: 600;
+    margin-bottom: 0px;
+    text-align:left;
+    margin-top: 0px;
+}
+
+h3
+{
+    font-size: 1em;
+    color: #666666;
+    font-variant: small-caps;
+    text-transform: none;
+    font-weight: 600;
+    margin-bottom: 0px;
+    text-align:left;
+}
+
+.modalBackground2
+    {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 10;
+        width: 100%;
+        height: 100%;             
+        -ms-filter: alpha(opacity=40)
+    }
+.WaterMark
+{
+	color: gray;
+}
+.collapsePanelHeader
+{
+    border: thin solid #000000;
+    width: 100%;
+    height:20px;
+    color: #c3311a;
+    background-color: #E0E0E0;
+    padding: 2px;
+    cursor: pointer;
+    font-family: Verdana;
+    font-size: x-small;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 3px;
+}
+
+.div1TitlePanel
+{
+    float:left;
+    height: 20px;
+    margin:0px auto;
+    line-height:20px;
+
+
+}
+
+.div1TitlePanel img
+{
+    vertical-align:middle;
+}
+
+.div2TitlePanel
+{   
+   float: left;
+   line-height:20px;
+   margin-left: 5px;
+}
+
+.div2TitlePanel span
+{   
+    line-height: 20px;
+}
+ 
+.collapsePanel {
+	width: 100%;
+	height: 0px;
+	background-color: white;
+	overflow: hidden;
+}
+.modalPopup
+{
+	background-color: #ffffdd;
+	border-width: 3px;
+	border-style: solid;
+	border-color: Gray;
+	padding: 3px;
+	width: 350px;
+}
+
+.modalBackground
+{
+	background-color: Gray;
+	-ms-filter: alpha(opacity=50);
+	-moz-opacity: 0.50;
+}
+
+.updateProgress
+{
+	border-width: 1px;
+	border-style: solid;
+	background-color: #FFFFFF;
+	position: relative;
+	top: 30%;
+	width: 180px;
+	height: 65px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.updateProgressOverlay
+{
+	position: absolute;
+	background-color: #fff;
+	-ms-filter: alpha(opacity=70);
+	-moz-opacity: 0.7;
+	/*opacity: 0.7;*/
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+div.accountInfo
+{
+    width: 100%;
+    text-align: left;
+}
+div.Warning1
+{
+    width: 100%;
+    text-align:justify;
+    font-size: 1.2em;
+    color: Red;    
+}
+
+div.panelIzquierda
+{
+    width: 50%;
+    float:left;
+    text-align: left;
+}
+div.panelIzquierda2
+{
+    float:left;
+    text-align: left;
+}
+div.pnlCentro
+{
+    width: 33%;
+    text-align: left;
+}
+div.pnlDerecha
+{
+    width: 50%;
+    float:left;    
+    text-align: left;
+}
+div.pnlCompleto
+{
+    /*position:relative;*/
+    width: 100%;
+    float:left;
+    text-align: center;
+    text-align: -moz-center;
+    padding-bottom: 6px;
+    }
+div.pnlCompleto2
+{
+    position:absolute;
+    left:50%;
+    top:150%;
+    -ms-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%); 
+    -moz-transform-origin: -50% -50%;       
+ }
+fieldset[id^='fsCaptura']
+{
+    /*margin: 1em 0px;*/
+    margin: 0px;
+    /*padding: 1em;*/
+    border: 1px none #ccc;
+} 
+div[id*='fsCaptura'] 
+    {
+    margin: 1em 0px;
+    padding: 1em;
+    border: 1px solid #ccc;
+   } 
+fieldset[id^='fsCaptura'] p
+{
+    margin: 2px 12px 0px 10px;
+}
+div[id*='fsCaptura'] p
+{
+    margin: 2px 12px 0px 10px;
+}
+fieldset[id^='fsCaptura'] .pdivBotones
+{
+    margin: 2px 12px 0px 0px;
+}
+div[id*='fsCaptura'] .pdivBotones
+{
+    margin: 2px 12px 0px 0px;
+}
+fieldset[id^='fsCaptura'] .pLabel
+{
+    /*margin: 2px 12px 12px 10px;*/
+    margin-left: 0px;
+    width: 320px;
+    height:18px;
+}
+
+fieldset[id^='fsCaptura'] .pLabel2
+{
+    /*margin: 2px 12px 12px 10px;*/
+    margin-left: 0px;
+    width: 320px;
+    height:36px;
+}
+
+div[id*='fsCaptura'] .pLabel
+{
+    /*margin: 2px 12px 12px 10px;*/
+    margin-left: 0px;
+    width: 320px;
+    height:18px;
+}
+fieldset[id^='fsCaptura'] .pTextBox
+{
+    margin: 1px 12px 8px 0px;
+    height: 25px;
+}
+fieldset[id^='fsCaptura'] .pTextBoxML
+{
+    margin: 1px 12px 0px 0px;
+    height: 60px;
+}
+fieldset[id^='fsCaptura'] .pTextBox2
+{
+    vertical-align:middle;
+}
+div[id*='fsCaptura'] .pTextBox
+{
+    margin: 1px 12px 8px 0px;
+    height: 25px;
+}
+
+fieldset[id^='fsCaptura'] .pListBox 
+{
+    margin: 1px 12px 8px 0px;
+    height:80px;
+}
+div[id*='fsCaptura'] .pListBox 
+{
+    margin: 1px 12px 8px 0px;
+    height:80px;
+}
+div[id^='divBotones'] input[type="submit"]:Hover
+{
+    background-color: #3366CC;
+    border: #4e667d solid;
+    height: 25px;
+    color: white;
+}
+div[id^='divBotones'] input[type="submit"]
+    {
+        height:25px;
+    }
+
+fieldset[id^='fsCaptura'] Select
+{
+    height:25px;
+    width:320px;
+}
+div[id*='fsCaptura'] Select
+{
+    height:25px;
+    width:320px;
+}
+fieldset[id^='fsCaptura'] .pSelect
+{
+    height:25px;
+    width:320px;
+}
+div[id*='fsCaptura'] .pSelect
+{
+    height:25px;
+    width:320px;
+}
+fieldset[id^='fsCaptura'].login label, fieldset[id='fsCaptura'].register label, fieldset[id='fsCaptura'].changePassword label
+{
+    display: block;
+}
+div[id*='fsCaptura'].login label, div[id*='fsCaptura'].register label, div[id*='fsCaptura'].changePassword label
+{
+    display: block;
+}
+fieldset[id^='fsCaptura'] label.inline 
+{
+    display: inline;
+}
+div[id*='fsCaptura'] label.inline 
+{
+    display: inline;
+}
+fieldset[id^='fsCaptura'] input.textEntry
+{
+    vertical-align: middle;
+    width: 320px;
+    border: 1px solid #ccc;
+    height:25px;
+}
+fieldset[id^='fsCaptura'] textarea.textEntry
+{
+    vertical-align: middle;
+    width: 320px;
+    border: 1px solid #ccc;
+    height:50px;
+}
+fieldset[id^='fsCaptura'] input.textEntry2
+{
+    vertical-align: middle;
+}
+div[id*='fsCaptura'] input.textEntry
+{
+    vertical-align: middle;
+    width: 320px;
+    border: 1px solid #ccc;
+    height:25px;
+}
+legend 
+{
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 2px 4px 8px 4px;
+    color: #006666;
+}
+
+.sublegend
+{
+    font-size: 1.1em;
+    font-weight: 600;
+    padding: 2px 4px 8px 4px;
+    color: #006666;
+}
+
+body   
+{
+   /* background: #b6b7bc;*/
+    font-size: 0.75em;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    color: #696969;
+}
+
+.submitButton
+{
+    text-align: center;
+    padding-right: 10px;
+}
+
+.submitButtonLeft
+{
+    text-align:left;
+    padding-left:14px;
+}
+
+.failureNotification
+{
+    font-size: 1.2em;
+    color: Red;
+}
+
+div[id='divHover'] {
+	display:inline-block;
+	margin:5px;
+	padding:0;
+	/*border:#60C0AD 1px solid;*/
+	clear:none;
+	overflow:hidden;
+	height:120px;
+	width:100px;
+	position:relative;
+	overflow:hidden;
+}
+div[id='divHover'] .contImg
+{
+    height:120px;
+    width:100px;
+    position:relative;
+    /*z-index:1;*/
+    overflow:hidden;
+}
+div[id='divHover'] .contImg img
+{
+    max-height:100%;
+    max-width:100%;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin:auto; /* todos estos estilos son para delimitar el tamaño de la imagen y centrarla */
+}
+div[id='divHover'] .descripcion{
+	background: rgba(255, 255, 255, .3); /*color de fondo inicial */
+	transition: background 1s;
+	-ms-transition: background 1s;
+	width:100px;
+	height:120px;
+	-moz-transition: background 1s; /* para animar el cambio de color de fondo */
+	-webkit-transition: background 1s;
+	-o-transition: background 1s;
+}
+div[id='divHover']:hover .descripcion
+{
+    position:relative;
+    z-index:2; /* lo coloca por encima de la imagen */
+    background: rgba(0, 0, 0, .3); /* color de fondo final */
+    top:-120px; /* sube el div para que se pueda ver */
+    width:100px;
+    height:120px;
+    /*padding:10px;*/
+}
+table caption
+{
+    border-style: solid;
+    border-color: #808080;
+    background-color: #FFFFFF;
+    color: #990000;
+    font-weight: bold;
+    text-align: left;
+    padding: 2px;
+    vertical-align: middle;
+    font-size: 9pt;
+    font-family:"Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    caption-side:top;
+}
+div.accountInfo2
+{
+    width: 100%;
+    text-align: left;
+}
+
+.lblInformativa
+{
+    color: #3366CC;
+    font-weight: 600;
+    font-size: 11pt;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+.divFloatLeft
+{
+    float:left;
+    }
+
+.btn
+{
+        margin-left:4px;
+    }
+
+.btn:hover
+{
+    background-color: #3366CC;
+    border: #4e667d solid;
+    height: 25px;
+    color: white;
+
+    }
+ 
+ .txtbx
+ {
+     height:19px;
+     }
+  
+.divLeft420
+{
+    float:left;
+    width: 500px;
+    text-align:left;
+    }
+ 
+.divRight420
+{
+    float:right;
+    width: 420px;
+    text-align:left;
+    }
+
+.pTop
+{
+    margin-top:10px;
+    margin-bottom:0px;
+    margin-left:5px;
+}   
+
+.pTop2
+{
+    margin-top:10px;
+    margin-bottom:0px;
+    margin-left:5px;
+    display: inline; 
+    float: left;
+}   
+
+.pTop3
+{
+    display: inline; 
+    float:right; 
+    margin-right:5px; 
+    margin-top:10px; 
+    margin-bottom: 1px;
+}
+
+.pTopCenter
+{
+    margin-top:10px;
+    margin-bottom:0px;
+    margin-left:5px;
+    text-align:center;
+}   
+
+.pBottom
+{
+    margin-top:1px;
+    margin-left:5px;
+    margin-right:5px;
+    margin-bottom:0px;
+} 
+
+.divCenter200
+{
+    float:left;
+    width: 200px;
+    }
+    
+.diaNoSelPorFinDeSemana
+{
+    cursor: not-allowed;
+}
+
+.diaNoSeleccionable
+{
+    cursor: not-allowed;
+    color: #CCCCCC;
+}
+
+.diaNoLaborable
+{
+    cursor: not-allowed;
+    color: #FFFFFF;
+    background-color: #663300;
+}
+
+.diaNoLabPorVacaciones
+{
+    cursor: not-allowed;
+    color: #FFFFFF;
+    background-color: #009933;
+}
+
+.btnOnlyMarginLeft
+{
+    margin-left: 2px;
+}

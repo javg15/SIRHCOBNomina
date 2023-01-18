@@ -1,0 +1,1035 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <Author>Fabio Rodríguez López</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Nomina">
+      <DataSourceReference>Nomina</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>e1ba71b5-23c4-4883-9667-3cf496150b10</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsTitulo">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Anio">
+            <Value>=Parameters!pAnio.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdMes">
+            <Value>=Parameters!pIdMes.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Declare @NombreMes Nvarchar(15)
+
+Select @NombreMes = UPPER(NombreMes)
+From Meses
+Where IdMes = @IdMes
+
+Select 'RECALCULO DE I.S.R. POR PAGO DE COMPENSACIONES CONSIDERANDO IMPORTES BRUTOS' TITULO1REPORTE,
+'CORRESPONDIENTE AL MES DE ' + @NombreMes + ' DE ' + Convert(Nvarchar(4), @Anio)  TITULO2REPORTE</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="TITULO1REPORTE">
+          <DataField>TITULO1REPORTE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TITULO2REPORTE">
+          <DataField>TITULO2REPORTE</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsEmps">
+      <Query>
+        <DataSourceName>Nomina</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Anio">
+            <Value>=Parameters!pAnio.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IdMes">
+            <Value>=Parameters!pIdMes.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>Declare @FechaIniMes datetime
+Declare @FechaFinMes datetime
+	
+SELECT @FechaIniMes = '01/' + NumMesADosDigitos + '/' + CONVERT(NVARCHAR(4),@Anio)
+FROM Meses 
+WHERE IdMes = @IdMes
+
+SELECT @FechaFinMes = 
+								Case 
+									When dbo.Fn_ObtenSiAnioEsBisiesto(@Anio) = 1 And @IdMes = 2 THEN '29'
+									Else CONVERT(NVARCHAR(2),NumDiasMes)
+								End + '/' + NumMesADosDigitos + '/' + CONVERT(NVARCHAR(4),@Anio)
+FROM Meses 
+WHERE IdMes = @IdMes
+
+Declare @TblCategos Table
+(IdEmp Int, 
+IdCategoria Smallint,
+ClaveCategoria Nvarchar(3),
+DescCategoria Nvarchar(50))
+
+Declare @TblQnas Table
+(IdQuincena Smallint)
+
+Declare @TblCompen Table
+(IdEmp Int)
+
+Insert Into @TblCompen
+Select Distinct IdEmp
+From (
+	Select IdEmp, IdPercDeduc, TipoPercDeduc, Sum(Importe) Importe
+	From
+		(
+			Select IsNull(CD1.IdEmp,C1.IdEmp) IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc,
+				Case
+					When CD1.IdEmp Is Not Null Then C1.Importe - CD1.Importe
+					Else C1.Importe
+				End Importe,
+				1 C1o2
+			From Compensaciones C1
+				Inner Join AniosMesesCompensaciones AMC On AMC.Anio = C1.Anio And AMC.IdMes = C1.IdMes And AMC.Adicional = C1.Adicional
+				Left Join CompensacionesDevoluciones CD1 On CD1.IdEmp = C1.IdEmp And CD1.Anio = C1.Anio And CD1.IdMes = C1.IdMes And CD1.Adicional = C1.Adicional
+			--Where C1.Anio = @Anio And C1.IdMes = @IdMes
+			Where AMC.FechaDePago Between @FechaIniMes And @FechaFinMes
+		) T1
+	Group By IdEmp, IdPercDeduc, TipoPercDeduc
+	Union All
+	Select C2.IdEmpAfectado IdEmp, 107 IdPercDeduc, 'P' TipoPercDeduc, Importe
+	From Compensaciones2 C2
+		Inner Join AniosMesesCompensaciones AMC On AMC.Anio = C2.Anio And AMC.IdMes = C2.IdMes And AMC.Adicional = C2.Adicional
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C2.IdEmpAfectado
+	--Where C2.Anio = @Anio And C2.IdMes = @IdMes
+	Where AMC.FechaDePago Between @FechaIniMes And @FechaFinMes
+	Union All
+	Select C2.IdEmpAfectado IdEmp, 4 IdPercDeduc, 'D' TipoPercDeduc, Importe
+	From Compensaciones2 C2
+		Inner Join AniosMesesCompensaciones AMC On AMC.Anio = C2.Anio And AMC.IdMes = C2.IdMes And AMC.Adicional = C2.Adicional
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C2.IdEmpAfectado
+	--Where C2.Anio = @Anio And C2.IdMes = @IdMes
+	Where AMC.FechaDePago Between @FechaIniMes And @FechaFinMes
+	) T 
+Group By IdEmp, IdPercDeduc, TipoPercDeduc
+
+Insert Into @TblQnas
+Select IdQuincena
+From Quincenas
+--Where Anio = @Anio And Quincena Between ((@IdMes * 2) - 1) And (@IdMes * 2)
+Where Month(FechaDePago) = @IdMes And Year(FechaDePago) = @Anio
+	And IdQuincena Not In (	Select IdQuincena from TblQnasExclusion)
+
+Insert Into @TblCategos
+Select Distinct EP.IdEmp, C.IdCategoria, C.ClaveCategoria, C.DescCategoria
+From HistoriaPago HP
+	Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+	Inner Join Categorias C On C.IdCategoria = EP.IdCategoria
+	Inner Join @TblCompen A On A.IdEmp = EP.IdEmp
+Where HP.IdQuincenaAplicacion In
+							(Select IdQuincena
+							From Quincenas
+							Where Anio = @Anio And Quincena = (@IdMes * 2) And Adicional = 0)
+	And EP.PlazaEspecial = 0
+
+--Para los que cambiaron de categoria durante el mes
+If (Select Count(*) From @TblCategos) &lt;&gt; (Select Count(*) From @TblCompen)
+	Begin
+		Insert Into @TblCategos
+		Select Distinct EP.IdEmp, C.IdCategoria, C.ClaveCategoria, C.DescCategoria
+		From HistoriaPago HP
+			Inner Join EmpleadosPlazas EP On EP.IdPlaza = HP.IdPlaza
+			Inner Join Categorias C On C.IdCategoria = EP.IdCategoria
+			Inner Join 
+					(Select IdEmp
+					From @TblCompen
+					Except
+					Select IdEmp
+					From @TblCategos) A On A.IdEmp = EP.IdEmp
+		Where HP.IdQuincenaAplicacion In
+									(Select IdQuincena
+									From Quincenas
+									Where Anio = @Anio And Quincena = ((@IdMes * 2) - 1) And Adicional = 0)
+			And EP.PlazaEspecial = 0
+	End
+
+If (Select Count(*) From @TblCategos) &lt;&gt; (Select Count(*) From @TblCompen)
+	Begin
+		Insert Into @TblCategos
+		Select Distinct A.IdEmp, C.IdCategoria, C.ClaveCategoria, C.DescCategoria
+		From EmpsCategosParaCompe T1
+			Inner Join Categorias C On C.IdCategoria = T1.IdCategoria
+			Inner Join 
+					(Select IdEmp
+					From @TblCompen
+					Except
+					Select IdEmp
+					From @TblCategos) A On A.IdEmp = T1.IdEmp
+		Where Convert(Nvarchar(4), @Anio) + Replicate('0', 2 - Len(Convert(Nvarchar(2), @IdMes))) + Convert(Nvarchar(2), @IdMes)
+				Between Convert(Nvarchar(4), AnioIni) + Replicate('0', 2 - Len(Convert(Nvarchar(2), IdMesIni))) + Convert(Nvarchar(2), IdMesIni)
+					And Convert(Nvarchar(4), AnioFin) + Replicate('0', 2 - Len(Convert(Nvarchar(2), IdMesFin))) + Convert(Nvarchar(2), IdMesFin)
+	End
+
+Select Distinct *
+From (
+	Select EDL.IdEmp, EDL.NumEmp, P.ClavePlantel, P.DescPlantel, E.RFCEmp, RTrim(LTrim(E.NomEmp + ' ' + IsNull(E.ApePatEmp,'') + ' ' + IsNull(E.ApeMatEmp,''))) Nombre,
+		IsNull(A.ClaveCategoria,'') ClaveCategoria, LTrim(RTrim(IsNull(A.DescCategoria,''))) DescCategoria, 1 C1o2, 
+                                E.NomEmp,  IsNull(E.ApePatEmp,'') ApePatEmp, IsNull(E.ApeMatEmp,'') ApeMatEmp
+	From Compensaciones C
+		Inner Join AniosMesesCompensaciones AMC On AMC.Anio = C.Anio And AMC.IdMes = C.IdMes And AMC.Adicional = C.Adicional
+		LEFT JOIN CompensacionesDevoluciones CD ON CD.IdEmp = C.IdEmp AND CD.Anio = C.Anio
+													AND CD.IdMes = C.IdMes AND CD.Adicional = C.Adicional
+		Inner Join Empleados E On E.IdEmp = C.IdEmp
+		Inner Join EmpleadosDatosLaborales EDL On EDL.IdEmp = C.IdEmp
+		Inner Join Planteles P On P.IdPlantel = EDL.IdPlantel
+		Left Join @TblCategos A On A.IdEmp = C.IdEmp
+	--Where C.Anio = @Anio And C.IdMes = @IdMes AND (C.Importe - ISNULL(CD.Importe,0)) &gt; 0
+	Where AMC.FechaDePago Between @FechaIniMes And @FechaFinMes AND (C.Importe - ISNULL(CD.Importe,0)) &gt; 0
+	Union All
+	Select C.IdEmpUnicoPorMes IdEmp, Right(C.ClaveCobro, 5) NumEmp, P.ClavePlantel, P.DescPlantel, '' RFCEmp, RTrim(LTrim(C.Nombre + ' ' + IsNull(C.ApePat,'') + ' ' + IsNull(C.ApeMat,''))) Nombre,
+		'' ClaveCategoria, '' DescCategoria, 2 C1o2,
+                               C.Nombre NomEmp,  IsNull(C.ApePat,'') ApePatEmp, IsNull(C.ApeMat,'') ApeMatEmp
+	From Compensaciones2 C
+		Inner Join AniosMesesCompensaciones AMC On AMC.Anio = C.Anio And AMC.IdMes = C.IdMes And AMC.Adicional = C.Adicional
+		Inner Join Planteles P On P.ClavePlantel = Right(Left(C.ClaveCobro,3),2)
+	--Where C.Anio = @Anio And C.IdMes = @IdMes And C.IdEmpAfectado Is Null
+	Where AMC.FechaDePago Between @FechaIniMes And @FechaFinMes And C.IdEmpAfectado Is Null
+	) T
+Order By Nombre</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="IdEmp">
+          <DataField>IdEmp</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NumEmp">
+          <DataField>NumEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClavePlantel">
+          <DataField>ClavePlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescPlantel">
+          <DataField>DescPlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RFCEmp">
+          <DataField>RFCEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Nombre">
+          <DataField>Nombre</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ClaveCategoria">
+          <DataField>ClaveCategoria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescCategoria">
+          <DataField>DescCategoria</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="C1o2">
+          <DataField>C1o2</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NomEmp">
+          <DataField>NomEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApePatEmp">
+          <DataField>ApePatEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApeMatEmp">
+          <DataField>ApeMatEmp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsEmpresa">
+      <SharedDataSet>
+        <SharedDataSetReference>dsEmpresa</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="NombreEmpresa">
+          <DataField>NombreEmpresa</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OPD">
+          <DataField>OPD</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="TextoOPD">
+          <DataField>TextoOPD</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Rectangle Name="rectangle1">
+            <ReportItems>
+              <Tablix Name="table1">
+                <TablixBody>
+                  <TablixColumns>
+                    <TablixColumn>
+                      <Width>9.375cm</Width>
+                    </TablixColumn>
+                    <TablixColumn>
+                      <Width>9.375cm</Width>
+                    </TablixColumn>
+                  </TablixColumns>
+                  <TablixRows>
+                    <TablixRow>
+                      <Height>0.45cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="RFCEmp">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=First(Fields!NumEmp.Value) + " === " + First(Fields!RFCEmp.Value) + " === " + First(Fields!Nombre.Value) + " === " + First(Fields!DescCategoria.Value) 
++ " === " + First(Fields!ClavePlantel.Value) + "-" + First(Fields!DescPlantel.Value)</Value>
+                                      <Style>
+                                        <FontFamily>Verdana</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>RFCEmp</rd:DefaultName>
+                              <ZIndex>11</ZIndex>
+                              <Style>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                              </Style>
+                            </Textbox>
+                            <ColSpan>2</ColSpan>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell />
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.46897cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="subreport1">
+                              <ReportName>PercsReprocesoCompen</ReportName>
+                              <Parameters>
+                                <Parameter Name="pAnio">
+                                  <Value>=Parameters!pAnio.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdMes">
+                                  <Value>=Parameters!pIdMes.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdEmp">
+                                  <Value>=Fields!IdEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pC1o2">
+                                  <Value>=Fields!C1o2.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <KeepTogether>true</KeepTogether>
+                              <ZIndex>10</ZIndex>
+                              <Style />
+                            </Subreport>
+                            <rd:Selected>true</rd:Selected>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="subreport2">
+                              <ReportName>DeducsReprocesoCompen</ReportName>
+                              <Parameters>
+                                <Parameter Name="pAnio">
+                                  <Value>=Parameters!pAnio.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdMes">
+                                  <Value>=Parameters!pIdMes.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdEmp">
+                                  <Value>=Fields!IdEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pC1o2">
+                                  <Value>=Fields!C1o2.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <KeepTogether>true</KeepTogether>
+                              <ZIndex>9</ZIndex>
+                              <Style />
+                            </Subreport>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.2381cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="textbox16">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value />
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>textbox16</rd:DefaultName>
+                              <ZIndex>8</ZIndex>
+                              <Style />
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="textbox17">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value />
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>textbox17</rd:DefaultName>
+                              <ZIndex>7</ZIndex>
+                              <Style />
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.46897cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="textbox14">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value />
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>textbox14</rd:DefaultName>
+                              <ZIndex>6</ZIndex>
+                              <Style />
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="subreport3">
+                              <ReportName>NetosReprocesoCompen</ReportName>
+                              <Parameters>
+                                <Parameter Name="pAnio">
+                                  <Value>=Parameters!pAnio.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdMes">
+                                  <Value>=Parameters!pIdMes.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdEmp">
+                                  <Value>=Fields!IdEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pC1o2">
+                                  <Value>=Fields!C1o2.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <KeepTogether>true</KeepTogether>
+                              <ZIndex>5</ZIndex>
+                              <Style />
+                            </Subreport>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.2381cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="textbox20">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value />
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>textbox20</rd:DefaultName>
+                              <ZIndex>4</ZIndex>
+                              <Style />
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="textbox21">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value />
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>textbox21</rd:DefaultName>
+                              <ZIndex>3</ZIndex>
+                              <Style />
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.46897cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="subreport4">
+                              <ReportName>ImportesReprocesoCompen</ReportName>
+                              <Parameters>
+                                <Parameter Name="pAnio">
+                                  <Value>=Parameters!pAnio.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdMes">
+                                  <Value>=Parameters!pIdMes.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdEmp">
+                                  <Value>=Fields!IdEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pC1o2">
+                                  <Value>=Fields!C1o2.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <KeepTogether>true</KeepTogether>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Subreport>
+                            <ColSpan>2</ColSpan>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell />
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.2381cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="Textbox5">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value />
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox5</rd:DefaultName>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <ColSpan>2</ColSpan>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell />
+                      </TablixCells>
+                    </TablixRow>
+                  </TablixRows>
+                </TablixBody>
+                <TablixColumnHierarchy>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixColumnHierarchy>
+                <TablixRowHierarchy>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="table1_Group1">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+                          <GroupExpression>=Fields!C1o2.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <TablixMembers>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                          <KeepTogether>true</KeepTogether>
+                        </TablixMember>
+                        <TablixMember>
+                          <Group Name="table1_Details_Group">
+                            <GroupExpressions>
+                              <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+                            </GroupExpressions>
+                            <DataElementName>Detail</DataElementName>
+                          </Group>
+                          <TablixMembers>
+                            <TablixMember />
+                            <TablixMember />
+                            <TablixMember />
+                            <TablixMember />
+                            <TablixMember />
+                          </TablixMembers>
+                          <DataElementName>Detail_Collection</DataElementName>
+                          <DataElementOutput>Output</DataElementOutput>
+                          <KeepTogether>true</KeepTogether>
+                        </TablixMember>
+                        <TablixMember>
+                          <KeepWithGroup>Before</KeepWithGroup>
+                          <KeepTogether>true</KeepTogether>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixRowHierarchy>
+                <KeepTogether>true</KeepTogether>
+                <DataSetName>dsEmps</DataSetName>
+                <Left>0.14881cm</Left>
+                <Height>2.57121cm</Height>
+                <Width>18.75cm</Width>
+                <Style />
+              </Tablix>
+            </ReportItems>
+            <DataElementOutput>ContentsOnly</DataElementOutput>
+            <Left>0.3cm</Left>
+            <Height>2.57121cm</Height>
+            <Width>19.04762cm</Width>
+            <Style />
+          </Rectangle>
+          <Rectangle Name="rectangle2">
+            <ReportItems>
+              <Tablix Name="table2">
+                <TablixBody>
+                  <TablixColumns>
+                    <TablixColumn>
+                      <Width>9.375cm</Width>
+                    </TablixColumn>
+                    <TablixColumn>
+                      <Width>9.375cm</Width>
+                    </TablixColumn>
+                  </TablixColumns>
+                  <TablixRows>
+                    <TablixRow>
+                      <Height>0.46897cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="subreport10">
+                              <ReportName>ResumenReprocesoCompen</ReportName>
+                              <Parameters>
+                                <Parameter Name="pAnio">
+                                  <Value>=Parameters!pAnio.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdMes">
+                                  <Value>=Parameters!pIdMes.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <KeepTogether>true</KeepTogether>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <PaddingTop>15pt</PaddingTop>
+                              </Style>
+                            </Subreport>
+                            <ColSpan>2</ColSpan>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell />
+                      </TablixCells>
+                    </TablixRow>
+                  </TablixRows>
+                </TablixBody>
+                <TablixColumnHierarchy>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixColumnHierarchy>
+                <TablixRowHierarchy>
+                  <TablixMembers>
+                    <TablixMember>
+                      <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixRowHierarchy>
+                <KeepTogether>true</KeepTogether>
+                <DataSetName>dsEmps</DataSetName>
+                <Left>0.14881cm</Left>
+                <Height>0.46897cm</Height>
+                <Width>18.75cm</Width>
+                <Style />
+              </Tablix>
+            </ReportItems>
+            <PageBreak>
+              <BreakLocation>Start</BreakLocation>
+            </PageBreak>
+            <DataElementOutput>ContentsOnly</DataElementOutput>
+            <Top>2.57121cm</Top>
+            <Left>0.27119cm</Left>
+            <Height>0.46897cm</Height>
+            <Width>19.04762cm</Width>
+            <ZIndex>1</ZIndex>
+            <Style />
+          </Rectangle>
+        </ReportItems>
+        <Height>3.04018cm</Height>
+        <Style />
+      </Body>
+      <Width>19.59cm</Width>
+      <Page>
+        <PageHeader>
+          <Height>1.925cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="textbox2">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!NombreEmpresa.Value, "dsEmpresa")</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>11pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox2</rd:DefaultName>
+              <Top>0.01481cm</Top>
+              <Left>3.4325cm</Left>
+              <Height>0.3cm</Height>
+              <Width>12.725cm</Width>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox12">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!TextoOPD.Value, "dsEmpresa")</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.26481cm</Top>
+              <Left>3.4325cm</Left>
+              <Height>0.525cm</Height>
+              <Width>12.725cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox13">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!pTitulo1.Value</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.95873cm</Top>
+              <Left>1.17cm</Left>
+              <Height>0.3cm</Height>
+              <Width>17.25cm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox3">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Parameters!pTitulo2.Value</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.25873cm</Top>
+              <Left>1.17cm</Left>
+              <Height>0.35cm</Height>
+              <Width>17.25cm</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox4">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>PAPEL DE TRABAJO</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.62731cm</Top>
+              <Left>1.17cm</Left>
+              <Height>0.3cm</Height>
+              <Width>17.25cm</Width>
+              <ZIndex>4</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <BottomBorder>
+              <Style>Solid</Style>
+            </BottomBorder>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>1.04cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Hoja: " + Globals!PageNumber.ToString + "/ " + Globals!TotalPages.ToString</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>textbox1</rd:DefaultName>
+              <Top>0.25cm</Top>
+              <Left>13.745cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.55cm</Width>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox7">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Fecha: " + Today</Value>
+                      <Style>
+                        <FontFamily>Verdana</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.25cm</Top>
+              <Left>0.295cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.75cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <TopBorder>
+              <Style>Solid</Style>
+            </TopBorder>
+          </Style>
+        </PageFooter>
+        <PageHeight>27.94cm</PageHeight>
+        <PageWidth>21.59cm</PageWidth>
+        <LeftMargin>1cm</LeftMargin>
+        <RightMargin>1cm</RightMargin>
+        <TopMargin>0.5cm</TopMargin>
+        <BottomMargin>0.5cm</BottomMargin>
+        <ColumnSpacing>1cm</ColumnSpacing>
+        <Style>
+          <BackgroundColor>White</BackgroundColor>
+        </Style>
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="pAnio">
+      <DataType>String</DataType>
+      <Prompt>Año</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pIdMes">
+      <DataType>String</DataType>
+      <Prompt>Mes</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pTitulo1">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsTitulo</DataSetName>
+          <ValueField>TITULO1REPORTE</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+    <ReportParameter Name="pTitulo2">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>dsTitulo</DataSetName>
+          <ValueField>TITULO2REPORTE</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <AllowBlank>true</AllowBlank>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public dim nombrevariable as String = ""
+
+Public dim i as Integer = 0
+
+Public Function FncCampoCabecera(byval valorCampo as String) as String
+i = i  + 1
+if i = 1 then
+nombrevariable = valorCampo
+end if
+return nombrevariable
+End Function</Code>
+  <Language>es-MX</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>e6fc191f-b535-49e3-9ce0-5059c5831c55</rd:ReportID>
+</Report>

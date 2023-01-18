@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <DataSet Name="">
+    <Query>
+      <DataSourceReference>Admon</DataSourceReference>
+      <CommandType>StoredProcedure</CommandType>
+      <CommandText>SP_SEmpresa</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="NombreEmpresa">
+        <DataField>NombreEmpresa</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="NombreCortoempresa">
+        <DataField>NombreCortoempresa</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="IdEdo">
+        <DataField>IdEdo</DataField>
+        <rd:TypeName>System.Byte</rd:TypeName>
+      </Field>
+      <Field Name="FechaCreacion">
+        <DataField>FechaCreacion</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>
