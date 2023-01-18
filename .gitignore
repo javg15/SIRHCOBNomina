@@ -396,3 +396,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.PrecompiledWeb/
+.ReportesCopy/
+._UpgradeReport_Files/
+.Archivos de copia de seguridad de Crystal Reports/
