@@ -8,10 +8,10 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>7.96341cm</Width>
+                  <Width>4.60869cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>6.78543cm</Width>
+                  <Width>6.56191cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.40129cm</Width>
@@ -26,25 +26,25 @@
                   <Width>6.02929cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.75248cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.69152cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.79312cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.71184cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.63056cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.69152cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.7728cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -370,7 +370,6 @@
                             <VerticalAlign>Bottom</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -411,7 +410,6 @@
                             <VerticalAlign>Bottom</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -452,7 +450,6 @@
                             <VerticalAlign>Bottom</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -493,7 +490,6 @@
                             <VerticalAlign>Bottom</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -534,7 +530,6 @@
                             <VerticalAlign>Bottom</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -575,18 +570,18 @@
                             <VerticalAlign>Bottom</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.37037cm</Height>
+                  <Height>0.46596cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox52">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -595,7 +590,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -630,7 +625,7 @@
                                   <Value>=Fields!ClaveMateria.Value + "-" + Fields!NombreMateria.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -655,6 +650,7 @@
                       <CellContents>
                         <Textbox Name="Grupo">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -663,7 +659,7 @@
                                   <Value>=Fields!Grupo.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -690,6 +686,7 @@
                       <CellContents>
                         <Textbox Name="AbrevNombramiento">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -698,7 +695,7 @@
                                   <Value>=Fields!AbrevNombramiento.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -725,6 +722,7 @@
                       <CellContents>
                         <Textbox Name="textbox5">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -733,7 +731,7 @@
                                   <Value>=Fields!Cantidad.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>7pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -760,6 +758,7 @@
                       <CellContents>
                         <Textbox Name="TITULAR">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -795,6 +794,7 @@
                       <CellContents>
                         <Textbox Name="Textbox51">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -803,7 +803,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -824,12 +824,14 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox55">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -838,7 +840,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -859,12 +861,14 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox62">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -873,7 +877,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -894,12 +898,14 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox66">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -908,7 +914,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -929,12 +935,14 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox72">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -943,7 +951,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -964,12 +972,14 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox76">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -978,7 +988,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -999,12 +1009,14 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
                         <Textbox Name="Textbox80">
                           <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
@@ -1013,7 +1025,7 @@
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7.5pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1034,6 +1046,7 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -1147,7 +1160,14 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox58</rd:DefaultName>
-                          <Style />
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <LeftBorder>
+                              <Color>Black</Color>
+                            </LeftBorder>
+                          </Style>
                         </Textbox>
                       </CellContents>
                     </TablixCell>
@@ -1172,6 +1192,18 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                            </RightBorder>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1197,6 +1229,18 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                            </RightBorder>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1222,6 +1266,18 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                            </RightBorder>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1247,6 +1303,18 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                            </RightBorder>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1272,6 +1340,18 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                            </RightBorder>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1297,6 +1377,18 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                            </RightBorder>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1322,6 +1414,18 @@
                             <Border>
                               <Style>Solid</Style>
                             </Border>
+                            <TopBorder>
+                              <Color>Black</Color>
+                            </TopBorder>
+                            <BottomBorder>
+                              <Color>White</Color>
+                            </BottomBorder>
+                            <LeftBorder>
+                              <Color>White</Color>
+                            </LeftBorder>
+                            <RightBorder>
+                              <Color>White</Color>
+                            </RightBorder>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1383,8 +1487,8 @@
             <KeepTogether>true</KeepTogether>
             <DataSetName>dsHoras</DataSetName>
             <Top>0.14111cm</Top>
-            <Height>1.07404cm</Height>
-            <Width>30.82945cm</Width>
+            <Height>1.16963cm</Height>
+            <Width>30.31953cm</Width>
             <Style>
               <FontSize>8pt</FontSize>
             </Style>
@@ -1392,7 +1496,7 @@
         </ReportItems>
         <DataElementOutput>ContentsOnly</DataElementOutput>
         <Top>1.56326cm</Top>
-        <Height>1.21515cm</Height>
+        <Height>1.5749cm</Height>
         <Width>30.82945cm</Width>
         <Style />
       </Rectangle>
@@ -2439,7 +2543,7 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.77841cm</Height>
+    <Height>3.13816cm</Height>
     <Style />
   </Body>
   <Width>30.82945cm</Width>

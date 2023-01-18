@@ -167,7 +167,7 @@ Partial Class GeneraTXTsISSSTE
             System.IO.File.Delete(FilePath)
 
             strStreamW = System.IO.File.OpenWrite(FilePath)
-            strStreamWriter = New System.IO.StreamWriter(strStreamW, System.Text.Encoding.ASCII)
+            strStreamWriter = New System.IO.StreamWriter(strStreamW, System.Text.Encoding.UTF8)
 
             Select Case Me.ddlTipoArchivo.SelectedValue
                 Case "0"

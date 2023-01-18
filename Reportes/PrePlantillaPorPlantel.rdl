@@ -653,10 +653,10 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                   <Width>1.37851cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>4.42842cm</Width>
+                  <Width>4.16426cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>6.11879cm</Width>
+                  <Width>4.97764cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.79202cm</Width>
@@ -665,7 +665,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                   <Width>1.50868cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>3.68178cm</Width>
+                  <Width>3.03718cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>3.13417cm</Width>
@@ -674,25 +674,25 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                   <Width>3.13995cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.89472cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.8744cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.79312cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.79312cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.90463cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.81344cm</Width>
+                  <Width>1.15888cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.89618cm</Width>
+                  <Width>1.06624cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1290,7 +1290,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.50902cm</Height>
+                  <Height>0.42774cm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1435,10 +1435,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                               <Style>None</Style>
                             </Border>
                             <VerticalAlign>Middle</VerticalAlign>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
                       </CellContents>
@@ -1647,7 +1643,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1671,6 +1667,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1685,7 +1682,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1709,6 +1706,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1723,7 +1721,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1747,6 +1745,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1761,7 +1760,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1785,6 +1784,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1799,7 +1799,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1823,6 +1823,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1837,7 +1838,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1861,6 +1862,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1875,7 +1877,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                                   <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
-                                    <FontSize>7pt</FontSize>
+                                    <FontSize>6pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1899,6 +1901,7 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -2563,179 +2566,180 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
               <BreakLocation>End</BreakLocation>
             </PageBreak>
             <Left>0.06614cm</Left>
-            <Height>1.52065cm</Height>
+            <Height>1.43938cm</Height>
             <Width>31.98645cm</Width>
             <Style>
               <FontSize>8pt</FontSize>
             </Style>
           </Tablix>
           <Rectangle Name="rectangle1">
+            <ReportItems>
+              <Tablix Name="table2">
+                <TablixBody>
+                  <TablixColumns>
+                    <TablixColumn>
+                      <Width>6.87604cm</Width>
+                    </TablixColumn>
+                    <TablixColumn>
+                      <Width>8.51625cm</Width>
+                    </TablixColumn>
+                    <TablixColumn>
+                      <Width>8.43689cm</Width>
+                    </TablixColumn>
+                    <TablixColumn>
+                      <Width>8.2061cm</Width>
+                    </TablixColumn>
+                  </TablixColumns>
+                  <TablixRows>
+                    <TablixRow>
+                      <Height>0.45518cm</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Subreport Name="subreport2">
+                              <ReportName>PrePlantillaDocentes</ReportName>
+                              <Parameters>
+                                <Parameter Name="pIdQuincena">
+                                  <Value>=Parameters!pIdQuincena.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdPlantel">
+                                  <Value>=Parameters!pIdPlantel.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pIdEmp">
+                                  <Value>=Fields!IdEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pClaveEmp">
+                                  <Value>=Fields!ClaveEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pApePatEmp">
+                                  <Value>=Fields!ApePatEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pApeMatEmp">
+                                  <Value>=Fields!ApeMatEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pNomEmp">
+                                  <Value>=Fields!NomEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pCategoria">
+                                  <Value>=Fields!DescCategoria.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pAbrevTipoEmp">
+                                  <Value>=Fields!DescTipoEmp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pQnaIni">
+                                  <Value>=Fields!QnaIni.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pQnaFin">
+                                  <Value>=Fields!QnaFin.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pNumEmp">
+                                  <Value>=Fields!Num_Emp.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pNombreCompleto">
+                                  <Value>=Fields!NOMBRE_COMPLETO.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pEstudios">
+                                  <Value>=Fields!ESTUDIOS1.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pEstudiosCed">
+                                  <Value>=Fields!CED1.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pEstudiosEstatus">
+                                  <Value>=Fields!ESTATUS1.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pUltEstudios">
+                                  <Value>=Fields!ULT_ESTUDIOS.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pUltEstudiosCed">
+                                  <Value>=Fields!CED2.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pUltEstudiosEstatus">
+                                  <Value>=Fields!ESTATUS2.Value</Value>
+                                </Parameter>
+                                <Parameter Name="pNum">
+                                  <Value>=Fields!Num.Value</Value>
+                                </Parameter>
+                              </Parameters>
+                              <KeepTogether>true</KeepTogether>
+                              <Visibility>
+                                <Hidden>=IIF(Fields!IdEmpFuncion.Value=2,False,True)</Hidden>
+                              </Visibility>
+                              <DataElementOutput>NoOutput</DataElementOutput>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Subreport>
+                            <ColSpan>4</ColSpan>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell />
+                        <TablixCell />
+                        <TablixCell />
+                      </TablixCells>
+                    </TablixRow>
+                  </TablixRows>
+                </TablixBody>
+                <TablixColumnHierarchy>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixColumnHierarchy>
+                <TablixRowHierarchy>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="table2_Group1">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!IdEmpFuncion.Value</GroupExpression>
+                        </GroupExpressions>
+                        <PageBreak>
+                          <BreakLocation>Between</BreakLocation>
+                        </PageBreak>
+                      </Group>
+                      <TablixMembers>
+                        <TablixMember>
+                          <Group Name="table2_Details_Group">
+                            <GroupExpressions>
+                              <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
+                            </GroupExpressions>
+                            <DataElementName>Detail</DataElementName>
+                          </Group>
+                          <TablixMembers>
+                            <TablixMember />
+                          </TablixMembers>
+                          <DataElementName>Detail_Collection</DataElementName>
+                          <DataElementOutput>Output</DataElementOutput>
+                          <KeepTogether>true</KeepTogether>
+                        </TablixMember>
+                      </TablixMembers>
+                      <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixRowHierarchy>
+                <KeepTogether>true</KeepTogether>
+                <DataSetName>dsEmpleadosDocentes</DataSetName>
+                <PageBreak>
+                  <BreakLocation>End</BreakLocation>
+                </PageBreak>
+                <Top>0.26052cm</Top>
+                <Height>0.45518cm</Height>
+                <Width>32.03528cm</Width>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </Tablix>
+            </ReportItems>
             <DataElementOutput>ContentsOnly</DataElementOutput>
-            <Top>1.7357cm</Top>
-            <Height>1.08345cm</Height>
+            <Top>2.06817cm</Top>
+            <Height>0.7157cm</Height>
             <Width>32.05259cm</Width>
             <ZIndex>1</ZIndex>
             <Style />
           </Rectangle>
-          <Tablix Name="table2">
-            <TablixBody>
-              <TablixColumns>
-                <TablixColumn>
-                  <Width>6.87604cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>8.51625cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>8.43689cm</Width>
-                </TablixColumn>
-                <TablixColumn>
-                  <Width>8.2061cm</Width>
-                </TablixColumn>
-              </TablixColumns>
-              <TablixRows>
-                <TablixRow>
-                  <Height>0.45518cm</Height>
-                  <TablixCells>
-                    <TablixCell>
-                      <CellContents>
-                        <Subreport Name="subreport2">
-                          <ReportName>PrePlantillaDocentes</ReportName>
-                          <Parameters>
-                            <Parameter Name="pIdQuincena">
-                              <Value>=Parameters!pIdQuincena.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pIdPlantel">
-                              <Value>=Parameters!pIdPlantel.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pIdEmp">
-                              <Value>=Fields!IdEmp.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pClaveEmp">
-                              <Value>=Fields!ClaveEmp.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pApePatEmp">
-                              <Value>=Fields!ApePatEmp.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pApeMatEmp">
-                              <Value>=Fields!ApeMatEmp.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pNomEmp">
-                              <Value>=Fields!NomEmp.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pCategoria">
-                              <Value>=Fields!DescCategoria.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pAbrevTipoEmp">
-                              <Value>=Fields!DescTipoEmp.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pQnaIni">
-                              <Value>=Fields!QnaIni.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pQnaFin">
-                              <Value>=Fields!QnaFin.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pNumEmp">
-                              <Value>=Fields!Num_Emp.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pNombreCompleto">
-                              <Value>=Fields!NOMBRE_COMPLETO.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pEstudios">
-                              <Value>=Fields!ESTUDIOS1.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pEstudiosCed">
-                              <Value>=Fields!CED1.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pEstudiosEstatus">
-                              <Value>=Fields!ESTATUS1.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pUltEstudios">
-                              <Value>=Fields!ULT_ESTUDIOS.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pUltEstudiosCed">
-                              <Value>=Fields!CED2.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pUltEstudiosEstatus">
-                              <Value>=Fields!ESTATUS2.Value</Value>
-                            </Parameter>
-                            <Parameter Name="pNum">
-                              <Value>=Fields!Num.Value</Value>
-                            </Parameter>
-                          </Parameters>
-                          <KeepTogether>true</KeepTogether>
-                          <Visibility>
-                            <Hidden>=IIF(Fields!IdEmpFuncion.Value=2,False,True)</Hidden>
-                          </Visibility>
-                          <DataElementOutput>NoOutput</DataElementOutput>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                          </Style>
-                        </Subreport>
-                        <ColSpan>4</ColSpan>
-                      </CellContents>
-                    </TablixCell>
-                    <TablixCell />
-                    <TablixCell />
-                    <TablixCell />
-                  </TablixCells>
-                </TablixRow>
-              </TablixRows>
-            </TablixBody>
-            <TablixColumnHierarchy>
-              <TablixMembers>
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-                <TablixMember />
-              </TablixMembers>
-            </TablixColumnHierarchy>
-            <TablixRowHierarchy>
-              <TablixMembers>
-                <TablixMember>
-                  <Group Name="table2_Group1">
-                    <GroupExpressions>
-                      <GroupExpression>=Fields!IdEmpFuncion.Value</GroupExpression>
-                    </GroupExpressions>
-                    <PageBreak>
-                      <BreakLocation>Between</BreakLocation>
-                    </PageBreak>
-                  </Group>
-                  <TablixMembers>
-                    <TablixMember>
-                      <Group Name="table2_Details_Group">
-                        <GroupExpressions>
-                          <GroupExpression>=Fields!IdEmp.Value</GroupExpression>
-                        </GroupExpressions>
-                        <DataElementName>Detail</DataElementName>
-                      </Group>
-                      <TablixMembers>
-                        <TablixMember />
-                      </TablixMembers>
-                      <DataElementName>Detail_Collection</DataElementName>
-                      <DataElementOutput>Output</DataElementOutput>
-                      <KeepTogether>true</KeepTogether>
-                    </TablixMember>
-                  </TablixMembers>
-                  <KeepTogether>true</KeepTogether>
-                </TablixMember>
-              </TablixMembers>
-            </TablixRowHierarchy>
-            <KeepTogether>true</KeepTogether>
-            <DataSetName>dsEmpleadosDocentes</DataSetName>
-            <PageBreak>
-              <BreakLocation>End</BreakLocation>
-            </PageBreak>
-            <Top>2.03176cm</Top>
-            <Height>0.45518cm</Height>
-            <Width>32.03528cm</Width>
-            <ZIndex>2</ZIndex>
-            <Style>
-              <FontSize>8pt</FontSize>
-            </Style>
-          </Tablix>
         </ReportItems>
         <Height>3.13665cm</Height>
         <Style />
