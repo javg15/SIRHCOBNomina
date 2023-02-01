@@ -23,6 +23,8 @@ Partial Class ReportesIncidencias
             If .Items.Count = 0 Then
                 .Items.Insert(0, "No existe información de años")
                 .Items(0).Value = -1
+            Else
+                BindddlQuincenas()
             End If
         End With
     End Sub
@@ -37,6 +39,26 @@ Partial Class ReportesIncidencias
     Private Sub BindddlTipoDeNomina()
         Dim oQna As New Nomina
         LlenaDDL(Me.ddlTipoDeNomina, "DescFondoPresup", "IdFondoPresup", oQna.GetFondosPresupuestales())
+    End Sub
+    Private Sub BindddlTipoReporteEmpleadoLM()
+        Me.ddlPeriodoEmpleadoLM.Items.Clear()
+        Me.ddlPeriodoEmpleadoLM.Items.Add(New ListItem("Periodo anterior", "0"))
+        Me.ddlPeriodoEmpleadoLM.Items.Add(New ListItem("Periodo actual", "1"))
+    End Sub
+    Private Sub BindddlTipoUsuario()
+        Dim oUsr As New Usuario
+        Dim drUsuario As DataRow
+
+        oUsr.Login = Session("Login")
+        drUsuario = oUsr.ObtenerPorLogin()
+
+        Me.ddlUsuario.Items.Clear()
+
+        If oUsr.EsSuperAdmin(oUsr.Login) Or oUsr.EsAdministrador(oUsr.Login) Or drUsuario("IdRol") = 3 Then 'ADMIN OR Archivo e incidencias (Responsable)
+            Me.ddlUsuario.Items.Add(New ListItem("Todos", "0"))
+        End If
+
+        Me.ddlUsuario.Items.Add(New ListItem("Usuario actual", "1"))
     End Sub
 
     'Private Sub CreaLinkParaImpresion2(ByVal gvr As GridViewRow)
@@ -54,6 +76,8 @@ Partial Class ReportesIncidencias
     ' End Select
     'End Sub
     Private Sub CreaLinkParaImpresion(ByVal gvr As GridViewRow)
+        Dim oUsr As New Usuario
+        Dim drUsuario As DataRow
         Dim lblIdReporte As Label = CType(gvr.FindControl("lblIdReporte"), Label)
         Dim lblExportarAExcel As Label = CType(gvr.FindControl("lblExportarAExcel"), Label)
         Dim lblExportarAPDF As Label = CType(gvr.FindControl("lblExportarAPDF"), Label)
@@ -64,10 +88,16 @@ Partial Class ReportesIncidencias
         Dim lblPorEmpleado As Label = CType(gvr.FindControl("lblPorEmpleado"), Label)
         Dim txtbxNumEmp As TextBox = CType(Me.wucSearchEmps1.FindControl("txtbxNumEmp"), TextBox)
 
-        dt = oReporte.ObtenInfParaImpresion(CShort(lblIdReporte.Text))
+        Dim RFCEmp As String
+        Dim hfRFC As HiddenField = CType(wucSearchEmps1.FindControl("hfRFC"), HiddenField)
+        'Imprime reporte
+        RFCEmp = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
 
-        chbxRptParaEmp.Visible = False
-        chbxRptParaEmp.Checked = False
+
+        oUsr.Login = Session("Login")
+        drUsuario = oUsr.ObtenerPorLogin()
+
+        dt = oReporte.ObtenInfParaImpresion(CShort(lblIdReporte.Text))
 
         For Each dr As DataRow In dt.Rows
             If strOnClientClick = String.Empty Then
@@ -77,13 +107,19 @@ Partial Class ReportesIncidencias
             End If
             Select Case dr("VariableAsociada").ToString
                 Case "Ejercicio"
-                    chbxRptParaEmp.Visible = True
-                    chbxRptParaEmp.Checked = True
                     Valor = ddlAños.SelectedValue
                 Case "NumEmp"
-                    chbxRptParaEmp.Visible = True
-                    chbxRptParaEmp.Checked = True
                     Valor = IIf(txtbxNumEmp.Text.Trim <> String.Empty, txtbxNumEmp.Text.Trim, Nothing)
+                Case "IdQuincena"
+                    Valor = ddlQuincena.SelectedValue
+                Case "IdUsuario"
+                    Valor = IIf(ddlUsuario.SelectedValue = 0, 0, CShort(drUsuario("IdUsuario")))
+                Case "TipoFecha"
+                    Valor = ddlTipoFecha.SelectedValue
+                Case "PeriodoActual"
+                    Valor = ddlPeriodoEmpleadoLM.SelectedValue
+                Case "RFCEmp"
+                    Valor = RFCEmp
 
             End Select
             If dr("ValorDefault").ToString <> String.Empty Then
@@ -97,14 +133,6 @@ Partial Class ReportesIncidencias
             End If
         Next
         strOnClientClick = strOnClientClick + "&IdReporte=" + lblIdReporte.Text + "','" + lblIdReporte.Text + "_" + "'); return false;"
-        chbxRptParaEmp.Enabled = CType(lblPorEmpleado.Text, Boolean)
-        If chbxRptParaEmp.Checked And Not CType(lblPorEmpleado.Text, Boolean) Then
-            chbxRptParaEmp.Checked = CType(lblPorEmpleado.Text, Boolean)
-        End If
-        pnlEmp.Visible = chbxRptParaEmp.Checked And CType(lblPorEmpleado.Text, Boolean)
-        wucSearchEmps1.Visible = chbxRptParaEmp.Checked And CType(lblPorEmpleado.Text, Boolean)
-
-        Dim txtbxRFC As TextBox = CType(Me.wucSearchEmps1.FindControl("txtbxRFC"), TextBox)
 
         Me.ibExportarExcel.Visible = False
         Me.ibExportPDF.Visible = False
@@ -115,14 +143,19 @@ Partial Class ReportesIncidencias
                     ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
                                              + "?Anio=" + ddlAños.SelectedValue _
                                             + "&IdReporte=" + lblIdReporte.Text + "','RptPermEco_" + ddlAños.SelectedValue + "'); return false;"
+                    ibExportarExcel.Visible = True
                 Case "159" 'REPORTE ANUAL DE LICENCIAS MÉDICAS DESGLOSADO POR EMPLEADO Y MESES
                     ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
                                           + "?Anio=" + ddlAños.SelectedValue _
                                            + "&IdReporte=" + lblIdReporte.Text + "','RptPermEco_" + ddlAños.SelectedValue + "'); return false;"
+                    ibExportarExcel.Visible = True
                 Case "160" 'RESUMEN DE LICENCIAS MÉDICAS POR EMPLEADO
+                    ibExportPDF.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportes.aspx" + strOnClientClick
+                    ibExportPDF.Visible = True
+                    'If chbxRptParaEmp.Checked Then ibExportarExcel.Visible = txtbxRFC.Text <> String.Empty
+                Case "163" 'REGISTROS
                     ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" + strOnClientClick
-                    'ibExportarExcel.Visible = True
-                    If chbxRptParaEmp.Checked Then ibExportarExcel.Visible = txtbxRFC.Text <> String.Empty
+                    ibExportarExcel.Visible = True
             End Select
 
             'ibExportarExcel.Visible = True
@@ -136,9 +169,12 @@ Partial Class ReportesIncidencias
         If Not IsPostBack Then
             BindddlAños()
             BindddlTipoDeNomina()
+            BindddlTipoUsuario()
+            BindddlTipoReporteEmpleadoLM()
             If Me.ddlAños.SelectedValue <> -1 Then
                 BindgvReportes()
                 Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+                ActivarControles(gvr)
                 CreaLinkParaImpresion(gvr)
             End If
         End If
@@ -147,16 +183,62 @@ Partial Class ReportesIncidencias
     Protected Sub ddlAños_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlAños.SelectedIndexChanged
         Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
         CreaLinkParaImpresion(gvr)
+
+        BindddlQuincenas()
     End Sub
+    Public Sub BindddlQuincenas()
+        Dim oAnio As New Anios
+
+        With Me.ddlQuincena
+            .DataSource = oAnio.ObtenQnasOrdinariasPagadas(ddlAños.SelectedValue)
+            .DataTextField = "Quincena"
+            .DataValueField = "IdQuincena"
+            .DataBind()
+            If .Items.Count = 0 Then
+                .Items.Clear()
+                .Items.Add(New System.Web.UI.WebControls.ListItem("Información no disponible", "-1"))
+            End If
+        End With
+    End Sub
+
     Protected Sub ddlTipoDeNomina_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
         CreaLinkParaImpresion(gvr)
+
     End Sub
     Protected Sub gvReportes_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvReportes.SelectedIndexChanged
         Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
-        CreaLinkParaImpresion(gvr)
 
+        ActivarControles(gvr)
+        CreaLinkParaImpresion(gvr)
         gvReportesSelectedIndexChanged(gvr)
+    End Sub
+    Private Sub ActivarControles(ByVal gvr As GridViewRow)
+
+        Dim lblIdReporte As Label = CType(gvr.FindControl("lblIdReporte"), Label)
+        Dim dt As DataTable
+        Dim oReporte As New Reportes
+        dt = oReporte.ObtenInfParaImpresion(CShort(lblIdReporte.Text))
+
+        chbxRptParaEmp.Visible = False
+        chbxRptParaEmp.Checked = False
+        pnlEmp.Visible = False
+        pnlQuincena.Visible = False
+
+        Select Case lblIdReporte.Text
+            Case "150" 'REPORTE ANUAL DE PERMISOS ECONÓMICOS DESGLOSADO POR EMPLEADO Y MESES
+
+            Case "159" 'REPORTE ANUAL DE LICENCIAS MÉDICAS DESGLOSADO POR EMPLEADO Y MESES
+
+            Case "160" 'RESUMEN DE LICENCIAS MÉDICAS POR EMPLEADO
+                chbxRptParaEmp.Visible = True
+                chbxRptParaEmp.Checked = True
+
+                pnlEmp.Visible = chbxRptParaEmp.Checked
+                wucSearchEmps1.Visible = chbxRptParaEmp.Checked
+            Case "163" 'REGISTROS
+                pnlQuincena.Visible = True
+        End Select
     End Sub
     Private Sub gvReportesSelectedIndexChanged(ByVal gvr As GridViewRow)
         Dim oUsr As New Usuario
@@ -223,5 +305,21 @@ Partial Class ReportesIncidencias
                 End If
             End If
         End If
+    End Sub
+    Protected Sub ddlQuincena_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlQuincena.SelectedIndexChanged
+        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+        CreaLinkParaImpresion(gvr)
+    End Sub
+    Protected Sub ddlTipoFecha_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoFecha.SelectedIndexChanged
+        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+        CreaLinkParaImpresion(gvr)
+    End Sub
+    Protected Sub ddlUsuario_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlUsuario.SelectedIndexChanged
+        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+        CreaLinkParaImpresion(gvr)
+    End Sub
+    Protected Sub ddlPeriodoEmpleadoLM_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlPeriodoEmpleadoLM.SelectedIndexChanged
+        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+        CreaLinkParaImpresion(gvr)
     End Sub
 End Class

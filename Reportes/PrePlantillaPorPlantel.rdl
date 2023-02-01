@@ -1667,7 +1667,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1706,7 +1705,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1745,7 +1743,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1784,7 +1781,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1823,7 +1819,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1862,7 +1857,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1901,7 +1895,6 @@ WHERE PLA.IdZonaGeografica IN (SELECT IdZonaGeografica FROM Planteles WHERE IdPl
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>

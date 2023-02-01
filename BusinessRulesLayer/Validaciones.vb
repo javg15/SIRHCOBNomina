@@ -24,6 +24,7 @@ Namespace COBAEV.Validaciones
         Private _IdTipoIncidencia As Byte
         Private _FolioIncidencia As String
         Private _FolioISSSTE As String
+        Private _IdTipoIncidenciaSubtipos As Byte
 
 #End Region
 #Region "Clase Validaciones: Propiedades públicas"
@@ -452,6 +453,14 @@ Namespace COBAEV.Validaciones
                 Me._CURPEmp = value
             End Set
         End Property
+        Public Property IdTipoIncidenciaSubtipos() As String
+            Get
+                Return Me._IdTipoIncidenciaSubtipos
+            End Get
+            Set(ByVal value As String)
+                Me._IdTipoIncidenciaSubtipos = value
+            End Set
+        End Property
 #End Region
 #Region "Clase Validaciones: Métodos públicos"
         Public Function ValidaPaginas(ByRef dsValida As DataSet, ByVal ValidacionAlCargarPagina As Boolean) As Boolean
@@ -588,22 +597,25 @@ Namespace COBAEV.Validaciones
                 Throw New System.Exception(ex.Message.ToString)
             End Try
         End Function
-        Public Function ValidaPagsIncidencias(ByRef dsValida As DataSet, ByVal pNombrePagina As String, _
-                                              ByVal pIdTipoIncidencia As Byte, ByVal pTipoOperacion As Byte) As Boolean
+        Public Function ValidaPagsIncidencias(ByRef dsValida As DataSet, ByVal pNombrePagina As String,
+                                              ByVal pIdTipoIncidencia As Byte, ByVal pTipoOperacion As Byte,
+                                              ByVal pIdTipoIncidenciaSubtipos As Byte) As Boolean
             Try
                 Dim RetVal As Boolean = False
                 Dim dsProc As DataSet
 
                 RetVal = True
-                Dim vlParamProc As SqlParameter() = {New SqlParameter("@NombreAplicacion", SqlDbType.NVarChar, 20), _
-                                            New SqlParameter("@NombrePagina", SqlDbType.NVarChar, 50), _
-                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdTipoIncidencia", SqlDbType.TinyInt)}
+                Dim vlParamProc As SqlParameter() = {New SqlParameter("@NombreAplicacion", SqlDbType.NVarChar, 20),
+                                            New SqlParameter("@NombrePagina", SqlDbType.NVarChar, 50),
+                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdTipoIncidencia", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdTipoIncidenciaSubtipos", SqlDbType.TinyInt)}
 
                 vlParamProc(0).Value = ConfigurationManager.AppSettings("NombreAplicacion")
                 vlParamProc(1).Value = pNombrePagina
                 vlParamProc(2).Value = pTipoOperacion
                 vlParamProc(3).Value = pIdTipoIncidencia
+                vlParamProc(4).Value = pIdTipoIncidenciaSubtipos
 
                 dsProc = _DataCOBAEV.RunProc("SP_ValidacionesSobreIncidencias", vlParamProc, "ValidacionesSobreIncidencias", DataCOBAEV.BD.Administracion)
                 Dim I As Int16
@@ -742,6 +754,7 @@ Namespace COBAEV.Validaciones
                     Case "IDTIPOINCIDENCIA" : vlParam(J).Value = Me._IdTipoIncidencia
                     Case "FOLIOINCIDENCIA" : vlParam(J).Value = Me._FolioIncidencia
                     Case "IDPUESTO" : vlParam(J).Value = Me._IdPuesto
+                    Case "IDTIPOINCIDENCIASUBTIPOS" : vlParam(J).Value = Me._IdTipoIncidenciaSubtipos
                 End Select
             Next J
             dsParam.Dispose()

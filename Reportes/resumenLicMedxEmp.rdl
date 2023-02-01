@@ -6,7 +6,7 @@
     <DataSource Name="Nomina">
       <DataSourceReference>Nomina</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
-      <rd:DataSourceID>e1ba71b5-23c4-4883-9667-3cf496150b10</rd:DataSourceID>
+      <rd:DataSourceID>91e15e3f-8094-4a2d-b9a7-b780c41519b2</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -1094,6 +1094,5 @@
   <Language>es-MX</Language>
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportServerUrl>http://s-rec-hum/ReportServer_SQLSRV2008R2</rd:ReportServerUrl>
   <rd:ReportID>e6fc191f-b535-49e3-9ce0-5059c5831c55</rd:ReportID>
 </Report>

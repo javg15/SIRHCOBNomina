@@ -243,6 +243,10 @@
       <FullPath>ImportesReprocesoCompen.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>IncidenciasRegistros2.rdl</Name>
+      <FullPath>IncidenciasRegistros2.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>InstitucionalAnioMes.rdl</Name>
       <FullPath>InstitucionalAnioMes.rdl</FullPath>
     </ProjectItem>
@@ -638,6 +642,10 @@
       <Name>VisorExpedientes.rdl</Name>
       <FullPath>VisorExpedientes.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>IncidenciasRegistros.rdl</Name>
+      <FullPath>IncidenciasRegistros.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
@@ -646,12 +654,12 @@
       <Options>
         <OutputPath>bin\Debug</OutputPath>
         <TargetServerVersion>SSRS2008R2</TargetServerVersion>
-        <TargetServerURL>http://jcesar23mx/ReportServer</TargetServerURL>
+        <TargetServerURL>http://pcnomina02/Reports_SQLSERVER</TargetServerURL>
         <TargetFolder>Reports</TargetFolder>
         <TargetDataSourceFolder>Data Sources</TargetDataSourceFolder>
         <OverwriteDataSources>true</OverwriteDataSources>
         <OverwriteDatasets>true</OverwriteDatasets>
-        <StartItem>PrePlantillaPorPlantel.rdl</StartItem>
+        <StartItem>IncidenciasRegistros.rdl</StartItem>
       </Options>
     </Configuration>
     <Configuration>

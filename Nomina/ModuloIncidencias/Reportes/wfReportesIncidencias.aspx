@@ -6,6 +6,7 @@
 <%@ Register Src="~/WebControls/wucUpdateProgress.ascx" TagName="wucUpdateProgress"
     TagPrefix="TP_wucUpdateProgress" %>
 <%@ Register src="../../WebControls/wucSearchEmps.ascx" tagname="wucsearchemps" tagprefix="uc1" %>
+<%@ Register Src="../../WebControls/wucCalendario2.ascx" TagName="wucCalendario2" TagPrefix="uc2" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <TP_wucUpdateProgress:wucUpdateProgress ID="wucUpdateProgress1" runat="server" EnableViewState="true" />
 <asp:UpdatePanel ID="UPMain" runat="server">
@@ -24,7 +25,7 @@
                     Font-Size="X-Small" GroupingText="Seleccione año">
                     <br />
                     <asp:DropDownList ID="ddlAños" runat="server" SkinID="SkinDropDownList" 
-                        AutoPostBack="True">
+                        AutoPostBack="True" OnSelectedIndexChanged="ddlAños_SelectedIndexChanged">
                     </asp:DropDownList>
                     <br />
                 </asp:Panel>
@@ -117,6 +118,55 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td><asp:Panel ID="pnlQuincena" runat="server" Font-Names="Verdana" 
+                                        Font-Size="X-Small" GroupingText="Seleccione los parámetros de consulta" 
+                                        Visible="False">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <asp:Label ID="lblQuincena" runat="server" Text='Quincena'></asp:Label>
+                                                <br />
+                                                <br />
+                                                <asp:DropDownList ID="ddlQuincena" runat="server" SkinID="SkinDropDownList" AutoPostBack="True" >
+                                                </asp:DropDownList>
+                                                <br />
+                                                <br />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="lblTipoConsulta" runat="server" Text='Tipo de consulta'></asp:Label>
+                                                <br />
+                                                <br />
+                                                <asp:DropDownList ID="ddlTipoFecha" runat="server" SkinID="SkinDropDownList" AutoPostBack="True" >
+                                                    <asp:ListItem Selected="True" Value="0">Fecha de captura</asp:ListItem>
+                                                    <asp:ListItem Value="1">Fecha de inicio y/o fin</asp:ListItem>
+                                                </asp:DropDownList>
+                                                <br />
+                                                <br />
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="lblUsuario" runat="server" Text='Tipo de usuario'></asp:Label>
+                                                <br />
+                                                <br />
+                                                <asp:DropDownList ID="ddlUsuario" runat="server" SkinID="SkinDropDownList" AutoPostBack="True" >
+                                                </asp:DropDownList>
+                                                <br />
+                                                <br />
+                                            </td>
+                                            <td>
+                                                &nbsp;</td>
+                                        </tr>
+                                    </table>
+                                </asp:Panel>
+                                    
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    
+<asp:Panel ID="pnlEmp" runat="server" Visible="False">
+<table>
+<tr>
                                 <td>
                                     <asp:CheckBox ID="chbxRptParaEmp" runat="server" AutoPostBack="True" Enabled="False" SkinID="SkinCheckBox" Text="Imprimir reporte para un empleado específico" />
                                 </td>
@@ -124,13 +174,23 @@
                             </tr>
                             <tr>
                                 <td>
+                                    <asp:Label ID="lblPeriodo" runat="server" Text='Tipo de reporte'></asp:Label>
+                                    <br />
+                                    <br />
+                                    <asp:DropDownList ID="ddlPeriodoEmpleadoLM" runat="server" SkinID="SkinDropDownList" AutoPostBack="True" >
+                                    </asp:DropDownList>
+                                    <br />
+                                    <br />
                                     
-                                    <asp:Panel ID="pnlEmp" runat="server" Visible="False">
                                         <uc1:wucSearchEmps ID="wucSearchEmps1" runat="server" Visible="False" />
-                                    </asp:Panel>
+                                    
                                     
                                 </td>
                                 <td>&nbsp;</td>
+                            </tr>
+</table>							
+</asp:Panel>
+                                </td>
                             </tr>
                             <tr>
                                 <td>

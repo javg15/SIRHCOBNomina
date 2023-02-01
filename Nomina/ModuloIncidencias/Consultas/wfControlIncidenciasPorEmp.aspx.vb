@@ -8,7 +8,8 @@ Partial Class wfControlIncidenciasPorEmp
     Inherits System.Web.UI.Page
 
     Private Function HayErroresAlAplicarValidaciones(ByVal pIdTipoIncidencia As Byte, ByVal pTipoOperacion As Byte,
-                                                     ByVal pFolioIndicencia As String, ByVal pFolioISSSTE As String) As Boolean
+                                                     ByVal pFolioIndicencia As String, ByVal pFolioISSSTE As String,
+                                                     ByVal pIdTipoIncidenciaSubtipos As Byte) As Boolean
         Dim oValidacion As New Validaciones
         Dim _DataCOBAEV As New DataCOBAEV
         Dim dsValida As DataSet
@@ -26,8 +27,10 @@ Partial Class wfControlIncidenciasPorEmp
             .IdTipoIncidencia = pIdTipoIncidencia
             .FolioIncidencia = pFolioIndicencia
             .FolioISSSTE = pFolioISSSTE
+            .IdTipoIncidenciaSubtipos = pIdTipoIncidenciaSubtipos
 
-            If Not .ValidaPagsIncidencias(dsValida, vlNomPag, pIdTipoIncidencia, pTipoOperacion) Then
+
+            If Not .ValidaPagsIncidencias(dsValida, vlNomPag, pIdTipoIncidencia, pTipoOperacion, pIdTipoIncidenciaSubtipos) Then
                 vlResult = True
                 Session.Add("dsValida", dsValida)
                 wucMuestraErrores.ActualizaContenido()
@@ -66,14 +69,12 @@ Partial Class wfControlIncidenciasPorEmp
         BindgvResumenIncidencias()
         BindgvDiasEco(1, "Enero")
         pnlPermEcoDetalleMes.Visible = True
-        BindgvRetardos(1, "Enero")
-        pnlRetardosDetalleMes.Visible = True
-        BindgvFaltas(1, "Enero")
-        pnlFaltasDetalleMes.Visible = True
-        BindgvOmisionesChecadaE(1, "Enero")
-        pnlOmisionesChecadaEDetalleMes.Visible = True
-        BindgvOmisionesChecadaS(1, "Enero")
-        pnlOmisionesChecadaSDetalleMes.Visible = True
+        BindgvAusenciasJustificadas(1, "Enero")
+        pnlAusenciasJustificadasDetalleMes.Visible = True
+        BindgvAusenciasNoJustificadas(1, "Enero")
+        pnlAusenciasNoJustificadasDetalleMes.Visible = True
+        BindgvOtros(1, "Enero")
+        pnlOtrosDetalleMes.Visible = True
         BindgvPermSindic(1, "Enero")
         pnlPermSindicDetalleMes.Visible = True
         BindgvPerm2Hrs(1, "Enero")
@@ -145,37 +146,30 @@ Partial Class wfControlIncidenciasPorEmp
             gvResumenPermEco.DataBind()
         End If
 
-        If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "R" Then
-            gvResumenRetardos.DataSource = dsIncidencias.Tables(1)
+        If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "AJ" Then
+            gvResumenAusenciasJustificadas.DataSource = dsIncidencias.Tables(1)
             If dsIncidencias.Tables(1).Rows.Count = 0 Then
-                gvResumenRetardos.EmptyDataText = "Sin información de retardos del empleado en el Año: " + Me.ddlAños.SelectedItem.Text
+                gvResumenAusenciasJustificadas.EmptyDataText = "Sin información de AusenciasJustificadas del empleado en el Año: " + Me.ddlAños.SelectedItem.Text
             End If
-            gvResumenRetardos.DataBind()
+            gvResumenAusenciasJustificadas.DataBind()
         End If
 
-        If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "F" Then
-            gvResumenFaltas.DataSource = dsIncidencias.Tables(2)
+        If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "ANJ" Then
+            gvResumenAusenciasNoJustificadas.DataSource = dsIncidencias.Tables(2)
             If dsIncidencias.Tables(2).Rows.Count = 0 Then
-                gvResumenFaltas.EmptyDataText = "Sin información de faltas del empleado en el Año: " + Me.ddlAños.SelectedItem.Text
+                gvResumenAusenciasNoJustificadas.EmptyDataText = "Sin información de Ausencias No Justificadas del empleado en el Año: " + Me.ddlAños.SelectedItem.Text
             End If
-            gvResumenFaltas.DataBind()
+            gvResumenAusenciasNoJustificadas.DataBind()
         End If
 
-        If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "OCHE" Then
-            gvResumenOmisionesChecadaE.DataSource = dsIncidencias.Tables(3)
+        If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "OTR" Then
+            gvResumenOtros.DataSource = dsIncidencias.Tables(3)
             If dsIncidencias.Tables(3).Rows.Count = 0 Then
-                gvResumenOmisionesChecadaE.EmptyDataText = "Sin información de omisiones de checado (Entrada) del empleado en el Año: " + Me.ddlAños.SelectedItem.Text
+                gvResumenOtros.EmptyDataText = "Sin información de Otros del empleado en el Año: " + Me.ddlAños.SelectedItem.Text
             End If
-            gvResumenOmisionesChecadaE.DataBind()
+            gvResumenOtros.DataBind()
         End If
 
-        If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "OCHS" Then
-            gvResumenOmisionesChecadaS.DataSource = dsIncidencias.Tables(4)
-            If dsIncidencias.Tables(4).Rows.Count = 0 Then
-                gvResumenOmisionesChecadaS.EmptyDataText = "Sin información de omisiones de checado (Salida) del empleado en el Año: " + Me.ddlAños.SelectedItem.Text
-            End If
-            gvResumenOmisionesChecadaS.DataBind()
-        End If
 
         If pNomCortoTipoIncidencia = "" Or pNomCortoTipoIncidencia = "PS" Then
             gvResumenPermSindic.DataSource = dsIncidencias.Tables(5)
@@ -201,17 +195,17 @@ Partial Class wfControlIncidenciasPorEmp
             gvResumenLicMed.DataBind()
         End If
     End Sub
-    Private Sub BindgvRetardos(ByVal pMes As Byte, ByVal pNombreMes As String)
+    Private Sub BindgvAusenciasJustificadas(ByVal pMes As Byte, ByVal pNombreMes As String)
         Dim oIncidencias As New Incidencias
         Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
 
         hfRFC.Value = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
 
-        pnlRetardosDetalleMes.GroupingText = "Detalle de retardos en el mes: " + pNombreMes
-        pnlRetardosDetalleMes.Visible = True
+        pnlAusenciasJustificadasDetalleMes.GroupingText = "Detalle de Ausencias Justificadas en el mes: " + pNombreMes
+        pnlAusenciasJustificadasDetalleMes.Visible = True
 
-        With gvRetardos
-            .DataSource = oIncidencias.ObtenPorTipoAnioMesEmp(hfRFC.Value, CShort(Me.ddlAños.SelectedValue), pMes, "R")
+        With gvAusenciasJustificadas
+            .DataSource = oIncidencias.ObtenPorTipoAnioMesEmp(hfRFC.Value, CShort(Me.ddlAños.SelectedValue), pMes, "AJ")
             .DataBind()
             .Visible = True
         End With
@@ -232,47 +226,32 @@ Partial Class wfControlIncidenciasPorEmp
             .Visible = True
         End With
     End Sub
-    Private Sub BindgvFaltas(ByVal pMes As Byte, ByVal pNombreMes As String)
+    Private Sub BindgvAusenciasNoJustificadas(ByVal pMes As Byte, ByVal pNombreMes As String)
         Dim oIncidencias As New Incidencias
         Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
 
         hfRFC.Value = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
 
-        pnlFaltasDetalleMes.GroupingText = "Detalle de faltas en el mes: " + pNombreMes
-        pnlFaltasDetalleMes.Visible = True
+        pnlAusenciasNoJustificadasDetalleMes.GroupingText = "Detalle de AusenciasNoJustificadas en el mes: " + pNombreMes
+        pnlAusenciasNoJustificadasDetalleMes.Visible = True
 
-        With gvFaltas
-            .DataSource = oIncidencias.ObtenPorTipoAnioMesEmp(hfRFC.Value, CShort(Me.ddlAños.SelectedValue), pMes, "F")
+        With gvAusenciasNoJustificadas
+            .DataSource = oIncidencias.ObtenPorTipoAnioMesEmp(hfRFC.Value, CShort(Me.ddlAños.SelectedValue), pMes, "ANJ")
             .DataBind()
             .Visible = True
         End With
     End Sub
-    Private Sub BindgvOmisionesChecadaE(ByVal pMes As Byte, ByVal pNombreMes As String)
+    Private Sub BindgvOtros(ByVal pMes As Byte, ByVal pNombreMes As String)
         Dim oIncidencias As New Incidencias
         Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
 
         hfRFC.Value = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
 
-        pnlOmisionesChecadaEDetalleMes.GroupingText = "Detalle de omisiones de checado (Entrada) en el mes: " + pNombreMes
-        pnlOmisionesChecadaEDetalleMes.Visible = True
+        pnlOtrosDetalleMes.GroupingText = "Detalle de Otros en el mes: " + pNombreMes
+        pnlOtrosDetalleMes.Visible = True
 
-        With gvOmisionesChecadaE
-            .DataSource = oIncidencias.ObtenPorTipoAnioMesEmp(hfRFC.Value, CShort(Me.ddlAños.SelectedValue), pMes, "OCHE")
-            .DataBind()
-            .Visible = True
-        End With
-    End Sub
-    Private Sub BindgvOmisionesChecadaS(ByVal pMes As Byte, ByVal pNombreMes As String)
-        Dim oIncidencias As New Incidencias
-        Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
-
-        hfRFC.Value = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
-
-        pnlOmisionesChecadaSDetalleMes.GroupingText = "Detalle de omisiones de checado (Salida) en el mes: " + pNombreMes
-        pnlOmisionesChecadaSDetalleMes.Visible = True
-
-        With gvOmisionesChecadaS
-            .DataSource = oIncidencias.ObtenPorTipoAnioMesEmp(hfRFC.Value, CShort(Me.ddlAños.SelectedValue), pMes, "OCHS")
+        With gvOtros
+            .DataSource = oIncidencias.ObtenPorTipoAnioMesEmp(hfRFC.Value, CShort(Me.ddlAños.SelectedValue), pMes, "OTR")
             .DataBind()
             .Visible = True
         End With
@@ -364,18 +343,18 @@ Partial Class wfControlIncidenciasPorEmp
         BindgvResumenIncidencias()
         BindgvDiasEco(1, "Enero")
         pnlPermEcoDetalleMes.Visible = True
-        BindgvRetardos(1, "Enero")
-        pnlRetardosDetalleMes.Visible = True
-        BindgvFaltas(1, "Enero")
-        pnlFaltasDetalleMes.Visible = True
-        BindgvOmisionesChecadaE(1, "Enero")
-        pnlOmisionesChecadaEDetalleMes.Visible = True
-        BindgvOmisionesChecadaS(1, "Enero")
-        pnlOmisionesChecadaSDetalleMes.Visible = True
+        BindgvAusenciasJustificadas(1, "Enero")
+        pnlAusenciasJustificadasDetalleMes.Visible = True
+        BindgvAusenciasNoJustificadas(1, "Enero")
+        pnlAusenciasNoJustificadasDetalleMes.Visible = True
+        BindgvOtros(1, "Enero")
+        pnlOtrosDetalleMes.Visible = True
         BindgvPermSindic(1, "Enero")
         pnlPermSindicDetalleMes.Visible = True
         BindgvPerm2Hrs(1, "Enero")
         pnlPerm2HrsDetalleMes.Visible = True
+        BindgvLicMed(1, "Enero")
+        pnlLicMedDetalleMes.Visible = True
     End Sub
 
     Protected Sub btnCancelarCapturaPermisoEco_Click(sender As Object, e As System.EventArgs) Handles btnCancelar.Click
@@ -390,63 +369,15 @@ Partial Class wfControlIncidenciasPorEmp
         Dim oIncidencia As New Incidencias
         Dim dtIncidencia As DataTable
 
-        dtIncidencia = oIncidencia.ObtenPorId(CShort(ddlTiposDeIncidencias.SelectedValue))
+        dtIncidencia = oIncidencia.ObtenTipoIncidenciaPorId(CShort(ddlTiposDeIncidencias.SelectedValue))
 
         SetVisibleBotones_wucBuscaEmps(False)
         pnlABCIncidencias.GroupingText = "Captura/Modificación de " + ddlTiposDeIncidencias.SelectedItem.Text '+ ", año: " + ddlAños.SelectedItem.Text
         txtbxNomCortoIncidencia.Text = dtIncidencia.Rows(0).Item("NomCortoTipoIncidencia").ToString
-        txtbxFolioIncidencia.Text = "POR ASIGNAR"
 
-        txtbxFechaIni.Text = String.Empty
-        txtbxFechaIni.Enabled = True
-        txtbxFechaIni_CV.Enabled = True
-        txtbxFechaIni_RFV.Enabled = True
+        LlenaDDL(ddlSubtipo, "DescSubtipo", "IdTiposDeIndicenciasSubtipos", oIncidencia.ObtenTiposDeIncidenciaSubtipos(ddlTiposDeIncidencias.SelectedValue, 0), Nothing)
 
-        ibFechaIni.Visible = True
-        txtbxFechaFin.Text = String.Empty
-
-        txtbxFechaFin.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-        ibFechaFin.Visible = txtbxFechaFin.Enabled
-        txtbxFechaFin_RFV.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-        txtbxFechaFin_CV.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-        txtbxFechaFin_CV2.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-
-        txtbxFechaJust.Text = ""
-        txtbxFechaJust.Enabled = False
-        ibFechaJust.Visible = False
-        txtbxFechaJust_CV.Enabled = False
-
-        If txtbxNomCortoIncidencia.Text <> "LM" Then
-         
-
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(0), Nothing)
-            ddlTipoJustPorJefe.Enabled = False
-            ddlTipoJustPorJefe_RFV.Enabled = False
-        End If
-       
-        '**********
-        'CÓDIGO AÑADIDO 
-        '11/07/2022 --> JULIO BARRALES
-
-        txtbxFolioISSSTE.Visible = False
-        txtbxFolioISSSTE.Enabled = False
-        If txtbxNomCortoIncidencia.Text = "LM" Then
-            txtbxFechaJust.Enabled = True
-            txtbxFechaJust_CV.Enabled = True
-            ibFechaJust.Visible = True
-            txtbxFolioISSSTE.Visible = True
-            txtbxFolioISSSTE.Enabled = True
-            ddlTipoJustPorJefe.Enabled = True
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(8), Nothing)
-            ddlTipoJustPorJefe.Enabled = True
-            ddlTipoJustPorJefe_RFV.Enabled = True
-            txtFolioIncidencia2.Visible = True
-            txtFolioIncidencia2.Enabled = True
-
-        End If
-        '**********
-        'CÓDIGO AÑADIDO 
-
+        VisualizarControlesForm(ddlSubtipo.Items(0).Value)
         btnGuardarIncidencia.CommandArgument = "CAPTURA"
 
         MultiView1.SetActiveView(viewABCIncidencias)
@@ -467,6 +398,8 @@ Partial Class wfControlIncidenciasPorEmp
         Dim hfRFC As HiddenField = CType(WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
         Dim drIncidencia As DataRow
         Dim vlFolioIncidencia As String
+        Dim resList As String()
+
 
         oUsuario.Login = Session("Login")
         drUsuario = oUsuario.ObtenerPorLogin()
@@ -474,13 +407,17 @@ Partial Class wfControlIncidenciasPorEmp
         oEmp.RFC = hfRFC.Value
         drEmp = oEmp.ObtenDatosPersonales().Rows(0)
 
+
+
+
         Select Case btnGuardarIncidencia.CommandArgument
             Case "CAPTURA"
-                If HayErroresAlAplicarValidaciones(CByte(ddlTiposDeIncidencias.SelectedValue), 1, String.Empty, String.Empty) Then
+                If HayErroresAlAplicarValidaciones(CByte(ddlTiposDeIncidencias.SelectedValue), 1, String.Empty, String.Empty, CByte(ddlSubtipo.SelectedValue)) Then
                     Exit Sub
                 End If
 
                 vlFolioIncidencia = oIncidencia.Inserta(CShort(CDate(txtbxFechaIni.Text).Year),
+                                                        txtbxFolioIncidencia.Text,
                                                         CByte(ddlTiposDeIncidencias.SelectedValue),
                                                         CInt(drEmp("IdEmp")),
                                                         CDate(txtbxFechaIni.Text),
@@ -491,22 +428,23 @@ Partial Class wfControlIncidenciasPorEmp
                                                         CShort(drUsuario("IdUsuario")),
                                                         1,
                                                         txtbxFechaJust.Text,
-                                                        CByte(ddlTipoJustPorJefe.SelectedValue),
+                                                        CByte(ddlSubtipo.SelectedValue),
                                                         CType(Session("ArregloAuditoria"), String()))
+                'La función retorna 2 valores separados por comas, necesitamos el primer valor que corresponde al folio de la incidencia
+                ' el segundo valor coreresponde al folio que se genera automaticamente, ej: falta resultante por 3 retardos
+                resList = vlFolioIncidencia.Split(",")
 
-                drIncidencia = oIncidencia.ObtenPorFolio(vlFolioIncidencia)
+                drIncidencia = oIncidencia.ObtenPorId(resList(0))
                 BindgvResumenIncidencias(txtbxNomCortoIncidencia.Text)
                 Select Case txtbxNomCortoIncidencia.Text
                     Case "PE"
                         BindgvDiasEco(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "R"
-                        BindgvRetardos(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "F"
-                        BindgvFaltas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "OCHE"
-                        BindgvOmisionesChecadaE(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "OCHS"
-                        BindgvOmisionesChecadaS(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "AJ"
+                        BindgvAusenciasJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "ANJ"
+                        BindgvAusenciasNoJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "OTR"
+                        BindgvOtros(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
                     Case "PS"
                         BindgvPermSindic(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
                     Case "P2H"
@@ -515,30 +453,29 @@ Partial Class wfControlIncidenciasPorEmp
                         BindgvLicMed(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
                 End Select
             Case "MODIFICACION"
-                drIncidencia = oIncidencia.ObtenPorFolio(txtbxFolioIncidencia.Text)
+                drIncidencia = oIncidencia.ObtenPorId(txtId.Text)
 
-                If HayErroresAlAplicarValidaciones(CByte(drIncidencia("IdTipoIncidencia")), 0, txtbxFolioIncidencia.Text, txtbxFolioISSSTE.Text) Then
+                If HayErroresAlAplicarValidaciones(CByte(drIncidencia("IdTipoIncidencia")), 0, txtbxFolioIncidencia.Text, txtbxFolioISSSTE.Text, CByte(ddlSubtipo.SelectedValue)) Then
                     Exit Sub
                 End If
 
-                oIncidencia.Actualiza(CShort(CDate(txtbxFechaIni.Text).Year), txtbxFolioIncidencia.Text,
-                                      CByte(drIncidencia("IdTipoIncidencia")), CInt(drEmp("IdEmp")), _
+                oIncidencia.Actualiza(CInt(txtId.Text),
+                     CShort(CDate(txtbxFechaIni.Text).Year), txtbxFolioIncidencia.Text,
+                                      CByte(drIncidencia("IdTipoIncidencia")), CInt(drEmp("IdEmp")),
                     CDate(txtbxFechaIni.Text), CDate(txtbxFechaFin.Text), 0, txtbxFolioISSSTE.Text, txtFolioIncidencia2.Text, CShort(drUsuario("IdUsuario")), 0,
-                     txtbxFechaJust.Text, CByte(ddlTipoJustPorJefe.SelectedValue), _
+                     txtbxFechaJust.Text, CByte(ddlSubtipo.SelectedValue),
                     CType(Session("ArregloAuditoria"), String()))
 
                 BindgvResumenIncidencias(txtbxNomCortoIncidencia.Text)
                 Select Case txtbxNomCortoIncidencia.Text
                     Case "PE"
                         BindgvDiasEco(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "R"
-                        BindgvRetardos(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "F"
-                        BindgvFaltas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "OCHE"
-                        BindgvOmisionesChecadaE(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "OCHS"
-                        BindgvOmisionesChecadaS(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "AJ"
+                        BindgvAusenciasJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "ANJ"
+                        BindgvAusenciasNoJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "OTR"
+                        BindgvOtros(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
                     Case "PS"
                         BindgvPermSindic(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
                     Case "P2H"
@@ -548,9 +485,9 @@ Partial Class wfControlIncidenciasPorEmp
 
                 End Select
             Case "JUSTIFICACION"
-                drIncidencia = oIncidencia.ObtenPorFolio(txtbxFolioIncidencia.Text)
+                drIncidencia = oIncidencia.ObtenPorId(txtId.Text)
 
-                If HayErroresAlAplicarValidaciones(CByte(drIncidencia("IdTipoIncidencia")), 0, txtbxFolioIncidencia.Text, txtbxFolioISSSTE.Text) Then
+                If HayErroresAlAplicarValidaciones(CByte(drIncidencia("IdTipoIncidencia")), 0, txtbxFolioIncidencia.Text, txtbxFolioISSSTE.Text, CByte(ddlSubtipo.SelectedValue)) Then
                     Exit Sub
                 End If
 
@@ -558,24 +495,22 @@ Partial Class wfControlIncidenciasPorEmp
                     txtbxFechaJust.Text = Date.Today.ToString("dd/MM/yyyy")
                 End If
 
-                oIncidencia.Actualiza(CShort(CDate(txtbxFechaIni.Text).Year), txtbxFolioIncidencia.Text,
-                                      CByte(drIncidencia("IdTipoIncidencia")), CInt(drEmp("IdEmp")), _
+                oIncidencia.Actualiza(CInt(txtId.Text), CShort(CDate(txtbxFechaIni.Text).Year), txtbxFolioIncidencia.Text,
+                                      CByte(drIncidencia("IdTipoIncidencia")), CInt(drEmp("IdEmp")),
                     CDate(txtbxFechaIni.Text), CDate(txtbxFechaFin.Text), 0, txtbxFolioISSSTE.Text, txtFolioIncidencia2.Text, CShort(drUsuario("IdUsuario")), 0,
-                     txtbxFechaJust.Text, CByte(ddlTipoJustPorJefe.SelectedValue), _
+                     txtbxFechaJust.Text, CByte(ddlSubtipo.SelectedValue),
                     CType(Session("ArregloAuditoria"), String()))
 
                 BindgvResumenIncidencias(txtbxNomCortoIncidencia.Text)
                 Select Case txtbxNomCortoIncidencia.Text
                     Case "PE"
                         BindgvDiasEco(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "R"
-                        BindgvRetardos(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "F"
-                        BindgvFaltas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "OCHE"
-                        BindgvOmisionesChecadaE(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-                    Case "OCHS"
-                        BindgvOmisionesChecadaS(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "AJ"
+                        BindgvAusenciasJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "ANJ"
+                        BindgvAusenciasNoJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+                    Case "OTR"
+                        BindgvOtros(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
                     Case "PS"
                         BindgvPermSindic(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
                     Case "P2H"
@@ -597,17 +532,21 @@ Partial Class wfControlIncidenciasPorEmp
         ib = CType(sender, ImageButton)
         gvr = ib.NamingContainer
 
-        Dim lblFolioIncidencia As Label = CType(gvr.FindControl("lblFolioIncidencia"), Label)
+        Dim lblIdIncidencia As Label = CType(gvr.FindControl("lblIdIncidencia"), Label)
         Dim oIncidencia As New Incidencias
         Dim drIncidencia As DataRow
         Dim dtIncidencia As DataTable
 
-        drIncidencia = oIncidencia.ObtenPorFolio(lblFolioIncidencia.Text)
-        dtIncidencia = oIncidencia.ObtenPorId(CShort(drIncidencia("IdTipoIncidencia")))
+        drIncidencia = oIncidencia.ObtenPorId(lblIdIncidencia.Text)
+        dtIncidencia = oIncidencia.ObtenTipoIncidenciaPorId(CShort(drIncidencia("IdTipoIncidencia")))
 
         SetVisibleBotones_wucBuscaEmps(False)
-        pnlABCIncidencias.GroupingText = "Captura/Modificación de " + dtIncidencia.Rows(0).Item("DescTipoIncidencia").ToString '+ ", año: " + ddlAños.SelectedItem.Text
+        pnlABCIncidencias.GroupingText = "Captura/Modificación de " + dtIncidencia.Rows(0).Item("DescTipoIncidencia").ToString '+ ", año:  " + ddlAños.SelectedItem.Text
 
+        LlenaDDL(ddlSubtipo, "DescSubtipo", "IdTiposDeIndicenciasSubtipos", oIncidencia.ObtenTiposDeIncidenciaSubtipos(CShort(drIncidencia("IdTipoIncidencia")), 0), drIncidencia("IdTiposDeIndicenciasSubtipos").ToString)
+        VisualizarControlesForm(ddlSubtipo.Items(0).Value)
+
+        txtId.Text = drIncidencia("Id").ToString
         txtbxNomCortoIncidencia.Text = dtIncidencia.Rows(0).Item("NomCortoTipoIncidencia").ToString
         txtbxFolioIncidencia.Text = drIncidencia("FolioIncidencia").ToString
 
@@ -616,41 +555,10 @@ Partial Class wfControlIncidenciasPorEmp
 
 
         txtbxFechaIni.Text = Left(drIncidencia("FechaIni").ToString, 10)
-        txtbxFechaIni.Enabled = True
-        txtbxFechaIni_CV.Enabled = True
-        ibFechaIni.Visible = True
-
-        txtbxFechaIni_RFV.Enabled = True
-
         'ValidationSummary2.Enabled = True
         txtbxFechaFin.Text = Left(drIncidencia("FechaFin").ToString, 10)
-        txtbxFechaFin.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-        ibFechaFin.Visible = txtbxFechaFin.Enabled
-        txtbxFechaFin_RFV.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-        txtbxFechaFin_CV.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-        txtbxFechaFin_CV2.Enabled = CBool(dtIncidencia.Rows(0).Item("RequierePeriodo"))
-
         txtbxFechaJust.Text = IIf(Left(drIncidencia("FechaJust").ToString, 10) <> "31/12/2099", Left(drIncidencia("FechaJust").ToString, 10).ToString, String.Empty)
-        txtbxFechaJust.Enabled = False
-        ibFechaJust.Visible = False
-        txtbxFechaJust_CV.Enabled = False
-
-        If txtbxNomCortoIncidencia.Text <> "LM" Then
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(0), drIncidencia("IdTipoJustifPorJefe").ToString)
-            ddlTipoJustPorJefe.Enabled = False
-            ddlTipoJustPorJefe_RFV.Enabled = False
-            txtFolioIncidencia2.Enabled = False
-        Else
-            txtbxFechaJust.Enabled = True
-            txtbxFechaJust_CV.Enabled = True
-            ibFechaJust.Visible = True
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(8), drIncidencia("IdTipoJustifPorJefe").ToString)
-            ddlTipoJustPorJefe.Enabled = True
-            ddlTipoJustPorJefe_RFV.Enabled = True
-
-            txtFolioIncidencia2.Text = drIncidencia("FolioIncidencia2").ToString
-            txtFolioIncidencia2.Enabled = True
-        End If
+        txtFolioIncidencia2.Text = drIncidencia("FolioIncidencia2").ToString
 
         btnGuardarIncidencia.CommandArgument = "MODIFICACION"
 
@@ -663,21 +571,18 @@ Partial Class wfControlIncidenciasPorEmp
         Dim drIncidencia As DataRow
         Dim dtIncidencia As DataTable
 
-
-
         ib = CType(sender, ImageButton)
         gvr = ib.NamingContainer
 
-        Dim lblFolioIncidencia As Label = CType(gvr.FindControl("lblFolioIncidencia"), Label)
+        Dim lblIdIncidencia As Label = CType(gvr.FindControl("lblIdIncidencia"), Label)
         Dim oIncidencia As New Incidencias
 
-
-
-        drIncidencia = oIncidencia.ObtenPorFolio(lblFolioIncidencia.Text)
-        dtIncidencia = oIncidencia.ObtenPorId(CShort(drIncidencia("IdTipoIncidencia")))
+        drIncidencia = oIncidencia.ObtenPorId(lblIdIncidencia.Text)
+        dtIncidencia = oIncidencia.ObtenTipoIncidenciaPorId(CShort(drIncidencia("IdTipoIncidencia")))
 
         SetVisibleBotones_wucBuscaEmps(False)
         pnlABCIncidencias.GroupingText = "Captura/Modificación de " + dtIncidencia.Rows(0).Item("DescTipoIncidencia").ToString '+ ", año: " + ddlAños.SelectedItem.Text
+        txtId.Text = drIncidencia("Id").ToString
         txtbxNomCortoIncidencia.Text = dtIncidencia.Rows(0).Item("NomCortoTipoIncidencia").ToString
         txtbxFolioIncidencia.Text = drIncidencia("FolioIncidencia").ToString
         txtbxFechaIni.Text = Left(drIncidencia("FechaIni").ToString, 10)
@@ -700,36 +605,34 @@ Partial Class wfControlIncidenciasPorEmp
         txtbxFechaJust_CV.Enabled = False
 
         If txtbxNomCortoIncidencia.Text <> "LM" Then
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(0), drIncidencia("IdTipoJustifPorJefe").ToString)
-            ddlTipoJustPorJefe.Enabled = False
-            ddlTipoJustPorJefe_RFV.Enabled = False
+            LlenaDDL(ddlSubtipo, "DescSubtipo", "IdTiposDeIndicenciasSubtipos", oIncidencia.ObtenTiposDeIncidenciaSubtipos(0, 0), drIncidencia("IdTiposDeIndicenciasSubtipos").ToString)
+            ddlSubtipo.Enabled = False
+            ddlSubtipo_RFV.Enabled = False
         Else
             txtbxFechaJust.Enabled = True
             txtbxFechaJust_CV.Enabled = True
             ibFechaJust.Visible = True
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(8), drIncidencia("IdTipoJustifPorJefe").ToString)
-            ddlTipoJustPorJefe.Enabled = True
-            ddlTipoJustPorJefe_RFV.Enabled = True
+            LlenaDDL(ddlSubtipo, "DescSubtipo", "IdTiposDeIndicenciasSubtipos", oIncidencia.ObtenTiposDeIncidenciaSubtipos(8, 0), drIncidencia("IdTiposDeIndicenciasSubtipos").ToString)
+            ddlSubtipo.Enabled = True
+            ddlSubtipo_RFV.Enabled = True
         End If
 
         'If HayErroresAlAplicarValidaciones(CByte(drIncidencia("IdTipoIncidencia")), 2, lblFolioIncidencia.Text, txtbxFolioISSSTE.Text) Then
         ' Exit Sub
         'End If
 
-        oIncidencia.Elimina(lblFolioIncidencia.Text, CType(Session("ArregloAuditoria"), String()))
+        oIncidencia.Elimina(lblIdIncidencia.Text, CType(Session("ArregloAuditoria"), String()))
 
         BindgvResumenIncidencias(drIncidencia("NomCortoTipoIncidencia").ToString)
         Select Case drIncidencia("NomCortoTipoIncidencia").ToString
             Case "PE"
                 BindgvDiasEco(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-            Case "R"
-                BindgvRetardos(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-            Case "F"
-                BindgvFaltas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-            Case "OCHE"
-                BindgvOmisionesChecadaE(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
-            Case "OCHS"
-                BindgvOmisionesChecadaS(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+            Case "AJ"
+                BindgvAusenciasJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+            Case "ANJ"
+                BindgvAusenciasNoJustificadas(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
+            Case "OTR"
+                BindgvOtros(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
             Case "PS"
                 BindgvPermSindic(CByte(drIncidencia("Mes")), drIncidencia("NombreMes").ToString)
             Case "P2H"
@@ -745,26 +648,21 @@ Partial Class wfControlIncidenciasPorEmp
         BindgvDiasEco(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
     End Sub
 
-    Protected Sub lbVerDetalleRetardos_Click(sender As Object, e As System.EventArgs)
+    Protected Sub lbVerDetalleAusenciasJustificadas_Click(sender As Object, e As System.EventArgs)
         Dim lbMes As LinkButton
         lbMes = CType(sender, LinkButton)
-        BindgvRetardos(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
+        BindgvAusenciasJustificadas(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
     End Sub
 
-    Protected Sub lbVerDetalleFaltas_Click(sender As Object, e As System.EventArgs)
+    Protected Sub lbVerDetalleAusenciasNoJustificadas_Click(sender As Object, e As System.EventArgs)
         Dim lbMes As LinkButton
         lbMes = CType(sender, LinkButton)
-        BindgvFaltas(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
+        BindgvAusenciasNoJustificadas(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
     End Sub
-    Protected Sub lbVerDetalleOmisionesChecadaE_Click(sender As Object, e As System.EventArgs)
+    Protected Sub lbVerDetalleOtros_Click(sender As Object, e As System.EventArgs)
         Dim lbMes As LinkButton
         lbMes = CType(sender, LinkButton)
-        BindgvOmisionesChecadaE(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
-    End Sub
-    Protected Sub lbVerDetalleOmisionesChecadaS_Click(sender As Object, e As System.EventArgs)
-        Dim lbMes As LinkButton
-        lbMes = CType(sender, LinkButton)
-        BindgvOmisionesChecadaS(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
+        BindgvOtros(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
     End Sub
     Protected Sub lbVerDetallePermSindic_Click(sender As Object, e As System.EventArgs)
         Dim lbMes As LinkButton
@@ -785,16 +683,13 @@ Partial Class wfControlIncidenciasPorEmp
     Protected Sub gvDiasEco_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvDiasEco.SelectedIndexChanged
 
     End Sub
-    Protected Sub gvRetardos_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvRetardos.SelectedIndexChanged
+    Protected Sub gvAusenciasJustificadas_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvAusenciasJustificadas.SelectedIndexChanged
 
     End Sub
-    Protected Sub gvFaltas_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvFaltas.SelectedIndexChanged
+    Protected Sub gvAusenciasNoJustificadas_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvAusenciasNoJustificadas.SelectedIndexChanged
 
     End Sub
-    Protected Sub gvOmisionesChecadaE_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvOmisionesChecadaE.SelectedIndexChanged
-
-    End Sub
-    Protected Sub gvOmisionesChecadaS_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvOmisionesChecadaE.SelectedIndexChanged
+    Protected Sub gvOtros_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvOtros.SelectedIndexChanged
 
     End Sub
     Protected Sub gvPermSindic_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles gvPermSindic.SelectedIndexChanged
@@ -842,18 +737,15 @@ Partial Class wfControlIncidenciasPorEmp
     Protected Sub gvDiasEco_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvDiasEco.RowDataBound
         gvRowDataBound(e)
     End Sub
-    Protected Sub gvRetardos_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvRetardos.RowDataBound
+    Protected Sub gvAusenciasJustificadas_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvAusenciasJustificadas.RowDataBound
         gvRowDataBound(e)
     End Sub
 
-    Protected Sub gvFaltas_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvFaltas.RowDataBound
+    Protected Sub gvAusenciasNoJustificadas_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvAusenciasNoJustificadas.RowDataBound
         gvRowDataBound(e)
     End Sub
 
-    Protected Sub gvOmisionesChecadaE_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvOmisionesChecadaE.RowDataBound
-        gvRowDataBound(e)
-    End Sub
-    Protected Sub gvOmisionesChecadaS_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvOmisionesChecadaS.RowDataBound
+    Protected Sub gvOtros_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvOtros.RowDataBound
         gvRowDataBound(e)
     End Sub
     Protected Sub gvPermSindic_RowDataBound(sender As Object, e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvPermSindic.RowDataBound
@@ -895,6 +787,8 @@ Partial Class wfControlIncidenciasPorEmp
                     If txtbxFechaIni.Text = "01/01/0001" Then txtbxFechaIni.Text = String.Empty
                     txtbxFechaFin.Text = txtbxFechaIni.Text
                     If txtbxFechaIni.Text <> "01/01/0001" And txtbxFechaIni.Text <> String.Empty Then pnlFechIni.Visible = Not pnlFechIni.Visible
+
+                    ValidacionPrevia()
                 End If
             End If
         End If
@@ -931,11 +825,15 @@ Partial Class wfControlIncidenciasPorEmp
         Dim drIncidencia As DataRow
         Dim dtIncidencia As DataTable
 
-        drIncidencia = oIncidencia.ObtenPorFolio(lblFolioIncidencia.Text)
-        dtIncidencia = oIncidencia.ObtenPorId(CShort(drIncidencia("IdTipoIncidencia")))
+        Dim lblIdIncidencia As Label = CType(gvr.FindControl("lblId"), Label)
+
+        drIncidencia = oIncidencia.ObtenPorId(lblIdIncidencia.Text)
+        dtIncidencia = oIncidencia.ObtenTipoIncidenciaPorId(CShort(drIncidencia("IdTipoIncidencia")))
 
         SetVisibleBotones_wucBuscaEmps(False)
         pnlABCIncidencias.GroupingText = "Justificación de " + dtIncidencia.Rows(0).Item("DescTipoIncidencia").ToString '+ ", año: " + ddlAños.SelectedItem.Text
+
+        txtId.Text = dtIncidencia.Rows(0).Item("Id").ToString
         txtbxNomCortoIncidencia.Text = dtIncidencia.Rows(0).Item("NomCortoTipoIncidencia").ToString
         txtbxFolioIncidencia.Text = drIncidencia("FolioIncidencia").ToString
 
@@ -958,19 +856,12 @@ Partial Class wfControlIncidenciasPorEmp
         ibFechaJust.Visible = True
         txtbxFechaJust_CV.Enabled = True
 
-
-        If txtbxNomCortoIncidencia.Text <> "LM" Then
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(0), drIncidencia("IdTipoJustifPorJefe").ToString)
-            ddlTipoJustPorJefe.Enabled = CBool(dtIncidencia.Rows(0).Item("MuestraOpcsDeJustificacion"))
-            ddlTipoJustPorJefe_RFV.Enabled = CBool(dtIncidencia.Rows(0).Item("MuestraOpcsDeJustificacion"))
-        Else
-            txtbxFechaJust.Enabled = True
-            txtbxFechaJust_CV.Enabled = True
-            ibFechaJust.Visible = True
-            LlenaDDL(ddlTipoJustPorJefe, "DescTipoJustifPorJefe", "IdTipoJustifPorJefe", oIncidencia.ObtenTiposDeJustPorJefe(8), drIncidencia("IdTipoJustifPorJefe").ToString)
-            ddlTipoJustPorJefe.Enabled = CBool(dtIncidencia.Rows(0).Item("MuestraOpcsDeJustificacion"))
-            ddlTipoJustPorJefe_RFV.Enabled = CBool(dtIncidencia.Rows(0).Item("MuestraOpcsDeJustificacion"))
-        End If
+        LlenaDDL(ddlSubtipo, "DescSubtipo", "IdTiposDeIndicenciasSubtipos", oIncidencia.ObtenTiposDeIncidenciaSubtipos(drIncidencia("IdTipoIncidencia"), 0), drIncidencia("IdTiposDeIndicenciasSubtipos").ToString)
+        ddlSubtipo.Enabled = CBool(dtIncidencia.Rows(0).Item("TieneSubtipos"))
+        ddlSubtipo_RFV.Enabled = CBool(dtIncidencia.Rows(0).Item("TieneSubtipos"))
+        'txtbxFechaJust.Enabled = CBool(dtIncidencia.Rows(0).Item("MuestraOpcsDeJustificacion"))
+        'txtbxFechaJust_CV.Enabled = CBool(dtIncidencia.Rows(0).Item("MuestraOpcsDeJustificacion"))
+        'ibFechaJust.Visible = CBool(dtIncidencia.Rows(0).Item("MuestraOpcsDeJustificacion"))
 
 
         btnGuardarIncidencia.CommandArgument = "JUSTIFICACION"
@@ -1034,7 +925,78 @@ Partial Class wfControlIncidenciasPorEmp
         MultiView1.SetActiveView(viewControlIncidencias)
     End Sub
 
-    Protected Sub btnRptLicMed_Click(sender As Object, e As EventArgs) Handles btnRptLicMed.Click
+    Protected Sub ddlSubtipo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlSubtipo.SelectedIndexChanged
+        VisualizarControlesForm(ddlSubtipo.SelectedValue)
+
+    End Sub
+
+    Private Sub VisualizarControlesForm(ByVal idSubtipoIncidencia As Integer)
+        Dim dtIncidenciaSubtipos As DataTable
+        Dim oIncidencia As New Incidencias
+
+        If idSubtipoIncidencia = 1 Then
+            dtIncidenciaSubtipos = oIncidencia.ObtenTipoIncidenciaPorId(CShort(ddlTiposDeIncidencias.SelectedValue))
+        Else
+            dtIncidenciaSubtipos = oIncidencia.ObtenTiposDeIncidenciaSubtipos(0, idSubtipoIncidencia)
+        End If
+
+        ddlSubtipo.Enabled = True
+        txtId.Text = ""
+        txtbxFolioIncidencia.Text = "POR ASIGNAR"
+        lblMensajePrevio.Text = ""
+        txtbxFechaIni.Text = String.Empty
+        txtbxFechaFin.Text = String.Empty
+        txtbxFechaJust.Text = String.Empty
+        txtFolioIncidencia2.Text = String.Empty
+        txtbxFolioISSSTE.Text = String.Empty
+
+        txtbxFolioISSSTE.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequiereFolioISSSTE"))
+
+        txtbxFechaJust.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("MuestraOpcsDeJustificacion"))
+        txtbxFechaJust_CV.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("MuestraOpcsDeJustificacion"))
+        ibFechaJust.Visible = CBool(dtIncidenciaSubtipos.Rows(0).Item("MuestraOpcsDeJustificacion"))
+
+        txtbxFechaIni.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+        txtbxFechaIni_RFV.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+        txtbxFechaIni_CV.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+        ibFechaIni.Visible = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+
+        txtbxFechaFin.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+        txtbxFechaFin_RFV.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+        txtbxFechaFin_CV.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+        ibFechaFin.Visible = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequierePeriodo"))
+
+        txtFolioIncidencia2.Enabled = CBool(dtIncidenciaSubtipos.Rows(0).Item("RequiereFolioIncidencia"))
+    End Sub
+
+    Private Sub ValidacionPrevia()
+        Dim drVPreviaInsercion As DataRow
+        Dim oIncidencia As New Incidencias
+        Dim oEmp As New Empleado
+        Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
+
+        oEmp.RFC = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
+        'validación previa a la inserción, para revisar si se debe enviar un mensaje preventivo al usuario
+        'ej: 3 retardos generan una falta
+        If txtbxFechaIni.Text <> "" And txtbxFechaFin.Text <> "" Then
+            drVPreviaInsercion = oIncidencia.VInsercionPrevia_Incidencias(oEmp.RFC,
+                                        CByte(ddlTiposDeIncidencias.SelectedValue),
+                                       CDate(txtbxFechaIni.Text),
+                                       CDate(txtbxFechaFin.Text),
+                                       1,
+                                       txtbxFolioIncidencia.Text,
+                                       CByte(ddlSubtipo.SelectedValue))
+
+            lblMensajePrevio.Text = ""
+            lblMensajePrevio.Visible = False
+            If drVPreviaInsercion("Mensaje").ToString <> "" Then
+                lblMensajePrevio.Text = drVPreviaInsercion("Mensaje").ToString
+                lblMensajePrevio.Visible = True
+            End If
+        End If
+    End Sub
+
+    Private Sub CreaLinkParaImpresion()
         Dim RFCEmp As String
         Dim Ejercicio As String
         Dim PeriodoActual As String
@@ -1043,7 +1005,6 @@ Partial Class wfControlIncidenciasPorEmp
         If radioPeriodoAct.Checked Then
             PeriodoActual = "1"
         End If
-
 
         'Imprime reporte
         RFCEmp = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
@@ -1054,6 +1015,18 @@ Partial Class wfControlIncidenciasPorEmp
                    + "&Ejercicio=" + Ejercicio _
                    + "&PeriodoActual=" + PeriodoActual _
                    + "&IdReporte=160" + "','resumenLicMedxEmp_" + RFCEmp + "'); return false;"
-        
+    End Sub
+    Protected Sub radioPeriodoAct_CheckedChanged(sender As Object, e As EventArgs) Handles radioPeriodoAct.CheckedChanged
+        CreaLinkParaImpresion()
+    End Sub
+    Protected Sub radioPeriodoAnt_CheckedChanged(sender As Object, e As EventArgs) Handles radioPeriodoAnt.CheckedChanged
+        CreaLinkParaImpresion()
+    End Sub
+    Protected Sub gvResumenLicMed_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvResumenLicMed.RowDataBound
+        CreaLinkParaImpresion()
+    End Sub
+
+    Protected Sub btnRptLicMed_Click(sender As Object, e As EventArgs) Handles btnRptLicMed.Click
+
     End Sub
 End Class
