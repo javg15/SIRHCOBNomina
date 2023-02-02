@@ -103,7 +103,13 @@ Partial Class wfControlIncidenciasPorEmp
     Private Sub BindddlTiposDeIncidencias()
         Dim oIncidencias As New Incidencias
 
-        LlenaDDL(ddlTiposDeIncidencias, "DescTipoIncidencia", "IdTipoIncidencia", oIncidencias.ObtenTipos(), Nothing)
+        Dim oUsuario As New Usuario
+        Dim drUsuario As DataRow
+
+        oUsuario.Login = Session("Login")
+        drUsuario = oUsuario.ObtenerPorLogin()
+
+        LlenaDDL(ddlTiposDeIncidencias, "DescTipoIncidencia", "IdTipoIncidencia", oIncidencias.ObtenTipos(drUsuario("IdUsuario")), Nothing)
     End Sub
     Private Sub BindDatos()
         Dim oEmp As New Empleado

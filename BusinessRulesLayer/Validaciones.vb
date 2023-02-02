@@ -753,6 +753,7 @@ Namespace COBAEV.Validaciones
                     Case "FECHAFINAL" : vlParam(J).Value = Me._FechaFinal
                     Case "IDTIPOINCIDENCIA" : vlParam(J).Value = Me._IdTipoIncidencia
                     Case "FOLIOINCIDENCIA" : vlParam(J).Value = Me._FolioIncidencia
+                    Case "FOLIOISSSTE" : vlParam(J).Value = Me._FolioISSSTE
                     Case "IDPUESTO" : vlParam(J).Value = Me._IdPuesto
                     Case "IDTIPOINCIDENCIASUBTIPOS" : vlParam(J).Value = Me._IdTipoIncidenciaSubtipos
                 End Select

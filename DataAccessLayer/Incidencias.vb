@@ -33,9 +33,13 @@ Namespace COBAEV
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenTipos() As DataTable
+        Public Function ObtenTipos(ByVal pId As Integer) As DataTable
             Try
-                Return _DataCOBAEV.RunProc("SP_STiposDeIncidencias", DataCOBAEV.Tipoconsulta.Table, DataCOBAEV.BD.Nomina)
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdUsuario", SqlDbType.Int)}
+
+                Prms(0).Value = pId
+
+                Return _DataCOBAEV.RunProc("SP_STiposDeIncidencias", Prms, DataCOBAEV.Tipoconsulta.Table, DataCOBAEV.BD.Nomina)
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try

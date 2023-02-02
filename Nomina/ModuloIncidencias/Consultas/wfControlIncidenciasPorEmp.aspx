@@ -47,6 +47,12 @@
                         TextLabelID="lblOtros" Collapsed="True" CollapseControlID="TitlePanelOtros"
                         ExpandControlID="TitlePanelOtros" TargetControlID="ContentPanelOtros">
                     </ajaxToolkit:CollapsiblePanelExtender>
+                    <ajaxToolkit:CollapsiblePanelExtender ID="CPELicMed" runat="Server" SuppressPostBack="true"
+                        CollapsedImage="~/Imagenes/expand_blue.jpg" ExpandedImage="~/Imagenes/collapse_blue.jpg"
+                        ImageControlID="imgLicMed" CollapsedText="(Mostrar detalles...)" ExpandedText="(Ocultar detalles...)"
+                        TextLabelID="lblLicMed" Collapsed="True" CollapseControlID="TitlePanelLicMed"
+                        ExpandControlID="TitlePanelLicMed" TargetControlID="ContentPanelLicMed">
+                    </ajaxToolkit:CollapsiblePanelExtender>
                     <ajaxToolkit:CollapsiblePanelExtender ID="CPEPermSindic" runat="Server" SuppressPostBack="true"
                         CollapsedImage="~/Imagenes/expand_blue.jpg" ExpandedImage="~/Imagenes/collapse_blue.jpg"
                         ImageControlID="imgPermSindic" CollapsedText="(Mostrar detalles...)" ExpandedText="(Ocultar detalles...)"
@@ -61,12 +67,7 @@
                         ExpandControlID="TitlePanelPerm2Hrs" TargetControlID="ContentPanelPerm2Hrs">
                     </ajaxToolkit:CollapsiblePanelExtender>
 
-                    <ajaxToolkit:CollapsiblePanelExtender ID="CPELicMed" runat="Server" SuppressPostBack="true"
-                        CollapsedImage="~/Imagenes/expand_blue.jpg" ExpandedImage="~/Imagenes/collapse_blue.jpg"
-                        ImageControlID="imgLicMed" CollapsedText="(Mostrar detalles...)" ExpandedText="(Ocultar detalles...)"
-                        TextLabelID="lblLicMed" Collapsed="True" CollapseControlID="TitlePanelLicMed"
-                        ExpandControlID="TitlePanelLicMed" TargetControlID="ContentPanelLicMed">
-                    </ajaxToolkit:CollapsiblePanelExtender>
+                    
 
                     <div style="text-align: left;">
                         <asp:Label ID="lblEmpInf" runat="server" SkinID="SkinLblDatos" Font-Underline="True"
@@ -795,7 +796,7 @@
                             <asp:Image ID="imgLicMed" runat="server" ImageUrl="~/Imagenes/expand_blue.jpg">
                             </asp:Image>
                             &nbsp;Licencias médicas
-                            <asp:Label ID="lblLicMed" runat="server">(Mostrar detalles...)</asp:Label>
+                            <asp:Label ID="lblLicMedS" runat="server">(Mostrar detalles...)</asp:Label>
                         </asp:Panel>
                         <asp:Panel ID="ContentPanelLicMed" runat="server"  Width="100%" CssClass="collapsePanel" >
                             <asp:GridView ID="gvResumenLicMed" runat="server"  AutoGenerateColumns="False" SkinID="SkinGridView"
@@ -888,7 +889,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Licencias Médicas (Gran total anual)">
                                         <ItemTemplate>
-                                            <asp:Label ID="lblPerm2HrsTot" runat="server" Text='<%# Eval("TotalLicMed") %>'
+                                            <asp:Label ID="lblLicMedTot" runat="server" Text='<%# Eval("TotalLicMed") %>'
                                                 Font-Bold="true"></asp:Label></ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" Width="150px" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -910,7 +911,7 @@
                                     Width="100%" >
                                 <EmptyDataTemplate>
                                         <div>
-                                            <asp:Label ID="lblMsjSinPerm2Hrs" runat="server" Text="No existe información de permisos de 2 horas en el año/mes seleccionado."></asp:Label>
+                                            <asp:Label ID="lblMsjSinLicMed" runat="server" Text="No existe información de licencias médicas en el año/mes seleccionado."></asp:Label>
                                         </div>
                                 </EmptyDataTemplate>
                                 <EmptyDataRowStyle Font-Italic="True" />
@@ -1692,6 +1693,94 @@
                                                                     </p>
                                                                     <p class="pTextBox">
                                                                         <asp:TextBox ID="txtFolioIncidencia2" runat="server" CssClass="textEntry" Enabled="false" MaxLength="150"></asp:TextBox>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
                                                                     </p>
                                                                     <p>
                                                                     </p>

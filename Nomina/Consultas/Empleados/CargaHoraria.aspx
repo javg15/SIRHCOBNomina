@@ -575,6 +575,7 @@
                                                                                         <ItemTemplate>
                                                                                             <asp:ImageButton ID="ibAddHora" runat="server" CommandName="Copiar" ImageUrl="~/Imagenes/Add2.png"
                                                                                                 ToolTip="Agregar registro a carga horaria del semestre." 
+
                                                                                                 style="width: 16px" />
                                                                                             <ajaxToolkit:ConfirmButtonExtender ID="ibAddHora_ConfirmButtonExtender" runat="server"
                                                                                                 ConfirmText="¿Realmente desea agregar el registro a la carga horaria del empleado?"
