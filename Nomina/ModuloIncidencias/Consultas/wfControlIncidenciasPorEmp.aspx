@@ -246,6 +246,20 @@
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Observaciones">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblFolioIncidencia2" runat="server" Text='<%# Bind("FolioIncidencia2") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="IDS afectados">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblIdsAfectados" runat="server" Text='<%# Bind("idsAfectados") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
                                         <asp:BoundField DataField="FechaCaptura" DataFormatString="{0:d}" HeaderText="Fecha Captura/Modificación"
                                             ReadOnly="True">
                                             <HeaderStyle HorizontalAlign="Center" />
@@ -296,8 +310,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbEnero" runat="server" Text='<%# Bind("Enero") %>' CausesValidation="False"
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" CommandArgument="1"></asp:LinkButton>
-                                            <asp:Label ID="lblEneroJust" runat="server" Text='<%# Bind("EneroJust") %>' ToolTip='<%# Bind("EneroJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -306,8 +318,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbFebrero" CommandArgument="2" runat="server" Text='<%# Eval("Febrero") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblFebreroJust" runat="server" Text='<%# Bind("FebreroJust") %>' ToolTip='<%# Bind("FebreroJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -316,8 +326,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbMarzo" CommandArgument="3" runat="server" Text='<%# Eval("Marzo") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblMarzoJust" runat="server" Text='<%# Bind("MarzoJust") %>' ToolTip='<%# Bind("MarzoJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -326,8 +334,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbAbril" CommandArgument="4" runat="server" Text='<%# Eval("Abril") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblAbrilJust" runat="server" Text='<%# Bind("AbrilJust") %>' ToolTip='<%# Bind("AbrilJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -336,8 +342,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbMayo" CommandArgument="5" runat="server" Text='<%# Eval("Mayo") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblMayoJust" runat="server" Text='<%# Bind("MayoJust") %>' ToolTip='<%# Bind("MayoJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -346,8 +350,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbJunio" CommandArgument="6" runat="server" Text='<%# Eval("Junio") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblJunioJust" runat="server" Text='<%# Bind("JunioJust") %>'  ToolTip='<%# Bind("JunioJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -356,8 +358,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbJulio" CommandArgument="7" runat="server" Text='<%# Eval("Julio") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblJulioJust" runat="server" Text='<%# Bind("JulioJust") %>'  ToolTip='<%# Bind("JulioJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -366,8 +366,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbAgosto" CommandArgument="8" runat="server" Text='<%# Eval("Agosto") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblAgostoJust" runat="server" Text='<%# Bind("AgostoJust") %>' ToolTip='<%# Bind("AgostoJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -376,8 +374,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbSeptiembre" CommandArgument="9" runat="server" Text='<%# Eval("Septiembre") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblSeptiembreJust" runat="server" Text='<%# Bind("SeptiembreJust") %>'  ToolTip='<%# Bind("SeptiembreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -386,8 +382,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbOctubre" CommandArgument="10" runat="server" Text='<%# Eval("Octubre") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblOctubreJust" runat="server" Text='<%# Bind("OctubreJust") %>' ToolTip='<%# Bind("OctubreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -396,8 +390,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbNoviembre" CommandArgument="11" runat="server" Text='<%# Eval("Noviembre") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblNoviembreJust" runat="server" Text='<%# Bind("NoviembreJust") %>' ToolTip='<%# Bind("NoviembreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -406,8 +398,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbDiciembre" CommandArgument="12" runat="server" Text='<%# Eval("Diciembre") %>'
                                                 OnClick="lbVerDetalleAusenciasJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblDiciembreJust" runat="server" Text='<%# Bind("DiciembreJust") %>' ToolTip='<%# Bind("DiciembreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -477,6 +467,20 @@
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Observaciones">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblFolioIncidencia2" runat="server" Text='<%# Bind("FolioIncidencia2") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="IDS afectados">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblIdsAfectados" runat="server" Text='<%# Bind("idsAfectados") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Día(s)">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblNumDias" runat="server" Text='<%# Bind("NumDias") %>' ForeColor="Blue"></asp:Label></ItemTemplate>
@@ -542,8 +546,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbEnero" runat="server" Text='<%# Bind("Enero") %>' CausesValidation="False"
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" CommandArgument="1"></asp:LinkButton>
-                                            <asp:Label ID="lblEneroJust" runat="server" Text='<%# Bind("EneroJust") %>' ToolTip='<%# Bind("EneroJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -552,8 +554,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbFebrero" CommandArgument="2" runat="server" Text='<%# Eval("Febrero") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblFebreroJust" runat="server" Text='<%# Bind("FebreroJust") %>' ToolTip='<%# Bind("FebreroJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -562,8 +562,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbMarzo" CommandArgument="3" runat="server" Text='<%# Eval("Marzo") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblMarzoJust" runat="server" Text='<%# Bind("MarzoJust") %>' ToolTip='<%# Bind("MarzoJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -572,8 +570,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbAbril" CommandArgument="4" runat="server" Text='<%# Eval("Abril") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblAbrilJust" runat="server" Text='<%# Bind("AbrilJust") %>' ToolTip='<%# Bind("AbrilJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -582,8 +578,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbMayo" CommandArgument="5" runat="server" Text='<%# Eval("Mayo") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblMayoJust" runat="server" Text='<%# Bind("MayoJust") %>' ToolTip='<%# Bind("MayoJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -592,8 +586,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbJunio" CommandArgument="6" runat="server" Text='<%# Eval("Junio") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblJunioJust" runat="server" Text='<%# Bind("JunioJust") %>' ToolTip='<%# Bind("JunioJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -602,8 +594,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbJulio" CommandArgument="7" runat="server" Text='<%# Eval("Julio") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblJulioJust" runat="server" Text='<%# Bind("JulioJust") %>' ToolTip='<%# Bind("JulioJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -612,8 +602,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbAgosto" CommandArgument="8" runat="server" Text='<%# Eval("Agosto") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblAgostoJust" runat="server" Text='<%# Bind("AgostoJust") %>' ToolTip='<%# Bind("AgostoJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -622,8 +610,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbSeptiembre" CommandArgument="9" runat="server" Text='<%# Eval("Septiembre") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblSeptiembreJust" runat="server" Text='<%# Bind("SeptiembreJust") %>' ToolTip='<%# Bind("SeptiembreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -632,8 +618,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbOctubre" CommandArgument="10" runat="server" Text='<%# Eval("Octubre") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblOctubreJust" runat="server" Text='<%# Bind("OctubreJust") %>' ToolTip='<%# Bind("OctubreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -642,8 +626,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbNoviembre" CommandArgument="11" runat="server" Text='<%# Eval("Noviembre") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblNoviembreJust" runat="server" Text='<%# Bind("NoviembreJust") %>' ToolTip='<%# Bind("NoviembreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -652,8 +634,6 @@
                                         <ItemTemplate>
                                             <asp:LinkButton ID="lbDiciembre" CommandArgument="12" runat="server" Text='<%# Eval("Diciembre") %>'
                                                 OnClick="lbVerDetalleAusenciasNoJustificadas_Click" ToolTip="Ver detalle" CausesValidation="False"></asp:LinkButton>
-                                            <asp:Label ID="lblDiciembreJust" runat="server" Text='<%# Bind("DiciembreJust") %>' ToolTip='<%# Bind("DiciembreJustToolTip") %>' ForeColor="Red">
-                                            </asp:Label>
                                         </ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -661,20 +641,6 @@
                                     <asp:TemplateField HeaderText="Ausencias No Justificadas<br/>(Total anual)">
                                         <ItemTemplate>
                                             <asp:Label ID="lbAusenciasNoJustificadasTot" runat="server" Text='<%# Eval("TotalAusenciasNoJustificadas") %>'
-                                                Font-Bold="true"></asp:Label></ItemTemplate>
-                                        <HeaderStyle HorizontalAlign="Center" Width="150px" />
-                                        <ItemStyle HorizontalAlign="Center" />
-                                    </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Ausencias No Justificadas<br />(Total anual)">
-                                        <ItemTemplate>
-                                            <asp:Label ID="lbAusenciasNoJustificadasTot" runat="server" Text='<%# Eval("TotalAusenciasNoJustificadasJust") %>'
-                                                Font-Bold="true"></asp:Label></ItemTemplate>
-                                        <HeaderStyle HorizontalAlign="Center" Width="150px" />
-                                        <ItemStyle HorizontalAlign="Center" />
-                                    </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="Ausencias No Justificadas<br />(Gran total anual)">
-                                        <ItemTemplate>
-                                            <asp:Label ID="lbGranTotalAusenciasNoJustificadas" runat="server" Text='<%# Eval("GranTotalAusenciasNoJustificadas") %>'
                                                 Font-Bold="true"></asp:Label></ItemTemplate>
                                         <HeaderStyle HorizontalAlign="Center" Width="150px" />
                                         <ItemStyle HorizontalAlign="Center" />
@@ -744,6 +710,13 @@
                                         <asp:TemplateField HeaderText="Observaciones">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblFolioIncidencia2" runat="server" Text='<%# Bind("FolioIncidencia2") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="IDS afectados">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblIdsAfectados" runat="server" Text='<%# Bind("idsAfectados") %>'></asp:Label>
                                             </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Center" />
@@ -969,6 +942,18 @@
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Observaciones">
+                                            <ItemTemplate>
+                                                <asp:Label ID="FolioIncidencia2" runat="server" Text='<%# Bind("FolioIncidencia2") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="IDS afectados">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblIdsAfectados" runat="server" Text='<%# Bind("idsAfectados") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Capturado  / Modificado por">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblIdUsuario" runat="server" Text='<%# Bind("IdUsuario") %>' Visible="False"></asp:Label><asp:Label
@@ -976,11 +961,7 @@
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Observaciones">
-                                            <ItemTemplate>
-                                                <asp:Label ID="FolioIncidencia2" runat="server" Text='<%# Bind("FolioIncidencia2") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                                        
                                         <asp:TemplateField HeaderText="">
                                             <ItemTemplate>
                                                 <asp:ImageButton ID="ibEditar" runat="server" CausesValidation="False" ImageUrl="~/Imagenes/Modificar.png"
@@ -1160,6 +1141,20 @@
                                         <asp:TemplateField HeaderText="Fecha de incidencia">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblFecha" runat="server" Text='<%# Bind("FechaIni", "{0:d}") %>'></asp:Label></ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Observaciones">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblFolioIncidencia2" runat="server" Text='<%# Bind("FolioIncidencia2") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <HeaderStyle HorizontalAlign="Center" />
+                                            <ItemStyle HorizontalAlign="Center" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="IDS afectados">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblIdsAfectados" runat="server" Text='<%# Bind("idsAfectados") %>'></asp:Label>
+                                            </ItemTemplate>
                                             <HeaderStyle HorizontalAlign="Center" />
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>
@@ -1693,6 +1688,46 @@
                                                                     </p>
                                                                     <p class="pTextBox">
                                                                         <asp:TextBox ID="txtFolioIncidencia2" runat="server" CssClass="textEntry" Enabled="false" MaxLength="150"></asp:TextBox>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
+                                                                    </p>
+                                                                    <p>
                                                                     </p>
                                                                     <p>
                                                                     </p>

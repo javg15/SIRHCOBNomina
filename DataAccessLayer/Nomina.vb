@@ -1321,7 +1321,7 @@ Namespace COBAEV.Nominas
         Private _EspecificarNumQuincenas As Boolean
         Private _NumDias As Byte
 
-        Private _ClavePercepcion, _NombrePercepcion, _URL, _Gravar, _Horas As String
+        Private _ClavePercepcion, _NombrePercepcion, _URL, _Gravar, _Horas, _FolioISSSTE, _Observaciones As String
         Private _IdProc, _IdPercepcionPadre As Short
         Private _MostrarParaCaptura, _Activa, _EfectosAbiertos, _Multiplica, _Pension, _ISSSTE As Boolean
         Private _DosPorcNomina, _ValidaParaRP, _Ordinaria, _Masiva, _RequiereDias, _IncluirParaRecibos As Boolean
@@ -1692,6 +1692,22 @@ Namespace COBAEV.Nominas
             End Get
             Set(ByVal Value As Integer)
                 _VigIniPerc = Value
+            End Set
+        End Property
+        Public Property FolioISSSTE() As String
+            Get
+                Return _FolioISSSTE
+            End Get
+            Set(ByVal Value As String)
+                _FolioISSSTE = Value
+            End Set
+        End Property
+        Public Property Observaciones() As String
+            Get
+                Return _Observaciones
+            End Get
+            Set(ByVal Value As String)
+                _Observaciones = Value
             End Set
         End Property
         Public Enum TipoInsercion
@@ -2510,15 +2526,17 @@ Namespace COBAEV.Nominas
         Public Function Inserta(ByVal TipoInsercion As TipoInsercion, ByVal ArregloAuditoria() As String) As Boolean
             Try
                 If TipoInsercion = Percepcion.TipoInsercion.ParaPago Then
-                    Dim Prms As SqlParameter() = {New SqlParameter("@IdPercepcion", SqlDbType.SmallInt), _
-                                                    New SqlParameter("@IdPlaza", SqlDbType.Int), _
-                                                    New SqlParameter("@ImportePercepcion", SqlDbType.Decimal), _
-                                                    New SqlParameter("@IdQnaInicio", SqlDbType.SmallInt), _
-                                                    New SqlParameter("@IdQnaFin", SqlDbType.SmallInt), _
-                                                    New SqlParameter("@EspecificarNumQuincenas", SqlDbType.Bit), _
-                                                    New SqlParameter("@NumQnas", SqlDbType.TinyInt), _
-                                                    New SqlParameter("@TipoInsercion", SqlDbType.TinyInt), _
-                                                    New SqlParameter("@NumDias", SqlDbType.TinyInt)}
+                    Dim Prms As SqlParameter() = {New SqlParameter("@IdPercepcion", SqlDbType.SmallInt),
+                                                    New SqlParameter("@IdPlaza", SqlDbType.Int),
+                                                    New SqlParameter("@ImportePercepcion", SqlDbType.Decimal),
+                                                    New SqlParameter("@IdQnaInicio", SqlDbType.SmallInt),
+                                                    New SqlParameter("@IdQnaFin", SqlDbType.SmallInt),
+                                                    New SqlParameter("@EspecificarNumQuincenas", SqlDbType.Bit),
+                                                    New SqlParameter("@NumQnas", SqlDbType.TinyInt),
+                                                    New SqlParameter("@TipoInsercion", SqlDbType.TinyInt),
+                                                    New SqlParameter("@NumDias", SqlDbType.TinyInt),
+                                                    New SqlParameter("@FolioISSSTE", SqlDbType.NVarChar, 20),
+                                                    New SqlParameter("@Observaciones", SqlDbType.NVarChar, 100)}
 
                     Prms(0).Value = Me._IdPercepcion
                     Prms(1).Value = Me._IdPlaza
@@ -2529,6 +2547,8 @@ Namespace COBAEV.Nominas
                     Prms(6).Value = Me._NumQnas
                     Prms(7).Value = TipoInsercion
                     Prms(8).Value = Me._NumDias
+                    Prms(9).Value = Me._FolioISSSTE
+                    Prms(10).Value = Me._Observaciones
 
                     Return _DataCOBAEV.RunProc("SP_IPercepciones", Prms, DataCOBAEV.BD.Nomina, ArregloAuditoria)
                 End If
@@ -2540,16 +2560,18 @@ Namespace COBAEV.Nominas
         Public Function Actualiza(ByVal TipoActualizacion As TipoActualizacion, ByVal ArregloAuditoria() As String) As Boolean
             Try
                 If TipoActualizacion = Deduccion.TipoInsercion.ParaPago Then
-                    Dim Prms As SqlParameter() = {New SqlParameter("@IdPercCapturada", SqlDbType.Int), _
-                                                    New SqlParameter("@IdPercepcion", SqlDbType.SmallInt), _
-                                                    New SqlParameter("@IdPlaza", SqlDbType.Int), _
-                                                    New SqlParameter("@ImportePercepcion", SqlDbType.Decimal), _
-                                                    New SqlParameter("@IdQnaInicio", SqlDbType.SmallInt), _
-                                                    New SqlParameter("@IdQnaFin", SqlDbType.SmallInt), _
-                                                    New SqlParameter("@EspecificarNumQuincenas", SqlDbType.Bit), _
-                                                    New SqlParameter("@NumQnas", SqlDbType.TinyInt), _
-                                                    New SqlParameter("@TipoActualizacion", SqlDbType.TinyInt), _
-                                                    New SqlParameter("@NumDias", SqlDbType.TinyInt)}
+                    Dim Prms As SqlParameter() = {New SqlParameter("@IdPercCapturada", SqlDbType.Int),
+                                                    New SqlParameter("@IdPercepcion", SqlDbType.SmallInt),
+                                                    New SqlParameter("@IdPlaza", SqlDbType.Int),
+                                                    New SqlParameter("@ImportePercepcion", SqlDbType.Decimal),
+                                                    New SqlParameter("@IdQnaInicio", SqlDbType.SmallInt),
+                                                    New SqlParameter("@IdQnaFin", SqlDbType.SmallInt),
+                                                    New SqlParameter("@EspecificarNumQuincenas", SqlDbType.Bit),
+                                                    New SqlParameter("@NumQnas", SqlDbType.TinyInt),
+                                                    New SqlParameter("@TipoActualizacion", SqlDbType.TinyInt),
+                                                    New SqlParameter("@NumDias", SqlDbType.TinyInt),
+                                                    New SqlParameter("@FolioISSSTE", SqlDbType.NVarChar, 20),
+                                                    New SqlParameter("@Observaciones", SqlDbType.NVarChar, 100)}
 
                     Prms(0).Value = Me._IdPercCapturada
                     Prms(1).Value = Me._IdPercepcion
@@ -2561,6 +2583,8 @@ Namespace COBAEV.Nominas
                     Prms(7).Value = Me._NumQnas
                     Prms(8).Value = TipoActualizacion
                     Prms(9).Value = Me._NumDias
+                    Prms(10).Value = Me._FolioISSSTE
+                    Prms(11).Value = Me._Observaciones
 
                     Return _DataCOBAEV.RunProc("SP_UPercepciones", Prms, DataCOBAEV.BD.Nomina, ArregloAuditoria)
                 End If

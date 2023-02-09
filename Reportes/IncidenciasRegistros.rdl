@@ -24,6 +24,12 @@
               <Width>2.5cm</Width>
             </TablixColumn>
             <TablixColumn>
+              <Width>2.5cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.5cm</Width>
+            </TablixColumn>
+            <TablixColumn>
               <Width>1.62624cm</Width>
             </TablixColumn>
             <TablixColumn>
@@ -148,6 +154,82 @@
                         </Paragraph>
                       </Paragraphs>
                       <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>PLANTEL</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Style>Solid</Style>
+                        </BottomBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>ZONA GEOGRAFICA</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox11</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>None</Style>
@@ -649,6 +731,72 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
+                    <Textbox Name="DescPlantel">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!DescPlantel.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>DescPlantel</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="NombreZonaGeografica">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!NombreZonaGeografica.Value</Value>
+                              <Style>
+                                <FontSize>8pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>NombreZonaGeografica</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
                     <Textbox Name="DescTipoIncidencia">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
@@ -996,6 +1144,8 @@
             <TablixMember />
             <TablixMember />
             <TablixMember />
+            <TablixMember />
+            <TablixMember />
           </TablixMembers>
         </TablixColumnHierarchy>
         <TablixRowHierarchy>
@@ -1012,7 +1162,7 @@
         <Top>0.29464cm</Top>
         <Left>0.74168cm</Left>
         <Height>1.2cm</Height>
-        <Width>30.95696cm</Width>
+        <Width>35.95696cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1023,7 +1173,7 @@
     <Height>0.648in</Height>
     <Style />
   </Body>
-  <Width>12.52003in</Width>
+  <Width>14.44828in</Width>
   <Page>
     <PageHeader>
       <Height>1.60584cm</Height>
@@ -1145,26 +1295,30 @@
             <Value>=Parameters!pTipoFecha.Value</Value>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>
-			DECLARE @FechaIni DATE
-			DECLARE @FechaFin DATE
-
-			set @FechaIni=dbo.[Fn_ObtenFechaINIoFINdeQna](@IdQuincena,'I',0)
-			set @FechaFin=dbo.[Fn_ObtenFechaINIoFINdeQna](@IdQuincena,'F',0)
-
-			SELECT  [id], [Anio], [FolioIncidencia], ci.[IdTipoIncidencia], tdi.DescTipoIncidencia, ci.IdEmp, dbo.Fn_ObtenNomEmp(e.IdEmp) AS nombre, [FechaIni], [FechaFin], [FolioISSSTE], [FolioIncidencia2], [FechaCaptura],
-			u.[IdUsuario], [FechaJust], ci.[IdTiposDeIndicenciasSubtipos], tdis.DescSubtipo, [NumDias], [idsAfectados], [afectado],edl.numemp,u.Login
-			FROM      [Nomina].[dbo].[ControlDeIndicencias] AS ci LEFT JOIN
-			[Nomina].[dbo].Empleados AS e ON ci.IdEmp = e.IdEmp LEFT JOIN
-			TiposDeIndicencias AS tdi ON ci.IdTipoIncidencia = tdi.IdTipoIncidencia LEFT JOIN
-			TiposDeIndicenciasSubtipos AS tdis ON ci.IdTiposDeIndicenciasSubtipos = tdis.IdTiposDeIndicenciasSubtipos
-			LEFT JOIN EmpleadosDatosLaborales AS edl ON e.IdEmp=edl.IdEmp
-			LEFT JOIN [Administracion].[dbo].[Usuarios] AS u ON ci.IdUsuario=u.IdUsuario
-			WHERE   (ci.IdUsuario = @IdUsuario OR coalesce(@IdUsuario,0)=0) AND (ci.FechaCaptura BETWEEN @FechaIni AND @FechaFin AND @TipoFecha = 0 OR
-			(ci.FechaIni BETWEEN @FechaIni AND @FechaFin AND @TipoFecha = 1 OR
-			ci.FechaFin BETWEEN @FechaIni AND @FechaFin AND @TipoFecha = 1))
-			ORDER BY ci.[FechaIni]
-		</CommandText>
+        <CommandText>DECLARE @FechaIni DATE DECLARE @FechaFin DATE
+SET           @FechaIni = dbo.[Fn_ObtenFechaINIoFINdeQna](@IdQuincena, 'I', 0)
+SET           @FechaFin = dbo.[Fn_ObtenFechaINIoFINdeQna](@IdQuincena, 'F', 0)
+                       SELECT  [id], [Anio], [FolioIncidencia], ci.[IdTipoIncidencia], tdi.DescTipoIncidencia, ci.IdEmp, dbo.Fn_ObtenNomEmp(e.IdEmp) AS nombre, [FechaIni], [FechaFin], [FolioISSSTE], [FolioIncidencia2], [FechaCaptura], u.[IdUsuario], [FechaJust], 
+                                          ci.[IdTiposDeIndicenciasSubtipos], tdis.DescSubtipo, [NumDias], [idsAfectados], [afectado], edl.numemp, u.Login, PLA.DescPlantel, ZG.NombreZonaGeografica
+                       FROM      [Nomina].[dbo].[ControlDeIndicencias] AS ci LEFT JOIN
+                                          [Nomina].[dbo].Empleados AS e ON ci.IdEmp = e.IdEmp LEFT JOIN
+                                          TiposDeIndicencias AS tdi ON ci.IdTipoIncidencia = tdi.IdTipoIncidencia LEFT JOIN
+                                          TiposDeIndicenciasSubtipos AS tdis ON ci.IdTiposDeIndicenciasSubtipos = tdis.IdTiposDeIndicenciasSubtipos LEFT JOIN
+                                          EmpleadosDatosLaborales AS edl ON e.IdEmp = edl.IdEmp LEFT JOIN
+                                          [Administracion].[dbo].[Usuarios] AS u ON ci.IdUsuario = u.IdUsuario LEFT JOIN
+                                          [Nomina].[dbo].[EmpleadosPlazas] ep ON ep.idemp = edl.idemp LEFT JOIN
+                                          [Nomina].[dbo].Planteles PLA ON EP.IdPlantel = PLA.IdPlantel LEFT JOIN
+                                          [Nomina].[dbo].ZonasGeograficas zg ON PLA.IdZonaGeografica = ZG.IdZonaGeografica
+                       WHERE   (ci.IdUsuario = @IdUsuario OR
+                                          COALESCE (@IdUsuario, 0) = 0) AND (ci.FechaCaptura BETWEEN @FechaIni AND @FechaFin AND @TipoFecha = 0 OR
+                                          (ci.FechaIni BETWEEN @FechaIni AND @FechaFin AND @TipoFecha = 1 OR
+                                          ci.FechaFin BETWEEN @FechaIni AND @FechaFin AND @TipoFecha = 1))
+AND ep.idplaza in (select top 1 px.IdPlaza
+						from [Nomina].[dbo].[EmpleadosPlazas] epx 
+							inner join [Nomina].[dbo].PlazasHistoria px on epx.IdPlaza=px.IdPlaza
+						where epx.IdEmp=ep.IdEmp AND px.IdQnaVigIni&lt;&gt;px.IdQnaVigFin
+						order by px.IdQnaVigIni DESC )
+                       ORDER BY ci.[FechaIni]</CommandText>
       </Query>
       <Fields>
         <Field Name="id">
@@ -1249,6 +1403,14 @@
         </Field>
         <Field Name="Login">
           <DataField>Login</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DescPlantel">
+          <DataField>DescPlantel</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="NombreZonaGeografica">
+          <DataField>NombreZonaGeografica</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>

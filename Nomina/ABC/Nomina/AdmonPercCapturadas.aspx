@@ -62,6 +62,25 @@
                                 <p>
                                     <uc1:wucEfectos2 ID="WucEfectos2" runat="server" Visible="true"></uc1:wucEfectos2>
                                 </p>
+                                <asp:Panel ID="pnlFolioISSSTE" runat="server" Width="100%" BorderWidth="1px"
+                                    BorderStyle="Solid" BorderColor="White" CssClass="">
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblFolioFolioIssste" runat="server" Text="Folio ISSSTE"></asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:TextBox ID="txtFolioIssste" runat="server" CssClass="textEntry"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="reqFolioIssste" runat="server" ControlToValidate="txtFolioIssste"
+                                            Display="Dynamic" ErrorMessage="* Capture el Folio ISSSTE"></asp:RequiredFieldValidator>
+                                    </p>
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblObservaciones" runat="server" Text="Observaciones"></asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:TextBox ID="txtObservaciones" runat="server" CssClass="textEntry"></asp:TextBox>
+                                        <asp:RequiredFieldValidator ID="reqObservaciones" runat="server" ControlToValidate="txtObservaciones"
+                                            Display="Dynamic" ErrorMessage="* Capture las Observaciones"></asp:RequiredFieldValidator>
+                                    </p>
+                                </asp:Panel>
                             </div>
                         </fieldset>
                     </div>

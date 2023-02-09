@@ -188,9 +188,18 @@ Partial Class ReportesIncidencias
     End Sub
     Public Sub BindddlQuincenas()
         Dim oAnio As New Anios
+        Dim oQuincena As New Quincenas
+        Dim dt As DataTable = oAnio.ObtenQnasOrdinariasPagadas(ddlAños.SelectedValue)
+        Dim drQnaActual As DataRow = oQuincena.ObtenQnaActual()
+        Dim dr As DataRow = dt.NewRow
+        dr("IdQuincena") = drQnaActual("IdQuincena")
+        dr("Quincena") = drQnaActual("Quincena")
+        dt.Rows.Add(dr)
+        dt.DefaultView.Sort = "IdQuincena DESC"
+        dt = dt.DefaultView.ToTable
 
         With Me.ddlQuincena
-            .DataSource = oAnio.ObtenQnasOrdinariasPagadas(ddlAños.SelectedValue)
+            .DataSource = dt
             .DataTextField = "Quincena"
             .DataValueField = "IdQuincena"
             .DataBind()

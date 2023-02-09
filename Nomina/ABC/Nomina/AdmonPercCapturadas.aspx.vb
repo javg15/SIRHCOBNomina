@@ -129,6 +129,7 @@ Partial Class AdmonPercCapturadas
         Else
             Me.tbDiasAPagar.Text = "0"
         End If
+
         Me.tbDiasAPagar.Enabled = CBool(drPerc("RequiereDias"))
         If CBool(drPerc("RequiereDias")) = False Then Me.tbDiasAPagar.Text = "0"
         Me.rfvNumDias.Enabled = CBool(drPerc("RequiereDias"))
@@ -252,6 +253,12 @@ Partial Class AdmonPercCapturadas
                     ddlQnaFin.DataTextField = "Quincena"
                     ddlQnaFin.DataValueField = "IdQuincena"
                     ddlQnaFin.DataBind()
+
+                    If CShort(Request.Params("IdPercepcion") = 60) Then 'Ayuda para anteojos
+                        Me.txtFolioIssste.Text = dr("FolioISSSTE").ToString
+                        Me.txtObservaciones.Text = dr("Observaciones").ToString
+                    End If
+
                 End With
                 LlenaDDL(Me.ddlPercepciones, "Percepcion", "IdPercepcion", oPercepcion.ObtenPorRol(CByte(dr2("IdRol"))), dr("IdPercepcion").ToString, False)
                 BindddlPlazas(dr)
@@ -269,8 +276,21 @@ Partial Class AdmonPercCapturadas
                 MultiView1.SetActiveView(viewErrorNoCont)
                 lblError.Text = "El empleado no tiene plazas vigentes, lo sentimos."
             End If
+
+            ActivarControles()
         End If
         'Me.btnGuardar.OnClientClick = "javascript:window.opener.doPostBack();"
+    End Sub
+
+    Public Sub ActivarControles()
+        pnlFolioISSSTE.Visible = False
+        reqFolioIssste.Enabled = False
+        reqObservaciones.Enabled = False
+        If CShort(Request.Params("IdPercepcion") = 60) Then 'Ayuda para anteojos
+            pnlFolioISSSTE.Visible = True
+            reqFolioIssste.Enabled = True
+            reqObservaciones.Enabled = True
+        End If
     End Sub
 
     Protected Sub ddlPlazas_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ddlPercepciones.SelectedIndexChanged
@@ -303,6 +323,12 @@ Partial Class AdmonPercCapturadas
                     .EspecificarNumQuincenas = chbxEspecificarNumQuincenas.Checked
                     If txtbxNumQnas.Text.Trim = String.Empty Then txtbxNumQnas.Text = "0"
                     .NumQnas = IIf(chbxEspecificarNumQuincenas.Checked, CType(txtbxNumQnas.Text, Byte), 0)
+
+                    If pnlFolioISSSTE.Visible Then
+                        .FolioISSSTE = txtFolioIssste.Text
+                        .Observaciones = txtObservaciones.Text
+                    End If
+
                     If Request.Params("TipoOperacion") = "0" Then
                         .IdPercCapturada = CType(Request.Params("IdPercCapturada"), Integer)
                         .Actualiza(Percepcion.TipoActualizacion.ParaPago, CType(Session("ArregloAuditoria"), String()))

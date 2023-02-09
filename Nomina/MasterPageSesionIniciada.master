@@ -61,10 +61,10 @@
                         </tr>
                         <tr>
                             <td colspan="4" rowspan="1" style="background-color: #fffbd6; text-align: left;">
-                                <asp:Menu ID="Menu1" runat="server" BackColor="White" Font-Names="Verdana" Font-Size="9pt"
+                                <asp:Menu ID="Menu1" runat="server" BackColor="#F0F0F0" Font-Names="Verdana" Font-Size="9pt"
                                     ForeColor="#666666" Orientation="Horizontal" Width="100%" StaticSubMenuIndent="10px"
                                     DynamicHorizontalOffset="0" BorderColor="#333333" BorderStyle="Solid" 
-                                    BorderWidth="1px" RenderingMode="Table">
+                                    BorderWidth="1px" RenderingMode="Table" Font-Bold="False">
                                     <StaticSelectedStyle BackColor="White" />
                                     <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
                                     <DynamicHoverStyle BackColor="#F2FBF2" ForeColor="#339933" />
