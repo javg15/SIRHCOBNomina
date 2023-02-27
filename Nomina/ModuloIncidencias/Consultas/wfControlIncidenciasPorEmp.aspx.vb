@@ -1035,4 +1035,5 @@ Partial Class wfControlIncidenciasPorEmp
     Protected Sub btnRptLicMed_Click(sender As Object, e As EventArgs) Handles btnRptLicMed.Click
 
     End Sub
+
 End Class

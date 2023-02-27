@@ -4,6 +4,9 @@ Imports System.Data
 Imports DataAccessLayer.COBAEV.Administracion
 Partial Class Consultas_Empleados_Historia
     Inherits System.Web.UI.Page
+
+    Dim IdPlazaAsignadoParaBase As Boolean
+
     Private Sub BindDatos()
         Dim oEmp As New Empleado
         Dim oPlaza As New SMP_Plazas
@@ -78,6 +81,7 @@ Partial Class Consultas_Empleados_Historia
 
     Protected Sub Page_LoadComplete(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.LoadComplete
         If Not IsPostBack Then
+            IdPlazaAsignadoParaBase = False
             BindDatos()
         End If
     End Sub
@@ -94,6 +98,7 @@ Partial Class Consultas_Empleados_Historia
                 Dim ibModificar As ImageButton = CType(e.Row.FindControl("ibModificar"), ImageButton)
                 Dim ibBaja As ImageButton = CType(e.Row.FindControl("ibBaja"), ImageButton)
                 Dim ibWarning As ImageButton = CType(e.Row.FindControl("ibWarning"), ImageButton)
+                Dim ibAsignarBase As ImageButton = CType(e.Row.FindControl("ibAsignarBase"), ImageButton)
                 Dim imgInfTitular As Image = CType(e.Row.FindControl("imgInfTitular"), Image)
                 Dim lblOcupacion As Label = CType(e.Row.FindControl("lblOcupacion"), Label)
                 Dim drFuncionPriSecPorPlaza As DataRow
@@ -139,6 +144,7 @@ Partial Class Consultas_Empleados_Historia
 
                 dtWarnings = oPlaza.ObtenObservaciones(CInt(lblIdPlaza.Text))
                 ibWarning.Visible = dtWarnings.Rows.Count > 0
+
             Case DataControlRowType.EmptyDataRow, DataControlRowType.Footer
                 Dim lbAsignarPlaza As LinkButton = CType(e.Row.FindControl("lbAsignarPlaza"), LinkButton)
                 Dim lbAsignarPlazaCopia As LinkButton = CType(e.Row.FindControl("lbAsignarPlazaCopia"), LinkButton)
@@ -198,8 +204,18 @@ Partial Class Consultas_Empleados_Historia
 
                 dtWarnings = oPlaza.ObtenObservaciones(CInt(lblIdPlaza.Text))
                 ibWarning.Visible = dtWarnings.Rows.Count > 0
+
+                'Obtener los datos de la plaza vigente
+                If e.Row.RowIndex = 0 Then 'por default tomar el dato del primer registro
+                    lbAsignarPlazaBase.PostBackUrl = "../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1&IdPlaza=" + lblIdPlaza.Text
+                End If
+                If lblOcupacion.Text = "B" And IdPlazaAsignadoParaBase = False Then  'si encuentra el dato de base, entonces, sustituir
+                    lbAsignarPlazaBase.PostBackUrl = "../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1&IdPlaza=" + lblIdPlaza.Text
+                    IdPlazaAsignadoParaBase = True
+                End If
         End Select
     End Sub
+
     Protected Sub lbAsignarPlaza_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         BindDatos()
     End Sub
@@ -267,7 +283,23 @@ Partial Class Consultas_Empleados_Historia
                     LnkBtn.ToolTip = "Sin permisos para visualizar al empleado, no pertenece a su zona geográfica."
 
                 End If
-
         End Select
+    End Sub
+    Protected Sub gvPlazasVigentes_DataBound(sender As Object, e As EventArgs) Handles gvPlazasVigentes.DataBound
+
+    End Sub
+    Protected Sub lbQuitarPlazaBase_Click(sender As Object, e As EventArgs) Handles lbQuitarPlazaBase.Click
+        Dim oPlaza As New SMP_Plazas
+        Dim txtbxRFC As TextBox = CType(Me.WucBuscaEmpleados1.FindControl("txtbxRFC"), TextBox)
+        Try
+            Dim lblIdPlaza As Label = CType(gvPlazasBase.Rows(0).FindControl("lblIdPlaza"), Label)
+
+            oPlaza.Quitar_SMP_PlazasECBOcup(lblIdPlaza.Text, CType(Session("ArregloAuditoria"), String()))
+
+            gvPlazasBase.DataSource = oPlaza.ObtenPlazaBasePorEmp(txtbxRFC.Text)
+            gvPlazasBase.DataBind()
+        Catch Ex As Exception
+
+        End Try
     End Sub
 End Class

@@ -213,7 +213,7 @@ Namespace COBAEV
 
         Public Function ObtenPorAnioEmp(ByVal pRFCEmp As String, ByVal pAnio As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = pRFCEmp
                 Prms(1).Value = pAnio
@@ -224,12 +224,12 @@ Namespace COBAEV
             End Try
         End Function
 
-        Public Function ObtenPorTipoAnioMesEmp(ByVal pRFCEmp As String, ByVal pAnio As Short, _
+        Public Function ObtenPorTipoAnioMesEmp(ByVal pRFCEmp As String, ByVal pAnio As Short,
                                                ByVal pMes As Byte, ByVal pNomCortoTipoIncidencia As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                               New SqlParameter("@Anio", SqlDbType.SmallInt), _
-                                                New SqlParameter("@Mes", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                               New SqlParameter("@Anio", SqlDbType.SmallInt),
+                                                New SqlParameter("@Mes", SqlDbType.TinyInt),
                                               New SqlParameter("@NomCortoTipoIncidencia", SqlDbType.NVarChar, 10)}
 
                 Prms(0).Value = pRFCEmp
@@ -245,7 +245,7 @@ Namespace COBAEV
 
         Public Function ObtenPermisosEconomicos(ByVal pRFCEmp As String, ByVal pAnio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = pRFCEmp
                 Prms(1).Value = pAnio
@@ -257,8 +257,8 @@ Namespace COBAEV
         End Function
         Public Function ObtenPermisosEconomicos(ByVal pRFCEmp As String, ByVal pAnio As Short, ByVal pMes As Byte) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                               New SqlParameter("@Anio", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                               New SqlParameter("@Anio", SqlDbType.SmallInt),
                                               New SqlParameter("@Mes", SqlDbType.TinyInt)}
                 Prms(0).Value = pRFCEmp
                 Prms(1).Value = pAnio

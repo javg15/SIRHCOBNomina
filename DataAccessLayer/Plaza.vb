@@ -18,7 +18,7 @@ Namespace COBAEV.Plazas
         End Function
         Public Function EsInterina(ByVal IdNombramiento As Byte, ByVal NobramientoPlaza As Boolean) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdNombramiento", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdNombramiento", SqlDbType.TinyInt),
                                             New SqlParameter("@NobramientoPlaza", SqlDbType.Bit)}
 
                 Prms(0).Value = IdNombramiento
@@ -31,7 +31,7 @@ Namespace COBAEV.Plazas
         End Function
         Public Function EsProvisional(ByVal IdNombramiento As Byte, ByVal NobramientoPlaza As Boolean) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdNombramiento", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdNombramiento", SqlDbType.TinyInt),
                                             New SqlParameter("@NobramientoPlaza", SqlDbType.Bit)}
 
                 Prms(0).Value = IdNombramiento
@@ -44,7 +44,7 @@ Namespace COBAEV.Plazas
         End Function
         Public Function EsBase(ByVal IdNombramiento As Byte, ByVal NobramientoPlaza As Boolean) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdNombramiento", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdNombramiento", SqlDbType.TinyInt),
                                             New SqlParameter("@NobramientoPlaza", SqlDbType.Bit)}
 
                 Prms(0).Value = IdNombramiento
@@ -81,11 +81,39 @@ Namespace COBAEV.Plazas
         Private _DataCOBAEV As New DataCOBAEV
 #End Region
 #Region "Clase SMP_Plazas: Métodos públicos"
-        Public Function ObtenPlazaDetalles(ByVal pZonaEco As String, ByVal pCveCategoCOBACH As String, _
+        Public Function ObtenEstructura(ByVal idPlantel As String _
+                                            , ByVal idCategoria As String _
+                                            , ByVal idTipoPlaza As String _
+                                            , ByVal numEmp As String _
+                                            , ByVal estatusPlaza As String
+                                       ) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)}
+
+                Prms(0).Value = "&idplantel=" + idPlantel + "&idtipoplaza=" + idTipoPlaza _
+                        + "&idcategoria=" + idCategoria + "&numemp=" + numEmp _
+                        + "&estatusplaza=" + estatusPlaza
+
+                Return _DataCOBAEV.RunProc("SP_SPlazasEstructura", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+        Public Function ObtenEstatus() As DataTable
+            Try
+                Dim Prms As SqlParameter() = {}
+
+
+                Return _DataCOBAEV.RunProc("SP_SSMP_PlazasEstatus", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+        Public Function ObtenPlazaDetalles(ByVal pZonaEco As String, ByVal pCveCategoCOBACH As String,
                                                    pConsecutivo As String) As DataRow
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4),
                                               New SqlParameter("@Consecutivo", SqlDbType.NVarChar, 5)}
 
                 Prms(0).Value = pZonaEco
@@ -97,12 +125,12 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenPlazaDetalles(ByVal pZonaEco As String, ByVal pCveCategoCOBACH As String, _
+        Public Function ObtenPlazaDetalles(ByVal pZonaEco As String, ByVal pCveCategoCOBACH As String,
                                            ByVal pHrsJornada As Decimal, pConsecutivo As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4), _
-                                              New SqlParameter("@HrsJornada", SqlDbType.Float), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4),
+                                              New SqlParameter("@HrsJornada", SqlDbType.Float),
                                               New SqlParameter("@Consecutivo", SqlDbType.NVarChar, 5)}
 
                 Prms(0).Value = pZonaEco
@@ -140,12 +168,12 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenPlazasPorZETipoFuncion(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String, _
+        Public Function ObtenPlazasPorZETipoFuncion(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String,
                                                     ByVal pIdEmpFuncion As Byte, ByVal pOrdenarPor As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4), _
-                                              New SqlParameter("@IdEmpFuncion", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),
+                                              New SqlParameter("@IdEmpFuncion", SqlDbType.TinyInt),
                                               New SqlParameter("@OrdenarPor", SqlDbType.NVarChar, 10)}
 
                 Prms(0).Value = pZonaEco
@@ -158,11 +186,11 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenDetalleCategoria(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String, _
+        Public Function ObtenDetalleCategoria(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String,
                                                     ByVal pCveCategoCOBACH As String) As DataRow
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),
                                               New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4)}
 
                 Prms(0).Value = pZonaEco
@@ -174,16 +202,16 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenDetallePlaza(ByVal pIdPlantel As Short, ByVal pZonaEco As String, ByVal pCvePlazaTipo As String, _
-                                                    ByVal pCveCategoCOBACH As String, ByVal pHrsJornada As Decimal, _
+        Public Function ObtenDetallePlaza(ByVal pIdPlantel As Short, ByVal pZonaEco As String, ByVal pCvePlazaTipo As String,
+                                                    ByVal pCveCategoCOBACH As String, ByVal pHrsJornada As Decimal,
                                                     ByVal pConsecutivo As String) As DataRow
             Try
                 Dim Prms As SqlParameter() = {
-                                                New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
-                                                New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
-                                                New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4), _
-                                                New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4), _
-                                                New SqlParameter("@HrsJornada", SqlDbType.Float), _
+                                                New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                                                New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
+                                                New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),
+                                                New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4),
+                                                New SqlParameter("@HrsJornada", SqlDbType.Float),
                                                 New SqlParameter("@Consecutivo", SqlDbType.NVarChar, 5)
                                               }
 
@@ -199,14 +227,14 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenDetallePlaza(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String, _
+        Public Function ObtenDetallePlaza(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String,
                                                             ByVal pCveCategoCOBACH As String,
                                                             ByVal pConsecutivo As String) As DataRow
             Try
                 Dim Prms As SqlParameter() = {
-                                                New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
-                                                New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4), _
-                                                New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4), _
+                                                New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
+                                                New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),
+                                                New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4),
                                                 New SqlParameter("@Consecutivo", SqlDbType.NVarChar, 5)
                                               }
 
@@ -235,12 +263,12 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenDetallesPlazaPorZEyPlazaTipoyCveCatego(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String, _
+        Public Function ObtenDetallesPlazaPorZEyPlazaTipoyCveCatego(ByVal pZonaEco As String, ByVal pCvePlazaTipo As String,
                                                     ByVal pCveCategoCOBACH As String) As DataRow
             Try
                 Dim Prms As SqlParameter() = {
-                                                New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
-                                                New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4), _
+                                                New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
+                                                New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),
                                                 New SqlParameter("@CveCategoCOBACH", SqlDbType.NVarChar, 4)
                                               }
 
@@ -268,7 +296,7 @@ Namespace COBAEV.Plazas
         End Function
         Public Function ObtenCategosXCvePlazaTipoYZonaEco(ByVal pCvePlazaTipo As String, ByVal pZonaEco As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),
                                               New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3)}
 
                 Prms(0).Value = pCvePlazaTipo
@@ -279,11 +307,11 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenCategosXCvePlazaTipoYZonaEcoParaMovDePers(ByVal pCvePlazaTipo As String, ByVal pZonaEco As String, _
+        Public Function ObtenCategosXCvePlazaTipoYZonaEcoParaMovDePers(ByVal pCvePlazaTipo As String, ByVal pZonaEco As String,
                                                                        ByVal pstrIdEmpFuncion As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4), _
-                                              New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),
+                                              New SqlParameter("@ZonaEco", SqlDbType.NVarChar, 3),
                                               New SqlParameter("@strIdEmpFuncion", SqlDbType.NVarChar, 10)}
                 Dim dt As DataTable
 
@@ -295,6 +323,60 @@ Namespace COBAEV.Plazas
 
                 Return dt
 
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function Guardar_SMP_PlazasECBOcup(ByVal IdPlaza As Integer, ByVal IdPlantel As Integer, ByVal IdPlantelAdsReal As Integer, ByVal IdCategoria As Integer,
+                                ByVal IdQnaVigIni As Short, ByVal IdQnaVigFin As Short,
+                                ByVal IdEmpTitular As Integer, ByVal IdEmpOcupante As Integer,
+                                ByVal IdEstatusPlaza As Short,
+                                ByVal TipoOperacion As Short,
+                                ByVal ArregloAuditoria() As String) As Integer
+            Try
+                Dim Prms As SqlParameter() = {
+                            New SqlParameter("@IdPlazas", SqlDbType.Int),
+                            New SqlParameter("@IdPlantelAdsReal", SqlDbType.Int),
+                            New SqlParameter("@IdPlantelEmpleado", SqlDbType.Int),
+                            New SqlParameter("@IdQnaVigIni", SqlDbType.Int),
+                            New SqlParameter("@IdQnaVigFin", SqlDbType.Int),
+                            New SqlParameter("@IdEmpTitular", SqlDbType.Int),
+                            New SqlParameter("@IdEmpOcupante", SqlDbType.Int),
+                            New SqlParameter("@IdEstatusPlaza", SqlDbType.Int),
+                            New SqlParameter("@TipoOperacion", SqlDbType.Int)
+                            }
+                Prms(0).Value = IdPlaza
+                Prms(1).Value = IdPlantel
+                Prms(2).Value = IdPlantelAdsReal
+                Prms(3).Value = IdQnaVigIni
+                Prms(4).Value = IdQnaVigFin
+                Prms(5).Value = IdEmpTitular
+                Prms(6).Value = IdEmpOcupante
+                Prms(7).Value = IdEstatusPlaza
+                Prms(8).Value = TipoOperacion
+
+                _DataCOBAEV.RunProc("SP_IoUSMP_PlazasECBOcup", Prms, Nomina, ArregloAuditoria)
+
+                Return 0 'Retornamos el IdPlaza creado
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function Quitar_SMP_PlazasECBOcup(ByVal IdPlaza As Integer,
+                                ByVal ArregloAuditoria() As String) As Integer
+            Try
+                Dim Prms As SqlParameter() = {
+                            New SqlParameter("@IdPlazas", SqlDbType.Int),
+                            New SqlParameter("@TipoOperacion", SqlDbType.Int)
+                            }
+                Prms(0).Value = IdPlaza
+                Prms(1).Value = 2
+
+                _DataCOBAEV.RunProc("SP_IoUSMP_PlazasECBOcup", Prms, Nomina, ArregloAuditoria)
+
+                Return 0 'Retornamos el IdPlaza creado
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try

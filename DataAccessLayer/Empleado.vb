@@ -4,6 +4,109 @@ Imports System.Data.SqlClient
 Imports System.Configuration
 Imports DataAccessLayer.COBAEV.Administracion
 Namespace COBAEV.Empleados
+#Region "Clase EmpleadosConReduccionDeSueldo"
+    Public Class EmpleadosConReduccionDeSueldo
+#Region "Clase EmpleadosConReduccionDeSueldo: Propiedades públicas"
+        Public Property IdReduccion() As Byte
+            Get
+                Return _IdReduccion
+            End Get
+            Set(ByVal Value As Byte)
+                _IdReduccion = Value
+            End Set
+        End Property
+        Public Property IdEmp() As Integer
+            Get
+                Return _IdEmp
+            End Get
+            Set(ByVal Value As Integer)
+                _IdEmp = Value
+            End Set
+        End Property
+        Public Property IdQnaIni() As Integer
+            Get
+                Return _IdQnaIni
+            End Get
+            Set(ByVal Value As Integer)
+                _IdQnaIni = Value
+            End Set
+        End Property
+        Public Property IdQnaFin() As Integer
+            Get
+                Return _IdQnaFin
+            End Get
+            Set(ByVal Value As Integer)
+                _IdQnaFin = Value
+            End Set
+        End Property
+
+        Public Property PorcDesc() As Decimal
+            Get
+                Return _PorcDesc
+            End Get
+            Set(ByVal Value As Decimal)
+                _PorcDesc = Value
+            End Set
+        End Property
+
+#End Region
+#Region "Clase EmpleadosConReduccionDeSueldo: Propiedades privadas"
+        Private _DataCOBAEV As New DataCOBAEV
+        Private _IdEmp, _IdReduccion As Integer
+        Private _PorcDesc As Decimal
+        Private _IdQnaIni, _IdQnaFin As Integer
+#End Region
+#Region "Clase EmpleadosConReduccionDeSueldo: Métodos públicos"
+
+        Public Function ObtenReducciones(ByVal parametros As String) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar)}
+
+                Prms(0).Value = parametros
+
+                Return _DataCOBAEV.RunProc("SP_SEmpsConReduccionDeSdo", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function AgregaNueva(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As String
+            Try
+                Dim Prms As SqlParameter() = {
+                            New SqlParameter("@IdReduccion", SqlDbType.Int),
+                            New SqlParameter("@IdEmp", SqlDbType.Int),
+                            New SqlParameter("@PorcDesc", SqlDbType.Decimal),
+                            New SqlParameter("@IdQnaIni", SqlDbType.Int),
+                            New SqlParameter("@IdQnaFin", SqlDbType.Int),
+                            New SqlParameter("@error", SqlDbType.NVarChar, 200)
+                            }
+
+                If TipoOperacion = 1 Then
+                    Prms(0).Value = 0
+                Else
+                    Prms(0).Value = IdReduccion
+                End If
+                Prms(0).Direction = ParameterDirection.InputOutput
+                Prms(1).Value = Me._IdEmp
+                Prms(2).Value = Me._PorcDesc
+                Prms(3).Value = Me._IdQnaIni
+                Prms(4).Value = Me._IdQnaFin
+                Prms(5).Value = ""
+                Prms(5).Direction = ParameterDirection.Output
+
+                _DataCOBAEV.RunProc("SP_IoUEmpleadosConReduccionDeSueldo", Prms, Nomina, ArregloAuditoria)
+
+                Return Prms(0).Value & "&" & Prms(5).Value 'Retornamos IdReduccion & posible error
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+        Public Function Actualizar(ByVal QnaVigIni As Integer, ByVal QnaVigFin As Integer, ByVal ArregloAuditoria() As String) As Integer
+            Return AgregaNueva(0, ArregloAuditoria)
+        End Function
+#End Region
+    End Class
+#End Region
 #Region "Clase EmpleadoPlazas"
     Public Class EmpleadoPlazas
 #Region "Clase EmpleadoPlazas: Propiedades públicas"
@@ -274,9 +377,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenTodasLasObservaciones(pdtUsr As DataTable) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdRol", SqlDbType.TinyInt), _
-                                              New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit), _
-                                              New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdRol", SqlDbType.TinyInt),
+                                              New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit),
+                                              New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit),
                                               New SqlParameter("@IdUsuario", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pdtUsr.Rows(0).Item("IdRol")
@@ -306,8 +409,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function TienePagosAPartirDeQna(ByVal IdQuincena As Short, ByVal TipoOperacion As Byte) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlaza", SqlDbType.SmallInt), _
-                                                New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlaza", SqlDbType.SmallInt),
+                                                New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._IdPlaza
                 Prms(1).Value = TipoOperacion
@@ -418,8 +521,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenPorId() As DataRow
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@Quincena", SqlDbType.Int), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@Quincena", SqlDbType.Int),
                                                 New SqlParameter("@IdPlaza", SqlDbType.Int)}
                 Prms(0).Value = DBNull.Value
                 Prms(1).Value = DBNull.Value
@@ -578,29 +681,29 @@ Namespace COBAEV.Empleados
         End Function
         Public Function AgregaNueva2(ByVal RFCEmp As String, ByVal QnaVigIni As Short, ByVal QnaVigFin As Short, ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Integer
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                            New SqlParameter("@IdEmpFuncion", SqlDbType.TinyInt), _
-                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
-                            New SqlParameter("@IdTipoNomina", SqlDbType.TinyInt), _
-                            New SqlParameter("@IdCT", SqlDbType.SmallInt), _
-                            New SqlParameter("@IdCategoria", SqlDbType.SmallInt), _
-                            New SqlParameter("@IdSindicato", SqlDbType.TinyInt), _
-                            New SqlParameter("@IdPlazaTipoOcupacion", SqlDbType.TinyInt), _
-                            New SqlParameter("@IdQnaVigIni", SqlDbType.SmallInt), _
-                            New SqlParameter("@IdQnaVigFin", SqlDbType.SmallInt), _
-                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
-                            New SqlParameter("@IdPlaza", SqlDbType.Int), _
-                            New SqlParameter("@IdMotivoInterinato", SqlDbType.TinyInt), _
-                            New SqlParameter("@RFCEmpTitular", SqlDbType.NVarChar, 13), _
-                            New SqlParameter("@IdFuncionPri", SqlDbType.SmallInt), _
-                            New SqlParameter("@IdFuncionSec", SqlDbType.TinyInt), _
-                            New SqlParameter("@IdMotGralBaja", SqlDbType.TinyInt), _
-                            New SqlParameter("@TratarComoBase", SqlDbType.Bit), _
-                            New SqlParameter("@IdPlazaCreada", SqlDbType.Int), _
-                            New SqlParameter("@IdTipoSemestre", SqlDbType.TinyInt), _
-                            New SqlParameter("@InterinoPuro", SqlDbType.Bit), _
-                            New SqlParameter("@FechaAlta", SqlDbType.DateTime), _
-                            New SqlParameter("@FechaBaja", SqlDbType.DateTime), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                            New SqlParameter("@IdEmpFuncion", SqlDbType.TinyInt),
+                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                            New SqlParameter("@IdTipoNomina", SqlDbType.TinyInt),
+                            New SqlParameter("@IdCT", SqlDbType.SmallInt),
+                            New SqlParameter("@IdCategoria", SqlDbType.SmallInt),
+                            New SqlParameter("@IdSindicato", SqlDbType.TinyInt),
+                            New SqlParameter("@IdPlazaTipoOcupacion", SqlDbType.TinyInt),
+                            New SqlParameter("@IdQnaVigIni", SqlDbType.SmallInt),
+                            New SqlParameter("@IdQnaVigFin", SqlDbType.SmallInt),
+                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
+                            New SqlParameter("@IdPlaza", SqlDbType.Int),
+                            New SqlParameter("@IdMotivoInterinato", SqlDbType.TinyInt),
+                            New SqlParameter("@RFCEmpTitular", SqlDbType.NVarChar, 13),
+                            New SqlParameter("@IdFuncionPri", SqlDbType.SmallInt),
+                            New SqlParameter("@IdFuncionSec", SqlDbType.TinyInt),
+                            New SqlParameter("@IdMotGralBaja", SqlDbType.TinyInt),
+                            New SqlParameter("@TratarComoBase", SqlDbType.Bit),
+                            New SqlParameter("@IdPlazaCreada", SqlDbType.Int),
+                            New SqlParameter("@IdTipoSemestre", SqlDbType.TinyInt),
+                            New SqlParameter("@InterinoPuro", SqlDbType.Bit),
+                            New SqlParameter("@FechaAlta", SqlDbType.DateTime),
+                            New SqlParameter("@FechaBaja", SqlDbType.DateTime),
                             New SqlParameter("@IdPuesto", SqlDbType.TinyInt)}
 
                 If TipoOperacion = 0 Then
@@ -649,12 +752,12 @@ Namespace COBAEV.Empleados
         End Function
         Public Function GeneraBaja2(ByVal IdQnaVigIni As Short, ByVal IdQnaVigFin As Short, ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlaza", SqlDbType.Int), _
-                            New SqlParameter("@IdQnaVigIni", SqlDbType.SmallInt), _
-                            New SqlParameter("@IdQnaVigFin", SqlDbType.SmallInt), _
-                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
-                            New SqlParameter("@IdMotGralBaja", SqlDbType.TinyInt), _
-                            New SqlParameter("@FechaAlta", SqlDbType.DateTime), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlaza", SqlDbType.Int),
+                            New SqlParameter("@IdQnaVigIni", SqlDbType.SmallInt),
+                            New SqlParameter("@IdQnaVigFin", SqlDbType.SmallInt),
+                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
+                            New SqlParameter("@IdMotGralBaja", SqlDbType.TinyInt),
+                            New SqlParameter("@FechaAlta", SqlDbType.DateTime),
                             New SqlParameter("@FechaBaja", SqlDbType.DateTime)}
 
                 Prms(0).Value = Me._IdPlaza
@@ -672,9 +775,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizaTitular(ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdMotivoInterinato", SqlDbType.TinyInt), _
-                                            New SqlParameter("@RFCEmpTitular", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdPlaza", SqlDbType.Int), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdMotivoInterinato", SqlDbType.TinyInt),
+                                            New SqlParameter("@RFCEmpTitular", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdPlaza", SqlDbType.Int),
                                             New SqlParameter("@IdPlazaTipoOcupacion", SqlDbType.TinyInt)}
                 Prms(0).Value = Me._IdMotivoInterinato
                 If Me._RFCEmpTitular.Trim <> String.Empty Then
@@ -714,9 +817,26 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenTodas() As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@TodosLosRegistros", SqlDbType.Bit)}
+                Dim Prms As SqlParameter() = {New SqlParameter("@TodosLosRegistros", SqlDbType.Bit)
+                    }
 
                 Prms(0).Value = True
+
+                Return _DataCOBAEV.RunProc("SP_SEmpleadosFunciones", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function ObtenTodasParaTipificar() As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@TodosLosRegistros", SqlDbType.Bit),
+                                            New SqlParameter("@ParaTipificarCategoria", SqlDbType.Bit
+                                            )
+                    }
+
+                Prms(0).Value = True
+                Prms(1).Value = True
 
                 Return _DataCOBAEV.RunProc("SP_SEmpleadosFunciones", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
             Catch ex As Exception
@@ -1028,7 +1148,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function SeLePuedeCrearReciboEnQna(ByVal pRFCEmp As String, ByVal pIdQuincena As Short) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                               New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Dim dr As DataRow
 
@@ -1044,8 +1164,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ValidaDatos(pNumEmp As String, pRFCEmp As String, pEMail As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@EMail", SqlDbType.NVarChar, 100)}
 
                 Prms(0).Value = IIf(pNumEmp = "", DBNull.Value, pNumEmp)
@@ -1071,13 +1191,13 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function UpdInfParaRegistroDeEmail(pNumEmp As String, pRFCEmp As String, pEmail As String, _
+        Public Function UpdInfParaRegistroDeEmail(pNumEmp As String, pRFCEmp As String, pEmail As String,
                                                   pCodigoRegistroEmail As String, pConfirmado As Boolean) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@Email", SqlDbType.NVarChar, 100), _
-                                                New SqlParameter("@CodigoRegistroEmail", SqlDbType.NVarChar, 10), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@Email", SqlDbType.NVarChar, 100),
+                                                New SqlParameter("@CodigoRegistroEmail", SqlDbType.NVarChar, 10),
                                                 New SqlParameter("@Confirmado", SqlDbType.Bit)}
 
                 Prms(0).Value = pNumEmp
@@ -1091,12 +1211,12 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function AddInfParaRegistroDeEmail(pNumEmp As String, pRFCEmp As String, pEmail As String, _
+        Public Function AddInfParaRegistroDeEmail(pNumEmp As String, pRFCEmp As String, pEmail As String,
                                                   pCodigoRegistroEmail As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@Email", SqlDbType.NVarChar, 100), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@Email", SqlDbType.NVarChar, 100),
                                                 New SqlParameter("@CodigoRegistroEmail", SqlDbType.NVarChar, 10)}
 
                 Prms(0).Value = pNumEmp
@@ -1111,8 +1231,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function AddInfDeSolicitudDeEstDePuntyAsist(pRFCEmp As String, pParte As Byte, pAnio As Short) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                              New SqlParameter("@Parte", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                              New SqlParameter("@Parte", SqlDbType.TinyInt),
                                               New SqlParameter("@Anio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1126,8 +1246,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function UpdInfDeSolicitudDeEstDePuntyAsist(pRFCEmp As String, pParte As Byte, pAnio As Short) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                              New SqlParameter("@Parte", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                              New SqlParameter("@Parte", SqlDbType.TinyInt),
                                               New SqlParameter("@Anio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1141,7 +1261,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function UpdInfDeSolicitudDeDiasEcoNoDisf(pRFCEmp As String, pAnio As Short) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                               New SqlParameter("@Anio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1154,8 +1274,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ValidaInfParaRegistroDeEmail(pNumEmp As String, pRFCEmp As String, pEmail As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@Email", SqlDbType.NVarChar, 100)}
 
                 Prms(0).Value = pNumEmp
@@ -1169,9 +1289,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ValidaInfDeSolicitudDeEstDePuntyAsist(pNumEmp As String, pRFCEmp As String, pParte As Byte, pAnio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@Parte", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@Parte", SqlDbType.TinyInt),
                                                 New SqlParameter("@Anio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pNumEmp
@@ -1186,8 +1306,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ValidaInfDeSolicitudDeDiasEcoNoDisf(pNumEmp As String, pRFCEmp As String, pAnio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@Anio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pNumEmp
@@ -1201,7 +1321,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ValidaCodigoRegistroEmail(pRFCEmp As String, pCodigoRegistroEmail As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@CodigoRegistroEmail", SqlDbType.NVarChar, 10)}
                 Dim dr As DataRow
 
@@ -1219,7 +1339,7 @@ Namespace COBAEV.Empleados
 
         Public Function EsDocenteEnSemestre(pRFCEmp As String, ByVal pIdSemestre As Short) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdSemestre", SqlDbType.SmallInt)}
                 Dim dr As DataRow
 
@@ -1233,15 +1353,15 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function DelCategoriaBase(pRFCEmp As String, pTipoSemestre As String, ByVal pIdCategoria As Short, _
-                                         pHoras As Byte, pIdQnaIni As Short, pIdQnaFin As Short, _
+        Public Function DelCategoriaBase(pRFCEmp As String, pTipoSemestre As String, ByVal pIdCategoria As Short,
+                                         pHoras As Byte, pIdQnaIni As Short, pIdQnaFin As Short,
                                          ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                              New SqlParameter("@TipoSemestre", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@IdCategoria", SqlDbType.SmallInt), _
-                                              New SqlParameter("@Horas", SqlDbType.TinyInt), _
-                                              New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                              New SqlParameter("@TipoSemestre", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@IdCategoria", SqlDbType.SmallInt),
+                                              New SqlParameter("@Horas", SqlDbType.TinyInt),
+                                              New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
                                               New SqlParameter("@IdQnaFin", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1256,15 +1376,15 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function AddCategoriaBase(pRFCEmp As String, pTipoSemestre As String, ByVal pIdCategoria As Short, _
-                                         pHoras As Byte, pIdQnaIni As Short, pIdQnaFin As Short, _
+        Public Function AddCategoriaBase(pRFCEmp As String, pTipoSemestre As String, ByVal pIdCategoria As Short,
+                                         pHoras As Byte, pIdQnaIni As Short, pIdQnaFin As Short,
                                          ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                              New SqlParameter("@TipoSemestre", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@IdCategoria", SqlDbType.SmallInt), _
-                                              New SqlParameter("@Horas", SqlDbType.TinyInt), _
-                                              New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                              New SqlParameter("@TipoSemestre", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@IdCategoria", SqlDbType.SmallInt),
+                                              New SqlParameter("@Horas", SqlDbType.TinyInt),
+                                              New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
                                               New SqlParameter("@IdQnaFin", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1279,22 +1399,22 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function UpdCategoriaBase(pRFCEmp As String, pTipoSemestreAnt As String, ByVal pIdCategoriaAnt As Short, _
-                                 pHorasAnt As Byte, pIdQnaIniAnt As Short, pIdQnaFinAnt As Short, _
-                                 pTipoSemestreNew As String, ByVal pIdCategoriaNew As Short, _
-                                 pHorasNew As Byte, pIdQnaIniNew As Short, pIdQnaFinNew As Short, _
+        Public Function UpdCategoriaBase(pRFCEmp As String, pTipoSemestreAnt As String, ByVal pIdCategoriaAnt As Short,
+                                 pHorasAnt As Byte, pIdQnaIniAnt As Short, pIdQnaFinAnt As Short,
+                                 pTipoSemestreNew As String, ByVal pIdCategoriaNew As Short,
+                                 pHorasNew As Byte, pIdQnaIniNew As Short, pIdQnaFinNew As Short,
                                  ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                              New SqlParameter("@TipoSemestreAnt", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@IdCategoriaAnt", SqlDbType.SmallInt), _
-                                              New SqlParameter("@HorasAnt", SqlDbType.TinyInt), _
-                                              New SqlParameter("@IdQnaIniAnt", SqlDbType.SmallInt), _
-                                              New SqlParameter("@IdQnaFinAnt", SqlDbType.SmallInt), _
-                                              New SqlParameter("@TipoSemestreNew", SqlDbType.NVarChar, 3), _
-                                              New SqlParameter("@IdCategoriaNew", SqlDbType.SmallInt), _
-                                              New SqlParameter("@HorasNew", SqlDbType.TinyInt), _
-                                              New SqlParameter("@IdQnaIniNew", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                              New SqlParameter("@TipoSemestreAnt", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@IdCategoriaAnt", SqlDbType.SmallInt),
+                                              New SqlParameter("@HorasAnt", SqlDbType.TinyInt),
+                                              New SqlParameter("@IdQnaIniAnt", SqlDbType.SmallInt),
+                                              New SqlParameter("@IdQnaFinAnt", SqlDbType.SmallInt),
+                                              New SqlParameter("@TipoSemestreNew", SqlDbType.NVarChar, 3),
+                                              New SqlParameter("@IdCategoriaNew", SqlDbType.SmallInt),
+                                              New SqlParameter("@HorasNew", SqlDbType.TinyInt),
+                                              New SqlParameter("@IdQnaIniNew", SqlDbType.SmallInt),
                                               New SqlParameter("@IdQnaFinNew", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1316,7 +1436,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenSiCobroComoAdmvo_o_DocEnQna(pRFCEmp As String, ByVal pIdQuincena As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = pRFCEmp
                 Prms(1).Value = pIdQuincena
@@ -1328,7 +1448,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenHistConceptosPorEjerc(ByVal pRFCEmp As String, ByVal pEjercicio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                New SqlParameter("@Ejercicio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1341,9 +1461,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenHistConceptoDetallePorEjerc(ByVal pRFCEmp As String, ByVal pIdConcepto As Short, ByVal pTipoConcepto As String, ByVal pEjercicio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdConcepto", SqlDbType.SmallInt), _
-                                            New SqlParameter("@TipoConcepto", SqlDbType.NVarChar, 1), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdConcepto", SqlDbType.SmallInt),
+                                            New SqlParameter("@TipoConcepto", SqlDbType.NVarChar, 1),
                                             New SqlParameter("@Ejercicio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pRFCEmp
@@ -1391,13 +1511,7 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ConReduccionDeSdo() As DataTable
-            Try
-                Return _DataCOBAEV.RunProc("SP_SEmpsConReduccionDeSdo", DataCOBAEV.Tipoconsulta.Table, Nomina)
-            Catch ex As Exception
-                Throw (New System.Exception(ex.Message.ToString))
-            End Try
-        End Function
+
         Public Function ObtenFechasAltayBaja(ByVal pRFCEmp As String, pIdPlaza As Integer) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@IdPlaza", SqlDbType.Int)}
@@ -1455,10 +1569,10 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenDiasPagadosPorQna(ByVal RFCEmp As String, ByVal IdQuincena As Short, Optional ByVal IdQuincenaAplicacion As Short = 0, Optional ByVal Adeudo As Boolean = False, Optional ByVal Devolucion As Boolean = False) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                               New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
-                                               New SqlParameter("@IdQuincenaAplicacion", SqlDbType.SmallInt), _
-                                               New SqlParameter("@Adeudo", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                               New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
+                                               New SqlParameter("@IdQuincenaAplicacion", SqlDbType.SmallInt),
+                                               New SqlParameter("@Adeudo", SqlDbType.Bit),
                                                New SqlParameter("@Devolucion", SqlDbType.Bit)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = IdQuincena
@@ -1473,7 +1587,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function EliminaDiasParaPagoQnal(ByVal IdEmp As Integer, ByVal IdQuincena As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
                                                New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = IdEmp
                 Prms(1).Value = IdQuincena
@@ -1485,7 +1599,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function EliminaDiaEconomicos(ByVal IdEmp As Integer, ByVal Fecha As Date, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
                                                New SqlParameter("@Fecha", SqlDbType.DateTime)}
                 Prms(0).Value = IdEmp
                 Prms(1).Value = Fecha
@@ -1497,8 +1611,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function Ins_O_UpdDiasParaPagoQnal(ByVal IdEmp As Integer, ByVal IdQuincena As Short, ByVal NumDiasAPagar As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                               New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                               New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
                                                New SqlParameter("@NumDiasAPagar", SqlDbType.TinyInt)}
                 Prms(0).Value = IdEmp
                 Prms(1).Value = IdQuincena
@@ -1511,10 +1625,10 @@ Namespace COBAEV.Empleados
         End Function
         Public Function Ins_O_UpdDiasEconomicos(ByVal IdEmp As Integer, ByVal FechaAnt As Date, ByVal FechaNueva As Date, ByVal IdUsuario As Short, ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@FechaAnt", SqlDbType.DateTime), _
-                                            New SqlParameter("@FechaNueva", SqlDbType.DateTime), _
-                                            New SqlParameter("@IdUsuario", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@FechaAnt", SqlDbType.DateTime),
+                                            New SqlParameter("@FechaNueva", SqlDbType.DateTime),
+                                            New SqlParameter("@IdUsuario", SqlDbType.SmallInt),
                                             New SqlParameter("@TipoOperacion", SqlDbType.TinyInt)}
                 Prms(0).Value = IdEmp
                 Prms(1).Value = FechaAnt
@@ -1529,7 +1643,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenDiasParaPagoQnal(ByVal RFCEmp As String, ByVal Anio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = Anio
@@ -1541,7 +1655,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenResumenPagoQnalesPorAnio(ByVal RFCEmp As String, ByVal Anio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = Anio
@@ -1553,7 +1667,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenResumenPagoQnalesPorAnio2(ByVal RFCEmp As String, ByVal Anio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = Anio
@@ -1565,7 +1679,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenDiasEconomicosPorAño(ByVal RFCEmp As String, ByVal Anio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = Anio
@@ -1577,7 +1691,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenSubsidioParaEmpleoAcumulado(ByVal RFCEmp As String, ByVal Anio As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@Anio", SqlDbType.SmallInt)}
 
                 Prms(0).Value = RFCEmp
@@ -1590,8 +1704,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenHistoriaClave(ByVal RFCEmp As String, ByVal IdClave As Short, ByVal PercDeduc As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                               New SqlParameter("@IdClave", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                               New SqlParameter("@IdClave", SqlDbType.SmallInt),
                                                New SqlParameter("@PercDeduc", SqlDbType.Char, 1)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = IdClave
@@ -1604,8 +1718,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenPorPlantel(ByVal IdPlantel As Short, Optional ByVal ParaCalculo As Boolean = False, Optional ByVal IdQnaParaCalculo As Short = 0) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
-                                                New SqlParameter("@ParaCalculo", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                                                New SqlParameter("@ParaCalculo", SqlDbType.Bit),
                                                 New SqlParameter("@IdQnaParaCalculo", SqlDbType.SmallInt)}
                 Prms(0).Value = IdPlantel
                 Prms(1).Value = ParaCalculo
@@ -1617,7 +1731,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenEmpsParaCalcDePensionAlim(ByVal pIdPlantel As Short, ByVal pIdQuincena As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = pIdPlantel
                 Prms(1).Value = pIdQuincena
@@ -1661,7 +1775,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConEstimuloDocente(ByVal RFCEmp As String, ByVal Anio As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@Anio", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@Anio", SqlDbType.SmallInt),
                                             New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13)}
 
                 Prms(0).Value = Anio
@@ -1674,10 +1788,10 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConAdeudos(ByVal IdQuincena As Short, ByVal IdRol As Byte, ByVal ConsultaZonasEspecificas As Boolean, ByVal ConsultaPlantelesEspecificos As Boolean, ByVal Login As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
-                                                New SqlParameter("@IdRol", SqlDbType.TinyInt), _
-                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit), _
-                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
+                                                New SqlParameter("@IdRol", SqlDbType.TinyInt),
+                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit),
+                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit),
                                                 New SqlParameter("@IdUsuario", SqlDbType.SmallInt)}
                 Dim oUsr As New Usuario
                 Dim drUsr As DataRow
@@ -1698,7 +1812,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConAdeudos(ByVal RFCEmp As String, ByVal IdQnaAplicacion As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
                                             New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13)}
 
                 Prms(0).Value = IdQnaAplicacion
@@ -1711,10 +1825,10 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConDevoluciones(ByVal IdQuincena As Short, ByVal IdRol As Byte, ByVal ConsultaZonasEspecificas As Boolean, ByVal ConsultaPlantelesEspecificos As Boolean, ByVal Login As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
-                                                New SqlParameter("@IdRol", SqlDbType.TinyInt), _
-                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit), _
-                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
+                                                New SqlParameter("@IdRol", SqlDbType.TinyInt),
+                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit),
+                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit),
                                                 New SqlParameter("@IdUsuario", SqlDbType.SmallInt)}
                 Dim oUsr As New Usuario
                 Dim drUsr As DataRow
@@ -1734,7 +1848,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConDevoluciones(ByVal RFCEmp As String, ByVal IdQnaAplicacion As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
                                             New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13)}
 
                 Prms(0).Value = IdQnaAplicacion
@@ -1747,8 +1861,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function CreaTablaParaEspecificarDias(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IncluirAdicionales As Boolean) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt),
                                             New SqlParameter("@IncluirAdicionales", SqlDbType.Bit)}
 
                 Prms(0).Value = IdQnaIni
@@ -1762,11 +1876,11 @@ Namespace COBAEV.Empleados
         End Function
         Public Function InsertaAdeudo(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IdQnaAplicacion As Short, ByVal IdTipoAdeudo As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdTipoAdeudo", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdTipoAdeudo", SqlDbType.TinyInt),
                                             New SqlParameter("@NumDias", SqlDbType.TinyInt)}
 
                 Prms(0).Value = Me._RFC
@@ -1780,18 +1894,18 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function InsertaDevolucion(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IdQnaAplicacion As Short, ByVal IdTipoDevolucion As Byte, ByVal NumPagos As Byte, _
+        Public Function InsertaDevolucion(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IdQnaAplicacion As Short, ByVal IdTipoDevolucion As Byte, ByVal NumPagos As Byte,
                                     ByVal DescIncluyeAdic As Boolean, ByVal PeriodoIncluyeAdic As Boolean, ByVal AplicarDescMax As Boolean, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdTipoDevolucion", SqlDbType.TinyInt), _
-                                            New SqlParameter("@NumDias", SqlDbType.TinyInt), _
-                                            New SqlParameter("@NumPagos", SqlDbType.TinyInt), _
-                                            New SqlParameter("@DescIncluyeAdic", SqlDbType.Bit), _
-                                            New SqlParameter("@PeriodoIncluyeAdic", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdTipoDevolucion", SqlDbType.TinyInt),
+                                            New SqlParameter("@NumDias", SqlDbType.TinyInt),
+                                            New SqlParameter("@NumPagos", SqlDbType.TinyInt),
+                                            New SqlParameter("@DescIncluyeAdic", SqlDbType.Bit),
+                                            New SqlParameter("@PeriodoIncluyeAdic", SqlDbType.Bit),
                                             New SqlParameter("@AplicarDescMax", SqlDbType.Bit)}
 
                 Prms(0).Value = Me._RFC
@@ -1809,14 +1923,14 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function UpdAdeudo(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IdQnaAplicacion As Short, _
+        Public Function UpdAdeudo(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IdQnaAplicacion As Short,
                                     ByVal IdQnaAplicacionAnt As Short, ByVal IdTipoAdeudo As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaAplicacionAnt", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaAplicacionAnt", SqlDbType.SmallInt),
                                             New SqlParameter("@IdTipoAdeudo", SqlDbType.TinyInt)}
 
                 Prms(0).Value = Me._RFC
@@ -1831,19 +1945,19 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function UpdDevolucion(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IdQnaAplicacion As Short, ByVal IdQnaAplicacionAnt As Short, ByVal IdTipoDevolucion As Byte, ByVal NumPagos As Byte, _
-                     ByVal DescIncluyeAdic As Boolean, ByVal PeriodoIncluyeAdic As Boolean, ByVal AplicarDescMax As Boolean, _
+        Public Function UpdDevolucion(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short, ByVal IdQnaAplicacion As Short, ByVal IdQnaAplicacionAnt As Short, ByVal IdTipoDevolucion As Byte, ByVal NumPagos As Byte,
+                     ByVal DescIncluyeAdic As Boolean, ByVal PeriodoIncluyeAdic As Boolean, ByVal AplicarDescMax As Boolean,
                      ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQnaAplicacionAnt", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdTipoDevolucion", SqlDbType.TinyInt), _
-                                            New SqlParameter("@NumPagos", SqlDbType.TinyInt), _
-                                            New SqlParameter("@DescIncluyeAdic", SqlDbType.Bit), _
-                                            New SqlParameter("@PeriodoIncluyeAdic", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaFin", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQnaAplicacionAnt", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdTipoDevolucion", SqlDbType.TinyInt),
+                                            New SqlParameter("@NumPagos", SqlDbType.TinyInt),
+                                            New SqlParameter("@DescIncluyeAdic", SqlDbType.Bit),
+                                            New SqlParameter("@PeriodoIncluyeAdic", SqlDbType.Bit),
                                             New SqlParameter("@AplicarDescMax", SqlDbType.Bit)}
 
                 Prms(0).Value = Me._RFC
@@ -1864,9 +1978,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function UpdNumDiasAdeudo(ByVal IdQuincena As Short, ByVal IdQnaAplicacion As Short, ByVal NumDias As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
-                                            New SqlParameter("@NumDias", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
+                                            New SqlParameter("@NumDias", SqlDbType.TinyInt),
                                             New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
 
                 Prms(0).Value = Me._RFC
@@ -1881,9 +1995,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function UpdNumDiasDevolucion(ByVal IdQuincena As Short, ByVal IdQnaAplicacion As Short, ByVal NumDias As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
-                                            New SqlParameter("@NumDias", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
+                                            New SqlParameter("@NumDias", SqlDbType.TinyInt),
                                             New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
 
                 Prms(0).Value = Me._RFC
@@ -1898,7 +2012,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function DelAdeudo(ByVal IdQnaAplicacion As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt)}
 
                 Prms(0).Value = Me._RFC
@@ -1911,8 +2025,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function DelDevolucion(ByVal IdQnaAplicacion As Short, ByVal ArregloAuditoria() As String) As Byte
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
                                             New SqlParameter("@NumPagos", SqlDbType.TinyInt)}
 
                 Prms(0).Value = Me._RFC
@@ -1928,8 +2042,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenNumDesctosDevolucion(ByVal IdQnaAplicacion As Short, ByVal ArregloAuditoria() As String) As Byte
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaAplicacion", SqlDbType.SmallInt),
                                             New SqlParameter("@NumDesctos", SqlDbType.TinyInt)}
 
                 Prms(0).Value = Me._RFC
@@ -1945,8 +2059,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ABCHoraAdeudo(ByVal IdHora As Integer, ByVal IdQuincena As Short, ByVal Bandera As Boolean, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdHora", SqlDbType.Int), _
-                                            New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdHora", SqlDbType.Int),
+                                            New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
                                             New SqlParameter("@Bandera", SqlDbType.Bit)}
 
                 Prms(0).Value = IdHora
@@ -1960,8 +2074,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ABCHoraDevolucion(ByVal IdHora As Integer, ByVal IdQuincena As Short, ByVal Bandera As Boolean, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdHora", SqlDbType.Int), _
-                                            New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdHora", SqlDbType.Int),
+                                            New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
                                             New SqlParameter("@Bandera", SqlDbType.Bit)}
 
                 Prms(0).Value = IdHora
@@ -1975,9 +2089,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function InsParaEstimuloDocente(ByVal Anio As Short, ByVal Importe As Decimal, ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@Anio", SqlDbType.SmallInt), _
-                                            New SqlParameter("@Importe", SqlDbType.Decimal), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@Anio", SqlDbType.SmallInt),
+                                            New SqlParameter("@Importe", SqlDbType.Decimal),
                                             New SqlParameter("@TipoOperacion", SqlDbType.TinyInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = Anio
@@ -1998,7 +2112,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function DelDeEstimuloDocente(ByVal Anio As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = Anio
@@ -2010,7 +2124,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function EliminaDeEstDePuntYAsist(ByVal IdSemestre As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@IdSemestre", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = IdSemestre
@@ -2022,7 +2136,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function InsEstDePuntYAsist(ByVal IdSemestre As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@IdSemestre", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = IdSemestre
@@ -2034,7 +2148,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConSaldoNegativo(ByVal IdQuincena As Short, ByVal Login As String) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@Login", SqlDbType.NVarChar, 30), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@Login", SqlDbType.NVarChar, 30),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = Login
                 Prms(1).Value = IdQuincena
@@ -2046,10 +2160,10 @@ Namespace COBAEV.Empleados
         End Function
         Public Function BuscarParaRecibo(ByVal IdQuincena As Short, ByVal IdRol As Byte, ByVal ConsultaZonasEspecificas As Boolean, ByVal ConsultaPlantelesEspecificos As Boolean, ByVal Login As String, Optional ByVal VerTodos As Boolean = False) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
-                                                New SqlParameter("@IdRol", SqlDbType.TinyInt), _
-                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit), _
-                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
+                                                New SqlParameter("@IdRol", SqlDbType.TinyInt),
+                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit),
+                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit),
                                                 New SqlParameter("@IdUsuario", SqlDbType.SmallInt)}
                 Dim oUsr As New Usuario
                 Dim drUsr As DataRow
@@ -2083,7 +2197,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function BuscarPorId(ByVal IdEmp As Integer, ByVal Origen As String) As DataRow
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
                                             New SqlParameter("@Origen", SqlDbType.NVarChar, 30)}
 
                 Prms(0).Value = IdEmp
@@ -2096,14 +2210,14 @@ Namespace COBAEV.Empleados
         End Function
         Public Function Buscar(ByVal pTipoBusqueda As TipoBusqueda, ByVal IdRol As Byte, ByVal ConsultaZonasEspecificas As Boolean, ByVal ConsultaPlantelesEspecificos As Boolean, ByVal Login As String, Optional ByVal VerTodos As Boolean = False) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30), _
-                                                New SqlParameter("@TipoBusqueda", SqlDbType.TinyInt), _
-                                                New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@IdRol", SqlDbType.TinyInt), _
-                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit), _
-                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit), _
-                                                New SqlParameter("@IdUsuario", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30),
+                                                New SqlParameter("@TipoBusqueda", SqlDbType.TinyInt),
+                                                New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@IdRol", SqlDbType.TinyInt),
+                                                New SqlParameter("@ConsultaZonasEspecificas", SqlDbType.Bit),
+                                                New SqlParameter("@ConsultaPlantelesEspecificos", SqlDbType.Bit),
+                                                New SqlParameter("@IdUsuario", SqlDbType.SmallInt),
                                                 New SqlParameter("@CURPEmp", SqlDbType.NVarChar, 18)}
                 Dim oUsr As New Usuario
                 Dim drUsr As DataRow
@@ -2186,7 +2300,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenEmpsSinAplicDeSubsidioParaEmpleo(ByVal RFC As String, ByVal Anio As Short) As DataRow
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@Anio", SqlDbType.SmallInt)}
                 Prms(0).Value = RFC
                 Prms(1).Value = Anio
@@ -2197,7 +2311,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizaEmpsValidadosPorSegSoc(ByVal RFC As String, ByVal SuspenderPagoQnal As Boolean, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@SuspenderPagoQnal", SqlDbType.Bit)}
                 Prms(0).Value = RFC
                 Prms(1).Value = SuspenderPagoQnal
@@ -2209,8 +2323,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizaEmpsSinAplicDeSubsidioParaEmpleo(ByVal RFC As String, ByVal Anio As Short, ByVal AplicarSubsidioParaEmpleo As Boolean, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@Anio", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@Anio", SqlDbType.SmallInt),
                                             New SqlParameter("@AplicarSubsidioParaEmpleo", SqlDbType.Bit)}
                 Prms(0).Value = RFC
                 Prms(1).Value = Anio
@@ -2271,7 +2385,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenPlazasBase(pRFCEmp As String, pHistoriaCompleta As Boolean) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                               New SqlParameter("@HistoriaCompleta", SqlDbType.Bit)}
 
                 Prms(0).Value = pRFCEmp
@@ -2284,7 +2398,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenAntiguedad() As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdEmp", SqlDbType.Int)}
                 Prms(0).Value = IIf(_RFC.Trim = String.Empty, DBNull.Value, _RFC)
                 Prms(1).Value = IIf(_IdEmp = 0, DBNull.Value, _IdEmp)
@@ -2313,7 +2427,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function CalculaPagoQuincenal(ByVal IdQuincena As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdQuincena
@@ -2324,8 +2438,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConsultaPagoAcumuladoPorPeriodo(ByVal RFCEmp As String, ByVal IdQnaIni As Short, ByVal IdQnaFin As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
                                                 New SqlParameter("@IdQnaFin", SqlDbType.SmallInt)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = IdQnaIni
@@ -2338,8 +2452,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConsultaPagoAcumuladoPorPeriodoDesglosado(ByVal RFCEmp As String, ByVal IdQnaIni As Short, ByVal IdQnaFin As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
                                                 New SqlParameter("@IdQnaFin", SqlDbType.SmallInt)}
                 Prms(0).Value = RFCEmp
                 Prms(1).Value = IdQnaIni
@@ -2352,7 +2466,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConsultaPagoQnal(ByVal IdQuincena As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdQuincena
@@ -2363,7 +2477,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConsultaPagoQnal2(ByVal IdQuincena As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdQuincena
@@ -2374,8 +2488,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ConsultaPagoQnal(ByVal pRFCEmp As String, ByVal pIdPlaza As Integer, ByVal pIdQuincena As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@IdPlaza_Aux", SqlDbType.Int), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@IdPlaza_Aux", SqlDbType.Int),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = pRFCEmp
                 Prms(1).Value = pIdPlaza
@@ -2388,7 +2502,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function DetalleDePagoQnal(ByVal IdQuincena As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdQuincena
@@ -2399,7 +2513,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenHistoriaDetallePagoHoras(RFCEmp As String, ByVal IdQuincena As Short) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincenaAplicacion", SqlDbType.SmallInt)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdQuincena
@@ -2410,9 +2524,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function DetalleDePagoQnalAdeudo(ByVal IdQuincena As Short, ByVal IdQuincenaAplicacion As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
-                                                New SqlParameter("@Adeudo", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
+                                                New SqlParameter("@Adeudo", SqlDbType.Bit),
                                                 New SqlParameter("@IdQuincenaAplicacion", SqlDbType.SmallInt)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdQuincena
@@ -2425,8 +2539,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function DetalleDePagoQnalDevolucion(ByVal IdQuincena As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
                                                 New SqlParameter("@Devolucion", SqlDbType.Bit)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdQuincena
@@ -2438,7 +2552,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function DetalleDePagoSemestral(ByVal IdSemestre As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdSemestre", SqlDbType.SmallInt)}
                 Prms(0).Value = _RFC
                 Prms(1).Value = IdSemestre
@@ -2449,8 +2563,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenCargaHoraria(ByVal pRFC As String, ByVal pIdSemestre As Short, ByVal pIdQuincena As Short, ByVal pHistoriaCompletaSemestre As Boolean) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt),
                                             New SqlParameter("@HistoriaCompletaSemestre", SqlDbType.Bit),
                                               New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = pRFC
@@ -2464,8 +2578,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenCargaHoraria(ByVal IdSemestre As Short, ByVal HistoriaCompletaSemestre As Boolean) As DataSet
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt),
                                             New SqlParameter("@HistoriaCompletaSemestre", SqlDbType.Bit)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = IdSemestre
@@ -2488,8 +2602,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenCargaHorariaParaOP(ByVal pRFC As String, ByVal pIdSemestre As Short, ByVal pHistoriaCompletaSemestre As Boolean) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt),
                                             New SqlParameter("@HistoriaCompletaSemestre", SqlDbType.Bit)}
                 Prms(0).Value = pRFC
                 Prms(1).Value = pIdSemestre
@@ -2501,8 +2615,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenCargaHorariaDadaUnaQna(ByVal IdQnaIni As Short, ByVal IdQnaFin As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQnaIni", SqlDbType.SmallInt),
                                             New SqlParameter("@IdQnaFin", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = IdQnaIni
@@ -2514,7 +2628,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function HaTenidoCargaHoraria() As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@HaTenidoCargaHoraria", SqlDbType.Bit)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Direction = ParameterDirection.InputOutput
@@ -2536,7 +2650,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenCargaHorariaSemestreActual() As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@SemestreActual", SqlDbType.Bit)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = True
@@ -2547,7 +2661,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function CreaCargaHorariaSemestreActual(ByVal IdSemestre As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@IdSemestre", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = IdSemestre
@@ -2569,7 +2683,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenPlazaEnSemestre(pRFC As String, pIdSemestre As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                               New SqlParameter("@IdSemestre", SqlDbType.SmallInt)}
                 Prms(0).Value = pRFC
                 Prms(1).Value = pIdSemestre
@@ -2648,7 +2762,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenPlazasVigentes2(ByVal RFC As String, ByVal IdQuincena As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = RFC
                 Prms(1).Value = IdQuincena
@@ -2659,7 +2773,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function EstaVigente(ByVal NumEmp As String, ByVal IdQuincena As Short) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Dim dt As DataTable
 
@@ -2676,7 +2790,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function EstaVigentePorCURP(ByVal CURPEmp As String, ByVal IdQuincena As Short) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@CURPEmp", SqlDbType.NVarChar, 18), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@CURPEmp", SqlDbType.NVarChar, 18),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Dim dt As DataTable
 
@@ -2702,7 +2816,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenHistoria(ByVal pRFCEmp As String, ByVal pSoloUltPlaza As Boolean) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@SoloUltPlaza", SqlDbType.Bit)}
                 Prms(0).Value = pRFCEmp
                 Prms(1).Value = pSoloUltPlaza
@@ -2714,14 +2828,14 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizarAntiguedad(ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@ActualizacionAutomatica", SqlDbType.Bit), _
-                                            New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@FchIngCOBAEV", SqlDbType.DateTime), _
-                                            New SqlParameter("@QnaIngCOBAEV", SqlDbType.Int), _
-                                            New SqlParameter("@AniosAnt", SqlDbType.TinyInt), _
-                                            New SqlParameter("@MesesAnt", SqlDbType.TinyInt), _
-                                            New SqlParameter("@DiasAnt", SqlDbType.TinyInt), _
-                                            New SqlParameter("@CobraPrimaAnt", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@ActualizacionAutomatica", SqlDbType.Bit),
+                                            New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@FchIngCOBAEV", SqlDbType.DateTime),
+                                            New SqlParameter("@QnaIngCOBAEV", SqlDbType.Int),
+                                            New SqlParameter("@AniosAnt", SqlDbType.TinyInt),
+                                            New SqlParameter("@MesesAnt", SqlDbType.TinyInt),
+                                            New SqlParameter("@DiasAnt", SqlDbType.TinyInt),
+                                            New SqlParameter("@CobraPrimaAnt", SqlDbType.Bit),
                                             New SqlParameter("@QuincenaCalculo", SqlDbType.Int)}
                 Prms(0).Value = False
                 Prms(1).Value = Me._IdEmp
@@ -2742,13 +2856,13 @@ Namespace COBAEV.Empleados
         Public Function Actualizar(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
                 Dim Res As Boolean
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@CURPEmp", SqlDbType.NVarChar, 18), _
-                                            New SqlParameter("@ApePatEmp", SqlDbType.NVarChar, 30), _
-                                            New SqlParameter("@ApeMatEmp", SqlDbType.NVarChar, 30), _
-                                            New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30), _
-                                            New SqlParameter("@EstatusEmp", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@CURPEmp", SqlDbType.NVarChar, 18),
+                                            New SqlParameter("@ApePatEmp", SqlDbType.NVarChar, 30),
+                                            New SqlParameter("@ApeMatEmp", SqlDbType.NVarChar, 30),
+                                            New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30),
+                                            New SqlParameter("@EstatusEmp", SqlDbType.TinyInt),
                                             New SqlParameter("@TipoOperacion", SqlDbType.TinyInt)}
                 Prms(0).Direction = ParameterDirection.InputOutput
                 Prms(0).Value = IIf(TipoOperacion = 1, DBNull.Value, _IdEmp)
@@ -2777,9 +2891,9 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizarAutorizacionHomologacion(ByVal TipoOperacion As Byte, ByVal IdQuincena As Short, ByVal ArregloAuditoria() As String, Optional ByVal IdQuincenaNueva As Short = -1) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@IdQuincena", SqlDbType.SmallInt), _
-                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
+                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
                                              New SqlParameter("@IdQuincenaActual", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = IdQuincena
@@ -2797,7 +2911,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function EliminaAutorizacionHomologacion(ByVal IdQuincena As Short, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                             New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = IdQuincena
@@ -2809,13 +2923,13 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizarDatosPersonales(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@IdSexo", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdNacionalidad", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdEdoCivil", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdEdo", SqlDbType.TinyInt), _
-                                            New SqlParameter("@FecNacEmp", SqlDbType.DateTime), _
-                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@IdSexo", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdNacionalidad", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdEdoCivil", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdEdo", SqlDbType.TinyInt),
+                                            New SqlParameter("@FecNacEmp", SqlDbType.DateTime),
+                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
                                             New SqlParameter("@Email", SqlDbType.NVarChar, 100)}
                 Prms(0).Value = _IdEmp
                 Prms(1).Value = _IdSexo
@@ -2836,15 +2950,15 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizarDatosLaborales(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                            New SqlParameter("@HomologaEnSemestreA", SqlDbType.Bit), _
-                                            New SqlParameter("@HomologaEnSemestreB", SqlDbType.Bit), _
-                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdCategoriaSemA", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdCategoriaSemB", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdZonaEcoA", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                            New SqlParameter("@HomologaEnSemestreA", SqlDbType.Bit),
+                                            New SqlParameter("@HomologaEnSemestreB", SqlDbType.Bit),
+                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdCategoriaSemA", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdCategoriaSemB", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdZonaEcoA", SqlDbType.TinyInt),
                                             New SqlParameter("@IdZonaEcoB", SqlDbType.TinyInt)}
 
                 Prms(0).Value = _IdEmp
@@ -2870,9 +2984,9 @@ Namespace COBAEV.Empleados
         Public Function ActualizarDatosLaborales2(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As String
             Try
                 Dim Res As Boolean
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5), _
-                                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
                                             New SqlParameter("@TipoOperacion", SqlDbType.TinyInt)}
 
                 Prms(0).Value = _IdEmp
@@ -2899,8 +3013,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizarDatosSegSoc(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@NSS", SqlDbType.NVarChar, 11), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@NSS", SqlDbType.NVarChar, 11),
                                             New SqlParameter("@IdRegimenISSSTE", SqlDbType.TinyInt)}
 
                 Prms(0).Value = _IdEmp
@@ -2914,10 +3028,10 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizarDatosPagomatico(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _
-                                            New SqlParameter("@IdBanco", SqlDbType.TinyInt), _
-                                            New SqlParameter("@CuentaBancaria", SqlDbType.NVarChar, 18), _
-                                            New SqlParameter("@IncluirEnPagomatico", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int),
+                                            New SqlParameter("@IdBanco", SqlDbType.TinyInt),
+                                            New SqlParameter("@CuentaBancaria", SqlDbType.NVarChar, 18),
+                                            New SqlParameter("@IncluirEnPagomatico", SqlDbType.Bit),
                                                New SqlParameter("@Msj", SqlDbType.NVarChar, 500)}
                 Dim oAplic As New Aplicacion
 
@@ -2946,8 +3060,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ActualizarMamas(ByVal TipoOperacion As Byte, ByVal EsMama As Boolean, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@EsMama", SqlDbType.Bit), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@EsMama", SqlDbType.Bit),
                                                 New SqlParameter("@TipoOperacion", SqlDbType.TinyInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Value = EsMama
@@ -2964,9 +3078,9 @@ Namespace COBAEV.Empleados
         Public Function GenerarRFC() As String
             Dim RetVal As String = ""
             Dim ds As DataSet
-            Dim Param As SqlParameter() = {New SqlParameter("@ApePatEmp", SqlDbType.NVarChar, 30), _
-                New SqlParameter("@ApeMatEmp", SqlDbType.NVarChar, 30), _
-                New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30), _
+            Dim Param As SqlParameter() = {New SqlParameter("@ApePatEmp", SqlDbType.NVarChar, 30),
+                New SqlParameter("@ApeMatEmp", SqlDbType.NVarChar, 30),
+                New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30),
                 New SqlParameter("@FecNacEmp", SqlDbType.DateTime)}
             Param(0).Value = Me._ApePatEmp
             Param(1).Value = Me._ApeMatEmp
@@ -2987,11 +3101,11 @@ Namespace COBAEV.Empleados
         Public Function GenerarCURP() As String
             Dim RetVal As String = ""
             Dim ds As DataSet
-            Dim Param As SqlParameter() = {New SqlParameter("@ApePatEmp", SqlDbType.NVarChar, 30), _
-                New SqlParameter("@ApeMatEmp", SqlDbType.NVarChar, 30), _
-                New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30), _
-                New SqlParameter("@FecNacEmp", SqlDbType.DateTime), _
-                New SqlParameter("@IdSexo", SqlDbType.TinyInt), _
+            Dim Param As SqlParameter() = {New SqlParameter("@ApePatEmp", SqlDbType.NVarChar, 30),
+                New SqlParameter("@ApeMatEmp", SqlDbType.NVarChar, 30),
+                New SqlParameter("@NomEmp", SqlDbType.NVarChar, 30),
+                New SqlParameter("@FecNacEmp", SqlDbType.DateTime),
+                New SqlParameter("@IdSexo", SqlDbType.TinyInt),
                 New SqlParameter("@IdEdo", SqlDbType.TinyInt)}
             Param(0).Value = Me._ApePatEmp
             Param(1).Value = Me._ApeMatEmp
@@ -3020,7 +3134,7 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenFuncion() As Byte
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@FuncionEmpleado", SqlDbType.TinyInt)}
                 Prms(0).Value = Me._RFC
                 Prms(1).Direction = ParameterDirection.Output
@@ -3169,7 +3283,7 @@ Namespace COBAEV.Empleados
 #Region "Clase EmpleadosHijos: Métodos públicos"
         Public Function ObtenHijos() As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFC", SqlDbType.NVarChar, 13),
                                                 New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
                 Prms(0).Value = Me._RFCEmp
                 Prms(1).Value = DBNull.Value
@@ -3180,17 +3294,17 @@ Namespace COBAEV.Empleados
         End Function
         Public Function Actualizar(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@RFCHijo", SqlDbType.NVarChar, 13), _
-                                            New SqlParameter("@CURPHijo", SqlDbType.NVarChar, 18), _
-                                            New SqlParameter("@ApePatHijo", SqlDbType.NVarChar, 30), _
-                                            New SqlParameter("@ApeMatHijo", SqlDbType.NVarChar, 30), _
-                                            New SqlParameter("@NomHijo", SqlDbType.NVarChar, 30), _
-                                            New SqlParameter("@FechaNacHijo", SqlDbType.DateTime), _
-                                            New SqlParameter("@IdSexo", SqlDbType.TinyInt), _
-                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdEmpHijo", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdEdo", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@RFCHijo", SqlDbType.NVarChar, 13),
+                                            New SqlParameter("@CURPHijo", SqlDbType.NVarChar, 18),
+                                            New SqlParameter("@ApePatHijo", SqlDbType.NVarChar, 30),
+                                            New SqlParameter("@ApeMatHijo", SqlDbType.NVarChar, 30),
+                                            New SqlParameter("@NomHijo", SqlDbType.NVarChar, 30),
+                                            New SqlParameter("@FechaNacHijo", SqlDbType.DateTime),
+                                            New SqlParameter("@IdSexo", SqlDbType.TinyInt),
+                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdEmpHijo", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdEdo", SqlDbType.TinyInt),
                                             New SqlParameter("@IncluirParaCalculo", SqlDbType.Bit)}
                 Prms(0).Value = IIf(Me._RFCEmp = String.Empty, DBNull.Value, Me._RFCEmp)
                 Prms(1).Value = IIf(Me._RFCHijo.Trim = String.Empty, DBNull.Value, Me._RFCHijo.ToUpper.Trim)
@@ -3419,9 +3533,9 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function UpdEstudiosPorEmpleado(ByVal pIdEstudio As Integer, ByVal pIdNivel As Byte, ByVal pFecha As String, ByVal pIdCarrera As Short, _
-                                               ByVal pTitulado As Boolean, ByVal pUltNivEstudios As Boolean, ByVal pSiglasINI As String, _
-                                               ByVal pIncompleta As Boolean, ByVal pCursando As Boolean, ByVal pNumCedProf As String, _
+        Public Function UpdEstudiosPorEmpleado(ByVal pIdEstudio As Integer, ByVal pIdNivel As Byte, ByVal pFecha As String, ByVal pIdCarrera As Short,
+                                               ByVal pTitulado As Boolean, ByVal pUltNivEstudios As Boolean, ByVal pSiglasINI As String,
+                                               ByVal pIncompleta As Boolean, ByVal pCursando As Boolean, ByVal pNumCedProf As String,
                                                ByVal ArregloAuditoria() As String) As Boolean
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@IdEstudio", SqlDbType.Int),
@@ -3431,8 +3545,8 @@ Namespace COBAEV.Empleados
                                               New SqlParameter("@Titulado", SqlDbType.Bit),
                                               New SqlParameter("@UltNivEstudios", SqlDbType.Bit),
                                               New SqlParameter("@SiglasINI", SqlDbType.NVarChar, 10),
-                                              New SqlParameter("@Incompleta", SqlDbType.Bit), _
-                                              New SqlParameter("@Cursando", SqlDbType.Bit), _
+                                              New SqlParameter("@Incompleta", SqlDbType.Bit),
+                                              New SqlParameter("@Cursando", SqlDbType.Bit),
                                               New SqlParameter("@NumCedProf", SqlDbType.NVarChar, 20)}
 
                 Prms(0).Value = pIdEstudio
@@ -3451,9 +3565,9 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function AddEstudiosPorEmpleado(ByVal pRFCEmp As String, ByVal pIdNivel As Byte, ByVal pFecha As String, ByVal pIdCarrera As Short, _
-                                               ByVal pTitulado As Boolean, ByVal pUltNivEstudios As Boolean, ByVal pSiglasINI As String, _
-                                               ByVal pIncompleta As Boolean, ByVal pCursando As Boolean, ByVal pNumCedProf As String, _
+        Public Function AddEstudiosPorEmpleado(ByVal pRFCEmp As String, ByVal pIdNivel As Byte, ByVal pFecha As String, ByVal pIdCarrera As Short,
+                                               ByVal pTitulado As Boolean, ByVal pUltNivEstudios As Boolean, ByVal pSiglasINI As String,
+                                               ByVal pIncompleta As Boolean, ByVal pCursando As Boolean, ByVal pNumCedProf As String,
                                                 ByVal ArregloAuditoria() As String) As Boolean
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
@@ -3462,9 +3576,9 @@ Namespace COBAEV.Empleados
                                               New SqlParameter("@IdCarrera", SqlDbType.SmallInt),
                                               New SqlParameter("@Titulado", SqlDbType.Bit),
                                               New SqlParameter("@UltNivEstudios", SqlDbType.Bit),
-                                              New SqlParameter("@SiglasINI", SqlDbType.NVarChar, 10), _
-                                              New SqlParameter("@Incompleta", SqlDbType.Bit), _
-                                              New SqlParameter("@Cursando", SqlDbType.Bit), _
+                                              New SqlParameter("@SiglasINI", SqlDbType.NVarChar, 10),
+                                              New SqlParameter("@Incompleta", SqlDbType.Bit),
+                                              New SqlParameter("@Cursando", SqlDbType.Bit),
                                               New SqlParameter("@NumCedProf", SqlDbType.NVarChar, 20)}
 
                 Prms(0).Value = pRFCEmp

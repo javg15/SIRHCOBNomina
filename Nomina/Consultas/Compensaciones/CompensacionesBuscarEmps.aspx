@@ -81,7 +81,28 @@
                                     <FooterTemplate>
                                         <asp:Label ID="lblImporteTotal" runat="server" Text='<%# Bind("Importe", "{0:c}") %>'></asp:Label></FooterTemplate>
                                     <ItemTemplate>
-                                        <asp:Label ID="lblImporte" runat="server" Text='<%# Bind("Importe", "{0:c}") %>'></asp:Label></ItemTemplate>
+                                        <asp:Label ID="lblImporte" runat="server" Text='<%# Bind("Importe", "{0:c}") %>'></asp:Label>
+                                        <asp:Label ID="lblImporteNatural" runat="server" Visible="false" Text='<%# Bind("Importe") %>'></asp:Label></ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" Wrap="true" />
+                                    <ItemStyle HorizontalAlign="Right" Wrap="False" />
+                                    <FooterStyle Wrap="False" HorizontalAlign="Right" />
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Días Dto.">
+                                    <FooterTemplate>
+                                        <asp:Label ID="lblDiasFaltaTotal" runat="server" Text='<%# Bind("diasDto") %>'></asp:Label></FooterTemplate>
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblDiasFalta" runat="server" Text='<%# Bind("diasDto") %>'></asp:Label>
+                                     </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" Wrap="true" />
+                                    <ItemStyle HorizontalAlign="Right" Wrap="False" />
+                                    <FooterStyle Wrap="False" HorizontalAlign="Right" />
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Dto. Falta">
+                                    <FooterTemplate>
+                                        <asp:Label ID="lblImporteFaltaTotal" runat="server" Text='<%# Bind("ImporteFalta", "{0:c}") %>'></asp:Label></FooterTemplate>
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblImporteFalta" runat="server" Text='<%# Bind("ImporteFalta", "{0:c}") %>'></asp:Label>
+                                        <asp:Label ID="lblImporteFaltaNatural" runat="server" Visible="false" Text='<%# Bind("ImporteFalta") %>'></asp:Label></ItemTemplate>
                                     <HeaderStyle HorizontalAlign="Center" Wrap="true" />
                                     <ItemStyle HorizontalAlign="Right" Wrap="False" />
                                     <FooterStyle Wrap="False" HorizontalAlign="Right" />
@@ -90,7 +111,20 @@
                                     <FooterTemplate>
                                         <asp:Label ID="lblImporteTotalPA" runat="server" Text='<%# Bind("ImportePA", "{0:c}") %>'></asp:Label></FooterTemplate>
                                     <ItemTemplate>
-                                        <asp:Label ID="lblImportePA" runat="server" Text='<%# Bind("ImportePA", "{0:c}") %>'></asp:Label></ItemTemplate>
+                                        <asp:Label ID="lblImportePA" runat="server" Text='<%# Bind("ImportePA", "{0:c}") %>'></asp:Label>
+                                        <asp:Label ID="lblImportePANatural" runat="server" Visible="false" Text='<%# Bind("ImportePA") %>'></asp:Label>
+                                    </ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" Wrap="True" />
+                                    <ItemStyle HorizontalAlign="Right" Wrap="False" />
+                                    <FooterStyle Wrap="False" HorizontalAlign="Right" />
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Dto. P.A.">
+                                    <FooterTemplate>
+                                        <asp:Label ID="lblImporteFaltaTotalPA" runat="server" Text='<%# Bind("ImportePAFalta", "{0:c}") %>'></asp:Label></FooterTemplate>
+                                    <ItemTemplate>
+                                        <asp:Label ID="lblImporteFaltaPA" runat="server" Text='<%# Bind("ImportePAFalta", "{0:c}") %>'></asp:Label>
+                                        <asp:Label ID="lblImporteFaltaPANatural" runat="server" Visible="false" Text='<%# Bind("ImportePAFalta") %>'></asp:Label>
+                                    </ItemTemplate>
                                     <HeaderStyle HorizontalAlign="Center" Wrap="True" />
                                     <ItemStyle HorizontalAlign="Right" Wrap="False" />
                                     <FooterStyle Wrap="False" HorizontalAlign="Right" />
@@ -159,10 +193,18 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField>
                                     <ItemTemplate>
+                                        <asp:ImageButton ID="lnAgregarFalta" runat="server" ImageUrl="~/Imagenes/JustifPorJefe.png"
+                                            CausesValidation="false" ToolTip="Editar faltas." 
+                                            onclick="lnAgregarFalta_Click" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <ItemTemplate>
                                         <asp:ImageButton ID="ibModificar" runat="server" ImageUrl="~/Imagenes/Modificar.png"
                                             CausesValidation="false" ToolTip="Modificar la información del registro." OnClick="ibModificar_Click" /></ItemTemplate>
                                     <ItemStyle HorizontalAlign="Center" />
                                 </asp:TemplateField>
+                                
                                 <asp:TemplateField>
                                     <ItemTemplate>
                                         <asp:ImageButton ID="ibEliminar" runat="server" ImageUrl="~/Imagenes/Eliminar.png"
@@ -641,6 +683,111 @@
                                     Enabled="True" TargetControlID="btnGuardarModifBPA">
                                 </ajaxToolkit:ConfirmButtonExtender>
                                 <asp:Button ID="btnCancelarBPA" runat="server" CausesValidation="False" SkinID="SkinBoton"
+                                    Text="Cancelar" ToolTip="Regresar a la pantalla de consulta de gratificaciones extraordinarias." />
+                            </p>
+                        </div>
+                    </asp:Panel>
+                </asp:View>
+                <asp:View ID="vwFaltas" runat="server">
+                    <asp:Panel ID="pnlFaltasEd" runat="server">
+                        <div class="accountInfo">
+                            <fieldset id="fsCapturaFalta">
+                                <div class="panelIzquierda">
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblAñoHead" runat="server" CssClass="pLabel" Text="Año de afectación:"></asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:Label ID="lblAñoFalta" runat="server" CssClass="pLabel" Text=""></asp:Label>
+                                    </p>
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblMesHead" runat="server" CssClass="pLabel" Text="Mes de afectación:"></asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:Label ID="lblMesFalta" runat="server" CssClass="pLabel" Text=""></asp:Label>
+                                    </p>
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblAdicionalHead" runat="server" CssClass="pLabel" Text="Adicional:"></asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:Label ID="lblAdicionalFalta" runat="server" CssClass="pLabel" Text=""></asp:Label>
+                                    </p>
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblDias" runat="server" CssClass="pLabel" Text="Cantidad de días por concepto de Faltas:">
+                                        </asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:TextBox ID="txtDiasFaltas" runat="server" MaxLength="10" CssClass="textEntry" AutoPostBack="True"></asp:TextBox>
+                                        <asp:CompareValidator ID="vldCprDiasFalta1" runat="server" ControlToValidate="txtDiasFaltas"
+                                            Display="Dynamic" ErrorMessage="Cantidad de Días incorrecto." Operator="DataTypeCheck"
+                                            Type="Integer" ToolTip="Cantidad de Días incorrecto." Text="*"></asp:CompareValidator>
+                                        <asp:RequiredFieldValidator ID="vldReqDiasFalta1" runat="server" ControlToValidate="txtDiasFaltas"
+                                            Display="Dynamic" Text="*" ToolTip="La cantidad de Días es obligatorio."
+                                            ErrorMessage="La cantidad de Días es obligatorio.">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:CompareValidator ID="vldCprDiasFalta2" runat="server" ControlToValidate="txtDiasFaltas"
+                                            Display="Dynamic" ErrorMessage="Cantidad incorrecta. No puede ser cero o menor que cero."
+                                            Operator="GreaterThan" ToolTip="Cantidad incorrecta. No puede ser cero o menor que cero."
+                                            Type="Integer" ValueToCompare="0" Text="*"></asp:CompareValidator>
+                                     </p>
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblImporteFalta" runat="server" CssClass="pLabel" Text="Importe de la deducción por Faltas (Compensación):">
+                                        </asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:TextBox ID="txtbxImporteCompeFalta" runat="server" MaxLength="10" CssClass="textEntry" AutoPostBack="True"></asp:TextBox>
+                                        <asp:hiddenfield ID="hidImporteCompeFalta" runat="server"></asp:hiddenfield>
+                                        <asp:CompareValidator ID="vldCprCompeFalta1" runat="server" ControlToValidate="txtbxImporteCompeFalta"
+                                            Display="Dynamic" ErrorMessage="Importe incorrecto." Operator="DataTypeCheck"
+                                            Type="Currency" ToolTip="Importe incorrecto." Text="*"></asp:CompareValidator>
+                                        <asp:RequiredFieldValidator ID="vldReqCompeFalta1" runat="server" ControlToValidate="txtbxImporteCompeFalta"
+                                            Display="Dynamic" Text="*" ToolTip="El importe de la Gratificación Extraordinaria es obligatorio."
+                                            ErrorMessage="El importe de la Gratificación Extraordinaria es obligatorio.">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:CompareValidator ID="vldCprCompeFalta2" runat="server" ControlToValidate="txtbxImporteCompeFalta"
+                                            Display="Dynamic" ErrorMessage="Importe incorrecto. No puede ser cero o menor que cero."
+                                            Operator="GreaterThan" ToolTip="Importe incorrecto. No puede ser cero o menor que cero."
+                                            Type="Currency" ValueToCompare="0" Text="*"></asp:CompareValidator>
+                                    </p>
+                                    <p class="pLabel">
+                                        <asp:Label ID="Label1" runat="server" CssClass="pLabel" Text="Importe de la deducción por Faltas (Pensión Alimenticia):">
+                                        </asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:TextBox ID="txtbxImportePAFalta" runat="server" MaxLength="10" CssClass="textEntry"></asp:TextBox>
+                                        <asp:hiddenfield ID="hidImportePAFalta" runat="server"></asp:hiddenfield>
+                                        <asp:CompareValidator ID="vldCprCompeFaltaPA1" runat="server" ControlToValidate="txtbxImportePAFalta"
+                                            Display="Dynamic" ErrorMessage="Importe incorrecto." Operator="DataTypeCheck"
+                                            Type="Currency" ToolTip="Importe incorrecto." Text="*"></asp:CompareValidator>
+                                        <asp:RequiredFieldValidator ID="vldReqCompeFaltaPA1" runat="server" ControlToValidate="txtbxImportePAFalta"
+                                            Display="Dynamic" Text="*" ToolTip="El importe de la Gratificación Extraordinaria es obligatorio."
+                                            ErrorMessage="El importe de la Gratificación Extraordinaria es obligatorio.">
+                                        </asp:RequiredFieldValidator>
+                                        <asp:CompareValidator ID="vldCprCompeFaltaPA2" runat="server" ControlToValidate="txtbxImportePAFalta"
+                                            Display="Dynamic" ErrorMessage="Importe incorrecto. No puede ser cero o menor que cero."
+                                            Operator="GreaterThan" ToolTip="Importe incorrecto. No puede ser cero o menor que cero."
+                                            Type="Currency" ValueToCompare="0" Text="*"></asp:CompareValidator>
+                                    </p>
+                                    
+                                    <p class="pLabel">
+                                        <asp:Label ID="lblObservacionesFaltas" runat="server" CssClass="pLabel" Text="Observaciones:"></asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:TextBox ID="txtObservacionesFaltas" runat="server" Columns="100" MaxLength="100" CssClass="textEntry"></asp:TextBox>
+                                    </p>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </asp:Panel>
+                    <asp:Panel ID="Panel1" runat="server">
+                        <div id="divBotonesFalta">
+                            <p class="submitButton">
+                                <asp:Button ID="btnGuardarModifFaltas" runat="server" SkinID="SkinBoton" Text="Guardar"
+                                    ToolTip="Guardar cambios y regresar a la pantalla de consulta de gratificaciones extraordinarias."
+                                    CausesValidation="True" />
+                                <ajaxToolkit:ConfirmButtonExtender ID="ConfirmButtonExtender1" runat="server" ConfirmText="La opción seleccionada realizará cambios en la Base de Datos Institucional, ¿Continuar?"
+                                    Enabled="True" TargetControlID="btnGuardarModifFaltas">
+                                </ajaxToolkit:ConfirmButtonExtender>
+                                <asp:Button ID="btnCancelarFaltas" runat="server" CausesValidation="False" SkinID="SkinBoton"
                                     Text="Cancelar" ToolTip="Regresar a la pantalla de consulta de gratificaciones extraordinarias." />
                             </p>
                         </div>

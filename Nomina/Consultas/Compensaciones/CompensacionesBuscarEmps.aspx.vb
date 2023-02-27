@@ -335,6 +335,9 @@ Partial Class CompensacionesBuscarEmps
         Dim lblImporteTotal As Label
         Dim lblImporteTotalPA As Label
         Dim lblImporteTotalR As Label
+        Dim lblImporteFaltaTotalPA As Label
+        Dim lblImporteFaltaTotal As Label
+        Dim lblDiasFaltaTotal As Label
         Dim lblMesesQueAmparaPagoT As Label
         Dim dtNumsAdic As DataTable
 
@@ -359,6 +362,13 @@ Partial Class CompensacionesBuscarEmps
             lblImporteTotalR.Text = Format(ds.Tables(0).Compute("Sum(ImporteTR)", ""), "$ ###,###,##0.00")
             lblMesesQueAmparaPagoT = CType(gvHistoriaCompe.FooterRow.FindControl("lblMesesQueAmparaPagoT"), Label)
             lblMesesQueAmparaPagoT.Text = Format(ds.Tables(0).Compute("Sum(MesesQueAmparaPago)", ""), "###,###,##0")
+
+            lblImporteFaltaTotalPA = CType(gvHistoriaCompe.FooterRow.FindControl("lblImporteFaltaTotalPA"), Label)
+            lblImporteFaltaTotalPA.Text = Format(ds.Tables(0).Compute("Sum(ImportePAFalta)", ""), "$ ###,###,##0")
+            lblImporteFaltaTotal = CType(gvHistoriaCompe.FooterRow.FindControl("lblImporteFaltaTotal"), Label)
+            lblImporteFaltaTotal.Text = Format(ds.Tables(0).Compute("Sum(ImporteFalta)", ""), "$ ###,###,##0")
+            lblDiasFaltaTotal = CType(gvHistoriaCompe.FooterRow.FindControl("lblDiasFaltaTotal"), Label)
+            lblDiasFaltaTotal.Text = Format(ds.Tables(0).Compute("Sum(diasDto)", ""), "##0")
         End If
 
         With gvBPA
@@ -498,8 +508,12 @@ Partial Class CompensacionesBuscarEmps
             Case DataControlRowType.DataRow
                 Dim ibModificar As ImageButton = CType(e.Row.FindControl("ibModificar"), ImageButton)
                 Dim ibEliminar As ImageButton = CType(e.Row.FindControl("ibEliminar"), ImageButton)
+                Dim lnAgregarFalta As ImageButton = CType(e.Row.FindControl("lnAgregarFalta"), ImageButton)
                 Dim lblPermiteCambios As Label = CType(e.Row.FindControl("lblPermiteCambios"), Label)
 
+                If e.Row.RowIndex > 0 Then
+                    lnAgregarFalta.Visible = False
+                End If
                 If lblPermiteCambios.Text = "N" Then
                     ibModificar.Enabled = False
                     ibModificar.ImageUrl = "~/Imagenes/ModificarDisabled.jpg"
@@ -602,6 +616,13 @@ Partial Class CompensacionesBuscarEmps
         MVMain.SetActiveView(VCCompen)
     End Sub
 
+    Protected Sub btnCancelarFaltas_Click(sender As Object, e As System.EventArgs) Handles btnCancelarFaltas.Click
+        gvHistoriaCompe.SelectedIndex = -1
+        MVMain.SetActiveView(VABCCompen)
+        SetVisibleBotones_wucBuscaEmps(True)
+        pnlFaltasEd.Enabled = False
+    End Sub
+
     Protected Sub btnCancelar1_Click(sender As Object, e As System.EventArgs) Handles btnCancelar1.Click
         gvHistoriaCompe.SelectedIndex = -1
         MVMain.SetActiveView(VABCCompen)
@@ -645,9 +666,9 @@ Partial Class CompensacionesBuscarEmps
 
         If txtbxTipoOperacion.Text = "Captura" Then
 
-            oCompen.InsertaRegistro(vlRFCEmp, "C1", CDec(txtbxImporte.Text), ChBxPagarConCheque.Checked, _
-                                txtbxClaveCobro.Text, CByte(ddlBancos.SelectedValue), txtbxCtaBancaria.Text, "", _
-                                "", "", txtbxObservs.Text, CByte(ddlMesesAmp.SelectedValue), _
+            oCompen.InsertaRegistro(vlRFCEmp, "C1", CDec(txtbxImporte.Text), ChBxPagarConCheque.Checked,
+                                txtbxClaveCobro.Text, CByte(ddlBancos.SelectedValue), txtbxCtaBancaria.Text, "",
+                                "", "", txtbxObservs.Text, CByte(ddlMesesAmp.SelectedValue),
                                 "", "", vlAnio, vlIdMes, CByte(ddlNumeroDeNominas.SelectedValue), CType(Session("ArregloAuditoria"), String()))
 
         ElseIf txtbxTipoOperacion.Text = "Actualización" Then
@@ -660,12 +681,89 @@ Partial Class CompensacionesBuscarEmps
             vlAdicionalAnt = CByte(lblAdicional.Text)
             vlAdicionalNew = CByte(ddlNumeroDeNominas.SelectedValue)
 
-            oCompen.ActualizaRegistro(0, "C1", CDec(txtbxImporte.Text), ChBxPagarConCheque.Checked, _
-                    txtbxClaveCobro.Text, CByte(ddlBancos.SelectedValue), txtbxCtaBancaria.Text, "", _
-                    "", "", txtbxObservs.Text, CByte(ddlMesesAmp.SelectedValue), _
-                    "", "", vlRFCEmp, vlAnio, vlIdMes, vlAdicionalNew, vlAdicionalAnt, _
+            oCompen.ActualizaRegistro(0, "C1", CDec(txtbxImporte.Text), ChBxPagarConCheque.Checked,
+                    txtbxClaveCobro.Text, CByte(ddlBancos.SelectedValue), txtbxCtaBancaria.Text, "",
+                    "", "", txtbxObservs.Text, CByte(ddlMesesAmp.SelectedValue),
+                    "", "", vlRFCEmp, vlAnio, vlIdMes, vlAdicionalNew, vlAdicionalAnt,
                     CType(Session("ArregloAuditoria"), String()))
         End If
+
+        btnCancelar1_Click(sender, e)
+        btnConsultar_Click(sender, e)
+    End Sub
+
+    Protected Sub lnAgregarFalta_Click(sender As Object, e As System.EventArgs)
+        Dim gvr As GridViewRow = CType(CType(sender, ImageButton).NamingContainer, GridViewRow)
+
+        Dim lblAnio As Label = CType(gvr.FindControl("lblAnio"), Label)
+        Dim lblIdMes As Label = CType(gvr.FindControl("lblIdMes"), Label)
+        Dim lblAdicional As Label = CType(gvr.FindControl("lblAdicional"), Label)
+        Dim lblImportePANatural As Label = CType(gvr.FindControl("lblImportePANatural"), Label)
+        Dim lblImporteNatural As Label = CType(gvr.FindControl("lblImporteNatural"), Label)
+        Dim lblImporteFaltaNatural As Label = CType(gvr.FindControl("lblImporteFaltaNatural"), Label)
+        Dim lblImporteFaltaPANatural As Label = CType(gvr.FindControl("lblImporteFaltaPANatural"), Label)
+        Dim lblDiasFalta As Label = CType(gvr.FindControl("lblDiasFalta"), Label)
+
+        gvHistoriaCompe2.SelectedIndex = gvr.RowIndex
+
+        SetVisibleBotones_wucBuscaEmps(False)
+        pnlFaltasEd.GroupingText = "Registro de Faltas"
+        lblAñoFalta.Text = lblAnio.Text
+        lblMesFalta.Text = lblIdMes.Text
+        lblAdicionalFalta.Text = lblAdicional.Text
+        hidImporteCompeFalta.Value = (CDec(lblImporteNatural.Text) + CDec(lblImportePANatural.Text) + CDec(lblImporteFaltaNatural.Text))
+        hidImportePAFalta.Value = (CDec(lblImportePANatural.Text) + CDec(lblImporteFaltaPANatural.Text))
+
+        'PA
+        vldCprCompeFaltaPA1.Enabled = True
+        vldCprCompeFaltaPA2.Enabled = True
+        vldReqCompeFaltaPA1.Enabled = True
+        txtbxImportePAFalta.Enabled = True
+        If (CDec(lblImportePANatural.Text) = 0) Or (CDec(lblDiasFalta.Text) = 0) Then
+            vldCprCompeFaltaPA1.Enabled = False
+            vldCprCompeFaltaPA2.Enabled = False
+            vldReqCompeFaltaPA1.Enabled = False
+            txtbxImportePAFalta.Enabled = False
+        End If
+
+        txtbxImporteCompeFalta.Text = lblImporteFaltaNatural.Text
+        txtbxImportePAFalta.Text = lblImporteFaltaPANatural.Text
+        txtDiasFaltas.Text = lblDiasFalta.Text
+
+        txtObservacionesFaltas.Text = String.Empty
+
+        pnlFaltasEd.Enabled = True
+
+        MVMain.SetActiveView(vwFaltas)
+    End Sub
+
+    Protected Sub btnGuardarModifFaltas_Click(sender As Object, e As System.EventArgs) Handles btnGuardarModifFaltas.Click
+        Dim oCompen As New Compensacion
+        Dim hfRFC As HiddenField = CType(WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
+        Dim vlRFCEmp As String
+        Dim lblAnio As New Label
+        Dim lblIdMes As New Label
+        Dim vlAnio As Short
+        Dim vlIdMes As Byte
+        Dim vlAdicional As Byte
+        Dim vlDias As Byte
+        Dim vlImporte As Decimal
+        Dim vlImportePA As Decimal
+        'Dim dtNumsAdic As DataTable
+
+        vlRFCEmp = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
+
+        vlAnio = CShort(lblAñoFalta.Text)
+        vlIdMes = CByte(lblMesFalta.Text)
+        vlAdicional = CByte(lblAdicionalFalta.Text)
+        vlImporte = CDec(txtbxImporteCompeFalta.Text)
+        vlImportePA = CDec(txtbxImportePAFalta.Text)
+        vlDias = CDec(txtDiasFaltas.Text)
+
+
+        oCompen.IoURegistroFaltas(vlRFCEmp, vlAnio, vlIdMes,
+                    vlAdicional, vlImporte, vlImportePA, vlDias, txtObservacionesFaltas.Text,
+                    CType(Session("ArregloAuditoria"), String()))
 
         btnCancelar1_Click(sender, e)
         btnConsultar_Click(sender, e)
@@ -1077,5 +1175,63 @@ Partial Class CompensacionesBuscarEmps
         If txtbxTipoOperacionBPA.Text = "Captura" Then
             BindddlMesesAmp()
         End If
+    End Sub
+
+    Protected Sub txtDiasFaltas_TextChanged(sender As Object, e As EventArgs) Handles txtDiasFaltas.TextChanged
+
+        Dim vlImporteCompe As Decimal
+        Dim vlImportePA As Decimal
+
+        vlImporteCompe = CDec(hidImporteCompeFalta.Value)
+        vlImportePA = CDec(hidImportePAFalta.Value)
+
+        'Compe
+        vldCprCompeFalta1.Enabled = True
+        vldCprCompeFalta2.Enabled = True
+        vldReqCompeFalta1.Enabled = True
+        txtbxImporteCompeFalta.Enabled = True
+        If (CDec(txtDiasFaltas.Text) = 0) Then
+            vldCprCompeFalta1.Enabled = False
+            vldCprCompeFalta2.Enabled = False
+            vldReqCompeFalta1.Enabled = False
+            txtbxImporteCompeFalta.Enabled = False
+
+            If (CDec(hidImportePAFalta.Value) > 0) Then
+                vldCprCompeFaltaPA1.Enabled = False
+                vldCprCompeFaltaPA2.Enabled = False
+                vldReqCompeFaltaPA1.Enabled = False
+                txtbxImportePAFalta.Enabled = False
+            End If
+        Else
+            If (CDec(hidImportePAFalta.Value) > 0) Then
+                vldCprCompeFaltaPA1.Enabled = True
+                vldCprCompeFaltaPA2.Enabled = True
+                vldReqCompeFaltaPA1.Enabled = True
+                txtbxImportePAFalta.Enabled = True
+            End If
+        End If
+
+        Try
+            txtbxImporteCompeFalta.Text = Math.Round(vlImporteCompe / 30 * CInt(txtDiasFaltas.Text), 2)
+            txtbxImportePAFalta.Text = Math.Round(vlImportePA / 30 * CInt(txtDiasFaltas.Text), 2)
+        Catch ex As Exception
+            txtbxImporteCompeFalta.Text = "0"
+            txtbxImportePAFalta.Text = "0"
+        End Try
+
+        'Días
+        vldCprDiasFalta1.Enabled = True
+        vldCprDiasFalta2.Enabled = True
+        vldReqDiasFalta1.Enabled = True
+        If (CDec(txtbxImporteCompeFalta.Text) = 0) Then
+            vldCprDiasFalta1.Enabled = False
+            vldCprDiasFalta2.Enabled = False
+            vldReqDiasFalta1.Enabled = False
+        End If
+
+    End Sub
+    Protected Sub txtbxImporteCompeFalta_TextChanged(sender As Object, e As EventArgs) Handles txtbxImporteCompeFalta.TextChanged
+
+
     End Sub
 End Class

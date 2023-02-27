@@ -770,6 +770,18 @@ Namespace COBAEV.Nominas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+        Public Function ObtenListasCalculadas() As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@ParaDDL", SqlDbType.Bit)}
+
+                Prms(0).Value = True
+
+                Return _DataCOBAEV.RunProc("SP_SQuincenas", Prms, DataCOBAEV.Tipoconsulta.Table, DataCOBAEV.BD.Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
         Public Function ObtenListasParaCalculo() As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@ParaDDL", SqlDbType.Bit), _

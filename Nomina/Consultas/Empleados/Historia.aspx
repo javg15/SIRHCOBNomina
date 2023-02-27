@@ -125,6 +125,13 @@
                                                                         </ajaxToolkit:ConfirmButtonExtender>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="IdPlaza" Visible="false">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblIdPlaza" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="CURP (Ocupante)" Visible="false">
                                                                     <HeaderStyle HorizontalAlign="Center" />
                                                                     <ItemStyle HorizontalAlign="Center" />
@@ -185,6 +192,18 @@
                                                             <EmptyDataRowStyle Font-Bold="True" Font-Italic="True" />
                                                         </asp:GridView>
                                                     </asp:Panel>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align: top; width: 100%; text-align: left; height: 18px;">
+                                                    <asp:LinkButton ID="lbAsignarPlazaBase" runat="server" Font-Bold="False"
+                                                                    SkinID="SkinLinkButton" ToolTip="Asignar plaza BASE" ForeColor="#003300" PostBackUrl="../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1">Asignar plaza BASE</asp:LinkButton>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <asp:LinkButton ID="lbQuitarPlazaBase" runat="server" Font-Bold="False"
+                                                                    SkinID="SkinLinkButton" ToolTip="Asignar plaza BASE" ForeColor="#330000">Quitar plaza BASE</asp:LinkButton>
+                                                    <ajaxToolkit:ConfirmButtonExtender ID="CBQuitarPlazaBase" runat="server" ConfirmText="¿Realmente desea QUITAR la asignación de Plaza Base al empleado?"
+                                                                            TargetControlID="lbQuitarPlazaBase">
+                                                                        </ajaxToolkit:ConfirmButtonExtender>
                                                 </td>
                                             </tr>
                                             <tr>

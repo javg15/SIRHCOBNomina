@@ -4448,28 +4448,28 @@ Namespace COBAEV.Nominas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function InsertaRegistro(ByVal RFCEmp As String, ByVal Origen As String, ByVal Importe As Decimal, ByVal PagarConCheque As Boolean, ByVal ClaveCobro As String, _
-                                        ByVal IdBanco As Byte, ByVal CuentaBancaria As String, ByVal ApePat As String, ByVal ApeMat As String, ByVal Nombre As String, _
-                                        ByVal Observaciones As String, ByVal MesesQueAmparaPago As Byte, ByVal NumEmpOficial As String, ByVal NumEmpAfectado As String, _
+        Public Function InsertaRegistro(ByVal RFCEmp As String, ByVal Origen As String, ByVal Importe As Decimal, ByVal PagarConCheque As Boolean, ByVal ClaveCobro As String,
+                                        ByVal IdBanco As Byte, ByVal CuentaBancaria As String, ByVal ApePat As String, ByVal ApeMat As String, ByVal Nombre As String,
+                                        ByVal Observaciones As String, ByVal MesesQueAmparaPago As Byte, ByVal NumEmpOficial As String, ByVal NumEmpAfectado As String,
                                         ByVal pAnio As Short, ByVal pIdMes As Byte, ByVal pAdicional As Byte,
                                         ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
-                                                New SqlParameter("@Origen", SqlDbType.NVarChar, 30), _
-                                                New SqlParameter("@Importe", SqlDbType.Decimal), _
-                                                New SqlParameter("@PagarConCheque", SqlDbType.Bit), _
-                                                New SqlParameter("@ClaveCobro", SqlDbType.NVarChar, 8), _
-                                                New SqlParameter("@IdBanco", SqlDbType.TinyInt), _
-                                                New SqlParameter("@CuentaBancaria", SqlDbType.NVarChar, 18), _
-                                                New SqlParameter("@ApePat", SqlDbType.NVarChar, 30), _
-                                                New SqlParameter("@ApeMat", SqlDbType.NVarChar, 30), _
-                                                New SqlParameter("@Nombre", SqlDbType.NVarChar, 30), _
-                                                New SqlParameter("@Observaciones", SqlDbType.NVarChar, 100), _
-                                                New SqlParameter("@MesesQueAmparaPago", SqlDbType.TinyInt), _
-                                                New SqlParameter("@NumEmpOficial", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@NumEmpAfectado", SqlDbType.NVarChar, 5), _
-                                                New SqlParameter("@Anio", SqlDbType.SmallInt), _
-                                                New SqlParameter("@IdMes", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@Origen", SqlDbType.NVarChar, 30),
+                                                New SqlParameter("@Importe", SqlDbType.Decimal),
+                                                New SqlParameter("@PagarConCheque", SqlDbType.Bit),
+                                                New SqlParameter("@ClaveCobro", SqlDbType.NVarChar, 8),
+                                                New SqlParameter("@IdBanco", SqlDbType.TinyInt),
+                                                New SqlParameter("@CuentaBancaria", SqlDbType.NVarChar, 18),
+                                                New SqlParameter("@ApePat", SqlDbType.NVarChar, 30),
+                                                New SqlParameter("@ApeMat", SqlDbType.NVarChar, 30),
+                                                New SqlParameter("@Nombre", SqlDbType.NVarChar, 30),
+                                                New SqlParameter("@Observaciones", SqlDbType.NVarChar, 100),
+                                                New SqlParameter("@MesesQueAmparaPago", SqlDbType.TinyInt),
+                                                New SqlParameter("@NumEmpOficial", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@NumEmpAfectado", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@Anio", SqlDbType.SmallInt),
+                                                New SqlParameter("@IdMes", SqlDbType.TinyInt),
                                                 New SqlParameter("@Adicional", SqlDbType.TinyInt)}
 
                 Prms(0).Value = RFCEmp
@@ -4504,6 +4504,40 @@ Namespace COBAEV.Nominas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+
+        Public Function IoURegistroFaltas(ByVal RFCEmp As String,
+                                        ByVal pAnio As Short, ByVal pIdMes As Byte,
+                                        ByVal pAdicional As Byte,
+                                        ByVal Importe As Decimal, ByVal ImportePA As Decimal,
+                                        ByVal dias As Byte, ByVal Observaciones As String,
+                                        ByVal ArregloAuditoria() As String) As Boolean
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@Anio", SqlDbType.SmallInt),
+                                                New SqlParameter("@IdMes", SqlDbType.TinyInt),
+                                                New SqlParameter("@Adicional", SqlDbType.TinyInt),
+                                                New SqlParameter("@Importe", SqlDbType.Decimal),
+                                                New SqlParameter("@ImportePA", SqlDbType.Decimal),
+                                                New SqlParameter("@Dias", SqlDbType.TinyInt),
+                                                New SqlParameter("@Observaciones", SqlDbType.NVarChar, 100)
+                                             }
+
+                Prms(0).Value = RFCEmp
+                Prms(1).Value = pAnio
+                Prms(2).Value = pIdMes
+                Prms(3).Value = pAdicional
+                Prms(4).Value = Importe
+                Prms(5).Value = ImportePA
+                Prms(6).Value = dias
+                Prms(7).Value = Observaciones
+
+                Return _DataCOBAEV.RunProc("SP_IoUCompensacionesFaltas", Prms, DataCOBAEV.BD.Nomina, ArregloAuditoria)
+
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
         Public Function PosiblesDatosParaNuevaCompe(ByVal RFCEmp As String, ByVal IdEmp As Integer) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13), _
@@ -4528,6 +4562,15 @@ Namespace COBAEV.Nominas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+
+        Public Function ObtenImporteCompensacion(ByVal RFCEmp As String) As DataSet
+            Try
+                Return _DataCOBAEV.RunQueryStr("SELECT [dbo].[Fn_ObtenImporteTotalCompe]('" + RFCEmp + "')", "", DataCOBAEV.BD.Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
         Public Function EliminaRegistro(ByVal IdEmp As Integer, ByVal Origen As String, ByVal ArregloAuditoria() As String) As Boolean
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@IdEmp", SqlDbType.Int), _

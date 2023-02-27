@@ -69,7 +69,7 @@ Partial Class WebControls_wucSearchEmps
         txtbxNomEmp.ReadOnly = pTxtBxNombre
         txtbxNumEmp.ReadOnly = pTxtBxNumEmp
     End Sub
-    Private Sub SetPropertyEnabled_rfv(prfvRFC As Boolean, prfvNombre As Boolean, prfvNumEmp As Boolean)
+    Public Sub SetPropertyEnabled_rfv(prfvRFC As Boolean, prfvNombre As Boolean, prfvNumEmp As Boolean)
         rfvRFC.Enabled = prfvRFC
         rfvNombre.Enabled = prfvNombre
         rfvNumEmp.Enabled = prfvNumEmp

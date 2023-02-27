@@ -177,7 +177,7 @@ Partial Class GeneraTXTsISSSTE
                 Case "2"
                     dt = oISSSTE.GeneraTXTModSal(CShort(lblIdQuincena.Text), CByte(Me.ddlRegimenPensISSSTE.SelectedValue), CByte(Me.ddlRegimenPensISSSTE.SelectedValue))
                 Case "3" 'Bajas Con NumEmp
-                    dt = oISSSTE.GeneraTXTBajas(CShort(lblIdQuincena.Text), CByte(Me.ddlRegimenPensISSSTE.SelectedValue), CByte(Me.ddlRegimenPensISSSTE.SelectedValue))
+                    dt = oISSSTE.GeneraTXTBajas(CShort(lblIdQuincena.Text), CByte(Me.ddlRegimenPensISSSTE.SelectedValue), CByte(Me.ddlRegimenPensISSSTE.SelectedValue), True)
             End Select
 
             Dim dr As System.Data.DataRow
