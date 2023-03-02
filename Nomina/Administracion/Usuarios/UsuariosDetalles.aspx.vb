@@ -36,17 +36,26 @@ Partial Class Administracion_Usuarios_UsuariosDetalles
             Dim btnGuardar As Button = CType(Me.dvUsuarios.FindControl("btnGuardar"), Button)
 
             Me.MultiView1.SetActiveView(Me.viewCaptura)
-            If Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "4" Then
+            If Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "4" Or Request.Params("TipoOperacion") = "5" Then
                 Dim dr As DataRow
                 Dim oUsr As New Usuario
                 oUsr.IdUsuario = CShort(Request.Params("IdUsuario"))
                 dr = oUsr.ObtenerPorId()
                 txtbxLogin.Text = dr("Login")
-                txtbxPassw1.Enabled = False
-                txtbxPassw2.Enabled = False
-                RFVPassw1.Enabled = False
-                RFVPassw2.Enabled = False
-                CVPassw.Enabled = False
+
+                If oUsr.EsSuperAdmin(txtbxLogin.Text) Then
+                    txtbxPassw1.Enabled = True
+                    txtbxPassw2.Enabled = True
+                    CVPassw.Enabled = True
+                Else
+                    txtbxPassw1.Enabled = False
+                    txtbxPassw2.Enabled = False
+                    RFVPassw1.Enabled = False
+                    RFVPassw2.Enabled = False
+                    CVPassw.Enabled = False
+                End If
+
+
                 txtbxApePat.Text = dr("ApellidoPaterno")
                 txtbxApeMat.Text = dr("ApellidoMaterno")
                 txtbxNombre.Text = dr("Nombre")

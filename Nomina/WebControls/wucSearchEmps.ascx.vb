@@ -158,6 +158,10 @@ Partial Class WebControls_wucSearchEmps
         BuscarEmpleado()
     End Sub
 
+    Public Sub PerformClick_BtnSearch()
+        BtnSearch_Click(BtnSearch, Nothing)
+    End Sub
+
     Protected Sub Page_Load(sender As Object, e As System.EventArgs) Handles Me.Load
         If Not IsPostBack Then
             If Session("RFCParaCons") Is Nothing Then

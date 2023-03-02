@@ -61,6 +61,7 @@ Partial Class Consultas_Empleados_ConReduccionDeSueldo
         Dim gvEmps As GridViewRow = CType(CType(sender, ImageButton).NamingContainer, GridViewRow)
         Dim oQna As New Quincenas
 
+        Dim lblNumEmp As Label = CType(gvEmps.FindControl("lblNumEmp"), Label)
         Dim lblIdEmp As Label = CType(gvEmps.FindControl("lblIdEmp"), Label)
         Dim Nombre As String = CType(gvEmps.FindControl("lblApePat"), Label).Text _
                 & " " & CType(gvEmps.FindControl("lblApeMat"), Label).Text _
@@ -69,6 +70,9 @@ Partial Class Consultas_Empleados_ConReduccionDeSueldo
         Dim lblPorcDesc As Label = CType(gvEmps.FindControl("lblPorcDesc"), Label)
         Dim lblIdQnaIni As Label = CType(gvEmps.FindControl("lblIdQnaIni"), Label)
         Dim lblIdQnaFin As Label = CType(gvEmps.FindControl("lblIdQnaFin"), Label)
+
+        CType(Me.WucBuscaEmpleados1.FindControl("txtbxNumEmp"), TextBox).Text = lblNumEmp.Text
+        WucBuscaEmpleados1.PerformClick_BtnSearch
 
         hidIdReduccion.Value = CType(gvEmps.FindControl("lblIdReduccion"), Label).Text
         hidIdEmpleado.Text = lblIdEmp.Text

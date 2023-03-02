@@ -261,6 +261,7 @@ Partial Class Consultas_Empleados_CargaHoraria
                 Dim ibEliminar As ImageButton = CType(e.Row.FindControl("ibEliminar"), ImageButton)
                 Dim ibModificar As ImageButton = CType(e.Row.FindControl("ibModificar"), ImageButton)
                 Dim ibDetalles As ImageButton = CType(e.Row.FindControl("ibDetalles"), ImageButton)
+                Dim ibHorarios As ImageButton = CType(e.Row.FindControl("ibHorarios"), ImageButton)
                 Dim ibAddHoras As ImageButton = CType(e.Row.FindControl("ibAddHoras"), ImageButton)
                 Dim ibRemplazar As ImageButton = CType(e.Row.FindControl("ibRemplazar"), ImageButton)
                 Dim lblTipoNomina As Label = CType(e.Row.FindControl("lblTipoNomina"), Label)
@@ -338,6 +339,7 @@ Partial Class Consultas_Empleados_CargaHoraria
 
                 End If
 
+                ibHorarios.PostBackUrl = "../../ABC/Empleados/AdministracionHorarios.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=4" + "&ValidacionAlCargarPagina=NO&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&IdQuincena=" + ddlQuincenas.SelectedValue
                 'ibDetalles.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=4" + "&ValidacionAlCargarPagina=NO&IdSemestre=" + Me.ddlSemestres.SelectedValue + "');"
                 ibDetalles.PostBackUrl = "../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=4" + "&ValidacionAlCargarPagina=NO&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&IdQuincena=" + ddlQuincenas.SelectedValue
                 'ibModificar.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=0" + "&ValidacionAlCargarPagina=SI&IdSemestre=" + Me.ddlSemestres.SelectedValue + "');"

@@ -560,4 +560,245 @@ Namespace COBAEV
 #End Region
     End Class
 #End Region
+
+#Region "Clase PlantelesHorarios"
+    Public Class PlantelesHorarios
+#Region "Clase Plantel: Propiedades privadas"
+        Private _DataCOBAEV As New DataCOBAEV
+
+        Public Property IdPlantelesHorarios() As Integer
+            Get
+                Return _IdPlantelesHorarios
+            End Get
+            Set(ByVal Value As Integer)
+                _IdPlantelesHorarios = Value
+            End Set
+        End Property
+        Public Property IdPlanteles() As Integer
+            Get
+                Return _IdPlanteles
+            End Get
+            Set(ByVal Value As Integer)
+                _IdPlanteles = Value
+            End Set
+        End Property
+        Public Property Inicio() As DateTime
+            Get
+                Return _Inicio
+            End Get
+            Set(ByVal Value As DateTime)
+                _Inicio = Value
+            End Set
+        End Property
+        Public Property Termino() As DateTime
+            Get
+                Return _Termino
+            End Get
+            Set(ByVal Value As DateTime)
+                _Termino = Value
+            End Set
+        End Property
+        Public Property Estatus() As String
+            Get
+                Return _Estatus
+            End Get
+            Set(ByVal Value As String)
+                _Estatus = Value
+            End Set
+        End Property
+#End Region
+#Region "Clase PlantelesHorarios: Métodos públicos"
+        Private _IdPlantelesHorarios, _IdPlanteles As Integer
+        Private _Inicio, _Termino As DateTime
+        Private _Estatus As String
+
+        Public Function ObtenHorarios(parametros As String) As DataTable
+            Try
+                Dim dt As DataTable
+                Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)
+                }
+
+
+                Prms(0).Value = parametros
+
+                dt = _DataCOBAEV.RunProc("SP_SPlantelesHorarios", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+
+                Return dt
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function ObtenTodos(ByVal IdPlantel As Short, ByVal ParaDDL As Boolean) As DataTable
+            Try
+                Dim dt As DataTable
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                                            New SqlParameter("@ParaDDL", SqlDbType.Bit)}
+
+                Prms(0).Value = IdPlantel
+                Prms(1).Value = ParaDDL
+
+                dt = _DataCOBAEV.RunProc("SP_SPlanteles", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+
+                Return dt
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function AgregaNueva(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As String
+            Try
+                Dim Prms As SqlParameter() = {
+                            New SqlParameter("@IdPlantelesHorarios", SqlDbType.Int),
+                            New SqlParameter("@IdPlanteles", SqlDbType.Int),
+                            New SqlParameter("@Inicio", SqlDbType.DateTime),
+                            New SqlParameter("@Termino", SqlDbType.DateTime),
+                            New SqlParameter("@Estatus", SqlDbType.NVarChar, 1),
+                            New SqlParameter("@error", SqlDbType.NVarChar, 200)
+                            }
+
+                If TipoOperacion = 1 Then
+                    Prms(0).Value = 0
+                Else
+                    Prms(0).Value = IdPlantelesHorarios
+                End If
+                Prms(0).Direction = ParameterDirection.InputOutput
+                Prms(1).Value = Me._IdPlanteles
+                Prms(2).Value = Me._Inicio
+                Prms(3).Value = Me._Termino
+                Prms(4).Value = Me._Estatus
+                Prms(5).Value = ""
+                Prms(5).Direction = ParameterDirection.Output
+
+                _DataCOBAEV.RunProc("SP_IoUPlantelesHorarios", Prms, Nomina, ArregloAuditoria)
+
+                Return Prms(0).Value & "&" & Prms(5).Value 'Retornamos IdReduccion & posible error
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+#End Region
+    End Class
+#End Region
+
+#Region "Clase HorariosClase"
+    Public Class HorariosClase
+#Region "Clase Plantel: Propiedades privadas"
+        Private _DataCOBAEV As New DataCOBAEV
+
+        Public Property IdHorariosClase() As Integer
+            Get
+                Return _IdHorariosClase
+            End Get
+            Set(ByVal Value As Integer)
+                _IdHorariosClase = Value
+            End Set
+        End Property
+        Public Property IdPlantelesHorariosInicio() As Integer
+            Get
+                Return _IdPlantelesHorariosInicio
+            End Get
+            Set(ByVal Value As Integer)
+                _IdPlantelesHorariosInicio = Value
+            End Set
+        End Property
+        Public Property Horas() As Integer
+            Get
+                Return _Horas
+            End Get
+            Set(ByVal Value As Integer)
+                _Horas = Value
+            End Set
+        End Property
+        Public Property Dia() As Integer
+            Get
+                Return _Dia
+            End Get
+            Set(ByVal Value As Integer)
+                _Dia = Value
+            End Set
+        End Property
+        Public Property IdHoras() As Integer
+            Get
+                Return _IdHoras
+            End Get
+            Set(ByVal Value As Integer)
+                _IdHoras = Value
+            End Set
+        End Property
+
+#End Region
+#Region "Clase HorariosClase: Métodos públicos"
+        Private _IdHorariosClase, _Dia, _IdPlantelesHorariosInicio, _Horas, _IdHoras As Integer
+
+        Public Function ObtenHorariosClase(parametros As String) As DataTable
+            Try
+                Dim dt As DataTable
+                Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)
+                }
+
+
+                Prms(0).Value = parametros
+
+                dt = _DataCOBAEV.RunProc("SP_SHorariosClase", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+
+                Return dt
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function AgregaNueva(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As String
+            Try
+                Dim Prms As SqlParameter() = {
+                            New SqlParameter("@IdHorariosClase", SqlDbType.Int),
+                            New SqlParameter("@Dia", SqlDbType.Int),
+                            New SqlParameter("@IdPlantelesHorariosInicio", SqlDbType.Int),
+                            New SqlParameter("@Horas", SqlDbType.Int),
+                            New SqlParameter("@IdHoras", SqlDbType.Int),
+                            New SqlParameter("@error", SqlDbType.NVarChar, 200)
+                            }
+
+                If TipoOperacion = 1 Then
+                    Prms(0).Value = 0
+                Else
+                    Prms(0).Value = IdHorariosClase
+                End If
+                Prms(0).Direction = ParameterDirection.InputOutput
+                Prms(1).Value = Me._Dia
+                Prms(2).Value = Me._IdPlantelesHorariosInicio
+                Prms(3).Value = Me._Horas
+                Prms(4).Value = Me._IdHoras
+                Prms(5).Value = ""
+                Prms(5).Direction = ParameterDirection.Output
+
+                _DataCOBAEV.RunProc("SP_IoUHorariosClase", Prms, Nomina, ArregloAuditoria)
+
+                Return Prms(0).Value & "&" & Prms(5).Value 'Retornamos IdReduccion & posible error
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function Eliminar(ByVal ArregloAuditoria() As String) As String
+            Try
+                Dim Prms As SqlParameter() = {
+                            New SqlParameter("@IdHorariosClase", SqlDbType.Int),
+                            New SqlParameter("@error", SqlDbType.NVarChar, 200)
+                            }
+
+                Prms(0).Value = IdHorariosClase
+                Prms(1).Value = ""
+                Prms(1).Direction = ParameterDirection.Output
+
+                _DataCOBAEV.RunProc("SP_DHorariosClase", Prms, Nomina, ArregloAuditoria)
+
+                Return Prms(0).Value & "&" & Prms(1).Value 'Retornamos IdReduccion & posible error
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+#End Region
+    End Class
+#End Region
 End Namespace

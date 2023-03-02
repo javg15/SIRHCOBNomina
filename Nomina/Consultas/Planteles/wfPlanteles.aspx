@@ -23,7 +23,7 @@
                             <Columns>
                                 <asp:TemplateField HeaderText="IdPlantel" Visible="False">
                                     <ItemTemplate>
-                                        <asp:Label ID="lblIdCT" runat="server" Text='<%# Bind("IdPlantel") %>'></asp:Label>
+                                        <asp:Label ID="lblIdPlantel" runat="server" Text='<%# Bind("IdPlantel") %>'></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="ClaveOficial" HeaderText="Clave Oficial">
@@ -82,6 +82,12 @@
                                     <HeaderStyle HorizontalAlign="Left" />
                                     <ItemStyle HorizontalAlign="Left" />
                                 </asp:BoundField>
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:ImageButton ID="ibModificarHorarios" runat="server" ImageUrl="~/Imagenes/ico_calendar.png"
+                                            CausesValidation="false" ToolTip="Modificar la información del registro." /></ItemTemplate>
+                                    <ItemStyle HorizontalAlign="Center" />
+                                </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
                     </ContentTemplate>

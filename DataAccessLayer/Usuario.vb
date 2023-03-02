@@ -258,7 +258,7 @@ Namespace COBAEV.Administracion
                                             New SqlParameter("@Iniciales", SqlDbType.NVarChar, 5)}
                 Prms(0).Value = IIf(TipoOperacion = 1, DBNull.Value, Me._IdUsuario)
                 Prms(1).Value = Me._Login
-                Prms(2).Value = IIf(TipoOperacion = 0, DBNull.Value, Me._Password)
+                Prms(2).Value = IIf(TipoOperacion = 0 And Me._Password.Length = 0, DBNull.Value, Me._Password)
                 Prms(3).Value = Me._ApellidoPaterno
                 Prms(4).Value = Me._ApellidoMaterno
                 Prms(5).Value = Me._Nombre

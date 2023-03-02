@@ -123,18 +123,6 @@ title="COBAEV - Nómina - Empleados con reducción de sueldo" StylesheetTheme="S
                                                     CausesValidation="false" ToolTip="Modificar la información del registro." OnClick="ibModificar_Click" /></ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>
-                                
-                                        <asp:TemplateField>
-                                            <ItemTemplate>
-                                                <asp:ImageButton ID="ibEliminar" runat="server" ImageUrl="~/Imagenes/Eliminar.png"
-                                                    CausesValidation="false" ToolTip="Eliminar registro." 
-                                                    onclick="ibEliminar_Click" />
-                                                <ajaxToolkit:ConfirmButtonExtender ID="ibEliminar_CBE" runat="server" 
-                                                    ConfirmText="La opción seleccionada eliminará el registro de la Base de Datos Institucional, ¿Continuar?" Enabled="True" TargetControlID="ibEliminar">
-                                                </ajaxToolkit:ConfirmButtonExtender>
-                                            </ItemTemplate>
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
                                     </Columns>
                                 </asp:GridView>
                             </asp:View>

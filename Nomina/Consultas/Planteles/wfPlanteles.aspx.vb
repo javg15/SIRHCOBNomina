@@ -75,8 +75,12 @@ Partial Class wfPlanteles
                 '    e.Row.Cells(0).Controls.Add(img)
                 'End If
             Case DataControlRowType.DataRow
+                Dim lblIdPlantel As Label = CType(e.Row.FindControl("lblIdPlantel"), Label)
                 Dim lblIdUsuario As Label = CType(e.Row.FindControl("lblIdUsuario"), Label)
                 Dim lblNombreAnalista As Label = CType(e.Row.FindControl("lblNombreAnalista"), Label)
+                Dim ibModificarHorarios As ImageButton = CType(e.Row.FindControl("ibModificarHorarios"), ImageButton)
+
+
                 Dim oUsr As New Usuario
                 Dim drUsr As DataRow
 
@@ -87,6 +91,8 @@ Partial Class wfPlanteles
                 e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
                 e.Row.Attributes.Add("OnMouseOut", "Resaltar_Off(this);")
                 e.Row.Attributes("OnClick") = Page.ClientScript.GetPostBackClientHyperlink(gvPlanteles, "Select$" + e.Row.RowIndex.ToString)
+
+                ibModificarHorarios.PostBackUrl = "../../ABC/Empleados/AdministracionPlantelesHorarios.aspx?IdPlantel=" + lblIdPlantel.Text
         End Select
 
     End Sub
@@ -100,4 +106,5 @@ Partial Class wfPlanteles
     Protected Sub gvPlanteles_Sorting(sender As Object, e As System.Web.UI.WebControls.GridViewSortEventArgs) Handles gvPlanteles.Sorting
         BindgvPlanteles(e.SortExpression, sortOrder)
     End Sub
+
 End Class
