@@ -237,6 +237,7 @@ Partial Class Consultas_Empleados_ConReduccionDeSueldo
         End If
     End Sub
     Protected Sub lbOtraOperacion0_Click(sender As Object, e As EventArgs) Handles lbOtraOperacion0.Click
+        BindDatos(ddlOrden.SelectedValue)
         MVMain.SetActiveView(vwMain)
     End Sub
 End Class
