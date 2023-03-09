@@ -10,12 +10,16 @@ Partial Class wfControlIncidenciasPorEmp
     Private Function HayErroresAlAplicarValidaciones(ByVal pIdTipoIncidencia As Byte, ByVal pTipoOperacion As Byte,
                                                      ByVal pFolioIndicencia As String, ByVal pFolioISSSTE As String,
                                                      ByVal pIdTipoIncidenciaSubtipos As Byte) As Boolean
+        Dim oEmp As New Empleado
         Dim oValidacion As New Validaciones
         Dim _DataCOBAEV As New DataCOBAEV
         Dim dsValida As DataSet
         Dim vlResult As Boolean
         Dim vlNomPag As String = Request.Url.Segments(Request.Url.Segments.Length - 1).ToString
         Dim hfRFC As HiddenField = CType(WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
+        oEmp.RFC = hfRFC.Value
+
+        Dim dt As DataTable = oEmp.ObtenDatosPersonales()
 
         dsValida = _DataCOBAEV.setDataSetErrores()
 
@@ -28,6 +32,7 @@ Partial Class wfControlIncidenciasPorEmp
             .FolioIncidencia = pFolioIndicencia
             .FolioISSSTE = pFolioISSSTE
             .IdTipoIncidenciaSubtipos = pIdTipoIncidenciaSubtipos
+            .IdEmp = dt.Rows(0)("IdEmp")
 
 
             If Not .ValidaPagsIncidencias(dsValida, vlNomPag, pIdTipoIncidencia, pTipoOperacion, pIdTipoIncidenciaSubtipos) Then

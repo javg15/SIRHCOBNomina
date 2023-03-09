@@ -78,7 +78,7 @@ Partial Class Consultas_Empleados_ConReduccionDeSueldo
         hidIdEmpleado.Text = lblIdEmp.Text
         txtbxPorcentageReduccion.Text = lblPorcDesc.Text
         lblEmpleado.Text = Nombre
-        LlenaDDL(ddlQuincenaInicio, "Quincena", "IdQuincena", oQna.ObtenListasCalculadas(), lblIdQnaIni.Text)
+        LlenaDDL(ddlQuincenaInicio, "Quincena", "IdQuincena", oQna.ObtenParaVigIni(True), lblIdQnaIni.Text)
         LlenaDDL(ddlQuincenaFin, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CShort(lblIdQnaIni.Text), True), lblIdQnaFin.Text)
 
         pnlEd.Enabled = True
