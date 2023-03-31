@@ -106,6 +106,16 @@
                                                                     <HeaderStyle HorizontalAlign="Left" />
                                                                     <ItemStyle HorizontalAlign="Left" />
                                                                 </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Inst. Educ">
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblInstEduc" runat="server" Text='<%# Bind("institucion") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                    <EditItemTemplate>
+                                                                        <asp:Label ID="lblInstEduc_E" runat="server" Text='<%# Eval("institucion") %>'></asp:Label>
+                                                                    </EditItemTemplate>
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="Abrev. Prof.">
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblAbrevProf" runat="server" Text='<%# Bind("SiglasINI") %>'></asp:Label>
@@ -147,6 +157,7 @@
                                                                     <HeaderStyle HorizontalAlign="Center" />
                                                                     <ItemStyle HorizontalAlign="Center" />
                                                                 </asp:TemplateField>
+                                                                
                                                                 <asp:TemplateField HeaderText="Estudios<br />incompletos">
                                                                     <ItemTemplate>
                                                                         <asp:CheckBox ID="ChkBxIncompleta" runat="server" Checked='<%# Bind("Incompleta") %>'

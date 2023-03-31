@@ -16,6 +16,13 @@ Partial Class ABCPlazasBase
         R(ValueField) = "0"
         dt.Rows.InsertAt(R, 0)
 
+        If ddl.ID = "ddlQuincenaTermino" Then
+            R = dt.NewRow
+            R(TextField) = "999999"
+            R(ValueField) = "32767"
+            dt.Rows.InsertAt(R, 1)
+        End If
+
         ddl.DataSource = dt
         ddl.DataTextField = TextField
         ddl.DataValueField = ValueField
@@ -92,7 +99,7 @@ Partial Class ABCPlazasBase
                 BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
                 BindddlQuincenas(ddlQnaInicio, 0)
                 BindddlEstatusPlaza(ddlPlazasEstatus, 0)
-                BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, 0, 0)
+                BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0)
 
             ElseIf Request.Params("TipoOperacion") = "0" Then 'Actualizar 
                 BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
@@ -100,7 +107,7 @@ Partial Class ABCPlazasBase
                 BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
                 BindddlQuincenas(ddlQnaInicio, 0)
                 BindddlEstatusPlaza(ddlPlazasEstatus, 0)
-                BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, 0, 0)
+                BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0)
             End If
         End If
     End Sub
@@ -130,11 +137,11 @@ Partial Class ABCPlazasBase
         Dim oQna As New Quincenas
 
         If ddlQnaInicio.SelectedValue > 0 Then
-            If ddlPlazasEstatus.SelectedValue = 3 Then
-                LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CType(ddlQnaInicio.SelectedValue, Short), True), 32767)
-            Else
-                LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CType(ddlQnaInicio.SelectedValue, Short), CShort(12)), 0)
-            End If
+            'If ddlPlazasEstatus.SelectedValue = 3 Then
+            LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenQnasFinParaPeriodoDeConsultaDePago(CType(ddlQnaInicio.SelectedValue, Short)), 32767)
+            'Else
+            'LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CType(ddlQnaInicio.SelectedValue, Short), CShort(12)), 0)
+            'End If
         End If
     End Sub
 
@@ -144,7 +151,7 @@ Partial Class ABCPlazasBase
         ddl.Items.Clear()
         ddl.Items.Add(New ListItem("-", "0"))
         ddl.Items.Add(New ListItem("Base", "3"))
-        ddl.Items.Add(New ListItem("Provisional", "9"))
+        ddl.Items.Add(New ListItem("Provisional", "4"))
         ddl.SelectedValue = IdSelected
     End Sub
 
@@ -162,11 +169,19 @@ Partial Class ABCPlazasBase
             .DataSource = oSMP_Plazas.ObtenEstructura(IdPlanteles _
                                 , IdCategorias _
                                 , IdTipoPlaza _
-                                , NumEmp _
+                                , 0 _
                                 , IdEstatusPlaza)
             .DataBind()
             .Visible = True
         End With
+
+        With grdHistorial
+            .DataSource = oSMP_Plazas.ObtenEstructuraHistorial(NumEmp)
+            .DataBind()
+            .Visible = True
+        End With
+
+
     End Sub
 
     Protected Sub btnGuardar_Click(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -180,6 +195,8 @@ Partial Class ABCPlazasBase
             Dim ddlPlantelesEmpleado As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesEmpleado"), DropDownList)
             Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
             Dim hidIdEmpleado As HiddenField = CType(Me.dvPlaza.FindControl("hidIdEmpleado"), HiddenField)
+            Dim ddlPlazasEstatus As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasEstatus"), DropDownList)
+            Dim txtObservaciones As TextBox = CType(Me.dvPlaza.FindControl("txtObservaciones"), TextBox)
 
             'Dim ddlEmpleadosFunciones As DropDownList = CType(Me.dvPlaza.FindControl("ddlEmpleadosFunciones"), DropDownList)
             Dim oPlaza As New SMP_Plazas
@@ -190,10 +207,12 @@ Partial Class ABCPlazasBase
                 .IdPlantel = CType(ddlPlantelesEmpleado.SelectedValue, Short)
                 .IdPlantelAdscripReal = CType(ddlPlantelesPlaza.SelectedValue, Short)
                 .IdCategoria = CType(ddlCategorias.SelectedValue, Short)
+
             End With
             oPlaza.Guardar_SMP_PlazasECBOcup(oEP.IdPlaza, oEP.IdPlantel, oEP.IdPlantelAdscripReal, oEP.IdCategoria,
                         CType(ddlQnaInicio.SelectedValue, Short), CType(ddlQnaTermino.SelectedValue, Short),
-                        CType(hidIdEmpleado.Value, Integer), 0, 0, 4, CType(Session("ArregloAuditoria"), String()))
+                        CType(hidIdEmpleado.Value, Integer), 0, CType(ddlPlazasEstatus.SelectedValue, Short), txtObservaciones.Text,
+                        4, CType(Session("ArregloAuditoria"), String()))
 
             Me.MultiView1.SetActiveView(Me.viewExito)
         Catch Ex As Exception
@@ -216,8 +235,14 @@ Partial Class ABCPlazasBase
     Protected Sub BindDatosDesdeControles()
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
+        Dim drE As DataRow
+        Dim oEmpleado As New Empleado
+        Dim hidIdEmpleado As HiddenField = CType(Me.dvPlaza.FindControl("hidIdEmpleado"), HiddenField)
 
-        BindDatos(ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, 0, 0)
+        drE = oEmpleado.BuscarPorId(CType(hidIdEmpleado.Value, Integer))
+
+
+        BindDatos(ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, drE("NumEmp"), 0)
     End Sub
 
     Protected Sub ddlCategorias_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -313,6 +338,8 @@ Partial Class ABCPlazasBase
         CVIdTitular.Enabled = True
         If oUsuario.EsAdministrador(Session("Login")) And chkPermitirReasignacion.Checked Then
             CVIdTitular.Enabled = False
+            TitlePanelHistorial.Visible = True
+            PanelHistorial.Visible = True
         End If
 
 
@@ -327,5 +354,29 @@ Partial Class ABCPlazasBase
                 lblTitular.BackColor = Drawing.Color.LightGreen
             End If
         End If
+    End Sub
+    Protected Sub grdHistorial_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles grdHistorial.RowCommand
+        Try
+            Select Case e.CommandName
+                Case "EliminarPlaza"
+                    'Dim index As Integer = e.CommandArgument
+                    Dim gvr As GridViewRow = CType(CType(e.CommandSource, ImageButton).NamingContainer, GridViewRow)
+                    'Dim RowIndex As Integer = gvr.RowIndex
+
+                    Dim lblIdPlaza As Label = CType(gvr.FindControl("lblIdPlazas"), Label)
+                    Dim oPlaza As New SMP_Plazas
+
+                    oPlaza.Guardar_SMP_PlazasECBOcup(lblIdPlaza.Text, 0, 0, 0,
+                    0, 0, 0, 0, 0, "", 2, CType(Session("ArregloAuditoria"), String()))
+
+                    Me.MultiView1.SetActiveView(Me.viewExito)
+            End Select
+        Catch Ex As Exception
+            Me.lblError.Text = Ex.Message
+            Me.MultiView1.SetActiveView(Me.viewError)
+        End Try
+    End Sub
+    Protected Sub grdHistorial_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grdHistorial.RowDataBound
+
     End Sub
 End Class

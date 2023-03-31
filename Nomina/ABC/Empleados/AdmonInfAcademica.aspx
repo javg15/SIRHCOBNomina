@@ -53,6 +53,7 @@
                                                                 EmptyDataText="Sin información de datos académicos" SkinID="SkinDetailsView"
                                                                 CellPadding="0" Width="100%">
                                                                 <Fields>
+                                                                    
                                                                     <asp:TemplateField HeaderText="Niveles académicos">
                                                                         <EditItemTemplate>
                                                                             <asp:Label ID="lblIdNivel_E" runat="server" Text='<%# Bind(""IdNivel") %>' Visible="False"></asp:Label>
@@ -80,6 +81,36 @@
                                                                         </InsertItemTemplate>
                                                                         <ItemTemplate>
                                                                         </ItemTemplate>
+                                                                        <HeaderStyle Wrap="False" />
+                                                                        <ItemStyle Wrap="False" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Entidad Institución Académica">
+                                                                        <EditItemTemplate>
+                                                                            <asp:Label ID="lblIdEntidad_E" runat="server" Text='<%# Bind(""IdEdo") %>' Visible="False"></asp:Label>
+                                                                            <asp:DropDownList ID="ddlEntidad_E" runat="server" AutoPostBack="True" SkinID="SkinDropDownList"
+                                                                                OnSelectedIndexChanged="ddlEntidad_SelectedIndexChanged">
+                                                                            </asp:DropDownList>
+                                                                        </EditItemTemplate>
+                                                                        <InsertItemTemplate>
+                                                                            <asp:DropDownList ID="ddlEntidad_I" runat="server" AutoPostBack="True" SkinID="SkinDropDownList"
+                                                                                OnSelectedIndexChanged="ddlEntidad_SelectedIndexChanged">
+                                                                            </asp:DropDownList>
+                                                                        </InsertItemTemplate>
+                                                                        <HeaderStyle Wrap="False" />
+                                                                        <ItemStyle Wrap="False" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField HeaderText="Nombre de Institución Académica">
+                                                                        <EditItemTemplate>
+                                                                            <asp:Label ID="lblIdInstEduc_E" runat="server" Text='<%# Bind(""IdInstEduc") %>' Visible="False"></asp:Label>
+                                                                            <asp:DropDownList ID="ddlNombreInstitucion_E" runat="server" AutoPostBack="True" SkinID="SkinDropDownList"
+                                                                                >
+                                                                            </asp:DropDownList>
+                                                                        </EditItemTemplate>
+                                                                        <InsertItemTemplate>
+                                                                            <asp:DropDownList ID="ddlNombreInstitucion_I" runat="server" AutoPostBack="True" SkinID="SkinDropDownList"
+                                                                                >
+                                                                            </asp:DropDownList>
+                                                                        </InsertItemTemplate>
                                                                         <HeaderStyle Wrap="False" />
                                                                         <ItemStyle Wrap="False" />
                                                                     </asp:TemplateField>

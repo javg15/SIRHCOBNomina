@@ -171,7 +171,7 @@ Partial Class ReportesIncidencias
             BindddlTipoDeNomina()
             BindddlTipoUsuario()
             BindddlTipoReporteEmpleadoLM()
-            If Me.ddlAños.SelectedValue <> -1 Then
+            If ddlAños.SelectedValue <> -1 Then
                 BindgvReportes()
                 Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
                 ActivarControles(gvr)

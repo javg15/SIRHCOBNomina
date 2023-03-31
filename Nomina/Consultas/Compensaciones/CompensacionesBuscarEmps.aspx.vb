@@ -746,6 +746,7 @@ Partial Class CompensacionesBuscarEmps
         Dim vlAnio As Short
         Dim vlIdMes As Byte
         Dim vlAdicional As Byte
+        Dim vlTipoMovimiento As Byte
         Dim vlDias As Byte
         Dim vlImporte As Decimal
         Dim vlImportePA As Decimal
@@ -758,12 +759,13 @@ Partial Class CompensacionesBuscarEmps
         vlAdicional = CByte(lblAdicionalFalta.Text)
         vlImporte = CDec(txtbxImporteCompeFalta.Text)
         vlImportePA = CDec(txtbxImportePAFalta.Text)
+        vlTipoMovimiento = CByte(ddlTipoMovimiento.SelectedValue)
         vlDias = CDec(txtDiasFaltas.Text)
 
 
         oCompen.IoURegistroFaltas(vlRFCEmp, vlAnio, vlIdMes,
                     vlAdicional, vlImporte, vlImportePA, vlDias, txtObservacionesFaltas.Text,
-                    CType(Session("ArregloAuditoria"), String()))
+                    vlTipoMovimiento, CType(Session("ArregloAuditoria"), String()))
 
         btnCancelar1_Click(sender, e)
         btnConsultar_Click(sender, e)
@@ -1233,5 +1235,45 @@ Partial Class CompensacionesBuscarEmps
     Protected Sub txtbxImporteCompeFalta_TextChanged(sender As Object, e As EventArgs) Handles txtbxImporteCompeFalta.TextChanged
 
 
+    End Sub
+    Protected Sub ddlTipoMovimiento_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoMovimiento.SelectedIndexChanged
+        If (ddlTipoMovimiento.SelectedValue = "1") Then
+            lblImporteFalta.Text = "Importe del DESCUENTO por Faltas (Compensación)"
+            lblImporteFaltaPA.Text = "Importe del DESCUENTO por Faltas (Pensión Alimenticia)"
+            txtbxImporteCompeFalta.Enabled = True
+            txtbxImportePAFalta.Enabled = True
+            vldCprDiasFalta2.Enabled = True
+            txtbxImporteCompeFalta.Text = ""
+            txtbxImportePAFalta.Text = ""
+            txtDiasFaltas.Text = 0
+            vldCprDiasFalta2.Enabled = True
+            vldCprCompeFalta2.Enabled = True
+            If (CDec(hidImportePAFalta.Value) > 0) Then
+                vldCprCompeFaltaPA2.Enabled = True
+            End If
+        ElseIf (ddlTipoMovimiento.SelectedValue = "3") Then
+            txtbxImporteCompeFalta.Enabled = False
+            txtbxImportePAFalta.Enabled = False
+            txtDiasFaltas.Text = 0
+            txtbxImporteCompeFalta.Text = 0
+            txtbxImportePAFalta.Text = 0
+            vldCprDiasFalta2.Enabled = False
+            vldCprCompeFalta2.Enabled = False
+            If (CDec(hidImportePAFalta.Value) > 0) Then
+                vldCprCompeFaltaPA2.Enabled = False
+            End If
+        Else
+            lblImporteFalta.Text = "Importe de la DEVOLUCIÓN por Faltas (Compensación)"
+            lblImporteFaltaPA.Text = "Importe de la DEVOLUCIÓN por Faltas (Pensión Alimenticia)"
+            lblImporteFalta.Enabled = True
+            lblImporteFaltaPA.Enabled = True
+            txtbxImporteCompeFalta.Text = ""
+            txtbxImportePAFalta.Text = ""
+            vldCprDiasFalta2.Enabled = True
+            vldCprCompeFalta2.Enabled = True
+            If (CDec(hidImportePAFalta.Value) > 0) Then
+                vldCprCompeFaltaPA2.Enabled = True
+            End If
+        End If
     End Sub
 End Class

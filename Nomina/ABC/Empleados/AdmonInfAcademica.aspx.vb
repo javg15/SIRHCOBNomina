@@ -2,6 +2,8 @@
 Imports DataAccessLayer.COBAEV
 Imports System.Data
 Imports BusinessRulesLayer.COBAEV.Validaciones
+Imports DataAccessLayer.COBAEV.Mexico.Estados
+
 Partial Class ABC_Empleados_AdmonInfAcademica
     Inherits System.Web.UI.Page
     Public ds As DataSet
@@ -17,12 +19,16 @@ Partial Class ABC_Empleados_AdmonInfAcademica
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If IsPostBack = False Then
             Dim oInfAcad As New InfAcademica
+            Dim oEstado As New Estado
+            Dim ddlEntidad As DropDownList = Nothing
+            Dim ddlInstEduc As DropDownList = Nothing
             Dim ddlNivAcad As DropDownList = Nothing
             Dim ddlCarrPorNiv As DropDownList = Nothing
             Dim chbTitulado As CheckBox = Nothing
             Dim tbNumCedProf As TextBox = Nothing
             Dim chbIncompleta As CheckBox = Nothing
             Dim chbCursando As CheckBox = Nothing
+            Dim dtEstados As DataTable = Nothing
             Dim dtNiveles As DataTable = Nothing
             Dim drNivel As DataRow = Nothing
             Dim tbAbrevProf As TextBox = Nothing
@@ -35,20 +41,28 @@ Partial Class ABC_Empleados_AdmonInfAcademica
             BtnCancelSearch.Visible = False
             BtnSearch.Visible = False
 
+            dtEstados = oEstado.ObtenTodos()
             dtNiveles = oInfAcad.ObtenNiveles()
 
             If Request.Params("TipoOperacion") = "0" Then
                 Dim oEmp As New Empleado
                 Dim lblIdNivel_E As Label = Nothing
+                Dim lblIdInstEduc_E As Label = Nothing
                 Dim lblIdCarrera_E As Label = Nothing
+                Dim lblIdEntidad_E As Label = Nothing
 
                 Me.dvNivAcad.ChangeMode(DetailsViewMode.Edit)
 
                 Me.dvNivAcad.DataSource = oEmp.ObtenHistAcadPorIdEstudio(CInt(Request.Params("IdEstudio")))
                 Me.dvNivAcad.DataBind()
 
+                ddlEntidad = CType(Me.dvNivAcad.FindControl("ddlEntidad_E"), DropDownList)
+                ddlInstEduc = CType(Me.dvNivAcad.FindControl("ddlNombreInstitucion_E"), DropDownList)
+
                 ddlNivAcad = CType(Me.dvNivAcad.FindControl("ddlNivAcad_E"), DropDownList)
+                lblIdEntidad_E = CType(Me.dvNivAcad.FindControl("lblIdEntidad_E"), Label)
                 lblIdNivel_E = CType(Me.dvNivAcad.FindControl("lblIdNivel_E"), Label)
+                lblIdInstEduc_E = CType(Me.dvNivAcad.FindControl("lblIdInstEduc_E"), Label)
                 ddlCarrPorNiv = CType(Me.dvNivAcad.FindControl("ddlCarrPorNiv_E"), DropDownList)
                 lblIdCarrera_E = CType(Me.dvNivAcad.FindControl("lblIdCarrera_E"), Label)
                 chbTitulado = CType(Me.dvNivAcad.FindControl("chbTitulado_E"), CheckBox)
@@ -57,8 +71,16 @@ Partial Class ABC_Empleados_AdmonInfAcademica
                 chbCursando = CType(Me.dvNivAcad.FindControl("chbCursando_E"), CheckBox)
                 tbAbrevProf = CType(Me.dvNivAcad.FindControl("tbAbrevProf_E"), TextBox)
 
+                If lblIdEntidad_E.Text = "" Then
+                    lblIdEntidad_E.Text = "1"
+                End If
+
+                LlenaDDL(ddlEntidad, "NomEdo", "IdEdo", dtEstados, lblIdEntidad_E.Text)
                 LlenaDDL(ddlNivAcad, "Nivel", "IdNivel", dtNiveles, lblIdNivel_E.Text)
                 LlenaDDL(ddlCarrPorNiv, "Carrera", "IdCarrera", oInfAcad.ObtenCarrerasPorNivel(CByte(lblIdNivel_E.Text)), lblIdCarrera_E.Text)
+                LlenaDDL(ddlInstEduc, "nombre", "IdInstEduc", oInfAcad.ObtenInstitucionesEducativas(CInt(lblIdNivel_E.Text), CInt(lblIdEntidad_E.Text)), lblIdInstEduc_E.Text)
+
+
 
                 drNivel = oInfAcad.ObtenNivel(CByte(ddlNivAcad.SelectedValue))
                 chbTitulado.Enabled = CBool(drNivel("RequiereTitulacion"))
@@ -67,6 +89,8 @@ Partial Class ABC_Empleados_AdmonInfAcademica
 
                 Me.MultiView1.SetActiveView(Me.viewCaptura)
             ElseIf Request.Params("TipoOperacion") = "1" Then
+                Dim lblIdEntidad As Label = Nothing
+
                 ddlNivAcad = CType(Me.dvNivAcad.FindControl("ddlNivAcad_I"), DropDownList)
                 ddlCarrPorNiv = CType(Me.dvNivAcad.FindControl("ddlCarrPorNiv_I"), DropDownList)
                 chbTitulado = CType(Me.dvNivAcad.FindControl("chbTitulado_I"), CheckBox)
@@ -74,7 +98,9 @@ Partial Class ABC_Empleados_AdmonInfAcademica
                 chbIncompleta = CType(Me.dvNivAcad.FindControl("chbIncompleta_I"), CheckBox)
                 chbCursando = CType(Me.dvNivAcad.FindControl("chbCursando_I"), CheckBox)
                 tbAbrevProf = CType(Me.dvNivAcad.FindControl("tbAbrevProf_I"), TextBox)
+                ddlEntidad = CType(Me.dvNivAcad.FindControl("ddlEntidad_I"), DropDownList)
 
+                LlenaDDL(ddlEntidad, "NomEdo", "IdEdo", dtEstados, Nothing)
                 LlenaDDL(ddlNivAcad, "Nivel", "IdNivel", dtNiveles, Nothing)
                 LlenaDDL(ddlCarrPorNiv, "Carrera", "IdCarrera", oInfAcad.ObtenCarrerasPorNivel(CByte(ddlNivAcad.SelectedValue)), Nothing)
                 chbTitulado.Enabled = CBool(dtNiveles.Rows(0).Item("RequiereTitulacion"))
@@ -157,6 +183,7 @@ Partial Class ABC_Empleados_AdmonInfAcademica
             AplicaValidaciones()
 
             Dim vl_IdEstudio As Integer
+            Dim ddlNombreInstitucion As DropDownList
             Dim ddlNivAcad As DropDownList
             Dim ddlCarrPorNiv As DropDownList
             Dim vl_RFCEmp As String
@@ -172,6 +199,7 @@ Partial Class ABC_Empleados_AdmonInfAcademica
 
             vl_IdEstudio = IIf(Request.Params("TipoOperacion") = "0", CInt(Request.Params("IdEstudio")), 0)
             vl_RFCEmp = IIf(Request.Params("TipoOperacion") = "0", String.Empty, Request.Params("RFCEmp"))
+            ddlNombreInstitucion = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlNombreInstitucion_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlNombreInstitucion_I"), DropDownList))
             ddlNivAcad = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlNivAcad_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlNivAcad_I"), DropDownList))
             tbFecha = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("tbFecha_E"), TextBox), CType(Me.dvNivAcad.FindControl("tbFecha_I"), TextBox))
             ddlCarrPorNiv = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlCarrPorNiv_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlCarrPorNiv_I"), DropDownList))
@@ -184,9 +212,9 @@ Partial Class ABC_Empleados_AdmonInfAcademica
             vl_SiglasIni = tbAbrevProf.Text.Trim.ToUpper
 
             If Request.Params("TipoOperacion") = "0" Then
-                oEmp.UpdEstudiosPorEmpleado(CInt(vl_IdEstudio), CByte(ddlNivAcad.SelectedValue), tbFecha.Text, CShort(ddlCarrPorNiv.SelectedValue), chbTitulado.Checked, chbUltNivEstudios.Checked, vl_SiglasIni, chbIncompleta.Checked, chbCursando.Checked, tbNumCedProf.Text, CType(Session("ArregloAuditoria"), String()))
+                oEmp.UpdEstudiosPorEmpleado(CInt(vl_IdEstudio), CByte(ddlNivAcad.SelectedValue), tbFecha.Text, CShort(ddlCarrPorNiv.SelectedValue), chbTitulado.Checked, chbUltNivEstudios.Checked, vl_SiglasIni, chbIncompleta.Checked, chbCursando.Checked, tbNumCedProf.Text, CInt(ddlNombreInstitucion.SelectedValue), CType(Session("ArregloAuditoria"), String()))
             ElseIf Request.Params("TipoOperacion") = "1" Then
-                oEmp.AddEstudiosPorEmpleado(vl_RFCEmp, CByte(ddlNivAcad.SelectedValue), tbFecha.Text, CShort(ddlCarrPorNiv.SelectedValue), chbTitulado.Checked, chbUltNivEstudios.Checked, vl_SiglasIni, chbIncompleta.Checked, chbCursando.Checked, tbNumCedProf.Text, CType(Session("ArregloAuditoria"), String()))
+                oEmp.AddEstudiosPorEmpleado(vl_RFCEmp, CByte(ddlNivAcad.SelectedValue), tbFecha.Text, CShort(ddlCarrPorNiv.SelectedValue), chbTitulado.Checked, chbUltNivEstudios.Checked, vl_SiglasIni, chbIncompleta.Checked, chbCursando.Checked, tbNumCedProf.Text, CInt(ddlNombreInstitucion.SelectedValue), CType(Session("ArregloAuditoria"), String()))
             End If
             Me.MultiView1.SetActiveView(viewCapturaExitosa)
         Catch Ex As Exception
@@ -202,10 +230,28 @@ Partial Class ABC_Empleados_AdmonInfAcademica
         Me.MultiView1.SetActiveView(Me.viewCaptura)
     End Sub
 
+    Protected Sub ddlEntidad_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        LlenarInstituciones()
+    End Sub
+
+
+    Private Sub LlenarInstituciones()
+        Dim oInfAcad As New InfAcademica
+        Dim dt As DataTable = Nothing
+
+        Dim ddlNivAcad As DropDownList = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlNivAcad_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlNivAcad_I"), DropDownList))
+        Dim ddlEntidad As DropDownList = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlEntidad_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlEntidad_I"), DropDownList))
+        Dim ddlNombreInstitucion As DropDownList = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlNombreInstitucion_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlNombreInstitucion_I"), DropDownList))
+
+        LlenaDDL(ddlNombreInstitucion, "nombre", "IdInstEduc", oInfAcad.ObtenInstitucionesEducativas(ddlNivAcad.SelectedValue, ddlEntidad.SelectedValue), Nothing)
+    End Sub
+
     Protected Sub ddlNivAcad_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim oEmp As New Empleado
         Dim oInfAcad As New InfAcademica
+        Dim oEstado As New Estado
         Dim ddlNivAcad As DropDownList = Nothing
+        Dim ddlEntidad As DropDownList = Nothing
         Dim ddlCarrPorNiv As DropDownList = Nothing
         Dim dt As DataTable = Nothing
         Dim vlSelectedValue As String = Nothing
@@ -218,6 +264,7 @@ Partial Class ABC_Empleados_AdmonInfAcademica
         Dim chbCursando As CheckBox
         Dim tbNumCedProf As TextBox
 
+        ddlEntidad = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlEntidad_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlEntidad_I"), DropDownList))
         ddlNivAcad = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlNivAcad_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlNivAcad_I"), DropDownList))
         ddlCarrPorNiv = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("ddlCarrPorNiv_E"), DropDownList), CType(Me.dvNivAcad.FindControl("ddlCarrPorNiv_I"), DropDownList))
         chbTitulado = IIf(Request.Params("TipoOperacion") = "0", CType(Me.dvNivAcad.FindControl("chbTitulado_E"), CheckBox), CType(Me.dvNivAcad.FindControl("chbTitulado_I"), CheckBox))
@@ -229,7 +276,9 @@ Partial Class ABC_Empleados_AdmonInfAcademica
 
         drNivel = oInfAcad.ObtenNivel(CByte(ddlNivAcad.SelectedValue))
 
+        LlenaDDL(ddlEntidad, "NomEdo", "IdEdo", oEstado.ObtenTodos(), Nothing)
         LlenaDDL(ddlCarrPorNiv, "Carrera", "IdCarrera", oInfAcad.ObtenCarrerasPorNivel(CByte(ddlNivAcad.SelectedValue)), Nothing)
+        LlenarInstituciones()
 
         chbTitulado.Checked = False
         chbTitulado.Enabled = CBool(drNivel("RequiereTitulacion"))

@@ -4510,6 +4510,7 @@ Namespace COBAEV.Nominas
                                         ByVal pAdicional As Byte,
                                         ByVal Importe As Decimal, ByVal ImportePA As Decimal,
                                         ByVal dias As Byte, ByVal Observaciones As String,
+                                         ByVal vlTipoMovimiento As Byte,
                                         ByVal ArregloAuditoria() As String) As Boolean
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
@@ -4519,7 +4520,8 @@ Namespace COBAEV.Nominas
                                                 New SqlParameter("@Importe", SqlDbType.Decimal),
                                                 New SqlParameter("@ImportePA", SqlDbType.Decimal),
                                                 New SqlParameter("@Dias", SqlDbType.TinyInt),
-                                                New SqlParameter("@Observaciones", SqlDbType.NVarChar, 100)
+                                                New SqlParameter("@Observaciones", SqlDbType.NVarChar, 100),
+                                                New SqlParameter("@TipoMovimiento", SqlDbType.TinyInt)
                                              }
 
                 Prms(0).Value = RFCEmp
@@ -4530,6 +4532,7 @@ Namespace COBAEV.Nominas
                 Prms(5).Value = ImportePA
                 Prms(6).Value = dias
                 Prms(7).Value = Observaciones
+                Prms(8).Value = vlTipoMovimiento
 
                 Return _DataCOBAEV.RunProc("SP_IoUCompensacionesFaltas", Prms, DataCOBAEV.BD.Nomina, ArregloAuditoria)
 

@@ -1,0 +1,80 @@
+﻿1>------ Operación Compilar omitida: proyecto: InfPlanteles, configuración: Debug Any CPU ------
+1>Proyecto no seleccionado para compilarse para esta configuración de solución 
+2>------ Operación Compilar iniciada: proyecto: Nomina(1), configuración: Debug Any CPU ------
+2>Advertencia: No se puede actualizar la referencia de actualización automática 'busyboxdotnet.dll'. No se encuentra el ensamblado 'D:\Carpeta Entrega Alexis Cortez - 30-06-2022\TECNICO\SISTEMA\BusyBoxDotNet-0.2.1-bin\BusyBoxDotNet.dll'.
+2>Validación de sitio web completada
+2>Directorio de compilación '/ABC/Categorias/'.
+2>Directorio de compilación '/ABC/Compensaciones/'.
+2>Directorio de compilación '/ABC/Deducciones/'.
+2>Directorio de compilación '/ABC/Empleados/'.
+2>Directorio de compilación '/ABC/FOVISSSTE/'.
+2>Directorio de compilación '/ABC/ISSSTE/'.
+2>Directorio de compilación '/ABC/Nomina/'.
+2>Directorio de compilación '/ABC/Percepciones/'.
+2>Directorio de compilación '/ABC/Plazas/'.
+2>Directorio de compilación '/ABC/Recibos/'.
+2>Directorio de compilación '/Administracion/Catalogos/CentrosDeEstudios/'.
+2>Directorio de compilación '/Administracion/Catalogos/Estados/'.
+2>Directorio de compilación '/Administracion/Categorias/'.
+2>Directorio de compilación '/Administracion/EjerciciosFiscales/'.
+2>Directorio de compilación '/Administracion/Permisos/'.
+2>Directorio de compilación '/Administracion/Quincenas/'.
+2>Directorio de compilación '/Administracion/Semestres/'.
+2>Directorio de compilación '/Administracion/Usuarios/'.
+2>Directorio de compilación '/Administracion/'.
+2>Directorio de compilación '/Busquedas/'.
+2>Directorio de compilación '/Consultas/CargaHoraria/'.
+2>Directorio de compilación '/Consultas/Catalogos/'.
+2>Directorio de compilación '/Consultas/Categorias/'.
+2>Directorio de compilación '/Consultas/CentrosDeTrabajo/'.
+2>Directorio de compilación '/Consultas/Compensaciones/'.
+2>Directorio de compilación '/Consultas/DeclaracionAnual/EjerciciosFiscales/Reportes/'.
+2>Directorio de compilación '/Consultas/DeclaracionAnual/EjerciciosFiscales/'.
+2>Directorio de compilación '/Consultas/DeclaracionAnual/SubsidioEmpleo/'.
+2>Directorio de compilación '/Consultas/Deducciones/'.
+2>Directorio de compilación '/Consultas/Empleados/'.
+2>Directorio de compilación '/Consultas/Nomina/Devoluciones/'.
+2>Directorio de compilación '/Consultas/Nomina/'.
+2>Directorio de compilación '/Consultas/PensionAlimenticia/'.
+2>Directorio de compilación '/Consultas/Percepciones/'.
+2>Directorio de compilación '/Consultas/Planteles/'.
+2>Directorio de compilación '/Consultas/Plazas/'.
+2>Directorio de compilación '/Consultas/Recibos/'.
+2>Directorio de compilación '/Consultas/Tablas/'.
+2>Directorio de compilación '/Consultas/Usuarios/'.
+2>Directorio de compilación '/Consultas/ZonasGeograficas/'.
+2>Directorio de compilación '/Herramientas/'.
+2>Directorio de compilación '/ModuloIncidencias/Consultas/'.
+2>Directorio de compilación '/ModuloIncidencias/Reportes/'.
+2>Directorio de compilación '/MovsDePersonal/ABC/'.
+2>Directorio de compilación '/MovsDePersonal/Cadenas/'.
+2>Directorio de compilación '/MovsDePersonal/Consultas/'.
+2>Directorio de compilación '/MovsDePersonal/NivelesSalariales/'.
+2>Directorio de compilación '/MovsDePersonal/OrdenesDePresentacion/'.
+2>Directorio de compilación '/MovsDePersonal/Plazas/'.
+2>Directorio de compilación '/MovsDePersonal/Puestos/'.
+2>Directorio de compilación '/RecursosFinancieros/ImpresionReportes/'.
+2>Directorio de compilación '/RecursosFinancieros/Nomina/Cheques/'.
+2>Directorio de compilación '/RecursosFinancieros/Nomina/'.
+2>Directorio de compilación '/RecursosFinancieros/Viaticos/'.
+2>Directorio de compilación '/Reportes/Anuales/'.
+2>Directorio de compilación '/Reportes/Categorias/'.
+2>Directorio de compilación '/Reportes/Compensaciones/'.
+2>Directorio de compilación '/Reportes/Deducciones/'.
+2>Directorio de compilación '/Reportes/Empleados/'.
+2>Directorio de compilación '/Reportes/Mensuales/'.
+2>Directorio de compilación '/Reportes/Plazas/'.
+2>Directorio de compilación '/Reportes/Quincenales/'.
+2>Directorio de compilación '/Reportes/Trimestrales/'.
+2>Directorio de compilación '/ReportesVarios/'.
+2>Directorio de compilación '/Scripts/'.
+2>Directorio de compilación '/SPD/'.
+2>Directorio de compilación '/WebControls/'.
+2>Directorio de compilación '/'.
+2>
+2>(0,0): advertencia : El siguiente ensamblado tiene dependencias en una versión de .NET Framework posterior a la versión de destino, y puede que no se cargue correctamente en runtime y dé lugar a un error: ClosedXML, Version=0.69.1.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b. Las dependencias son: WindowsBase, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35. Debe asegurarse de que el ensamblado dependiente es correcto para la versión de .NET Framework de destino o que la versión de .NET Framework de destino es la del ensamblado dependiente.
+2>(0,0): advertencia : El siguiente ensamblado tiene dependencias en una versión de .NET Framework posterior a la versión de destino, y puede que no se cargue correctamente en runtime y dé lugar a un error: BusinessRulesLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. Las dependencias son: Microsoft.VisualBasic, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a. Debe asegurarse de que el ensamblado dependiente es correcto para la versión de .NET Framework de destino o que la versión de .NET Framework de destino es la del ensamblado dependiente.
+2>Validación completada
+3>------ Operación Compilar omitida: proyecto: PuntualidadAsistencia, configuración: Debug Any CPU ------
+3>Proyecto no seleccionado para compilarse para esta configuración de solución 
+========== Compilar: 1 correctos, 0 incorrectos, 2 actualizados, 2 omitidos ==========

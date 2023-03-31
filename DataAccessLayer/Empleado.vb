@@ -3536,6 +3536,7 @@ Namespace COBAEV.Empleados
         Public Function UpdEstudiosPorEmpleado(ByVal pIdEstudio As Integer, ByVal pIdNivel As Byte, ByVal pFecha As String, ByVal pIdCarrera As Short,
                                                ByVal pTitulado As Boolean, ByVal pUltNivEstudios As Boolean, ByVal pSiglasINI As String,
                                                ByVal pIncompleta As Boolean, ByVal pCursando As Boolean, ByVal pNumCedProf As String,
+                                               ByVal pIdInstEduc As Integer,
                                                ByVal ArregloAuditoria() As String) As Boolean
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@IdEstudio", SqlDbType.Int),
@@ -3547,7 +3548,8 @@ Namespace COBAEV.Empleados
                                               New SqlParameter("@SiglasINI", SqlDbType.NVarChar, 10),
                                               New SqlParameter("@Incompleta", SqlDbType.Bit),
                                               New SqlParameter("@Cursando", SqlDbType.Bit),
-                                              New SqlParameter("@NumCedProf", SqlDbType.NVarChar, 20)}
+                                              New SqlParameter("@NumCedProf", SqlDbType.NVarChar, 20),
+                                              New SqlParameter("@IdInstEduc", SqlDbType.Int)}
 
                 Prms(0).Value = pIdEstudio
                 Prms(1).Value = pIdNivel
@@ -3559,6 +3561,7 @@ Namespace COBAEV.Empleados
                 Prms(7).Value = pIncompleta
                 Prms(8).Value = pCursando
                 Prms(9).Value = pNumCedProf
+                Prms(10).Value = pIdInstEduc
 
                 Return _DataCOBAEV.RunProc("SP_UEstudiosPorEmpleado", Prms, Nomina, ArregloAuditoria)
             Catch ex As Exception
@@ -3568,6 +3571,7 @@ Namespace COBAEV.Empleados
         Public Function AddEstudiosPorEmpleado(ByVal pRFCEmp As String, ByVal pIdNivel As Byte, ByVal pFecha As String, ByVal pIdCarrera As Short,
                                                ByVal pTitulado As Boolean, ByVal pUltNivEstudios As Boolean, ByVal pSiglasINI As String,
                                                ByVal pIncompleta As Boolean, ByVal pCursando As Boolean, ByVal pNumCedProf As String,
+                                               ByVal pIdInstEduc As Integer,
                                                 ByVal ArregloAuditoria() As String) As Boolean
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
@@ -3579,7 +3583,8 @@ Namespace COBAEV.Empleados
                                               New SqlParameter("@SiglasINI", SqlDbType.NVarChar, 10),
                                               New SqlParameter("@Incompleta", SqlDbType.Bit),
                                               New SqlParameter("@Cursando", SqlDbType.Bit),
-                                              New SqlParameter("@NumCedProf", SqlDbType.NVarChar, 20)}
+                                              New SqlParameter("@NumCedProf", SqlDbType.NVarChar, 20),
+                                              New SqlParameter("@IdInstEduc", SqlDbType.Int)}
 
                 Prms(0).Value = pRFCEmp
                 Prms(1).Value = pIdNivel
@@ -3591,6 +3596,7 @@ Namespace COBAEV.Empleados
                 Prms(7).Value = pIncompleta
                 Prms(8).Value = pCursando
                 Prms(9).Value = pNumCedProf
+                Prms(10).Value = pIdInstEduc
 
                 Return _DataCOBAEV.RunProc("SP_IEstudiosPorEmpleado", Prms, Nomina, ArregloAuditoria)
             Catch ex As Exception
@@ -3611,6 +3617,19 @@ Namespace COBAEV.Empleados
                 Prms(0).Value = pIdNivel
 
                 Return _DataCOBAEV.RunProc("SP_SCarrerasPorNivel", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+        Public Function ObtenInstitucionesEducativas(ByVal pIdNivel As Integer, ByVal pIdEdo As Integer) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdNivel", SqlDbType.TinyInt),
+                                                New SqlParameter("@ClaveEntidad", SqlDbType.TinyInt)}
+
+                Prms(0).Value = pIdNivel
+                Prms(1).Value = pIdEdo
+
+                Return _DataCOBAEV.RunProc("SP_SInstitucionEducativa", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try

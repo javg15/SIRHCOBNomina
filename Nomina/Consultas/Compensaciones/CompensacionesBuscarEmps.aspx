@@ -77,17 +77,16 @@
                                     <HeaderStyle HorizontalAlign="Left" />
                                     <ItemStyle HorizontalAlign="Left" Wrap="False" />
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Importe Recibido">
+                                <asp:TemplateField HeaderText="Importe Total">
                                     <FooterTemplate>
-                                        <asp:Label ID="lblImporteTotal" runat="server" Text='<%# Bind("Importe", "{0:c}") %>'></asp:Label></FooterTemplate>
+                                        <asp:Label ID="lblImporteTotalR" runat="server" Text='<%# Bind("ImporteTR", "{0:c}") %>'></asp:Label></FooterTemplate>
                                     <ItemTemplate>
-                                        <asp:Label ID="lblImporte" runat="server" Text='<%# Bind("Importe", "{0:c}") %>'></asp:Label>
-                                        <asp:Label ID="lblImporteNatural" runat="server" Visible="false" Text='<%# Bind("Importe") %>'></asp:Label></ItemTemplate>
-                                    <HeaderStyle HorizontalAlign="Center" Wrap="true" />
+                                        <asp:Label ID="lblImporteTR" runat="server" Text='<%# Bind("ImporteTR", "{0:c}") %>'></asp:Label></ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" Wrap="True" />
                                     <ItemStyle HorizontalAlign="Right" Wrap="False" />
                                     <FooterStyle Wrap="False" HorizontalAlign="Right" />
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Días Dto.">
+                                <asp:TemplateField HeaderText="Días Afectados">
                                     <FooterTemplate>
                                         <asp:Label ID="lblDiasFaltaTotal" runat="server" Text='<%# Bind("diasDto") %>'></asp:Label></FooterTemplate>
                                     <ItemTemplate>
@@ -129,15 +128,17 @@
                                     <ItemStyle HorizontalAlign="Right" Wrap="False" />
                                     <FooterStyle Wrap="False" HorizontalAlign="Right" />
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Importe Total">
+                                <asp:TemplateField HeaderText="Importe Recibido">
                                     <FooterTemplate>
-                                        <asp:Label ID="lblImporteTotalR" runat="server" Text='<%# Bind("ImporteTR", "{0:c}") %>'></asp:Label></FooterTemplate>
+                                        <asp:Label ID="lblImporteTotal" runat="server" Text='<%# Bind("Importe", "{0:c}") %>'></asp:Label></FooterTemplate>
                                     <ItemTemplate>
-                                        <asp:Label ID="lblImporteTR" runat="server" Text='<%# Bind("ImporteTR", "{0:c}") %>'></asp:Label></ItemTemplate>
-                                    <HeaderStyle HorizontalAlign="Center" Wrap="True" />
+                                        <asp:Label ID="lblImporte" runat="server" Text='<%# Bind("Importe", "{0:c}") %>'></asp:Label>
+                                        <asp:Label ID="lblImporteNatural" runat="server" Visible="false" Text='<%# Bind("Importe") %>'></asp:Label></ItemTemplate>
+                                    <HeaderStyle HorizontalAlign="Center" Wrap="true" />
                                     <ItemStyle HorizontalAlign="Right" Wrap="False" />
                                     <FooterStyle Wrap="False" HorizontalAlign="Right" />
                                 </asp:TemplateField>
+                                
                                 <asp:TemplateField HeaderText="Meses amparados por pago">
                                     <FooterTemplate>
                                         <asp:Label ID="lblMesesQueAmparaPagoT" runat="server" Text='<%# Bind("MesesQueAmparaPago") %>'></asp:Label></FooterTemplate>
@@ -730,6 +731,17 @@
                                             Type="Integer" ValueToCompare="0" Text="*"></asp:CompareValidator>
                                      </p>
                                     <p class="pLabel">
+                                        <asp:Label ID="lblTipoMovimiento" runat="server" CssClass="pLabel" Text="Tipo de movimiento:">
+                                        </asp:Label>
+                                    </p>
+                                    <p class="pTextBox">
+                                        <asp:DropDownList ID="ddlTipoMovimiento" runat="server" CssClass="textEntry" AutoPostBack="True">
+                                            <asp:ListItem Value="1">Descuento</asp:ListItem>
+                                            <asp:ListItem Value="2">Devolución</asp:ListItem>
+                                            <asp:ListItem Value="3">Quitar movimiento</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </p>
+                                    <p class="pLabel">
                                         <asp:Label ID="lblImporteFalta" runat="server" CssClass="pLabel" Text="Importe de la deducción por Faltas (Compensación):">
                                         </asp:Label>
                                     </p>
@@ -749,7 +761,7 @@
                                             Type="Currency" ValueToCompare="0" Text="*"></asp:CompareValidator>
                                     </p>
                                     <p class="pLabel">
-                                        <asp:Label ID="Label1" runat="server" CssClass="pLabel" Text="Importe de la deducción por Faltas (Pensión Alimenticia):">
+                                        <asp:Label ID="lblImporteFaltaPA" runat="server" CssClass="pLabel" Text="Importe de la deducción por Faltas (Pensión Alimenticia):">
                                         </asp:Label>
                                     </p>
                                     <p class="pTextBox">

@@ -15,6 +15,9 @@ Partial Class Consultas_Empleados_ConReduccionDeSueldo
             newListItem = New ListItem("Nombre", "nombre")
             ddlOrden.Items.Add(newListItem)
 
+            newListItem = New ListItem("Apellido paterno", "apellido")
+            ddlOrden.Items.Add(newListItem)
+
             BindDatos("")
             MVMain.SetActiveView(vwMain)
 

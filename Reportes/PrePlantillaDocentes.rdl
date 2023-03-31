@@ -8,7 +8,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>4.60869cm</Width>
+                  <Width>0.47604cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>6.56191cm</Width>
@@ -26,25 +26,25 @@
                   <Width>6.02929cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15888cm</Width>
+                  <Width>1.79cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15888cm</Width>
+                  <Width>1.79cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15888cm</Width>
+                  <Width>1.79cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15888cm</Width>
+                  <Width>1.79cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15888cm</Width>
+                  <Width>1.79cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15888cm</Width>
+                  <Width>1.79cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.15888cm</Width>
+                  <Width>1.79cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -53,14 +53,14 @@
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="textbox24">
+                        <Textbox Name="Textbox6">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>PROGRAMAS O CURSOS</Value>
+                                  <Value />
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>7.5pt</FontSize>
@@ -73,8 +73,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>textbox24</rd:DefaultName>
-                          <ZIndex>30</ZIndex>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -824,7 +823,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -861,7 +859,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -898,7 +895,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -935,7 +931,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -972,7 +967,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1009,7 +1003,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1046,7 +1039,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -1488,7 +1480,7 @@
             <DataSetName>dsHoras</DataSetName>
             <Top>0.14111cm</Top>
             <Height>1.16963cm</Height>
-            <Width>30.31953cm</Width>
+            <Width>30.60472cm</Width>
             <Style>
               <FontSize>8pt</FontSize>
             </Style>

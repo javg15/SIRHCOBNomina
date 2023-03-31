@@ -80,6 +80,7 @@ Namespace COBAEV.Plazas
 #Region "Clase SMP_Plazas: Propiedades privadas"
         Private _DataCOBAEV As New DataCOBAEV
 #End Region
+
 #Region "Clase SMP_Plazas: Métodos públicos"
         Public Function ObtenEstructura(ByVal idPlantel As String _
                                             , ByVal idCategoria As String _
@@ -99,6 +100,20 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+
+        Public Function ObtenEstructuraHistorial(ByVal numEmp As String) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)}
+
+                Prms(0).Value = "&numemp=" + numEmp
+
+                Return _DataCOBAEV.RunProc("SP_SPlazasEstructuraHistorial", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+
         Public Function ObtenEstatus() As DataTable
             Try
                 Dim Prms As SqlParameter() = {}
@@ -331,7 +346,7 @@ Namespace COBAEV.Plazas
         Public Function Guardar_SMP_PlazasECBOcup(ByVal IdPlaza As Integer, ByVal IdPlantel As Integer, ByVal IdPlantelAdsReal As Integer, ByVal IdCategoria As Integer,
                                 ByVal IdQnaVigIni As Short, ByVal IdQnaVigFin As Short,
                                 ByVal IdEmpTitular As Integer, ByVal IdEmpOcupante As Integer,
-                                ByVal IdEstatusPlaza As Short,
+                                ByVal IdEstatusPlaza As Short, ByVal observaciones As String,
                                 ByVal TipoOperacion As Short,
                                 ByVal ArregloAuditoria() As String) As Integer
             Try
@@ -344,7 +359,8 @@ Namespace COBAEV.Plazas
                             New SqlParameter("@IdEmpTitular", SqlDbType.Int),
                             New SqlParameter("@IdEmpOcupante", SqlDbType.Int),
                             New SqlParameter("@IdEstatusPlaza", SqlDbType.Int),
-                            New SqlParameter("@TipoOperacion", SqlDbType.Int)
+                            New SqlParameter("@TipoOperacion", SqlDbType.Int),
+                            New SqlParameter("@Observaciones", SqlDbType.VarChar, 200)
                             }
                 Prms(0).Value = IdPlaza
                 Prms(1).Value = IdPlantel
@@ -355,6 +371,7 @@ Namespace COBAEV.Plazas
                 Prms(6).Value = IdEmpOcupante
                 Prms(7).Value = IdEstatusPlaza
                 Prms(8).Value = TipoOperacion
+                Prms(9).Value = observaciones
 
                 _DataCOBAEV.RunProc("SP_IoUSMP_PlazasECBOcup", Prms, Nomina, ArregloAuditoria)
 
