@@ -191,6 +191,8 @@
                                                                     <ItemTemplate>
                                                                         <asp:ImageButton ID="ibDetalles" runat="server" ImageUrl="~/Imagenes/Detalles.png"
                                                                             ToolTip="Consultar detalles de la estructura de la plaza." />
+                                                                        <asp:ImageButton ID="ibHorariosAdmin" runat="server" ImageUrl="~/Imagenes/Captura1.jpg"
+                                                                                                ToolTip="Edición de horarios." />
                                                                     </ItemTemplate>
                                                                     <ItemStyle HorizontalAlign="Center" />
                                                                 </asp:TemplateField>
@@ -292,10 +294,13 @@
                                                                                         <HeaderStyle HorizontalAlign="Left" />
                                                                                         <ItemStyle HorizontalAlign="Left" />
                                                                                     </asp:TemplateField>
-                                                                                    <asp:BoundField DataField="Horas" HeaderText="Horas">
+                                                                                    <asp:TemplateField HeaderText="Horas registradas">
+                                                                                        <ItemTemplate>
+                                                                                            <asp:Label ID="lblHoras" runat="server" Text='<%# Bind("Horas") %>'></asp:Label>
+                                                                                        </ItemTemplate>
                                                                                         <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
                                                                                         <ItemStyle HorizontalAlign="Center"></ItemStyle>
-                                                                                    </asp:BoundField>
+                                                                                    </asp:TemplateField>
                                                                                     <asp:TemplateField HeaderText="Grupo">
                                                                                         <ItemTemplate>
                                                                                             <asp:Label ID="lblGrupo" runat="server" Text='<%# Bind("Grupo") %>' Visible="false"></asp:Label>
@@ -372,6 +377,14 @@
                                                                                         <HeaderStyle HorizontalAlign="Center" />
                                                                                         <ItemStyle HorizontalAlign="Center" />
                                                                                     </asp:BoundField>
+                                                                                    <asp:TemplateField HeaderText="Horario (Horas asignadas)">
+                                                                                        <ItemTemplate>
+                                                                                            <asp:Label ID="lblHorasHorario" runat="server" Text='<%# Bind("HorasHorario") %>'></asp:Label>
+                                                                                        </ItemTemplate>
+                                                                                        <HeaderStyle HorizontalAlign="Center" />
+                                                                                        <ItemStyle HorizontalAlign="Center"/>
+                                                                                    </asp:TemplateField>
+                                                                                    
                                                                                     <asp:TemplateField>
                                                                                         <ItemTemplate>
                                                                                             <asp:ImageButton ID="ibEliminar" runat="server" ImageUrl="~/Imagenes/Eliminar.png"
@@ -437,6 +450,13 @@
                                                                                         <ItemTemplate>
                                                                                             <asp:ImageButton ID="ibDetalles" runat="server" ImageUrl="~/Imagenes/Detalles.png"
                                                                                                 ToolTip="Consultar información detallada de éste registro." />
+                                                                                        </ItemTemplate>
+                                                                                        <ItemStyle HorizontalAlign="Center" />
+                                                                                    </asp:TemplateField>
+                                                                                    <asp:TemplateField>
+                                                                                        <ItemTemplate>
+                                                                                            <asp:ImageButton ID="ibHorarios" runat="server" ImageUrl="~/Imagenes/Captura1.jpg"
+                                                                                                ToolTip="Edición de horarios." />
                                                                                         </ItemTemplate>
                                                                                         <ItemStyle HorizontalAlign="Center" />
                                                                                     </asp:TemplateField>

@@ -540,7 +540,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>Dom</Value>
+                                  <Value>Total</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>7pt</FontSize>
@@ -791,7 +791,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox51">
+                        <Textbox Name="LUNES">
                           <CanGrow>true</CanGrow>
                           <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
@@ -799,7 +799,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!LUNES.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
@@ -811,7 +811,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox51</rd:DefaultName>
+                          <rd:DefaultName>LUNES</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -827,7 +827,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox55">
+                        <Textbox Name="MARTES">
                           <CanGrow>true</CanGrow>
                           <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
@@ -835,7 +835,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!MARTES.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
@@ -847,7 +847,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox55</rd:DefaultName>
+                          <rd:DefaultName>MARTES</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -863,7 +863,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox62">
+                        <Textbox Name="MIERCOLES">
                           <CanGrow>true</CanGrow>
                           <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
@@ -871,7 +871,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!MIERCOLES.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
@@ -883,7 +883,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox62</rd:DefaultName>
+                          <rd:DefaultName>MIERCOLES</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -899,7 +899,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox66">
+                        <Textbox Name="JUEVES">
                           <CanGrow>true</CanGrow>
                           <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
@@ -907,7 +907,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!JUEVES.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
@@ -919,7 +919,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox66</rd:DefaultName>
+                          <rd:DefaultName>JUEVES</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -935,7 +935,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox72">
+                        <Textbox Name="VIERNES">
                           <CanGrow>true</CanGrow>
                           <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
@@ -943,7 +943,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!VIERNES.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
@@ -955,7 +955,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox72</rd:DefaultName>
+                          <rd:DefaultName>VIERNES</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -971,7 +971,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox76">
+                        <Textbox Name="SABADO">
                           <CanGrow>true</CanGrow>
                           <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
@@ -979,7 +979,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!SABADO.Value</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
@@ -991,7 +991,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox76</rd:DefaultName>
+                          <rd:DefaultName>SABADO</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -1007,7 +1007,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox80">
+                        <Textbox Name="idhora">
                           <CanGrow>true</CanGrow>
                           <CanShrink>true</CanShrink>
                           <KeepTogether>true</KeepTogether>
@@ -1015,10 +1015,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value />
+                                  <Value>=Fields!Suma.Value.ToString() + "hrs -" + Fields!idhora.Value.ToString()</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
+                                    <TextDecoration>= IIf(Fields!Suma.Value&lt;&gt;Fields!Cantidad.Value Or Fields!Suma.Value="0","Underline","Default")</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1027,7 +1028,7 @@
                               </Style>
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox80</rd:DefaultName>
+                          <rd:DefaultName>idhora</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -1039,6 +1040,7 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -1387,7 +1389,7 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <Textbox Name="Textbox81">
+                        <Textbox Name="Textbox8">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -1401,7 +1403,7 @@
                               <Style />
                             </Paragraph>
                           </Paragraphs>
-                          <rd:DefaultName>Textbox81</rd:DefaultName>
+                          <rd:DefaultName>Textbox8</rd:DefaultName>
                           <Style>
                             <Border>
                               <Style>Solid</Style>
@@ -2592,7 +2594,16 @@ Select @IdEmp IdEmp, M.IdMateria, M.ClaveMateria,
 	EH.AbrevEstatus, TN.AbrevTipoNomina, dbo.Fn_ObtenQnaPorId(H.IdQuincenaIni) QnaIni, dbo.Fn_ObtenQnaPorId(H.IdQuincenaFin) QnaFin,
 (SELECT EDL.NumEmp+' - '+DBO.Fn_ObtenNomEmp2(HI.IdEmp) FROM HorasInterinas HI 
 INNER JOIN EmpleadosDatosLaborales EDL ON HI.IdEmp = EDL.IdEmp
-WHERE HI.IdHora = H.IdHora) TITULAR
+WHERE HI.IdHora = H.IdHora) TITULAR,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=LUNES'),'resultado')),'') AS LUNES,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=MARTES'),'resultado')),'') AS MARTES,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=MIERCOLES'),'resultado')),'') AS MIERCOLES,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=JUEVES'),'resultado')),'') AS JUEVES,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=VIERNES'),'resultado')),'') AS VIERNES,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=SABADO'),'resultado')),'') AS SABADO,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=DOMINGO'),'resultado')),'') AS DOMINGO,
+COALESCE((SELECT [dbo].[Fn_Getparams]([dbo].[Fn_Horarios]('&amp;idhora='+CAST(h.IdHora AS VARCHAR(10))+'&amp;dia=DOMINGO'),'suma')),'0') AS Suma,
+h.idhora
 From Horas H
 	Inner Join Materias M On M.IdMateria = H.IdMateria
 	Inner Join TiposDeHoraDocentes THD On THD.IdTipoHora = H.IdTipoHora
@@ -2684,6 +2695,42 @@ Order By  N.AbrevNombramiento Asc, G.Grupo Asc,  M.NombreMateria Asc, H.Cantidad
         <Field Name="TITULAR">
           <DataField>TITULAR</DataField>
           <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LUNES">
+          <DataField>LUNES</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MARTES">
+          <DataField>MARTES</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MIERCOLES">
+          <DataField>MIERCOLES</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="JUEVES">
+          <DataField>JUEVES</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VIERNES">
+          <DataField>VIERNES</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SABADO">
+          <DataField>SABADO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DOMINGO">
+          <DataField>DOMINGO</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Suma">
+          <DataField>Suma</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="idhora">
+          <DataField>idhora</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>

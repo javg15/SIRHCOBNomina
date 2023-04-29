@@ -870,6 +870,17 @@ Namespace COBAEV.Nominas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+        Public Function ObtenQnasFinParaCaptura(ByVal IdQnaFin As Short) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdQnaIni", SqlDbType.SmallInt)}
+
+                Prms(0).Value = IdQnaFin
+
+                Return _DataCOBAEV.RunProc("SP_SQnasAPartirDeUnaQna", Prms, DataCOBAEV.Tipoconsulta.Table, DataCOBAEV.BD.Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
         Public Function ObtenAñosParaConsultaDePagos(ByVal ParaConsultaDePagos As Boolean) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@ParaConsultaDePagos", SqlDbType.Bit)}

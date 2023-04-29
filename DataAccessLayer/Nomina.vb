@@ -4987,4 +4987,56 @@ Namespace COBAEV.Nominas
 #End Region
     End Class
 #End Region
+
+#Region "Clase HistorialTimbrado"
+    Public Class HistorialTimbrado
+#Region "Clase HistorialTimbrado: Propiedades privadas"
+        Private _DataCOBAEV As New DataCOBAEV
+        Private _Folio, _UUID As String
+#End Region
+
+#Region "Clase HistorialTimbrado: Propiedades públicas"
+        Public Property Folio() As String
+            Get
+                Return _Folio
+            End Get
+            Set(ByVal Value As String)
+                _Folio = Value
+            End Set
+        End Property
+        Public Property UUID() As String
+            Get
+                Return _UUID
+            End Get
+            Set(ByVal Value As String)
+                _UUID = Value
+            End Set
+        End Property
+#End Region
+#Region "Clase HistorialTimbrado: Métodos público"
+        Public Function ActualizarUUID(ByVal Folio As String, ByVal UUID As String, RutaArchivos As String) As String
+            Try
+                Dim Prms As SqlParameter() = {
+                                              New SqlParameter("@Folio", SqlDbType.NVarChar, 100),
+                                              New SqlParameter("@UUID", SqlDbType.NVarChar, 100),
+                                              New SqlParameter("@RutaArchivos", SqlDbType.NVarChar, 200),
+                                              New SqlParameter("@error", SqlDbType.NVarChar, 200)
+                                            }
+
+                Prms(0).Value = Folio
+                Prms(1).Value = UUID
+                Prms(2).Value = RutaArchivos
+                Prms(3).Value = ""
+                Prms(3).Direction = ParameterDirection.Output
+
+                _DataCOBAEV.RunProc("SP_UHistorialTimbradoUUID", Prms, DataCOBAEV.BD.Nomina)
+
+                Return Prms(3).Value 'Retornamos IdReduccion & posible error
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+#End Region
+    End Class
+#End Region
 End Namespace

@@ -13,19 +13,23 @@ Partial Class PlazasEstructura
         If Not IsPostBack Then
             Dim oPlantel As New Plantel
 
-            Me.Response.Expires = 0
-
             BindddlPlanteles()
             BindddlCategorias()
             BindddlTipoPlaza()
             BindddlEstatusPlaza()
 
+            Session.Remove("RFCParaCons")
+
+            Me.WucBuscaEmpleados1.BtnNewSearch_Click2()
+            Me.WucBuscaEmpleados1.SetPropertyEnabled_rfv(False, False, False)
+            Me.WucBuscaEmpleados1.SetPropertyReadOnly_TxtBx(False, False, False)
         End If
     End Sub
     Protected Sub Page_LoadComplete(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.LoadComplete
         If Not IsPostBack Then
             RecargaInformacion()
-            SetVisibleBotones_wucBuscaEmps(True, True, True)
+            'Me.WucBuscaEmpleados1.SetPropertyReadOnly_TxtBx(False, False, False)
+            Me.WucBuscaEmpleados1.SetPropertyEnabled_rfv(False, False, False)
         End If
     End Sub
 
@@ -45,15 +49,15 @@ Partial Class PlazasEstructura
     End Sub
 
     Private Sub SetVisibleBotones_wucBuscaEmps(ByVal pNewValor As Boolean, ByVal pCancelValor As Boolean, ByVal pSearchValor As Boolean)
-        Dim BtnNewSearch As Button = CType(WucBuscaEmpleados1.FindControl("BtnNewSearch"), Button)
-        Dim BtnCancelSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnCancelSearch"), Button)
-        Dim BtnSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnSearch"), Button)
+        'Dim BtnNewSearch As Button = CType(WucBuscaEmpleados1.FindControl("BtnNewSearch"), Button)
+        'Dim BtnCancelSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnCancelSearch"), Button)
+        'Dim BtnSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnSearch"), Button)
 
-        Me.WucBuscaEmpleados1.SetPropertyEnabled_rfv(False, False, False)
+        'Me.WucBuscaEmpleados1.SetPropertyEnabled_rfv(False, False, False)
 
-        BtnNewSearch.Visible = pNewValor
-        BtnCancelSearch.Visible = pCancelValor
-        BtnSearch.Visible = pSearchValor
+        'BtnNewSearch.Visible = pNewValor
+        'BtnCancelSearch.Visible = pCancelValor
+        'BtnSearch.Visible = pSearchValor
     End Sub
 
 
@@ -66,7 +70,7 @@ Partial Class PlazasEstructura
     Private Sub BindddlTipoPlaza()
         Dim oFuncion As New EmpleadoFuncion
 
-        LlenaDDL(ddlTipoPlaza, "DescEmpFuncion", "IdEmpFuncion", oFuncion.ObtenTodasParaTipificar(), Nothing)
+        LlenaDDL(ddlTipoPlaza, "DescEmpFuncion", "IdEmpFuncion", oFuncion.ObtenTodas(), Nothing)
     End Sub
 
     Private Sub BindddlPlanteles()
@@ -82,20 +86,18 @@ Partial Class PlazasEstructura
     End Sub
 
     Private Sub RecargaInformacion()
-        Dim txtbxRFC As TextBox = CType(Me.WucBuscaEmpleados1.FindControl("txtbxRFC"), TextBox)
+        Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
 
         If ddlEstatusPlaza.SelectedValue = "0" And ddlTipoPlaza.SelectedValue = "0" _
             And ddlCategorias.SelectedValue = "0" And ddlPlanteles.SelectedValue = "0" _
-            And txtbxRFC.Text = String.Empty Then
+            And hfRFC.Value = "" Then
             lblMsjSinFiltros.Visible = True
         Else
             lblMsjSinFiltros.Visible = False
+            Session.Add("RFCParaCons", hfRFC.Value)
             BindDatos()
         End If
         pnlDatos.Visible = True
-
-
-
     End Sub
     Private Sub BindDatos()
         Dim oEmp As New Empleado
@@ -103,6 +105,7 @@ Partial Class PlazasEstructura
         Dim txtbxNomEmp As TextBox = CType(Me.WucBuscaEmpleados1.FindControl("txtbxNomEmp"), TextBox)
         Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
         Dim hfNumEmp As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfNumEmp"), HiddenField)
+        Dim BtnNewSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnNewSearch"), Button)
 
         Dim oSMP_Plazas As New SMP_Plazas
 
@@ -110,11 +113,15 @@ Partial Class PlazasEstructura
             .DataSource = oSMP_Plazas.ObtenEstructura(ddlPlanteles.SelectedValue _
                                 , ddlCategorias.SelectedValue _
                                 , ddlTipoPlaza.SelectedValue _
-                                , hfNumEmp.Value _
+                                , txtbxRFC.Text _
                                 , ddlEstatusPlaza.SelectedValue)
             .DataBind()
             .Visible = True
         End With
+
+        BtnNewSearch.Enabled = True
+        'Me.WucBuscaEmpleados1.SetPropertyReadOnly_TxtBx(True, True, True)
+        Me.WucBuscaEmpleados1.SetPropertyEnabled_rfv(False, False, False)
     End Sub
 
 
@@ -144,17 +151,7 @@ Partial Class PlazasEstructura
     End Sub
 
 
-    Private Sub gvRowDataBound(ByVal pGVREA As System.Web.UI.WebControls.GridViewRowEventArgs)
-        Select Case pGVREA.Row.RowType
-            Case DataControlRowType.DataRow
 
-
-        End Select
-    End Sub
-
-    Protected Sub gvDatos_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvDatos.RowDataBound
-        gvRowDataBound(e)
-    End Sub
     Protected Sub ibCleanEstatusPlaza_Click(sender As Object, e As ImageClickEventArgs) Handles ibCleanEstatusPlaza.Click
         ddlEstatusPlaza.SelectedValue = "0"
     End Sub
@@ -181,5 +178,10 @@ Partial Class PlazasEstructura
         Dim lbMes As LinkButton
         lbMes = CType(sender, LinkButton)
         'BindgvAusenciasNoJustificadas(CByte(lbMes.CommandArgument), lbMes.ID.Replace("lb", ""))
+    End Sub
+    Protected Sub ibCleanEmpleado_Click(sender As Object, e As ImageClickEventArgs) Handles ibCleanEmpleado.Click
+        Me.WucBuscaEmpleados1.BtnNewSearch_Click2()
+        Me.WucBuscaEmpleados1.SetPropertyEnabled_rfv(False, False, False)
+        Me.WucBuscaEmpleados1.SetPropertyReadOnly_TxtBx(False, False, False)
     End Sub
 End Class

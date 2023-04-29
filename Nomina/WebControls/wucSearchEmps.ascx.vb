@@ -64,7 +64,7 @@ Partial Class WebControls_wucSearchEmps
         txtbxNomEmp.Text = pTxtBxNombre
         txtbxNumEmp.Text = pTxtBxNumEmp
     End Sub
-    Private Sub SetPropertyReadOnly_TxtBx(pTxtBxRFC As Boolean, pTxtBxNombre As Boolean, pTxtBxNumEmp As Boolean)
+    Public Sub SetPropertyReadOnly_TxtBx(pTxtBxRFC As Boolean, pTxtBxNombre As Boolean, pTxtBxNumEmp As Boolean)
         txtbxRFC.ReadOnly = pTxtBxRFC
         txtbxNomEmp.ReadOnly = pTxtBxNombre
         txtbxNumEmp.ReadOnly = pTxtBxNumEmp
@@ -258,6 +258,9 @@ Partial Class WebControls_wucSearchEmps
     Protected Sub imgbtnClose_Click(sender As Object, e As System.Web.UI.ImageClickEventArgs) Handles imgbtnClose.Click, imgbtnClose0.Click
         'BtnSearch_ModalPopupExtender.Hide()
         pnlPopUp.Visible = False
+    End Sub
+    Public Sub BtnNewSearch_Click2()
+        BtnNewSearch_Click(BtnNewSearch, Nothing)
     End Sub
 
     Protected Sub BtnNewSearch_Click(sender As Object, e As System.EventArgs) Handles BtnNewSearch.Click     

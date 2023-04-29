@@ -3,6 +3,7 @@ Imports DataAccessLayer.COBAEV.InformacionAcademica
 Imports System.Data
 Imports DataAccessLayer.COBAEV.Nominas
 Imports DataAccessLayer.COBAEV
+Imports DataAccessLayer.COBAEV.Administracion
 Partial Class Consultas_Empleados_CargaHoraria
     Inherits System.Web.UI.Page
     Private Sub BindSemestres()
@@ -252,6 +253,12 @@ Partial Class Consultas_Empleados_CargaHoraria
     End Sub
 
     Protected Sub gvCargaHoraria_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvCargaHoraria.RowDataBound
+        Dim oUsuario As New Usuario
+        Dim drUsuario As DataRow
+
+        oUsuario.Login = Session("Login")
+        drUsuario = oUsuario.ObtenerPorLogin()
+
         Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
         hfRFC.Value = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
         Select Case e.Row.RowType
@@ -261,7 +268,7 @@ Partial Class Consultas_Empleados_CargaHoraria
                 Dim ibEliminar As ImageButton = CType(e.Row.FindControl("ibEliminar"), ImageButton)
                 Dim ibModificar As ImageButton = CType(e.Row.FindControl("ibModificar"), ImageButton)
                 Dim ibDetalles As ImageButton = CType(e.Row.FindControl("ibDetalles"), ImageButton)
-                'Dim ibHorarios As ImageButton = CType(e.Row.FindControl("ibHorarios"), ImageButton)
+                Dim ibHorarios As ImageButton = CType(e.Row.FindControl("ibHorarios"), ImageButton)
                 Dim ibAddHoras As ImageButton = CType(e.Row.FindControl("ibAddHoras"), ImageButton)
                 Dim ibRemplazar As ImageButton = CType(e.Row.FindControl("ibRemplazar"), ImageButton)
                 Dim lblTipoNomina As Label = CType(e.Row.FindControl("lblTipoNomina"), Label)
@@ -280,6 +287,13 @@ Partial Class Consultas_Empleados_CargaHoraria
                 Dim lbEstatusHora As LinkButton = CType(e.Row.FindControl("lbEstatusHora"), LinkButton)
                 Dim lbNombramiento As LinkButton = CType(e.Row.FindControl("lbNombramiento"), LinkButton)
                 Dim lbTipoNomina As LinkButton = CType(e.Row.FindControl("lbTipoNomina"), LinkButton)
+
+                ibHorarios.Visible = False
+                If oUsuario.EsAnalista(oUsuario.Login) Or oUsuario.EsAdministrador(oUsuario.Login) _
+                        Or oUsuario.EsSuperAdmin(oUsuario.Login) Then
+                    ibHorarios.Visible = True
+                End If
+
 
                 'lbCvePlantel.OnClientClick = "javascript:abreVentMedAncha('../Planteles/PlantelesMaterias.aspx?IdHora=" + lblIdHora.Text + "'); return false;"
                 lbCvePlantel.OnClientClick = "javascript:abreVentanaImpresion('../Planteles/PlantelesMaterias.aspx?IdHora=" + lblIdHora.Text + "&IdSemestre=" + ddlSemestres.SelectedValue + "','VentanaPlantel_" + lbCvePlantel.Text + "'); return false;"
@@ -339,7 +353,7 @@ Partial Class Consultas_Empleados_CargaHoraria
 
                 End If
 
-                'ibHorarios.PostBackUrl = "../../ABC/Empleados/AdministracionHorarios.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=4" + "&ValidacionAlCargarPagina=NO&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&IdQuincena=" + ddlQuincenas.SelectedValue
+                ibHorarios.PostBackUrl = "../../ABC/Empleados/AdministracionHorarios.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=4" + "&ValidacionAlCargarPagina=NO&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&IdQuincena=" + ddlQuincenas.SelectedValue
                 'ibDetalles.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=4" + "&ValidacionAlCargarPagina=NO&IdSemestre=" + Me.ddlSemestres.SelectedValue + "');"
                 ibDetalles.PostBackUrl = "../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=4" + "&ValidacionAlCargarPagina=NO&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&IdQuincena=" + ddlQuincenas.SelectedValue
                 'ibModificar.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=0" + "&ValidacionAlCargarPagina=SI&IdSemestre=" + Me.ddlSemestres.SelectedValue + "');"
@@ -351,6 +365,23 @@ Partial Class Consultas_Empleados_CargaHoraria
                 e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
                 e.Row.Attributes.Add("OnMouseOut", "Resaltar_Off(this);")
                 e.Row.Attributes("OnClick") = Page.ClientScript.GetPostBackClientHyperlink(Me.gvCargaHoraria, "Select$" + e.Row.RowIndex.ToString)
+
+                ''''''HORARIOS
+                Dim lblHorasHorario As Label = CType(e.Row.FindControl("lblHorasHorario"), Label)
+                Dim lblHoras As Label = CType(e.Row.FindControl("lblHoras"), Label)
+
+                Dim Horas As Integer = 0
+                Dim HorasHorario As Integer = 0
+
+                If lblHorasHorario.Text <> "" Then HorasHorario = CInt(lblHorasHorario.Text)
+                If lblHoras.Text <> "" Then Horas = CInt(lblHoras.Text)
+
+                If Horas <> HorasHorario Then
+                    lblHorasHorario.ForeColor = System.Drawing.Color.OrangeRed
+                Else
+                    lblHorasHorario.ForeColor = System.Drawing.Color.Black
+                End If
+
             Case DataControlRowType.EmptyDataRow
                 Dim lbNuevaCargaHoraria As LinkButton = CType(e.Row.FindControl("lbNuevaCargaHoraria"), LinkButton)
                 Dim lblMsjgvVacio As Label = CType(e.Row.FindControl("lblMsjgvVacio"), Label)
@@ -399,6 +430,8 @@ Partial Class Consultas_Empleados_CargaHoraria
     End Sub
 
     Protected Sub gvCargaHorariaAnexa_RowDataBound(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewRowEventArgs) Handles gvCargaHorariaAnexa.RowDataBound
+
+
         Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
         hfRFC.Value = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
         Select Case e.Row.RowType
@@ -406,12 +439,16 @@ Partial Class Consultas_Empleados_CargaHoraria
                 Dim lblIdHora As Label = CType(e.Row.FindControl("lblIdHora"), Label)
                 Dim ibEliminar As ImageButton = CType(e.Row.FindControl("ibEliminar"), ImageButton)
                 Dim ibModificar As ImageButton = CType(e.Row.FindControl("ibModificar"), ImageButton)
+
+
                 ibEliminar.CommandArgument = lblIdHora.Text
                 'ibModificar.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=0" + "&AsociarInterinas=1&IdSemestre=" + Me.ddlSemestres.SelectedValue + "'); return false;"
                 ibModificar.PostBackUrl = "../../ABC/Empleados/AdministracionCargaHoraria.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdHora=" + lblIdHora.Text + "&TipoOperacion=0" + "&AsociarInterinas=1&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&IdQuincena=" + ddlQuincenas.SelectedValue
                 e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
                 e.Row.Attributes.Add("OnMouseOut", "Resaltar_Off(this);")
                 e.Row.Attributes("OnClick") = Page.ClientScript.GetPostBackClientHyperlink(Me.gvCargaHorariaAnexa, "Select$" + e.Row.RowIndex.ToString)
+
+
         End Select
     End Sub
     Protected Sub ibEliminar_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs)
@@ -553,6 +590,7 @@ Partial Class Consultas_Empleados_CargaHoraria
                 Dim lblNombreFuncionSec As Label = CType(e.Row.FindControl("lblNombreFuncionSec"), Label)
                 Dim lblMotGralBaja As Label = CType(e.Row.FindControl("lblMotGralBaja"), Label)
                 Dim ibDetalles As ImageButton = CType(e.Row.FindControl("ibDetalles"), ImageButton)
+                Dim ibHorariosAdmin As ImageButton = CType(e.Row.FindControl("ibHorariosAdmin"), ImageButton)
                 'Dim ibModificar As ImageButton = CType(e.Row.FindControl("ibModificar"), ImageButton)
                 'Dim ibBaja As ImageButton = CType(e.Row.FindControl("ibBaja"), ImageButton)
                 Dim ibWarning As ImageButton = CType(e.Row.FindControl("ibWarning"), ImageButton)
@@ -608,6 +646,16 @@ Partial Class Consultas_Empleados_CargaHoraria
 
                 '    lbAsignarPlaza.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Plazas/AdministracionPlazas.aspx?TipoOperacion=1&RFCEmp=" + hfRFC.Value + "');"
                 '    lbAsignarPlazaCopia.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Plazas/AdministracionPlazas.aspx?TipoOperacion=1&RFCEmp=" + hfRFC.Value + "&CopiarUltVig=SI');"
+
+                Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
+                hfRFC.Value = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
+                Dim oEmp As New Empleado
+                oEmp.RFC = hfRFC.Value
+                ibHorariosAdmin.Visible = False
+                If Not oEmp.EsDocenteEnSemestre(oEmp.RFC, CShort(Me.ddlSemestres.SelectedValue)) Then
+                    ibHorariosAdmin.Visible = True
+                    ibHorariosAdmin.PostBackUrl = "../../ABC/Empleados/AdministracionHorariosAdmin.aspx?RFCEmp=" + hfRFC.Value.Trim + "&TipoOperacion=4&IdPlaza=" + lblIdPlaza.Text
+                End If
         End Select
     End Sub
 

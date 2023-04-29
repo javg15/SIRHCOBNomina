@@ -515,6 +515,8 @@ Partial Class CompensacionesBuscarEmps
                     lnAgregarFalta.Visible = False
                 End If
                 If lblPermiteCambios.Text = "N" Then
+                    lnAgregarFalta.Enabled = False
+                    lnAgregarFalta.ImageUrl = "~/Imagenes/JustifPorJefeDisabled.png"
                     ibModificar.Enabled = False
                     ibModificar.ImageUrl = "~/Imagenes/ModificarDisabled.jpg"
                     ibModificar.ToolTip = "(Opción deshabilitada)"
@@ -522,6 +524,8 @@ Partial Class CompensacionesBuscarEmps
                     ibEliminar.ImageUrl = "~/Imagenes/EliminarDisabled.jpg"
                     ibEliminar.ToolTip = "(Opción deshabilitada)"
                 Else
+                    lnAgregarFalta.Enabled = True
+                    lnAgregarFalta.ImageUrl = "~/Imagenes/JustifPorJefe.png"
                     ibModificar.Enabled = True
                     ibModificar.ImageUrl = "~/Imagenes/Modificar.png"
                     ibModificar.ToolTip = "Modificar la información del registro."
@@ -726,8 +730,17 @@ Partial Class CompensacionesBuscarEmps
             txtbxImportePAFalta.Enabled = False
         End If
 
-        txtbxImporteCompeFalta.Text = lblImporteFaltaNatural.Text
-        txtbxImportePAFalta.Text = lblImporteFaltaPANatural.Text
+        If CInt(lblImporteFaltaNatural.Text) < 0 Then
+            ddlTipoMovimiento.SelectedValue = 2
+            txtbxImporteCompeFalta.Text = CDec(lblImporteFaltaNatural.Text) * -1
+            txtbxImportePAFalta.Text = CDec(lblImporteFaltaPANatural.Text) * -1
+        Else
+            ddlTipoMovimiento.SelectedValue = 1
+            txtbxImporteCompeFalta.Text = lblImporteFaltaNatural.Text
+            txtbxImportePAFalta.Text = lblImporteFaltaPANatural.Text
+        End If
+
+
         txtDiasFaltas.Text = lblDiasFalta.Text
 
         txtObservacionesFaltas.Text = String.Empty

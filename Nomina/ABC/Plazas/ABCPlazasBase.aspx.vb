@@ -138,7 +138,7 @@ Partial Class ABCPlazasBase
 
         If ddlQnaInicio.SelectedValue > 0 Then
             'If ddlPlazasEstatus.SelectedValue = 3 Then
-            LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenQnasFinParaPeriodoDeConsultaDePago(CType(ddlQnaInicio.SelectedValue, Short)), 32767)
+            LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenQnasFinParaCaptura(CType(ddlQnaInicio.SelectedValue, Short)), 32767)
             'Else
             'LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CType(ddlQnaInicio.SelectedValue, Short), CShort(12)), 0)
             'End If

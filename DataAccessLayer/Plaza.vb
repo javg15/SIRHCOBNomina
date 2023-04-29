@@ -85,14 +85,14 @@ Namespace COBAEV.Plazas
         Public Function ObtenEstructura(ByVal idPlantel As String _
                                             , ByVal idCategoria As String _
                                             , ByVal idTipoPlaza As String _
-                                            , ByVal numEmp As String _
+                                            , ByVal rfcEmp As String _
                                             , ByVal estatusPlaza As String
                                        ) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)}
 
                 Prms(0).Value = "&idplantel=" + idPlantel + "&idtipoplaza=" + idTipoPlaza _
-                        + "&idcategoria=" + idCategoria + "&numemp=" + numEmp _
+                        + "&idcategoria=" + idCategoria + "&rfcemp =" + rfcEmp _
                         + "&estatusplaza=" + estatusPlaza
 
                 Return _DataCOBAEV.RunProc("SP_SPlazasEstructura", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
