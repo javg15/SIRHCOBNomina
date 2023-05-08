@@ -60,7 +60,7 @@ Partial Class ImpresionDeQuincenas
         '                     pIdPlantel.ToString + "_" + pIdFondoPresup.ToString() + "_" + pIdQuincena.ToString + ".pdf")
         'End If
 
-        Dim fs As New FileStream(ConfigurationManager.AppSettings("RutaPagomatico") + "NomIndice_" + _
+        Dim fs As New FileStream(ConfigurationManager.AppSettings("RutaPagomatico") + "NomIndice_" +
                              pIdPlantel.ToString + "_" + pIdFondoPresup.ToString() + "_" + pIdQuincena.ToString + ".pdf", FileMode.Create)
         fs.Write(bytes, 0, bytes.Length)
         fs.Close()
@@ -275,7 +275,7 @@ Partial Class ImpresionDeQuincenas
                 Select Case Me.ddlTiposDeImpresion.SelectedValue
                     Case "1" 'Planteles
                         Me.ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
-                                    + "?IdPlantel=" + Me.ddlPlantelesPensionAlimenticia.SelectedValue( _
+                                    + "?IdPlantel=" + Me.ddlPlantelesPensionAlimenticia.SelectedValue(
                                     +"&IdQuincena=" + lblIdQuincena.Text _
                                     + "&IdReporte=" + lblIdReporte.Text + "','RecibosNominaPA_" + lblIdQuincena.Text.Replace("-", "_") + "_Plantel_" + Me.ddlPlantelesPensionAlimenticia.SelectedValue + "_" + Me.ddlTipoDeNomina.SelectedValue + "'); return false;")
                 End Select
@@ -390,8 +390,8 @@ Partial Class ImpresionDeQuincenas
                 Dim arrayHojasNomina() As String
                 dtEmps = oNomina.ObtenEmpsParaGenerarIndice(CShort(lblIdQuincena.Text), CByte(Me.ddlTipoDeNomina.SelectedValue), CShort(Me.ddlPlanteles_ZonasGeo.SelectedValue))
                 GeneraPDF(3, CShort(lblIdQuincena.Text), CByte(Me.ddlTipoDeNomina.SelectedValue), CShort(Me.ddlPlanteles_ZonasGeo.SelectedValue))
-                arrayHojasNomina = SeparaPDFEnHojas(ConfigurationManager.AppSettings("RutaPagomatico") + "NomIndice_" + _
-                                         Me.ddlPlanteles_ZonasGeo.SelectedValue + "_" + Me.ddlTipoDeNomina.SelectedValue + "_" + _
+                arrayHojasNomina = SeparaPDFEnHojas(ConfigurationManager.AppSettings("RutaPagomatico") + "NomIndice_" +
+                                         Me.ddlPlanteles_ZonasGeo.SelectedValue + "_" + Me.ddlTipoDeNomina.SelectedValue + "_" +
                                          lblIdQuincena.Text + ".pdf")
 
                 For Each drEmp As DataRow In dtEmps.Rows
@@ -430,6 +430,13 @@ Partial Class ImpresionDeQuincenas
                 Me.ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
                     + "?Anio=" + Me.ddlAños.SelectedItem.Text _
                     + "&IdReporte=" + lblIdReporte.Text + "','ProvTresPorcNominaAnual_" + Me.ddlAños.SelectedItem.Text + "'); return false;"
+                Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
+            Case "164" 'CFDI
+                Me.ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
+                     + "?Anio=" + Me.ddlAños.SelectedItem.Text _
+                    + "&IdMes=" + Me.ddlMeses.SelectedValue _
+                    + "&OrigenRecurso=" + Me.ddlOrigenRecurso.SelectedValue _
+                    + "&IdReporte=" + lblIdReporte.Text + "'); return false;"
                 Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
         End Select
     End Sub
@@ -677,8 +684,8 @@ Partial Class ImpresionDeQuincenas
                 Dim arrayHojasNomina() As String
                 dtEmps = oNomina.ObtenEmpsParaGenerarIndice(CShort(lblIdQuincena.Text), CByte(Me.ddlTipoDeNomina.SelectedValue), CShort(Me.ddlPlanteles_ZonasGeo.SelectedValue))
                 GeneraPDF(3, CShort(lblIdQuincena.Text), CByte(Me.ddlTipoDeNomina.SelectedValue), CShort(Me.ddlPlanteles_ZonasGeo.SelectedValue))
-                arrayHojasNomina = SeparaPDFEnHojas(ConfigurationManager.AppSettings("RutaPagomatico") + "NomIndice_" + _
-                                         Me.ddlPlanteles_ZonasGeo.SelectedValue + "_" + Me.ddlTipoDeNomina.SelectedValue + "_" + _
+                arrayHojasNomina = SeparaPDFEnHojas(ConfigurationManager.AppSettings("RutaPagomatico") + "NomIndice_" +
+                                         Me.ddlPlanteles_ZonasGeo.SelectedValue + "_" + Me.ddlTipoDeNomina.SelectedValue + "_" +
                                          lblIdQuincena.Text + ".pdf")
 
                 For Each drEmp As DataRow In dtEmps.Rows
@@ -815,6 +822,7 @@ Partial Class ImpresionDeQuincenas
 
         itemSel = Me.ddlTiposDeImpresion.SelectedValue
 
+        Me.pnlOrigenRecurso.Visible = False
         If CType(gvr.FindControl("lblIdReporte"), Label).Text = "3" Or CType(gvr.FindControl("lblIdReporte"), Label).Text = "9" _
                 Or CType(gvr.FindControl("lblIdReporte"), Label).Text = "10" _
                 Or CType(gvr.FindControl("lblIdReporte"), Label).Text = "95" _
@@ -826,6 +834,8 @@ Partial Class ImpresionDeQuincenas
             Else
                 BindddlPlanteles_ZonasGeo()
             End If
+        ElseIf CType(gvr.FindControl("lblIdReporte"), Label).Text = "164" Then
+            Me.pnlOrigenRecurso.Visible = True
         Else
             Me.ddlTiposDeImpresion.Items(0).Enabled = False
             Me.ddlTiposDeImpresion.Items(2).Enabled = False

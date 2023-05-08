@@ -612,6 +612,38 @@ Partial Class Consultas_Nomina_Pagos
                             "&Adeudo=NO&IdQuincena=" + ddlQnasPagadas.SelectedValue + _
                             "&RFCEmp=" + oEmp.RFC + "','" + oEmp.RFC + "_" + Me.ddlQnasPagadas.SelectedValue + "'); return false;"
 
+
+            Dim oTimbrado As New HistorialTimbrado
+            Dim dr As DataRow
+            Dim oNominaN As New Nomina
+            Dim vlIdQuincena As Short = CShort(ddlQnasPagadas.SelectedValue)
+            Dim ruta = ConfigurationManager.AppSettings("RutaFacturas")
+
+            If RFCEmp <> "" Then
+                'dt = oQna.ObtenEmpsParaNotificacionDePagoViaEmail(vlIdQuincena, vlNumEmp)
+                dt = oNominaN.ObtenEmpsParaEnvioDeComprobantesDePago(vlIdQuincena, 0, 0, 0, RFCEmp)
+                dr = dt.Rows(0)
+                If ddlQnasPagadas.SelectedItem.Text.IndexOf("-") = -1 Then
+                    dr = oTimbrado.ObtenRegistro(dr("NumEmp"), ddlAños.SelectedValue.Substring(2, 2) + ddlQnasPagadas.SelectedItem.Text.Substring(4, 2) + "00")
+                Else
+                    dr = oTimbrado.ObtenRegistro(dr("NumEmp"), ddlAños.SelectedValue.Substring(2, 2) + ddlQnasPagadas.SelectedItem.Text.Replace("-", "").Substring(4, 4))
+                End If
+
+
+                btnCFDIpdf.Visible = False
+                    btnCFDIxml.Visible = False
+                    If Not dr Is Nothing Then
+                        If dr("RutaArchivos") <> "" Then
+                            Dim rutaSub = dr("RutaArchivos").Substring(dr("RutaArchivos").Length - 14, 10)
+                            ruta = ruta + "20" + rutaSub.Substring(0, 2) + "/" + rutaSub.Substring(2, 2) + "/" + rutaSub.Substring(4, 2) + "/" + dr("RutaArchivos")
+
+                        btnCFDIpdf.OnClientClick = "javascript:abreVentanaImpresion('" + ruta.Replace(".xml", ".pdf") + "'); return false;"
+                        btnCFDIxml.OnClientClick = "javascript:abreVentanaImpresion('" + ruta + "'); return false;"
+                        btnCFDIpdf.Visible = True
+                            btnCFDIxml.Visible = True
+                        End If
+                    End If
+                End If
         Catch ex As Exception
             Throw (New System.Exception(ex.Message.ToString))
         End Try
@@ -758,4 +790,5 @@ Partial Class Consultas_Nomina_Pagos
         GeneraPDF(vlIdQuincena, dr("RFCEmp"), dr("NumEmp"), dr("Quincena").ToString.Replace("-", "Adic"))
         EnviaEmail(dr)
     End Sub
+
 End Class

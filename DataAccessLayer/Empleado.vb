@@ -1542,6 +1542,17 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+        Public Function ObtenMotivosDeBajaSegunTipoOcupacion(ByVal pIdTipoEmpleado As Short) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdTipoEmpleado", SqlDbType.SmallInt)}
+
+                Prms(0).Value = pIdTipoEmpleado
+
+                Return _DataCOBAEV.RunProc("SP_SMotivosGeneralesDeBajaSegunTipoOcupacion", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
         Public Function ObtenFuncionesPrimarias() As DataTable
             Try
                 Return _DataCOBAEV.RunProc("SP_SFuncionesPrimarias", DataCOBAEV.Tipoconsulta.Table, Nomina)

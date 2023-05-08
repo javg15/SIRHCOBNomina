@@ -358,11 +358,13 @@
                         <EditItemTemplate>
                             <asp:DropDownList ID="ddlQuincenaInicio" runat="server" SkinID="SkinDropDownList">
                             </asp:DropDownList>
+                            <asp:CheckBox ID="chkFueraTiempo" runat="server" Text="Mostrar quincenas calculadas" AutoPostBack="True" OnCheckedChanged="CheckedChanged_chkFueraTiempo" />
                         </EditItemTemplate>
                         <InsertItemTemplate>
                             <asp:DropDownList ID="ddlQuincenaInicio" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlQuincenaInicio_SelectedIndexChanged"
                                 SkinID="SkinDropDownList">
                             </asp:DropDownList>
+                            <asp:CheckBox ID="chkFueraTiempo" runat="server" Text="Mostrar quincenas calculadas" AutoPostBack="True"  OnCheckedChanged="CheckedChanged_chkFueraTiempo"/>
                         </InsertItemTemplate>
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
@@ -385,6 +387,10 @@
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Motivo de baja">
+                        <EditItemTemplate>
+                            <asp:DropDownList ID="ddlMotivosDeBaja" runat="server" SkinID="SkinDropDownList">
+                            </asp:DropDownList>
+                        </EditItemTemplate>
                         <InsertItemTemplate>
                                     <asp:DropDownList ID="ddlMotivosDeBaja" runat="server" SkinID="SkinDropDownList"
                                         AutoPostBack="True" 

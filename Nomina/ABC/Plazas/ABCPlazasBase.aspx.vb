@@ -341,16 +341,13 @@ Partial Class ABCPlazasBase
             TitlePanelHistorial.Visible = True
             PanelHistorial.Visible = True
         End If
-
-
-
     End Sub
     Protected Sub gvDatos_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvDatos.RowDataBound
         Dim lblTitular As Label = CType(e.Row.FindControl("lblTitular"), Label)
         Dim lblNombreEmpleado As Label = CType(Me.dvPlaza.FindControl("lblNombreEmpleado"), Label)
 
         If lblTitular Is Nothing = False Then
-            If lblNombreEmpleado.Text.Split("-")(1).Trim = lblTitular.Text Then
+            If lblNombreEmpleado.Text = lblTitular.Text Then
                 lblTitular.BackColor = Drawing.Color.LightGreen
             End If
         End If

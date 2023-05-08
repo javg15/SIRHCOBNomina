@@ -5036,6 +5036,21 @@ Namespace COBAEV.Nominas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+        Public Function ObtenRegistro(ByVal NumEmp As String, ByVal Quincena As String) As DataRow
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@NumEmp", SqlDbType.NVarChar, 5),
+                                                New SqlParameter("@Quincena", SqlDbType.NVarChar, 6)}
+
+                Prms(0).Value = NumEmp
+                Prms(1).Value = Quincena
+
+                Return _DataCOBAEV.RunProc("SP_SHistorialTimbradoRegistro", Prms, DataCOBAEV.Tipoconsulta.DataRow, DataCOBAEV.BD.Nomina)
+
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
 #End Region
     End Class
 #End Region

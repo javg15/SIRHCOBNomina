@@ -43,7 +43,7 @@ Partial Class Administracion_Usuarios_UsuariosDetalles
                 dr = oUsr.ObtenerPorId()
                 txtbxLogin.Text = dr("Login")
 
-                If oUsr.EsSuperAdmin(txtbxLogin.Text) Then
+                If oUsr.EsSuperAdmin(Session("Login")) Then
                     txtbxPassw1.Enabled = True
                     txtbxPassw2.Enabled = True
                     CVPassw.Enabled = True

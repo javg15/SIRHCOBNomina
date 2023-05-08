@@ -243,6 +243,10 @@
       <FullPath>ImportesReprocesoCompen.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>IncidenciasRegistros.rdl</Name>
+      <FullPath>IncidenciasRegistros.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>IncidenciasRegistros2.rdl</Name>
       <FullPath>IncidenciasRegistros2.rdl</FullPath>
     </ProjectItem>
@@ -643,8 +647,8 @@
       <FullPath>VisorExpedientes.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>IncidenciasRegistros.rdl</Name>
-      <FullPath>IncidenciasRegistros.rdl</FullPath>
+      <Name>rptCFDI.rdl</Name>
+      <FullPath>rptCFDI.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

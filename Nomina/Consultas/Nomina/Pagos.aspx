@@ -128,6 +128,14 @@
                                             </tr>
                                             <tr>
                                                 <td style="text-align: right">
+                                                    <asp:Button ID="btnCFDIxml" runat="server"
+                                                        SkinID="SkinBoton" Text="XML" 
+                                                        ToolTip="Ver XML" Visible="False" />
+                                                    &nbsp;
+                                                    <asp:Button ID="btnCFDIpdf" runat="server"
+                                                        SkinID="SkinBoton" Text="PDF" 
+                                                        ToolTip="Ver PDF" Visible="False" />
+                                                    &nbsp;
                                                     <asp:Button ID="btnImprimirReciboPago" runat="server" OnClick="btnConsultarPago_Click"
                                                         SkinID="SkinBoton" Text="Imprimir" 
                                                         ToolTip="Ver recibo de nómina listo para imprimir" Visible="False" />

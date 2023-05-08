@@ -169,6 +169,7 @@
                 </asp:UpdatePanel>
             </td>
         </tr>
+        
         <tr>
             <td style="text-align: left">
                 <asp:UpdatePanel ID="UpdatePanel5" runat="server">
@@ -233,6 +234,28 @@
                                     </asp:GridView>
                                 </td>
                                 <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left">
+                                    <asp:UpdatePanel ID="UpdatePanel9" runat="server">
+                                        <ContentTemplate>
+                                            <asp:Panel ID="pnlOrigenRecurso" runat="server" Font-Names="Verdana" Font-Size="X-Small"
+                                                GroupingText="Seleccione el origen del recurso">
+                                                <br />
+                                                <asp:DropDownList ID="ddlOrigenRecurso" runat="server"  SkinID="SkinDropDownList" AutoPostBack="True">
+                                                    <asp:ListItem Value="0">-</asp:ListItem>
+                                                    <asp:ListItem Value="IM">Federales y Estatales</asp:ListItem>
+                                                    <asp:ListItem Value="IP">Estatales</asp:ListItem>
+                                                </asp:DropDownList>
+                                                <br />
+                                                <br />
+                                            </asp:Panel>
+                                        </ContentTemplate>
+                                        <Triggers>
+                                            <asp:AsyncPostBackTrigger ControlID="gvReportes" EventName="SelectedIndexChanged" />
+                                        </Triggers>
+                                    </asp:UpdatePanel>
                                 </td>
                             </tr>
                             <tr>

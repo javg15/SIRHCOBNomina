@@ -6,6 +6,8 @@ Imports System.Data
 Imports BusinessRulesLayer.COBAEV.Validaciones
 Imports DataAccessLayer.COBAEV.MovsDePersonal
 Imports DataAccessLayer.COBAEV.InformacionAcademica
+Imports DataAccessLayer.COBAEV.Administracion
+
 Partial Class AdministracionPlazas
     Inherits System.Web.UI.Page
     Private Sub LlenaDDL(ByVal ddl As DropDownList, ByVal TextField As String, ByVal ValueField As String, ByVal dt As DataTable, Optional ByVal SelectedValue As String = "")
@@ -40,6 +42,13 @@ Partial Class AdministracionPlazas
             Dim BtnCancelSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnCancelSearch"), Button)
             Dim BtnSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnSearch"), Button)
             Dim btnCancelar As Button
+
+            Dim chkFueraTiempo As CheckBox = CType(Me.dvPlaza.FindControl("chkFueraTiempo"), CheckBox)
+            Dim oUsuario As New Usuario
+            chkFueraTiempo.Visible = False
+            If oUsuario.EsAdministrador(Session("Login")) Or oUsuario.EsSuperAdmin(Session("Login")) Then
+                chkFueraTiempo.Visible = True
+            End If
 
             BtnNewSearch.Visible = False
             BtnCancelSearch.Visible = False
@@ -174,7 +183,7 @@ Partial Class AdministracionPlazas
                 ddlFuncionesPri.Items.FindByValue(drFuncionPriPorCatego("IdFuncionPri").ToString).Selected = True
 
                 LlenaDDL(ddlFuncionesSec, "FuncionSec", "IdFuncionSec", oEmp2.ObtenFuncionesSecundarias())
-                LlenaDDL(ddlMotivosDeBaja, "MotGralBaja", "IdMotGralBaja", oEmp2.ObtenMotivosDeBaja())
+                LlenaDDL(ddlMotivosDeBaja, "MotGralBaja", "IdMotGralBaja", oEmp2.ObtenMotivosDeBajaSegunTipoOcupacion(ddlPlazasTipoOcup.SelectedValue))
                 LlenaDDL(ddlCadenas, "NumCadena", "IdCadena", oCadena.ObtenAbiertasPorUsr(Session("Login")))
                 LlenaDDL(ddlTiposDeSemestres, "TipoSemestre", "IdTipoSemestre", oSemestre.ObtenTipos())
 
@@ -228,9 +237,9 @@ Partial Class AdministracionPlazas
 
 
             ElseIf Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "2" Or Request.Params("TipoOperacion") = "4" _
-                  Or (Request.Params("TipoOperacion") = "1" And Request.Params("CopiarUltVig") = "SI") Then 'Actualizar o Eliminar
-                    'BindgvPlazasHistoria()
-                    If Request.Params("CopiarUltVig") Is Nothing Then
+              Or (Request.Params("TipoOperacion") = "1" And Request.Params("CopiarUltVig") = "SI") Then 'Actualizar o Eliminar
+                'BindgvPlazasHistoria()
+                If Request.Params("CopiarUltVig") Is Nothing Then
                     oEmpleadoPlaza.IdPlaza = CType(Request.Params("IdPlaza"), Integer)
                     dr = oEmpleadoPlaza.ObtenPorId()
                     drPlazasHistoria = oEmpleadoPlaza.ObtenInfDeTblPlazasHistoria(CType(Request.Params("IdPlaza"), Integer))
@@ -404,6 +413,18 @@ Partial Class AdministracionPlazas
             End If
         End If
     End Sub
+
+    Protected Sub CheckedChanged_chkFueraTiempo(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim chkFueraTiempo As CheckBox = CType(sender, CheckBox)
+        Dim oQna As New Quincenas
+        Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
+
+        If chkFueraTiempo.Checked Then
+            LlenaDDL(ddlQnaInicio, "Quincena", "IdQuincena", oQna.ObtenListasCalculadas())
+        Else
+            LlenaDDL(ddlQnaInicio, "Quincena", "IdQuincena", oQna.ObtenParaVigIni(True))
+        End If
+    End Sub
     Protected Sub btnGuardar_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         Try
             'Deshabilitamos el botón guardar para evitar el doble click
@@ -555,11 +576,17 @@ Partial Class AdministracionPlazas
     Protected Sub ddlQuincenaInicio_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
         Dim ddlQnaTermino As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaTermino"), DropDownList)
+        Dim chkFueraTiempo As CheckBox = CType(Me.dvPlaza.FindControl("chkFueraTiempo"), CheckBox)
         Dim oQna As New Quincenas
-        If Request.Params("TipoOperacion") <> "2" Then
-            LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CType(ddlQnaInicio.SelectedValue, Short), True))
+
+        If chkFueraTiempo.Checked Then
+            LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenListasCalculadas())
         Else
-            LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenPosiblesParaPago(CType(Request.Params("IdPlaza"), Integer)))
+            If Request.Params("TipoOperacion") <> "2" Then
+                LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CType(ddlQnaInicio.SelectedValue, Short), True))
+            Else
+                LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenPosiblesParaPago(CType(Request.Params("IdPlaza"), Integer)))
+            End If
         End If
     End Sub
 
@@ -568,8 +595,10 @@ Partial Class AdministracionPlazas
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlTiposDeNominas As DropDownList = CType(Me.dvPlaza.FindControl("ddlTiposDeNominas"), DropDownList)
         Dim ddlMotivoInterinatoI As DropDownList = CType(Me.dvPlaza.FindControl("ddlMotivoInterinatoI"), DropDownList)
+        Dim ddlMotivosDeBaja As DropDownList = CType(Me.dvPlaza.FindControl("ddlMotivosDeBaja"), DropDownList)
         Dim oCatego As New Categoria
         Dim oTipoDeNomina As New TipoDeNomina
+        Dim oEmp As New Empleado
         ddlCategorias.DataSource = oCatego.ObtenPorFuncionDelEmpleado(CByte(ddlEmpleadosFunciones.SelectedValue))
         ddlCategorias.DataBind()
         ddlCategorias_SelectedIndexChanged(sender, e)
@@ -592,6 +621,7 @@ Partial Class AdministracionPlazas
         End If
 
         ddlCategorias_SelectedIndexChanged1(sender, e)
+
     End Sub
 
     Protected Sub ddlCategorias_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -674,8 +704,10 @@ Partial Class AdministracionPlazas
         Dim chkbxInterinoPuro As CheckBox = CType(Me.dvPlaza.FindControl("chkbxInterinoPuro"), CheckBox)
         Dim OcupacionEsInterina, OcupacionEsProvisional, OcupacionEsBase As Boolean
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
+        Dim ddlMotivosDeBaja As DropDownList = CType(Me.dvPlaza.FindControl("ddlMotivosDeBaja"), DropDownList)
         Dim oCategoria As New Categoria
         Dim drCategoriaHomologada As DataRow
+        Dim oEmp As New Empleado
 
         drCategoriaHomologada = oCategoria.ObtenSiEsHomologada(CShort(ddlCategorias.SelectedValue))
 
@@ -749,6 +781,10 @@ Partial Class AdministracionPlazas
             Session.Remove("NombreParaCons2")
             Session.Remove("NumEmpParaCons2")
             WucBuscaEmpleados2.DataBind()
+        End If
+
+        If Request.Params("TipoOperacion") <> "4" Then
+            LlenaDDL(ddlMotivosDeBaja, "MotGralBaja", "IdMotGralBaja", oEmp.ObtenMotivosDeBajaSegunTipoOcupacion(ddlPlazasTipoOcup.SelectedValue))
         End If
     End Sub
 

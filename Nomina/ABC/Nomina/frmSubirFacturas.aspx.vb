@@ -128,7 +128,7 @@ Partial Class frmSubirFacturas
         Dim fileReader As System.IO.StreamReader
 
         TargetPath = ConfigurationManager.AppSettings("RutaArchivosDigitalesTMP")
-
+        lblError.Text = ""
         Try
             'test para saber si existe el archivo
             fileReader = My.Computer.FileSystem.OpenTextFileReader(TargetPath + "SubirFacturas.zip")
@@ -136,14 +136,17 @@ Partial Class frmSubirFacturas
             UnZip(TargetPath + "SubirFacturas.zip", ConfigurationManager.AppSettings("RutaFacturas"))
             lblExito.Visible = True
         Catch ex As Exception
+            lblError.Text = ex.Message
+            lblError.Visible = True
             Try
                 'test para saber si existe el archivo
                 fileReader = My.Computer.FileSystem.OpenTextFileReader(TargetPath + "ActualizarFolios.csv")
                 fileReader.Close()
                 ReadUUID(TargetPath + "ActualizarFolios.csv")
                 lblExito.Visible = True
+                lblError.Visible = False
             Catch ex2 As Exception
-                lblError.Text = ex2.Message
+                lblError.Text = lblError.Text + vbCrLf + ex2.Message
                 lblError.Visible = True
             End Try
         End Try
