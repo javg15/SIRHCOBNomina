@@ -481,7 +481,8 @@ Namespace COBAEV.Empleados
         End Function
         Public Function ObtenPorFuncionDelEmpleado(ByVal IdEmpFuncion As Byte) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmpFuncion", SqlDbType.TinyInt)}
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdEmpFuncion", SqlDbType.TinyInt)
+                    }
 
                 Prms(0).Value = IdEmpFuncion
 

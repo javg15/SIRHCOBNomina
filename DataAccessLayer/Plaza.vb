@@ -309,6 +309,25 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+        Public Function ObtenPlazasOcupacion(ByVal IdPlantel As Integer, ByVal IdCategoria As Integer, ByVal TipoOcupacion As Integer, ByVal SoloDisponibles As Byte) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {
+                                                New SqlParameter("@IdPlantel", SqlDbType.Int),
+                                                New SqlParameter("@IdCategoria", SqlDbType.Int),
+                                                New SqlParameter("@TipoOcupacion", SqlDbType.Int),
+                                                New SqlParameter("@SoloDisponibles", SqlDbType.Bit)
+                                              }
+
+                Prms(0).Value = IdPlantel
+                Prms(1).Value = IdCategoria
+                Prms(2).Value = TipoOcupacion
+                Prms(3).Value = SoloDisponibles
+
+                Return _DataCOBAEV.RunProc("SP_SSMP_PlazaOcupacionPlazas", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
         Public Function ObtenCategosXCvePlazaTipoYZonaEco(ByVal pCvePlazaTipo As String, ByVal pZonaEco As String) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@CvePlazaTipo", SqlDbType.NVarChar, 4),

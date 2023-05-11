@@ -211,7 +211,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Centro de Adscripción al que pertenece la Plaza<br />(Utilizado para pago)">
                         <EditItemTemplate>
-                            <asp:DropDownList ID="ddlCTAdscipRealE" runat="server" SkinID="SkinDropDownList">
+                            <asp:DropDownList ID="ddlCTAdscipRealE" runat="server" SkinID="SkinDropDownList" OnSelectedIndexChanged="ddlCTAdscipReal_SelectedIndexChanged">
                             </asp:DropDownList>
                             <asp:Label ID="lblZEPlantelAdscripRealE" runat="server" 
                                 SkinID="SkinLblDatos9pt" Text="Label"></asp:Label>
@@ -239,6 +239,22 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Tipo ocupaci&#243;n">
+                        <EditItemTemplate>
+                            <asp:DropDownList ID="ddlPlazasTipoOcup" runat="server" SkinID="SkinDropDownList">
+                            </asp:DropDownList>
+                        </EditItemTemplate>
+                        <InsertItemTemplate>
+                            <asp:DropDownList ID="ddlPlazasTipoOcup" runat="server" SkinID="SkinDropDownList"
+                                AutoPostBack="True" OnSelectedIndexChanged="ddlPlazasTipoOcup_SelectedIndexChanged">
+                            </asp:DropDownList>
+                                    <br />
+                                    <asp:CheckBox ID="ChckBxTratarComoBase" runat="server" SkinID="SkinCheckBox" Text="Tratar como BASE plaza y carga horaria" />
+                                    <asp:CheckBox ID="chkbxInterinoPuro" runat="server" SkinID="SkinCheckBox" Text="¿Interino puro?" AutoPostBack="True" OnCheckedChanged="CheckedChanged_chkbxInterinoPuro"/>
+                        </InsertItemTemplate>
+                        <HeaderStyle HorizontalAlign="Left" Wrap="False" />
+                        <ItemStyle HorizontalAlign="Left" Wrap="False" />
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Categor&#237;a">
                         <EditItemTemplate>
                                     <asp:DropDownList ID="ddlCategoriasE" runat="server" SkinID="SkinDropDownList">
@@ -250,6 +266,155 @@
                                     </asp:DropDownList>
                         </InsertItemTemplate>
                         <HeaderStyle  HorizontalAlign="Left" Wrap="False" />
+                        <ItemStyle HorizontalAlign="Left" Wrap="False" />
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Plazas">
+                        <EditItemTemplate>
+                        </EditItemTemplate>
+                        <InsertItemTemplate>
+                            <asp:HiddenField ID="hidIdPlazaOcupada" runat="server" />
+                            <asp:GridView ID="gvDatos" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe plazas disponibles."
+                                            PageSize="20" SkinID="SkinGridView" Width="100%" OnRowDataBound="gvDatos_RowDataBound" >
+                                            <EmptyDataTemplate>
+                                                <div>
+                                                    <asp:Label ID="lblMsjSinPlazas" runat="server" Text="No existe plazas disponibles."></asp:Label>
+                                                </div>
+                                            </EmptyDataTemplate>
+                                            <EmptyDataRowStyle Font-Italic="True" />
+                                            <Columns>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:ImageButton ID="lnSelectPlaza" runat="server" ImageUrl="~/Imagenes/Select.png"
+                                                            CausesValidation="false" ToolTip="Seleccionar registro" CommandName="Select" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Id"><ItemTemplate><asp:Label ID="lblIdPlazas" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Plazas Base">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblCvePlazaTipo" runat="server" Text='<%# Bind("CvePlazaTipo") %>' ToolTip='<%# Bind("ToolTipPlazaTipo") %>'></asp:Label>                                                                        
+                                                                        <asp:Label ID="lblGuion1" runat="server" Text="-"></asp:Label>
+                                                                        <asp:Label ID="lblstrHrsJornada" runat="server" Text='<%# Bind("ClavePlantel")%>' ToolTip='<%# Bind("DescPlantel") %>'></asp:Label>
+                                                                        <asp:Label ID="lblGuion2" runat="server" Text="-"></asp:Label>
+                                                                        <asp:Label ID="lblZonaEco" runat="server" Text='<%# Bind("ZonaEco") %>' ToolTip='<%# Bind("ToolTipZonaEco") %>'></asp:Label>                                                                        
+                                                                        <asp:Label ID="lblGuion3" runat="server" Text="-"></asp:Label>
+                                                                        <asp:Label ID="lblCvePlazaDiferenciador" runat="server" Text='<%# Bind("CvePlazaDiferenciador") %>' ToolTip='<%# Bind("ToolTipPlazaDiferenciador") %>'></asp:Label>
+                                                                        <asp:Label ID="lblGuion4" runat="server" Text="-"></asp:Label>
+                                                                        <asp:Label ID="lblCveCategoCOBACH" runat="server" Text='<%# Bind("CveCategoCOBACH") %>' ToolTip='<%# Bind("ToolTipCatego") %>'></asp:Label>
+                                                                
+                                                                        <asp:Label ID="lblGuion5" runat="server" Text="-"></asp:Label>
+                                                                        <asp:Label ID="lblConsecutivo" runat="server" Text='<%# Bind("Consecutivo") %>' ToolTip="Consecutivo de la plaza"></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Estatus (Base)">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblEstatusBase" runat="server" Text='<%# Bind("DescEstatusPlazaBase") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Titular">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblTitular" runat="server" Text='<%# Bind("OcupanteBase") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="RFC (Ocupante)">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                    <ItemTemplate>
+                                                                        <asp:LinkButton ID="lnkbtnrfc" runat="server" CommandName="CmdRFC" Text='<%#DataBinder.Eval(Container, "dataitem.RFCEmpOcup") %>' ToolTip="Click en el RFC para seleccionar al empleado para aplicarle operaciones"></asp:LinkButton>
+                                                                        <ajaxToolkit:ConfirmButtonExtender ID="CBEEmpSel" runat="server" ConfirmText="¿Seleccionar empleado para consultas posteriores?"
+                                                                            TargetControlID="lnkbtnrfc">
+                                                                        </ajaxToolkit:ConfirmButtonExtender>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="IdPlaza" Visible="false">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblIdPlaza" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="CURP (Ocupante)" Visible="false">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblCURP" runat="server" Text='<%# Bind("CURPEmpOcup") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Apellido paterno (Ocupante)" Visible="false">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblApePat" runat="server" Text='<%# Bind("ApePatEmpOcup") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Apellido materno (Ocupante)" Visible="false">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblApeMat" runat="server" Text='<%# Bind("ApeMatEmpOcup") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Nombre (Ocupante)" Visible="false">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblNombre" runat="server" Text='<%# Bind("NomEmpOcup") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Núm. Emp (Ocupante)" Visible="false">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblNumEmp" runat="server" Text='<%# Bind("NumEmpOcup") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Nombre (Ocupante)">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblNombreCompleto" runat="server" Text='<%# Bind("OcupanteActual") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Tipo ocupación">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblDescEstatusPlaza" runat="server" Text='<%# Bind("DescEstatusPlaza") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Plantel">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblPlantel" runat="server" Text='<%# Bind("Plantel") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Observaciones">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblObservaciones" runat="server" Text='<%# Bind("Observaciones") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
+                                        <asp:TextBox  ID="hidIdPlazas" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" />
+                                        <asp:TextBox  ID="hidIdTitular" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" text="0"/>
+                                        <asp:RequiredFieldValidator ID="CVIdPlazas" runat="server"
+                                                ControlToValidate="hidIdPlazas" Display="Dynamic" ErrorMessage="Seleccione la plaza a asignar como titular"
+                                                ToolTip="Seleccione la plaza a asignar como titular" Type="Text"
+                                                ValidationGroup="gpoGuarda" >*</asp:RequiredFieldValidator>
+                                        <asp:CompareValidator ID="CVIdTitular" runat="server"
+                                                ControlToValidate="hidIdTitular" Display="Dynamic" ErrorMessage="La plaza ya tiene titular"
+                                                ToolTip="La plaza ya tiene titular" 
+                                                ValidationGroup="gpoGuarda" ValueToCompare="0">*</asp:CompareValidator>
+                        </InsertItemTemplate>
+                        <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Sindicato">
@@ -264,22 +429,7 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Tipo ocupaci&#243;n">
-                        <EditItemTemplate>
-                            <asp:DropDownList ID="ddlPlazasTipoOcup" runat="server" SkinID="SkinDropDownList">
-                            </asp:DropDownList>
-                        </EditItemTemplate>
-                        <InsertItemTemplate>
-                            <asp:DropDownList ID="ddlPlazasTipoOcup" runat="server" SkinID="SkinDropDownList"
-                                AutoPostBack="True" OnSelectedIndexChanged="ddlPlazasTipoOcup_SelectedIndexChanged">
-                            </asp:DropDownList>
-                                    <br />
-                                    <asp:CheckBox ID="ChckBxTratarComoBase" runat="server" SkinID="SkinCheckBox" Text="Tratar como BASE plaza y carga horaria" />
-                                    <asp:CheckBox ID="chkbxInterinoPuro" runat="server" SkinID="SkinCheckBox" Text="¿Interino puro?" />
-                        </InsertItemTemplate>
-                        <HeaderStyle HorizontalAlign="Left" Wrap="False" />
-                        <ItemStyle HorizontalAlign="Left" Wrap="False" />
-                    </asp:TemplateField>
+                    
                     <asp:TemplateField HeaderText="Motivo interinato">
                         <EditItemTemplate>
                                     <asp:DropDownList ID="ddlMotivoInterinatoE" runat="server" SkinID="SkinDropDownList">
@@ -379,8 +529,8 @@
                                         AutoPostBack="True" OnSelectedIndexChanged="ddlQuincenaTermino_SelectedIndexChanged">
                                     </asp:DropDownList>
                                     <asp:CompareValidator ID="CVVigencia" runat="server" ControlToCompare="ddlQuincenaInicio"
-                                        ControlToValidate="ddlQuincenaTermino" Display="Dynamic" ErrorMessage="Vigencia incorrecta."
-                                        Operator="GreaterThanEqual" ToolTip="Vigencia incorrecta." Type="Integer"
+                                        ControlToValidate="ddlQuincenaTermino" Display="Dynamic" ErrorMessage="Vigencia incorrecta"
+                                        Operator="GreaterThanEqual" ToolTip="Vigencia incorrecta" Type="Integer"
                                         ValidationGroup="gpoGuarda">*</asp:CompareValidator>
                         </InsertItemTemplate>
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
@@ -406,8 +556,8 @@
                                     </ajaxToolkit:CalendarExtender>
                                     <asp:CompareValidator ID="txtbxFechaBajaISSSTE_CV" runat="server" 
                                         ControlToValidate="txtbxFechaBajaISSSTE" Display="Dynamic" Enabled="False" 
-                                        ErrorMessage="Fecha de baja incorrecta." Operator="DataTypeCheck" 
-                                        ToolTip="Fecha incorrecta." Type="Date" ValidationGroup="gpoGuarda">*</asp:CompareValidator>
+                                        ErrorMessage="Fecha de baja incorrecta" Operator="DataTypeCheck" 
+                                        ToolTip="Fecha incorrecta" Type="Date" ValidationGroup="gpoGuarda">*</asp:CompareValidator>
                                     
                                     <!-- CODIGO AGREGADO POR ALEXIS 29/09/2021, PARA AÑADIR FECHA DE TERMINO L.S.G.S. -->
                                     <asp:Label ID="lblFechaBajaISSSTE2" runat="server" SkinID="SkinLbl9pt" 
