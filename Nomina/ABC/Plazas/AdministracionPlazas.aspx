@@ -274,7 +274,7 @@
                         <InsertItemTemplate>
                             <asp:HiddenField ID="hidIdPlazaOcupada" runat="server" />
                             <asp:GridView ID="gvDatos" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe plazas disponibles."
-                                            PageSize="20" SkinID="SkinGridView" Width="100%" OnRowDataBound="gvDatos_RowDataBound" >
+                                            PageSize="20" SkinID="SkinGridView" Width="100%" OnRowDataBound="gvDatos_RowDataBound" OnSelectedIndexChanged="gvDatos_SelectedIndexChanged" OnDataBound="gvDatos_DataBound" OnSelectedIndexChanging="gvDatos_SelectedIndexChanging" >
                                             <EmptyDataTemplate>
                                                 <div>
                                                     <asp:Label ID="lblMsjSinPlazas" runat="server" Text="No existe plazas disponibles."></asp:Label>

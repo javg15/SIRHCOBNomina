@@ -22,11 +22,14 @@ Namespace COBAEV
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function Elimina(ByVal pId As Integer, ByVal ArregloAuditoria() As String) As Boolean
+        Public Function Elimina(ByVal pId As Integer, ByVal pIdUsuarioElimina As Integer, ByVal ArregloAuditoria() As String) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@Id", SqlDbType.Int)}
+                Dim Prms As SqlParameter() = {New SqlParameter("@Id", SqlDbType.Int),
+                    New SqlParameter("@IdUsuarioDel", SqlDbType.Int)
+                }
 
                 Prms(0).Value = pId
+                Prms(1).Value = pIdUsuarioElimina
 
                 Return _DataCOBAEV.RunProc("SP_DControlIncidencias", Prms, DataCOBAEV.BD.Nomina, ArregloAuditoria)
             Catch ex As Exception

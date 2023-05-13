@@ -427,10 +427,10 @@ Partial Class AdministracionPlazasWork
                 If Request.Params("TipoOperacion") = "0" Then
                     .IdPlaza = CInt(Request.Params("IdPlaza"))
                     vl_IdPlaza = CInt(Request.Params("IdPlaza"))
-                    .Actualizar(CType(ddlQnaInicio.SelectedValue, Short), CType(ddlQnaTermino.SelectedValue, Short), CType(Session("ArregloAuditoria"), String()))
+                    .Actualizar(CType(ddlQnaInicio.SelectedValue, Short), CType(ddlQnaTermino.SelectedValue, Short), 0, CType(Session("ArregloAuditoria"), String()))
                     oCadena.ActualizaMov(CInt(ddlCadenas.SelectedValue), CInt(Request.Params("IdPlaza")), Session("Login"), "A", CType(Session("ArregloAuditoria"), String()))
                 ElseIf Request.Params("TipoOperacion") = "1" Then
-                    IdPlazaCreada = .AgregaNueva(Request.Params("RFCEmp"), CType(ddlQnaInicio.SelectedValue, Short), CType(ddlQnaTermino.SelectedValue, Short), 1, CType(Session("ArregloAuditoria"), String()))
+                    IdPlazaCreada = .AgregaNueva(Request.Params("RFCEmp"), CType(ddlQnaInicio.SelectedValue, Short), CType(ddlQnaTermino.SelectedValue, Short), 0, 1, CType(Session("ArregloAuditoria"), String()))
                     vl_IdPlaza = IdPlazaCreada
                     oCadena.AgregaMovs(CInt(ddlCadenas.SelectedValue), IdPlazaCreada, Session("Login"), "A", CType(Session("ArregloAuditoria"), String()))
                 ElseIf Request.Params("TipoOperacion") = "2" Then

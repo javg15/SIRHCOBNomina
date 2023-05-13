@@ -581,6 +581,12 @@ Partial Class wfControlIncidenciasPorEmp
         Dim gvr As GridViewRow
         Dim drIncidencia As DataRow
         Dim dtIncidencia As DataTable
+        Dim drUsuario As DataRow
+        Dim oUsuario As New Usuario
+
+        oUsuario.Login = Session("Login")
+        drUsuario = oUsuario.ObtenerPorLogin()
+
 
         ib = CType(sender, ImageButton)
         gvr = ib.NamingContainer
@@ -632,7 +638,7 @@ Partial Class wfControlIncidenciasPorEmp
         ' Exit Sub
         'End If
 
-        oIncidencia.Elimina(lblIdIncidencia.Text, CType(Session("ArregloAuditoria"), String()))
+        oIncidencia.Elimina(lblIdIncidencia.Text, drUsuario("IdUsuario"), CType(Session("ArregloAuditoria"), String()))
 
         BindgvResumenIncidencias(drIncidencia("NomCortoTipoIncidencia").ToString)
         Select Case drIncidencia("NomCortoTipoIncidencia").ToString

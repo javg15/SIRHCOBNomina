@@ -333,6 +333,10 @@ Partial Class WebControls_wucSearchEmps2
         pnlPopUp.Visible = False
     End Sub
 
+    Public Sub PerformClick_BtnSearch()
+        BtnSearch_Click(BtnSearch, Nothing)
+    End Sub
+
     'Protected Sub lnkbtnrfc_DataBinding(sender As Object, e As System.EventArgs)
     '    Dim lb As LinkButton = sender
     '    Dim sm As ScriptManager = CType(Me.Page.Master.FindControl("ScriptManager1"), ScriptManager)

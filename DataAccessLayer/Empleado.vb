@@ -580,7 +580,7 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function AgregaNueva(ByVal RFCEmp As String, ByVal QnaVigIni As Short, ByVal QnaVigFin As Short, ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Integer
+        Public Function AgregaNueva(ByVal RFCEmp As String, ByVal QnaVigIni As Short, ByVal QnaVigFin As Short, ByVal IdPlazaOcup As Integer, ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String) As Integer
             Try
                 Dim Prms As SqlParameter() = {
                             New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
@@ -609,7 +609,9 @@ Namespace COBAEV.Empleados
                             New SqlParameter("@IdPlantelAdscripReal", SqlDbType.SmallInt),
                             New SqlParameter("@IdEsquemaPago", SqlDbType.TinyInt),
                             New SqlParameter("@IdPuesto", SqlDbType.SmallInt),
-                            New SqlParameter("@FechaFinLSGS", SqlDbType.DateTime)}
+                            New SqlParameter("@FechaFinLSGS", SqlDbType.DateTime),
+                            New SqlParameter("@IdPlazaOcup", SqlDbType.Int)
+                            }
 
                 If TipoOperacion = 0 Then
                     Prms(0).Value = DBNull.Value
@@ -666,6 +668,8 @@ Namespace COBAEV.Empleados
                     Prms(26).Value = CDate(_FechaFinLSGS)
                 End If
 
+                Prms(27).Value = IdPlazaOcup
+
                 _DataCOBAEV.RunProc("SP_IoUEmpleadosPlazas", Prms, Nomina, ArregloAuditoria)
 
                 Return CInt(Prms(18).Value) 'Retornamos el IdPlaza creado
@@ -673,8 +677,8 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function Actualizar(ByVal QnaVigIni As Integer, ByVal QnaVigFin As Integer, ByVal ArregloAuditoria() As String) As Integer
-            Return AgregaNueva(String.Empty, QnaVigIni, QnaVigFin, 0, ArregloAuditoria)
+        Public Function Actualizar(ByVal QnaVigIni As Integer, ByVal QnaVigFin As Integer, ByVal IdPlazaOcup As Integer, ByVal ArregloAuditoria() As String) As Integer
+            Return AgregaNueva(String.Empty, QnaVigIni, QnaVigFin, IdPlazaOcup, 0, ArregloAuditoria)
         End Function
         Public Function Actualizar2(ByVal QnaVigIni As Integer, ByVal QnaVigFin As Integer, ByVal ArregloAuditoria() As String) As Integer
             Return AgregaNueva2(String.Empty, QnaVigIni, QnaVigFin, 0, ArregloAuditoria)
