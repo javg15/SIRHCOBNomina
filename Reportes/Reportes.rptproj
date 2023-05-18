@@ -159,6 +159,10 @@
       <FullPath>Copia de PagomaticopORbANCO.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>Copy of ReporteQnalDeClavesDesgPorEmp.rdl</Name>
+      <FullPath>Copy of ReporteQnalDeClavesDesgPorEmp.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>DecAnualResumenPercDeducPorEmp.rdl</Name>
       <FullPath>DecAnualResumenPercDeducPorEmp.rdl</FullPath>
     </ProjectItem>
@@ -499,6 +503,10 @@
       <FullPath>ReporteQnalDeClavesDesgPorEmp.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>ReporteQnalDeClavesDesgPorEmpAcumulado.rdl</Name>
+      <FullPath>ReporteQnalDeClavesDesgPorEmpAcumulado.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>ReporteQnalDeEmpsPorPlantel.rdl</Name>
       <FullPath>ReporteQnalDeEmpsPorPlantel.rdl</FullPath>
     </ProjectItem>
@@ -591,6 +599,10 @@
       <FullPath>RptBaseParaFaltas.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>rptCFDI.rdl</Name>
+      <FullPath>rptCFDI.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>rptConciliacionPagosRecFin.rdl</Name>
       <FullPath>rptConciliacionPagosRecFin.rdl</FullPath>
     </ProjectItem>
@@ -645,10 +657,6 @@
     <ProjectItem>
       <Name>VisorExpedientes.rdl</Name>
       <FullPath>VisorExpedientes.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
-      <Name>rptCFDI.rdl</Name>
-      <FullPath>rptCFDI.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

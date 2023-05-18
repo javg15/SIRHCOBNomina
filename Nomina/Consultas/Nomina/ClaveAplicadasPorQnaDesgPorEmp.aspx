@@ -70,6 +70,42 @@
         </tr>
         <tr>
             <td style="text-align: left">
+                <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+                    <ContentTemplate>
+                        <table>
+                            <tr>
+                                <td>
+                                    <asp:Label ID="Label2" runat="server" SkinID="SkinLblNormal">Seleccione reporte</asp:Label>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="height: 21px">
+                                    <asp:DropDownList ID="ddlReportes" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
+                                        OnSelectedIndexChanged="ddlReportes_SelectedIndexChanged">
+                                        <asp:ListItem Value="39">CATALOGO DE DEDUCCIONES VIGENTES</asp:ListItem>
+                                        <asp:ListItem Value="38">CATALOGO DE PERCEPCIONES VIGENTES</asp:ListItem>
+                                        <asp:ListItem Value="18">CLAVES APLICADAS POR QUINCENA</asp:ListItem>
+                                        <asp:ListItem Value="165">CLAVES APLICADAS POR QUINCENA (Acumulado)</asp:ListItem>
+                                        <asp:ListItem Value="17">DESCUENTOS APLICADOS DE TERCEROS INSTITUCIONALES</asp:ListItem>
+                                    </asp:DropDownList>
+                                </td>
+                                <td style="height: 21px">
+                                </td>
+                            </tr>
+                            
+                        </table>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ddlReportes" EventName="SelectedIndexChanged" />
+                        <asp:AsyncPostBackTrigger ControlID="ddlClaves" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left">
                 <asp:Panel ID="pnlTipoClave" runat="server" Font-Names="Verdana" Font-Size="X-Small"
                     GroupingText="Seleccione tipo de clave">
                     <br />
@@ -103,31 +139,12 @@
                 </asp:UpdatePanel>
             </td>
         </tr>
+        
         <tr>
             <td style="text-align: left">
-                <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+                <asp:UpdatePanel ID="UpdatePanel7" runat="server">
                     <ContentTemplate>
                         <table>
-                            <tr>
-                                <td>
-                                    <asp:Label ID="Label2" runat="server" SkinID="SkinLblNormal">Seleccione reporte</asp:Label>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="height: 21px">
-                                    <asp:DropDownList ID="ddlReportes" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
-                                        OnSelectedIndexChanged="ddlReportes_SelectedIndexChanged">
-                                        <asp:ListItem Value="39">CATALOGO DE DEDUCCIONES VIGENTES</asp:ListItem>
-                                        <asp:ListItem Value="38">CATALOGO DE PERCEPCIONES VIGENTES</asp:ListItem>
-                                        <asp:ListItem Value="18">CLAVES APLICADAS POR QUINCENA</asp:ListItem>
-                                        <asp:ListItem Value="17">DESCUENTOS APLICADOS DE TERCEROS INSTITUCIONALES</asp:ListItem>
-                                    </asp:DropDownList>
-                                </td>
-                                <td style="height: 21px">
-                                </td>
-                            </tr>
                             <tr>
                                 <td colspan="2" style="text-align: left">
                                     <br />
@@ -139,10 +156,6 @@
                             </tr>
                         </table>
                     </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ddlReportes" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="ddlClaves" EventName="SelectedIndexChanged" />
-                    </Triggers>
                 </asp:UpdatePanel>
             </td>
         </tr>

@@ -135,6 +135,27 @@ Partial Class ClaveAplicadasPorQnaDesgPorEmp
                         + "?TipoConcepto=D" _
                         + "&ImpresionGeneral=False" _
                         + "&IdReporte=" + Me.ddlReportes.SelectedValue + "','CatalogoDeduccionesVigentes'); return false;"
+            Case "165"
+                Me.ibImprimir.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportes.aspx" _
+                        + "?IdPercDeduc=" + Me.ddlClaves.SelectedValue _
+                        + "&IdQuincena=" + lblIdQuincena.Text _
+                        + "&PercDeduc=" + Me.ddlTipoClave.SelectedValue _
+                        + "&IdRol=" + dr2("IdRol").ToString _
+                        + "&ConsultaZonasEsp=" + dr2("ConsultaZonasEspecificas").ToString _
+                        + "&ConsPlantelesEsp=" + dr2("ConsultaPlantelesEspecificos").ToString _
+                        + "&IdUsuario=" + drUsr("IdUsuario").ToString _
+                        + "&IdReporte=" + Me.ddlReportes.SelectedValue + "','" + Me.ddlTipoClave.SelectedValue + "_" + Me.ddlClaves.SelectedValue + "_" + lblIdQuincena.Text.Replace("-", "_") + "'); return false;"
+                Me.ibImprimirExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
+                        + "?IdPercDeduc=" + Me.ddlClaves.SelectedValue _
+                        + "&IdQuincena=" + lblIdQuincena.Text _
+                        + "&PercDeduc=" + Me.ddlTipoClave.SelectedValue _
+                        + "&IdRol=" + dr2("IdRol").ToString _
+                        + "&ConsultaZonasEsp=" + dr2("ConsultaZonasEspecificas").ToString _
+                        + "&ConsPlantelesEsp=" + dr2("ConsultaPlantelesEspecificos").ToString _
+                        + "&IdUsuario=" + drUsr("IdUsuario").ToString _
+                        + "&IdReporte=" + Me.ddlReportes.SelectedValue + "','" + Me.ddlTipoClave.SelectedValue + "_" + Me.ddlClaves.SelectedValue + "_" + lblIdQuincena.Text.Replace("-", "_") + "'); return false;"
+                Me.ibImprimir.Enabled = True
+                Me.ibImprimirExcel.Enabled = True
         End Select
     End Sub
     Private Sub LlenaDDL(ByVal ddl As DropDownList, ByVal TextField As String, ByVal ValueField As String, ByVal dt As DataTable, ByVal SelectedValue As String)

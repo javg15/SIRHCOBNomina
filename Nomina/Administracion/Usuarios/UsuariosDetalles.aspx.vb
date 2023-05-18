@@ -46,6 +46,8 @@ Partial Class Administracion_Usuarios_UsuariosDetalles
                 If oUsr.EsSuperAdmin(Session("Login")) Then
                     txtbxPassw1.Enabled = True
                     txtbxPassw2.Enabled = True
+                    RFVPassw1.Enabled = False
+                    RFVPassw2.Enabled = False
                     CVPassw.Enabled = True
                 Else
                     txtbxPassw1.Enabled = False

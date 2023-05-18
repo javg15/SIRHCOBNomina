@@ -532,6 +532,21 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+
+        Public Function ObtenPorIdConOcup() As DataRow
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@Quincena", SqlDbType.Int),
+                                                New SqlParameter("@IdPlaza", SqlDbType.Int)}
+                Prms(0).Value = DBNull.Value
+                Prms(1).Value = DBNull.Value
+                Prms(2).Value = Me._IdPlaza
+                Return _DataCOBAEV.RunProc("SP_SEmpleadosPlazasConOcup", Prms, DataCOBAEV.Tipoconsulta.DataRow, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
         Public Function ObtenUltimaOcupada(ByVal RFC As String) As DataRow
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13)}

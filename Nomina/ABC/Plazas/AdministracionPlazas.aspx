@@ -255,6 +255,7 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
+                    
                     <asp:TemplateField HeaderText="Categor&#237;a">
                         <EditItemTemplate>
                                     <asp:DropDownList ID="ddlCategoriasE" runat="server" SkinID="SkinDropDownList">
@@ -289,7 +290,7 @@
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Id"><ItemTemplate><asp:Label ID="lblIdPlazas" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Plazas Base">
+                                                <asp:TemplateField HeaderText="Plazas Base" Visible="false">
                                                                     <HeaderStyle HorizontalAlign="Left" />
                                                                     <ItemStyle HorizontalAlign="Left" />
                                                                     <ItemTemplate>
@@ -405,7 +406,7 @@
                                         </asp:GridView>
                                         <asp:TextBox  ID="hidIdPlazas" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" />
                                         <asp:TextBox  ID="hidIdTitular" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" text="0"/>
-                                        <asp:RequiredFieldValidator ID="CVIdPlazas" runat="server"
+                                        <asp:RequiredFieldValidator ID="CVIdPlazas" runat="server" 
                                                 ControlToValidate="hidIdPlazas" Display="Dynamic" ErrorMessage="Seleccione la plaza a asignar como titular"
                                                 ToolTip="Seleccione la plaza a asignar como titular" Type="Text"
                                                 ValidationGroup="gpoGuarda" >*</asp:RequiredFieldValidator>
@@ -536,6 +537,7 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
+                    
                     <asp:TemplateField HeaderText="Motivo de baja">
                         <EditItemTemplate>
                             <asp:DropDownList ID="ddlMotivosDeBaja" runat="server" SkinID="SkinDropDownList">
