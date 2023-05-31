@@ -14,6 +14,13 @@
             </td>
         </tr>
         <tr>
+            <td align="center" valign="middle">
+                <asp:ImageButton ID="ImageButton1" runat="server"  ImageUrl="~/Imagenes/Zoom.png" />
+                <asp:LinkButton ID="lnDirectoPlazasBase" runat="server" Font-Bold="False"
+                    SkinID="SkinLinkButton" ToolTip="Ver estrucutra de plazas" ForeColor="#003300" PostBackUrl="../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1" CausesValidation="False">Consultar estructura de plazas BASE</asp:LinkButton>
+            </td>
+        </tr>
+        <tr>
             <td style="vertical-align: top; width: 100%; height: 100%; text-align: left">
                 <table style="width: 100%">
                     <tr>
@@ -78,7 +85,7 @@
                                                         Width="100%">
                                                         <asp:GridView ID="gvPlazasBase" runat="server" EmptyDataText="El empleado no tiene registradas plazas base"
                                                             Height="100%" ShowFooter="True" SkinID="SkinGridViewEmpty" Width="100%" 
-                                                            AutoGenerateColumns="False">
+                                                            AutoGenerateColumns="False" EnableViewState="true">
                                                             <Columns>
                                                                 <asp:TemplateField HeaderText="Plazas Base">
                                                                     <HeaderStyle HorizontalAlign="Left" />

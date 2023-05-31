@@ -5,6 +5,9 @@ Imports DataAccessLayer.COBAEV.Administracion
 Imports BusinessRulesLayer.COBAEV.Validaciones
 Imports DataAccessLayer.COBAEV.Plazas
 Imports DataAccessLayer.COBAEV
+Imports ClosedXML.Excel
+Imports System.IO
+Imports System.Drawing
 
 Partial Class ABCPlazasBase
     Inherits System.Web.UI.Page
@@ -80,34 +83,45 @@ Partial Class ABCPlazasBase
 
             Dim oPlantel As New Plantel
             Dim dr, drE As DataRow
+            Dim drTE As DataRow
             Dim oEmpleadoPlaza As New EmpleadoPlazas
             Dim oEmpleado As New Empleado
             Dim oQna As New Quincenas
 
-            oEmpleadoPlaza.IdPlaza = CType(Request.Params("IdPlaza"), Integer)
+            If Not (Request.Params("IdPlaza") Is Nothing) Then
+                oEmpleadoPlaza.IdPlaza = CType(Request.Params("IdPlaza"), Integer)
 
-            dr = oEmpleadoPlaza.ObtenPorId()
-            oEmpleadoPlaza.IdEmp = CType(dr("IdEmp"), Integer)
-            drE = oEmpleado.BuscarPorId(oEmpleadoPlaza.IdEmp)
-            lblNombreEmpleado.Text = drE("NumEmp") + " - " + drE("ApellidoPaterno") + " " + drE("ApellidoMaterno") + " " + drE("Nombre")
-            hidIdEmpleado.Value = CType(dr("IdEmp"), Integer)
+                dr = oEmpleadoPlaza.ObtenPorId()
 
-            If Request.Params("TipoOperacion") = "1" Then 'Insertar
-                'BindgvPlazasHistoria()
-                BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
-                BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")))
-                BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
+                oEmpleadoPlaza.IdEmp = CType(dr("IdEmp"), Integer)
+                drE = oEmpleado.BuscarPorId(oEmpleadoPlaza.IdEmp)
+                lblNombreEmpleado.Text = drE("NumEmp") + " - " + drE("ApellidoPaterno") + " " + drE("ApellidoMaterno") + " " + drE("Nombre")
+                hidIdEmpleado.Value = CType(dr("IdEmp"), Integer)
+                drTE = oEmpleadoPlaza.ObtenUltimaOcupada(drE("RFC"))
+
+                If Request.Params("TipoOperacion") = "1" Then 'Insertar
+                    'BindgvPlazasHistoria()
+                    BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
+                    BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")), drTE("IdPlazaTipoOcupacion"))
+                    BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
+                    BindddlQuincenas(ddlQnaInicio, 0)
+                    BindddlEstatusPlaza(ddlPlazasEstatus, 0)
+                    BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0)
+
+                ElseIf Request.Params("TipoOperacion") = "0" Then 'Actualizar 
+                    BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
+                    BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")), drTE("IdPlazaTipoOcupacion"))
+                    BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
+                    BindddlQuincenas(ddlQnaInicio, 0)
+                    BindddlEstatusPlaza(ddlPlazasEstatus, 0)
+                    BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0)
+                End If
+            Else
+                BindddlPlanteles(ddlPlantelesEmpleado, 0)
+                BindddlCategorias(ddlCategorias, 0, 0)
+                BindddlPlanteles(ddlPlantelesPlaza, 0)
                 BindddlQuincenas(ddlQnaInicio, 0)
                 BindddlEstatusPlaza(ddlPlazasEstatus, 0)
-                BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0)
-
-            ElseIf Request.Params("TipoOperacion") = "0" Then 'Actualizar 
-                BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
-                BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")))
-                BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
-                BindddlQuincenas(ddlQnaInicio, 0)
-                BindddlEstatusPlaza(ddlPlazasEstatus, 0)
-                BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0)
             End If
         End If
     End Sub
@@ -118,10 +132,15 @@ Partial Class ABCPlazasBase
         LlenaDDL(ddlQuincenas, "Quincena", "IdQuincena", oQna.ObtenListasCalculadas(), IdSelected)
     End Sub
 
-    Private Sub BindddlCategorias(ByVal ddlCategorias As DropDownList, ByVal IdSelected As Integer)
+    Private Sub BindddlCategorias(ByVal ddlCategorias As DropDownList, ByVal IdSelected As Integer, ByVal IdTipoEmp As Integer)
         Dim oCategoria As New Categoria
 
-        LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenActivasBasificables(), IdSelected)
+        If IdTipoEmp = 2 Then
+            LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenTodas(), IdSelected)
+        Else
+            LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenActivasBasificables(), IdSelected)
+        End If
+
     End Sub
 
     Private Sub BindddlPlanteles(ByVal ddlPlantelesEmpleado As DropDownList, ByVal IdSelected As Integer)
@@ -152,6 +171,7 @@ Partial Class ABCPlazasBase
         ddl.Items.Add(New ListItem("-", "0"))
         ddl.Items.Add(New ListItem("Base", "3"))
         ddl.Items.Add(New ListItem("Provisional", "4"))
+        ddl.Items.Add(New ListItem("Confianza", "10"))
         ddl.SelectedValue = IdSelected
     End Sub
 
@@ -221,11 +241,20 @@ Partial Class ABCPlazasBase
         End Try
     End Sub
 
-    Protected Sub gvDatos_RowCommand(sender As Object, e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles gvDatos.RowCommand
-        Dim lblTitular As Label = CType(gvDatos.Rows(e.CommandArgument).FindControl("lblTitular"), Label)
+    Protected Sub gvDatos_SelectedIndexChanging(ByVal sender As Object, ByVal e As GridViewSelectEventArgs)
 
-        hidIdPlazas.Text = CType(gvDatos.Rows(e.CommandArgument).FindControl("lblIdPlazas"), Label).Text
-        hidIdTitular.Text = lblTitular.Text
+        Dim gvDatos As GridView = CType(Me.pnlDatos.FindControl("gvDatos"), GridView)
+        Dim hidIdPlazas As TextBox = CType(Me.pnlDatos.FindControl("hidIdPlazas"), TextBox)
+
+        If e.NewSelectedIndex >= 0 Then
+            Dim lblIdPlazas As Label = CType(gvDatos.Rows(e.NewSelectedIndex).FindControl("lblIdPlazas"), Label)
+            Dim lblTitular As Label = CType(gvDatos.Rows(e.NewSelectedIndex).FindControl("lblTitular"), Label)
+
+            hidIdPlazas.Text = lblIdPlazas.Text
+            hidIdTitular.Text = lblTitular.Text
+        Else
+            hidIdPlazas.Text = "0"
+        End If
     End Sub
 
     Protected Sub ddlQuincenaInicio_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -239,10 +268,13 @@ Partial Class ABCPlazasBase
         Dim oEmpleado As New Empleado
         Dim hidIdEmpleado As HiddenField = CType(Me.dvPlaza.FindControl("hidIdEmpleado"), HiddenField)
 
-        drE = oEmpleado.BuscarPorId(CType(hidIdEmpleado.Value, Integer))
+        If hidIdEmpleado.Value <> "" Then
+            drE = oEmpleado.BuscarPorId(CType(hidIdEmpleado.Value, Integer))
 
-
-        BindDatos(ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, drE("NumEmp"), 0)
+            BindDatos(ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, drE("NumEmp"), 0)
+        Else
+            BindDatos(ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, 0, 0)
+        End If
     End Sub
 
     Protected Sub ddlCategorias_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -345,13 +377,35 @@ Partial Class ABCPlazasBase
     Protected Sub gvDatos_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvDatos.RowDataBound
         Dim lblTitular As Label = CType(e.Row.FindControl("lblTitular"), Label)
         Dim lblNombreEmpleado As Label = CType(Me.dvPlaza.FindControl("lblNombreEmpleado"), Label)
+        Dim lnSelectPlaza As ImageButton = CType(e.Row.FindControl("lnSelectPlaza"), ImageButton)
+        Dim lblDescEstatusPlaza As Label = CType(e.Row.FindControl("lblDescEstatusPlaza"), Label)
+        Dim lblIdPlazas As Label = CType(e.Row.FindControl("lblIdPlazas"), Label)
+        Dim lblIdPlazas_Ocup As Label = CType(e.Row.FindControl("lblIdPlazas_Ocup"), Label)
+        Dim gvPlazas As GridView = CType(dvPlaza.FindControl("gvPlazas"), GridView)
+        Dim ibHistorial As ImageButton = CType(e.Row.FindControl("ibHistorial"), ImageButton)
 
         If lblTitular Is Nothing = False Then
-            If lblNombreEmpleado.Text = lblTitular.Text Then
-                lblTitular.BackColor = Drawing.Color.LightGreen
+            ibHistorial.OnClientClick = "javascript:abreVentMediaScreen('../../Consultas/Plazas/PlazasEstructura.aspx?idPlazaOcup=" + lblIdPlazas.Text + "','PlazasHistorial');"
+            If lblTitular.Text = "" And (Not (Request.Params("IdPlaza") Is Nothing)) Then
+                lnSelectPlaza.Visible = True
+                e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
+                e.Row.Attributes.Add("OnMouseOut", "Resaltar_Off(this);")
+
+            Else
+                lnSelectPlaza.Enabled = False
+                lnSelectPlaza.Width = 1
+                lnSelectPlaza.Height = 1
+                lnSelectPlaza.ToolTip = "."
+                e.Row.Attributes.Add("OnMouseOver", "")
+                e.Row.Attributes.Add("OnMouseOut", "")
+                If lblNombreEmpleado.Text = lblTitular.Text Then
+                    lblTitular.BackColor = Drawing.Color.LightGreen
+                    e.Row.BackColor = Drawing.Color.Orange
+                End If
             End If
         End If
     End Sub
+
     Protected Sub grdHistorial_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles grdHistorial.RowCommand
         Try
             Select Case e.CommandName
@@ -376,4 +430,5 @@ Partial Class ABCPlazasBase
     Protected Sub grdHistorial_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles grdHistorial.RowDataBound
 
     End Sub
+
 End Class

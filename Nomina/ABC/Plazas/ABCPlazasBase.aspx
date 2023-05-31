@@ -84,7 +84,7 @@
                 </asp:DetailsView>
                     <asp:Panel ID="pnlDatos" runat="server" Width="100%" GroupingText="Plazas">
                                         <asp:GridView ID="gvDatos" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe información."
-                                            PageSize="20" SkinID="SkinGridView" Width="100%" >
+                                            PageSize="20" SkinID="SkinGridView" Width="100%" OnSelectedIndexChanging="gvDatos_SelectedIndexChanging">
                                             <EmptyDataTemplate>
                                                 <div>
                                                     <asp:Label ID="lblMsjSinPermisosEco" runat="server" Text="No existe información."></asp:Label>
@@ -92,7 +92,12 @@
                                             </EmptyDataTemplate>
                                             <EmptyDataRowStyle Font-Italic="True" />
                                             <Columns>
-                                                <asp:CommandField ButtonType="Image" SelectImageUrl="~/Imagenes/Select.png" ShowSelectButton="True"><ItemStyle HorizontalAlign="Center" /></asp:CommandField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:ImageButton ID="lnSelectPlaza" runat="server" ImageUrl="~/Imagenes/Select.png"
+                                                            CausesValidation="false" ToolTip="Seleccionar registro" CommandName="Select" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Id"><ItemTemplate><asp:Label ID="lblIdPlazas" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Centro de Adscripción (Ubicación física del empleado)"><ItemTemplate><asp:Label ID="lbl2" runat="server" Text='<%# Bind("DescPlantelEmpleado") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Centro de Adscripción al que pertenece la Plaza (Utilizado para pago)"><ItemTemplate><asp:Label ID="lblPlazaEmp" runat="server" Text='<%# Bind("DescPlantelPlaza") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
@@ -102,6 +107,12 @@
                                                 <asp:TemplateField HeaderText="Quincena Termino"><ItemTemplate><asp:Label ID="lblQuinTermino" runat="server" Text='<%# Bind("QuinTermino") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Empleado Titular"><ItemTemplate><asp:Label ID="lblTitular" runat="server" Text='<%# Bind("NombT") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Observaciones"><ItemTemplate><asp:Label ID="lblObservaciones" runat="server" Text='<%# Bind("Observaciones") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:ImageButton ID="ibHistorial" runat="server" ImageUrl="~/Imagenes/detalles.gif" ToolTip="Ver historial." CommandName="HistorialPlaza" CommandArgument='<%# Container.DataItemIndex%>' />
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" />
+                                                </asp:TemplateField>
                                             </Columns>
                                         </asp:GridView>
                                         <asp:TextBox  ID="hidIdPlazas" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" />
@@ -115,7 +126,7 @@
                                                 ToolTip="La plaza ya tiene titular" 
                                                 ValidationGroup="gpoGuarda" ValueToCompare="0">*</asp:CompareValidator>
                                     </asp:Panel>
-                    <asp:Panel ID="TitlePanelHistorial" runat="server" BorderColor="White" BorderStyle="Solid"
+                                    <asp:Panel ID="TitlePanelHistorial" runat="server" BorderColor="White" BorderStyle="Solid"
                                                                 BorderWidth="1px" CssClass="collapsePanelHeader" Width="100%" Visible="False">
                                                                 <asp:Image ID="img1PlazasBase" runat="server" ImageUrl="~/Imagenes/expand_blue.jpg" />
                                                                 &nbsp;Historial de Plazas base 

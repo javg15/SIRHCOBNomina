@@ -122,11 +122,17 @@
                                     <td><asp:Label ID="lblMinutosIni" runat="server" CssClass="pLabel" Text="Minutos:"></asp:Label></td>
                                     <td><asp:DropDownList ID="ddlMinutosIni" runat="server" CssClass="textEntry" AutoPostBack="True">
                                                         <asp:ListItem Value="00"></asp:ListItem>
+                                                        <asp:ListItem Value="05"></asp:ListItem>
                                                         <asp:ListItem Value="10"></asp:ListItem>
+                                                        <asp:ListItem Value="15"></asp:ListItem>
                                                         <asp:ListItem Value="20"></asp:ListItem>
+                                                        <asp:ListItem Value="25"></asp:ListItem>
                                                         <asp:ListItem Value="30"></asp:ListItem>
+                                                        <asp:ListItem Value="35"></asp:ListItem>
                                                         <asp:ListItem Value="40"></asp:ListItem>
+                                                        <asp:ListItem Value="45"></asp:ListItem>
                                                         <asp:ListItem Value="50"></asp:ListItem>
+                                                        <asp:ListItem Value="55"></asp:ListItem>
                                                         </asp:DropDownList></td>
                                 </tr>
                                 <tr>
@@ -161,11 +167,17 @@
                                     <td><asp:Label ID="lblMinutosFin" runat="server" CssClass="pLabel" Text="Minutos:"></asp:Label></td>
                                     <td><asp:DropDownList ID="ddlMinutosFin" runat="server" CssClass="textEntry" AutoPostBack="True">
                                                         <asp:ListItem Value="00"></asp:ListItem>
+                                                        <asp:ListItem Value="05"></asp:ListItem>
                                                         <asp:ListItem Value="10"></asp:ListItem>
+                                                        <asp:ListItem Value="15"></asp:ListItem>
                                                         <asp:ListItem Value="20"></asp:ListItem>
+                                                        <asp:ListItem Value="25"></asp:ListItem>
                                                         <asp:ListItem Value="30"></asp:ListItem>
+                                                        <asp:ListItem Value="35"></asp:ListItem>
                                                         <asp:ListItem Value="40"></asp:ListItem>
+                                                        <asp:ListItem Value="45"></asp:ListItem>
                                                         <asp:ListItem Value="50"></asp:ListItem>
+                                                        <asp:ListItem Value="55"></asp:ListItem>
                                                         </asp:DropDownList></td>
                                 </tr>
                                 <tr>

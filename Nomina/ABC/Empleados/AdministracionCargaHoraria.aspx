@@ -223,7 +223,10 @@
                                     </asp:DropDownList>
                                     <asp:CheckBox ID="chbLimitarASemAntMismoTipo_E" runat="server" AutoPostBack="True"
                                         OnCheckedChanged="chbLimitarASemAntMismoTipo_E_CheckedChanged" SkinID="SkinCheckBox"
-                                        Text="Limitar automáticamente" /></EditItemTemplate>
+                                        Text="Limitar automáticamente" />
+                                    <asp:CheckBox ID="chbInactivasRenuncia" runat="server" SkinID="SkinCheckBox"
+                                        Text="Inactivas por renuncia"/>
+                                </EditItemTemplate>
                                 <InsertItemTemplate>
                                     <asp:DropDownList ID="ddlQnaFin_I" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
                                         OnSelectedIndexChanged="ddlQnaFin_I_SelectedIndexChanged">

@@ -273,8 +273,10 @@
                         <EditItemTemplate>
                         </EditItemTemplate>
                         <InsertItemTemplate>
+                            <asp:CheckBox ID="chkMostrarTodas" runat="server" SkinID="SkinCheckBox" Text="Mostrar todas" AutoPostBack="True" OnCheckedChanged="chkMostrarTodas_CheckedChanged"/>
                             <asp:GridView ID="gvPlazas" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe plazas disponibles."
-                                            PageSize="20" SkinID="SkinGridView" Width="100%" OnRowDataBound="gvPlazas_RowDataBound" OnSelectedIndexChanged="gvPlazas_SelectedIndexChanged" OnDataBound="gvPlazas_DataBound" OnSelectedIndexChanging="gvPlazas_SelectedIndexChanging" >
+                                            PageSize="20" SkinID="SkinGridView" Width="100%" OnRowDataBound="gvPlazas_RowDataBound" OnSelectedIndexChanged="gvPlazas_SelectedIndexChanged" OnDataBound="gvPlazas_DataBound" 
+                                                OnSelectedIndexChanging="gvPlazas_SelectedIndexChanging" >
                                             <EmptyDataTemplate>
                                                 <div>
                                                     <asp:Label ID="lblMsjSinPlazas" runat="server" Text="No existe plazas disponibles."></asp:Label>

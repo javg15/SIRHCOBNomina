@@ -82,6 +82,17 @@ Namespace COBAEV.Plazas
 #End Region
 
 #Region "Clase SMP_Plazas: Métodos públicos"
+        Public Function ObtenHistorial(ByVal idPlazaOcup As String) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)}
+
+                Prms(0).Value = "&idplaza=" + idPlazaOcup
+
+                Return _DataCOBAEV.RunProc("SP_SPlazasOcupHistorial", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
         Public Function ObtenEstructura(ByVal idPlantel As String _
                                             , ByVal idCategoria As String _
                                             , ByVal idTipoPlaza As String _
@@ -309,7 +320,7 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenPlazasOcupacion(ByVal IdPlantel As Integer, ByVal IdCategoria As Integer, ByVal TipoOcupacion As Integer, ByVal SoloDisponibles As Byte, ByVal IdPlaza As Integer, ByVal IdQuincena As Integer) As DataTable
+        Public Function ObtenPlazasOcupacion(ByVal IdPlantel As Integer, ByVal IdCategoria As Integer, ByVal TipoOcupacion As Integer, ByVal SoloDisponibles As Byte, ByVal IdPlaza As Integer, ByVal IdQuincena As Integer, ByVal RFCEmpleado As String) As DataTable
             Try
                 Dim Prms As SqlParameter() = {
                                                 New SqlParameter("@IdPlantel", SqlDbType.Int),
@@ -317,7 +328,8 @@ Namespace COBAEV.Plazas
                                                 New SqlParameter("@TipoOcupacion", SqlDbType.Int),
                                                 New SqlParameter("@SoloDisponibles", SqlDbType.Bit),
                                                 New SqlParameter("@IdPlaza", SqlDbType.Int),
-                                                New SqlParameter("@IdQuincena", SqlDbType.Int)
+                                                New SqlParameter("@IdQuincena", SqlDbType.Int),
+                                                New SqlParameter("@RFCEmpleado", SqlDbType.VarChar, 13)
                                               }
 
                 Prms(0).Value = IdPlantel
@@ -326,6 +338,7 @@ Namespace COBAEV.Plazas
                 Prms(3).Value = SoloDisponibles
                 Prms(4).Value = IdPlaza
                 Prms(5).Value = IdQuincena
+                Prms(6).Value = RFCEmpleado
 
                 Return _DataCOBAEV.RunProc("SP_SSMP_PlazaOcupacionPlazas", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
             Catch ex As Exception

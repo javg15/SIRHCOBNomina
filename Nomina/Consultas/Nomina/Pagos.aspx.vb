@@ -522,18 +522,18 @@ Partial Class Consultas_Nomina_Pagos
                     Else
                         Me.LblMsjSobreQna3.Visible = False
                     End If
-                        'Si la quincena fue pagada como adeudo en nómina normal
-                    ElseIf ddlQnasPagadas.SelectedItem.Text.Contains("(A)") Then
-                        'Determinamos en que quincena fue pagada realmente
-                        dt = oQnaPagadaComoAdeudo.ObtenQnaRealDePago(RFCEmp, CShort(Me.ddlQnasPagadas.SelectedValue))
-                        Me.LblMsjSobreQna3.Text = "<br />QUINCENA PAGADA COMO ADEUDO EN LA QUINCENA: " + dt.Rows(0).Item("Quincena").ToString
-                        Me.LblMsjSobreQna3.Visible = True
-                        'Me.btnImprimirReciboPago.Visible = False
-                        Me.btnPrintReciboPagoConImg.Visible = False
-                    Else
-                        Me.LblMsjSobreQna3.Visible = False
-                        'Me.btnImprimirReciboPago.Visible = True
-                    End If
+                    'Si la quincena fue pagada como adeudo en nómina normal
+                ElseIf ddlQnasPagadas.SelectedItem.Text.Contains("(A)") Then
+                    'Determinamos en que quincena fue pagada realmente
+                    dt = oQnaPagadaComoAdeudo.ObtenQnaRealDePago(RFCEmp, CShort(Me.ddlQnasPagadas.SelectedValue))
+                    Me.LblMsjSobreQna3.Text = "<br />QUINCENA PAGADA COMO ADEUDO EN LA QUINCENA: " + dt.Rows(0).Item("Quincena").ToString
+                    Me.LblMsjSobreQna3.Visible = True
+                    'Me.btnImprimirReciboPago.Visible = False
+                    Me.btnPrintReciboPagoConImg.Visible = False
+                Else
+                    Me.LblMsjSobreQna3.Visible = False
+                    'Me.btnImprimirReciboPago.Visible = True
+                End If
 
                 dt = oNomina.ObtenSiExisteDevolucion(RFCEmp, CShort(Me.ddlQnasPagadas.SelectedValue))
                 If dt.Rows.Count > 0 Then
@@ -608,8 +608,8 @@ Partial Class Consultas_Nomina_Pagos
             pnl2.Visible = True
 
             lbDetallePago.Visible = Me.ddlQnasPagadas.SelectedValue <> "-1" And Me.ddlQnasPagadas.SelectedValue <> String.Empty
-            lbDetallePago.OnClientClick = "javascript:abreVentanaImpresion('DetallePago.aspx?TipoOperacion=4" + _
-                            "&Adeudo=NO&IdQuincena=" + ddlQnasPagadas.SelectedValue + _
+            lbDetallePago.OnClientClick = "javascript:abreVentanaImpresion('DetallePago.aspx?TipoOperacion=4" +
+                            "&Adeudo=NO&IdQuincena=" + ddlQnasPagadas.SelectedValue +
                             "&RFCEmp=" + oEmp.RFC + "','" + oEmp.RFC + "_" + Me.ddlQnasPagadas.SelectedValue + "'); return false;"
 
 
@@ -617,33 +617,35 @@ Partial Class Consultas_Nomina_Pagos
             Dim dr As DataRow
             Dim oNominaN As New Nomina
             Dim vlIdQuincena As Short = CShort(ddlQnasPagadas.SelectedValue)
-            Dim ruta = ConfigurationManager.AppSettings("RutaFacturas")
+            Dim ruta = ConfigurationManager.AppSettings("ServerFacturas")
 
             If RFCEmp <> "" Then
                 'dt = oQna.ObtenEmpsParaNotificacionDePagoViaEmail(vlIdQuincena, vlNumEmp)
                 dt = oNominaN.ObtenEmpsParaEnvioDeComprobantesDePago(vlIdQuincena, 0, 0, 0, RFCEmp)
-                dr = dt.Rows(0)
-                If ddlQnasPagadas.SelectedItem.Text.IndexOf("-") = -1 Then
-                    dr = oTimbrado.ObtenRegistro(dr("NumEmp"), ddlAños.SelectedValue.Substring(2, 2) + ddlQnasPagadas.SelectedItem.Text.Substring(4, 2) + "00")
-                Else
-                    dr = oTimbrado.ObtenRegistro(dr("NumEmp"), ddlAños.SelectedValue.Substring(2, 2) + ddlQnasPagadas.SelectedItem.Text.Replace("-", "").Substring(4, 4))
-                End If
+                If dt.Rows.Count > 0 Then
+                    dr = dt.Rows(0)
+                    If ddlQnasPagadas.SelectedItem.Text.IndexOf("-") = -1 Then
+                        dr = oTimbrado.ObtenRegistro(dr("NumEmp"), ddlAños.SelectedValue.Substring(2, 2) + ddlQnasPagadas.SelectedItem.Text.Substring(4, 2) + "00")
+                    Else
+                        dr = oTimbrado.ObtenRegistro(dr("NumEmp"), ddlAños.SelectedValue.Substring(2, 2) + ddlQnasPagadas.SelectedItem.Text.Replace("-", "").Substring(4, 4))
+                    End If
 
 
-                btnCFDIpdf.Visible = False
+                    btnCFDIpdf.Visible = False
                     btnCFDIxml.Visible = False
                     If Not dr Is Nothing Then
                         If dr("RutaArchivos") <> "" Then
                             Dim rutaSub = dr("RutaArchivos").Substring(dr("RutaArchivos").Length - 14, 10)
                             ruta = ruta + "20" + rutaSub.Substring(0, 2) + "/" + rutaSub.Substring(2, 2) + "/" + rutaSub.Substring(4, 2) + "/" + dr("RutaArchivos")
 
-                        btnCFDIpdf.OnClientClick = "javascript:abreVentanaImpresion('" + ruta.Replace(".xml", ".pdf") + "'); return false;"
-                        btnCFDIxml.OnClientClick = "javascript:abreVentanaImpresion('" + ruta + "'); return false;"
-                        btnCFDIpdf.Visible = True
+                            btnCFDIpdf.OnClientClick = "javascript:abreVentanaImpresion('" + ruta.Replace(".xml", ".pdf") + "'); return false;"
+                            btnCFDIxml.OnClientClick = "javascript:abreVentanaImpresion('" + ruta + "'); return false;"
+                            btnCFDIpdf.Visible = True
                             btnCFDIxml.Visible = True
                         End If
                     End If
                 End If
+            End If
         Catch ex As Exception
             Throw (New System.Exception(ex.Message.ToString))
         End Try

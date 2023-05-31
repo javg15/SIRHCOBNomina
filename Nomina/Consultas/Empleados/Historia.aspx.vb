@@ -34,6 +34,24 @@ Partial Class Consultas_Empleados_Historia
             '    gvPlazasBase.DataSource = Nothing
             'End If
 
+            'Titulos
+
+            If gvPlazasBase.Rows.Count > 0 Then
+                Dim lblDescEstatusPlaza As Label = CType(gvPlazasBase.Rows(0).FindControl("lblDescEstatusPlaza"), Label)
+
+                For i = 0 To gvPlazasBase.Rows.Count - 1
+                    If lblDescEstatusPlaza.Text.ToUpper = "CONFIANZA" Then
+                        gvPlazasBase.Columns(0).HeaderText = "Plaza"
+                        gvPlazasBase.Columns(1).Visible = False
+                    Else
+                        gvPlazasBase.Columns(0).HeaderText = "Plazas Base"
+                        gvPlazasBase.Columns(1).Visible = True
+                        Exit For
+                    End If
+                Next
+            End If
+            gvPlazasBase.DataBind()
+
             gvPlazasVigentes.DataBind()
 
             'En caso de que el empleado tenga plazas vigentes, deshabilitamos la opción de agregar más plazas

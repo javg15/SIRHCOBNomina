@@ -148,6 +148,7 @@ Partial Class AdministracionCargaHoraria
             Dim ddlMotivoInterinato As DropDownList = Nothing
             Dim chbLimitarASemAntMismoTipo As CheckBox = Nothing
             Dim chkbxFrenteGrupo As CheckBox = Nothing
+            Dim chbInactivasRenuncia As CheckBox = Nothing
 
             Dim BtnNewSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnNewSearch"), Button)
             Dim BtnCancelSearch As Button = CType(Me.WucBuscaEmpleados1.FindControl("BtnCancelSearch"), Button)
@@ -197,6 +198,7 @@ Partial Class AdministracionCargaHoraria
                 ddlFchIni = CType(Me.dvCargaHoraria.FindControl("ddlFchIni_E"), DropDownList)
                 ddlFchFin = CType(Me.dvCargaHoraria.FindControl("ddlFchFin_E"), DropDownList)
                 chbLimitarASemAntMismoTipo = CType(Me.dvCargaHoraria.FindControl("chbLimitarASemAntMismoTipo_E"), CheckBox)
+                chbInactivasRenuncia = CType(Me.dvCargaHoraria.FindControl("chbInactivasRenuncia"), CheckBox)
                 chkbxFrenteGrupo = CType(Me.dvCargaHoraria.FindControl("chkbxFrenteGrupo"), CheckBox)
                 If Request.Params("TipoOperacion") = "4" Then
                     CType(Me.dvCargaHoraria.FindControl("btnGuardar"), Button).Visible = False
@@ -233,10 +235,18 @@ Partial Class AdministracionCargaHoraria
                 LlenaDDL(ddlFchFin, "Fecha", "Fecha", oQna.ObtenFechasPorQuincena(CShort(ddlQnaFin.SelectedValue), "F"), String.Empty)
             ElseIf Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "1" Or Request.Params("TipoOperacion") = "4" Then
                 Me.MultiView1.SetActiveView(viewHoras)
+                chbInactivasRenuncia.Visible = False
 
                 If Request.Params("TipoOperacion") = "0" Then
                     HoraSePuedeModificar = oHora.SePuedeModificar(CInt(Request.Params("IdHora")), CShort(Request.Params("IdSemestre")))
                     HoraSePuedeLimitarAuto = oHora.SePuedeLimitarAuto(CInt(Request.Params("IdHora")), CShort(Request.Params("IdSemestre")))
+
+                    chbInactivasRenuncia.Checked = False
+                    If ddlQnaFin.SelectedValue <> "32767" And ddlQnaFin.SelectedValue <> "" Then
+                        chbInactivasRenuncia.Visible = True
+                    Else
+                        chbInactivasRenuncia.Visible = False
+                    End If
                 End If
 
                 LlenaDDL(ddlPlazas, "Plazas", "IdPlaza", oEmp.ObtenPlazasVigentes(), dr("IdPlaza"))
@@ -345,6 +355,10 @@ Partial Class AdministracionCargaHoraria
                     chbLimitarASemAntMismoTipo.Enabled = False
                     ddlNominas.Enabled = False
                     chkbxFrenteGrupo.Enabled = False
+
+                    If (Not (chbInactivasRenuncia Is Nothing)) Then
+                        chbInactivasRenuncia.Enabled = False
+                    End If
 
                     CType(Me.dvCargaHoraria.FindControl("btnGuardar"), Button).Visible = False
                 End If
@@ -514,6 +528,7 @@ Partial Class AdministracionCargaHoraria
             Dim ddlNombramiento As DropDownList = Nothing
             Dim ddlMotivoInterinato As DropDownList = Nothing
             Dim WucBuscaEmpleados2 As WebControls_wucSearchEmps2 = Nothing
+            Dim chbInactivasRenuncia As CheckBox = Nothing
             If Me.dvCargaHoraria.CurrentMode = DetailsViewMode.Insert Then
                 ddlTipoHora = CType(Me.dvCargaHoraria.FindControl("ddlTipoHoraI"), DropDownList)
                 ddlNombramiento = CType(Me.dvCargaHoraria.FindControl("ddlNombramientoI"), DropDownList)
@@ -542,6 +557,7 @@ Partial Class AdministracionCargaHoraria
                 ddlQnaFin = CType(Me.dvCargaHoraria.FindControl("ddlQnaFin_E"), DropDownList)
                 ddlFchIni = CType(Me.dvCargaHoraria.FindControl("ddlFchIni_E"), DropDownList)
                 ddlFchFin = CType(Me.dvCargaHoraria.FindControl("ddlFchFin_E"), DropDownList)
+                chbInactivasRenuncia = CType(Me.dvCargaHoraria.FindControl("chbInactivasRenuncia"), CheckBox)
             End If
 
             Dim ddlPlazas As DropDownList = CType(Me.dvCargaHoraria.FindControl("ddlPlazas"), DropDownList)
@@ -574,6 +590,8 @@ Partial Class AdministracionCargaHoraria
                 .IdQuincenaFin = CShort(ddlQnaFin.SelectedValue)
                 .FchIni = CDate(ddlFchIni.SelectedItem.Text)
                 .FchFin = CDate(ddlFchFin.SelectedItem.Text)
+
+
                 If Request.Params("TipoOperacion") = "0" Then
                     Dim HoraSePuedeModificar As Boolean
                     Dim oHora As New Hora
@@ -583,6 +601,10 @@ Partial Class AdministracionCargaHoraria
                     End If
 
                     .SoloModifQnaFin = HoraSePuedeModificar
+                    .InactivasRenuncia = False
+                    If (Not (chbInactivasRenuncia Is Nothing)) Then
+                        .InactivasRenuncia = chbInactivasRenuncia.Checked
+                    End If
 
                     '.IdTipoHora = CType(CType(Me.dvCargaHoraria.FindControl("ddlTipoHoraE"), DropDownList).SelectedValue, Byte)
                     If Request.Params("AsociarInterinas") Is Nothing Then
@@ -724,12 +746,20 @@ Partial Class AdministracionCargaHoraria
     Protected Sub ddlQnaFin_E_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ddlQnaFin As DropDownList = Nothing
         Dim ddlFchFin As DropDownList = Nothing
+        Dim chbInactivasRenuncia As CheckBox = Nothing
         Dim oQna As New Quincenas
         If Me.dvCargaHoraria.DefaultMode = DetailsViewMode.Edit Then
             ddlQnaFin = CType(Me.dvCargaHoraria.FindControl("ddlQnaFin_E"), DropDownList)
             ddlFchFin = CType(Me.dvCargaHoraria.FindControl("ddlFchFin_E"), DropDownList)
+            chbInactivasRenuncia = CType(Me.dvCargaHoraria.FindControl("chbInactivasRenuncia"), CheckBox)
+            chbInactivasRenuncia.Checked = False
+            If ddlQnaFin.SelectedValue <> 32767 Then
+                chbInactivasRenuncia.Visible = True
+            Else
+                chbInactivasRenuncia.Visible = False
+            End If
         ElseIf Me.dvCargaHoraria.DefaultMode = DetailsViewMode.Insert Then
-            ddlQnaFin = CType(Me.dvCargaHoraria.FindControl("ddlQnaFin_I"), DropDownList)
+                ddlQnaFin = CType(Me.dvCargaHoraria.FindControl("ddlQnaFin_I"), DropDownList)
             ddlFchFin = CType(Me.dvCargaHoraria.FindControl("ddlFchFin_I"), DropDownList)
         End If
         LlenaDDL(ddlFchFin, "Fecha", "Fecha", oQna.ObtenFechasPorQuincena(CShort(ddlQnaFin.SelectedValue), "F"), String.Empty)

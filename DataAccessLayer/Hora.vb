@@ -9,9 +9,17 @@ Namespace COBAEV.InformacionAcademica
         Private _DataCOBAEV As New DataCOBAEV
         Private _FchIni, _FchFin As DateTime
         Private _RFCEmp As String
-        Private _SoloModifQnaFin As Boolean
+        Private _SoloModifQnaFin, _InactivasRenuncia As Boolean
 #End Region
 #Region "Propiedades Publicas"
+        Public Property InactivasRenuncia() As Boolean
+            Get
+                Return _InactivasRenuncia
+            End Get
+            Set(ByVal Value As Boolean)
+                _InactivasRenuncia = Value
+            End Set
+        End Property
         Public Property SoloModifQnaFin() As Boolean
             Get
                 Return _SoloModifQnaFin
@@ -459,26 +467,27 @@ Namespace COBAEV.InformacionAcademica
         End Function
         Public Function Actualizar(ByVal TipoOperacion As Byte, ByVal ArregloAuditoria() As String, Optional ByVal AsociarInterinas As Boolean = False) As Boolean
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdHora", SqlDbType.Int), _
-                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdPlaza", SqlDbType.Int), _
-                                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdMateria", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdGrupo", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdTipoHora", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdNombramiento", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdTipoNomina", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdEstatusHora", SqlDbType.TinyInt), _
-                                            New SqlParameter("@Horas", SqlDbType.TinyInt), _
-                                            New SqlParameter("@IdQuincenaIni", SqlDbType.SmallInt), _
-                                            New SqlParameter("@IdQuincenaFin", SqlDbType.SmallInt), _
-                                            New SqlParameter("@FchIni", SqlDbType.DateTime), _
-                                            New SqlParameter("@FchFin", SqlDbType.DateTime), _
-                                            New SqlParameter("@AsociarInterinas", SqlDbType.Bit), _
-                                            New SqlParameter("@IdMotivoHoraInterina", SqlDbType.TinyInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdHora", SqlDbType.Int),
+                                            New SqlParameter("@TipoOperacion", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdPlaza", SqlDbType.Int),
+                                            New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdMateria", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdGrupo", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdTipoHora", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdNombramiento", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdTipoNomina", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdSemestre", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdEstatusHora", SqlDbType.TinyInt),
+                                            New SqlParameter("@Horas", SqlDbType.TinyInt),
+                                            New SqlParameter("@IdQuincenaIni", SqlDbType.SmallInt),
+                                            New SqlParameter("@IdQuincenaFin", SqlDbType.SmallInt),
+                                            New SqlParameter("@FchIni", SqlDbType.DateTime),
+                                            New SqlParameter("@FchFin", SqlDbType.DateTime),
+                                            New SqlParameter("@AsociarInterinas", SqlDbType.Bit),
+                                            New SqlParameter("@IdMotivoHoraInterina", SqlDbType.TinyInt),
                                             New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
-                                            New SqlParameter("@SoloModifQnaFin", SqlDbType.Bit)}
+                                            New SqlParameter("@SoloModifQnaFin", SqlDbType.Bit),
+                                            New SqlParameter("@InactivasRenuncia", SqlDbType.Bit)}
                 Prms(0).Value = _IdHora
                 Prms(1).Value = TipoOperacion
                 Prms(2).Value = _IdPlaza
@@ -503,6 +512,7 @@ Namespace COBAEV.InformacionAcademica
                 Prms(17).Value = Me.IdMotivoHoraInterina
                 Prms(18).Value = Me._RFCEmp
                 Prms(19).Value = Me._SoloModifQnaFin
+                Prms(20).Value = Me._InactivasRenuncia
                 Return _DataCOBAEV.RunProc("SP_IoUHoras", Prms, DataCOBAEV.BD.Nomina, ArregloAuditoria)
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))

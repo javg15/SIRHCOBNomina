@@ -1,4 +1,4 @@
-<%@ Page Language="VB" MasterPageFile="~/MasterPageSesionIniciada.master"
+<%@ Page Language="VB" MasterPageFile="~/MasterPageBlanca.master"
     AutoEventWireup="false" CodeFile="PlazasEstructura.aspx.vb" Inherits="PlazasEstructura"
     Title="COBAEV - Nómina - Empleados, control de incidencias" StylesheetTheme="SkinFile" %>
 
@@ -19,100 +19,6 @@
     <asp:UpdatePanel ID="UpdPnlMain" runat="server">
         <ContentTemplate>
             
-            <asp:Panel ID="pnlBusquedaControles" runat="server" GroupingText="Parámetros de busqueda"
-                        HorizontalAlign="Left" DefaultButton="btnMostrar">
-                    <table class="style1" style="width: 100%">
-                        <tr>
-                            <td style="text-align: left; width: 250px;" valign="middle">
-                                <asp:Label ID="lblPlantel" runat="server" SkinID="SkinLblNormal" Text="Plantel"></asp:Label>
-                            </td>
-                            <td style="width: 600px; text-align: left;" valign="middle">
-                                <asp:DropDownList ID="ddlPlanteles" runat="server" SkinID="SkinDropDownList">
-                                </asp:DropDownList>
-                            </td>
-                            <td style="width: 10px; text-align: left;" valign="middle">
-                                <asp:ImageButton ID="ibCleanPlanteles" runat="server" 
-                                    ImageUrl="~/Imagenes/Eliminar.png" ToolTip="Limpiar" OnClick="ibCleanPlanteles_Click" style="width: 15px" />
-                            </td>
-                            <td style="width: 1000px; text-align: left;" valign="middle">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; width: 250px;" valign="middle">
-                                <asp:Label ID="lblCategoria" runat="server" SkinID="SkinLblNormal" Text="Categoría"></asp:Label>
-                            </td>
-                            <td style="width: 600px; text-align: left;" valign="middle">
-                                <asp:DropDownList ID="ddlCategorias" runat="server" SkinID="SkinDropDownList">
-                                </asp:DropDownList>
-                            </td>
-                            <td style="width: 10px; text-align: left;" valign="middle">
-                                <asp:ImageButton ID="ibCleanCategoria" runat="server" 
-                                    ImageUrl="~/Imagenes/Eliminar.png" ToolTip="Limpiar" OnClick="ibCleanCategoria_Click" />
-                            </td>
-                            <td style="width: 1000px; text-align: left;" valign="middle">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; width: 250px;" valign="middle">
-                                <asp:Label ID="lblTipoPlaza" runat="server" SkinID="SkinLblNormal" Text="Tipo de plaza"></asp:Label>
-                            </td>
-                            <td style="width: 600px; text-align: left;" valign="middle">
-                                <asp:DropDownList ID="ddlTipoPlaza" runat="server" SkinID="SkinDropDownList">
-                                </asp:DropDownList>
-                            </td>
-                            <td style="width: 10px; text-align: left;" valign="middle">
-                                <asp:ImageButton ID="ibCleanTipoPlaza" runat="server" 
-                                    ImageUrl="~/Imagenes/Eliminar.png" ToolTip="Limpiar" OnClick="ibCleanTipoPlaza_Click"  />
-                            </td>
-                            <td style="width: 1000px; text-align: left;" valign="middle">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; width: 250px;" valign="middle">
-                                <asp:Label ID="lblEstatusPlaza" runat="server" SkinID="SkinLblNormal" Text="Estatus de plaza"></asp:Label>
-                            </td>
-                            <td style="width: 600px; text-align: left;" valign="middle">
-                                <asp:DropDownList ID="ddlEstatusPlaza" runat="server" SkinID="SkinDropDownList">
-                                </asp:DropDownList>
-                            </td>
-                            <td style="width: 10px; text-align: left;" valign="middle">
-                                <asp:ImageButton ID="ibCleanEstatusPlaza" runat="server" 
-                                    ImageUrl="~/Imagenes/Eliminar.png" ToolTip="Limpiar" OnClick="ibCleanEstatusPlaza_Click" />
-                            </td>
-                            <td style="width: 1000px; text-align: left;" valign="middle">
-                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: left; width: 250px;" valign="middle">
-                                <asp:Label ID="Label1" runat="server" SkinID="SkinLblNormal" Text="Empleado"></asp:Label>
-                            </td>
-                            <td style="width: 600px; text-align: left;" valign="middle">
-                                <uc1:wucBuscaEmpleados ID="WucBuscaEmpleados1" runat="server" EnableViewState="True" Visible="True" />
-                            </td>
-                            <td>
-                                <asp:ImageButton ID="ibCleanEmpleado" runat="server" 
-                                    ImageUrl="~/Imagenes/Eliminar.png" ToolTip="Limpiar" OnClick="ibCleanEmpleado_Click"  />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td colspan="2">
-                                <asp:Label ID="lblMsjSinFiltros" runat="server" Text="** Elija al menos un filtro de busqueda para mostrar la información" ForeColor="#990000" Visible="False" Font-Size="12"></asp:Label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td><td></td>
-                            <td style="text-align: right; width: 250px;" valign="middle">
-                                <asp:Button ID="btnMostrar" runat="server" SkinID="SkinBoton" Text="Mostrar información" BackColor="#EEEEEE" Height="50px"  />
-                            </td>
-                        </tr>
-                        
-                    </table>
-                    </asp:Panel>
                      <ajaxToolkit:CollapsiblePanelExtender ID="CPEPlazasEstructura" runat="Server" SuppressPostBack="true"
                         CollapsedImage="~/Imagenes/expand_blue.jpg" ExpandedImage="~/Imagenes/collapse_blue.jpg"
                         ImageControlID="Image2" CollapsedText="(Mostrar detalles...)" ExpandedText="(Ocultar detalles...)"
@@ -123,89 +29,135 @@
                         <asp:Panel ID="ContentPanelPlazasEstructura" runat="server" Width="100%" CssClass="collapsePanel">
                             <asp:Panel ID="pnlDatos" runat="server" Width="100%" GroupingText="Plazas"
                                 >
-                                <asp:GridView ID="gvDatos" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe información de permisos económicos en el año seleccionado."
-                                    PageSize="20" SkinID="SkinGridView" Width="100%" >
-                                    <EmptyDataTemplate>
-                                        <div>
-                                            <asp:Label ID="lblMsjSinPermisosEco" runat="server" Text="No existe información de permisos económicos en el año/mes seleccionado."></asp:Label>
-                                        </div>
-                                    </EmptyDataTemplate>
-                                    <EmptyDataRowStyle Font-Italic="True" />
-                                    <Columns>
-                                        <asp:CommandField ButtonType="Image" SelectImageUrl="~/Imagenes/Select.png" ShowSelectButton="True">
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:CommandField>
-                                        <asp:TemplateField HeaderText="ID">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblNo" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Plantel">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl2" runat="server" Text='<%# Bind("DescPlantelPlaza") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Categoría">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl3" runat="server" Text='<%# Bind("DescCategoria") %>'></asp:Label></ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Función">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl4" runat="server" Text='<%# Bind("Funcion") %>'></asp:Label></ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Estatus (Base)">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl5" runat="server" Text='<%# Bind("DescEstatusPlazaBase") %>'></asp:Label></ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        
-                                        <asp:TemplateField HeaderText="Empleado Titular">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl6" runat="server" Text='<%# Bind("NombT") %>'></asp:Label></ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Ultimo Nomb de Titular">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl7" runat="server" Text='<%# Bind("infoT") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Inicio (Base)">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl9" runat="server" Text='<%# Bind("QuinInicio") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Término (Base)">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl10" runat="server" Text='<%# Bind("QuinTermino") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Empleado Ocupante">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lbl8" runat="server" Text='<%# Bind("NombO") %>'></asp:Label>
-                                            </ItemTemplate>
-                                            <HeaderStyle HorizontalAlign="Center" />
-                                            <ItemStyle HorizontalAlign="Center" />
-                                        </asp:TemplateField>
-                                        
-                                        
-                                    </Columns>
-                                </asp:GridView>
+                                <asp:GridView ID="gvDatos" runat="server" EmptyDataText="El empleado no tiene registradas plazas base"
+                                        Height="100%" ShowFooter="True" SkinID="SkinGridViewEmpty" Width="100%" 
+                                        AutoGenerateColumns="False" EnableViewState="true">
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Plazas Base">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+
+                                                    <asp:Label ID="lblCvePlazaTipo" runat="server" Text='<%# Bind("CvePlazaTipo") %>' ToolTip='<%# Bind("ToolTipPlazaTipo") %>'></asp:Label>                                                                        
+                                                    <asp:Label ID="lblGuion1" runat="server" Text="-"></asp:Label>
+                                                    <asp:Label ID="lblstrHrsJornada" runat="server" Text='<%# Bind("ClavePlantel")%>' ToolTip='<%# Bind("DescPlantel") %>'></asp:Label>
+                                                    <asp:Label ID="lblGuion2" runat="server" Text="-"></asp:Label>
+                                                    <asp:Label ID="lblZonaEco" runat="server" Text='<%# Bind("ZonaEco") %>' ToolTip='<%# Bind("ToolTipZonaEco") %>'></asp:Label>                                                                        
+                                                    <asp:Label ID="lblGuion3" runat="server" Text="-"></asp:Label>
+                                                    <asp:Label ID="lblCvePlazaDiferenciador" runat="server" Text='<%# Bind("CvePlazaDiferenciador") %>' ToolTip='<%# Bind("ToolTipPlazaDiferenciador") %>'></asp:Label>
+                                                    <asp:Label ID="lblGuion4" runat="server" Text="-"></asp:Label>
+                                                    <asp:Label ID="lblCveCategoCOBACH" runat="server" Text='<%# Bind("CveCategoCOBACH") %>' ToolTip='<%# Bind("ToolTipCatego") %>'></asp:Label>
+                                                                
+                                                    <asp:Label ID="lblGuion5" runat="server" Text="-"></asp:Label>
+                                                    <asp:Label ID="lblConsecutivo" runat="server" Text='<%# Bind("Consecutivo") %>' ToolTip="Consecutivo de la plaza"></asp:Label>
+                                                    <asp:Label ID="lblSeparador" runat="server" Text="==>"></asp:Label>
+                                                    <asp:Label ID="lblDescCatego" runat="server" Text='<%# Bind("DescCatego") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Estatus (Base)">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblEstatusBase" runat="server" Text='<%# Bind("DescEstatusPlazaBase") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="RFC (Ocupante)">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lnkbtnrfc" runat="server" CommandName="CmdRFC" Text='<%#DataBinder.Eval(Container, "dataitem.RFCEmpOcup") %>' ToolTip="Click en el RFC para seleccionar al empleado para aplicarle operaciones."></asp:LinkButton>
+                                                    <ajaxToolkit:ConfirmButtonExtender ID="CBEEmpSel" runat="server" ConfirmText="¿Seleccionar empleado para consultas posteriores?"
+                                                        TargetControlID="lnkbtnrfc">
+                                                    </ajaxToolkit:ConfirmButtonExtender>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="IdPlaza" Visible="false">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblIdPlaza" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="CURP (Ocupante)" Visible="false">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblCURP" runat="server" Text='<%# Bind("CURPEmpOcup") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Apellido paterno (Ocupante)" Visible="false">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblApePat" runat="server" Text='<%# Bind("ApePatEmpOcup") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Apellido materno (Ocupante)" Visible="false">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblApeMat" runat="server" Text='<%# Bind("ApeMatEmpOcup") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Nombre (Ocupante)" Visible="false">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblNombre" runat="server" Text='<%# Bind("NomEmpOcup") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Núm. Emp (Ocupante)" Visible="false">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblNumEmp" runat="server" Text='<%# Bind("NumEmpOcup") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Nombre (Ocupante)">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblNombreCompleto" runat="server" Text='<%# Bind("OcupanteActual") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Tipo ocupación">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblDescEstatusPlaza" runat="server" Text='<%# Bind("DescEstatusPlaza") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Plantel">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblPlantel" runat="server" Text='<%# Bind("Plantel") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Quincena Inicio">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblQuinIni" runat="server" Text='<%# Bind("QuinIni") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Quincena Fin">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblQuinFin" runat="server" Text='<%# Bind("QuinFin") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Motivo Baja">
+                                                <HeaderStyle HorizontalAlign="Left" />
+                                                <ItemStyle HorizontalAlign="Left" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblMotBaja" runat="server" Text='<%# Bind("MotBaja") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataRowStyle Font-Bold="True" Font-Italic="True" />
+                                    </asp:GridView>
                             </asp:Panel>
                         </asp:Panel>
                     
