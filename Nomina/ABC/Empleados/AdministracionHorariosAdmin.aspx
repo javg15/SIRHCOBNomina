@@ -117,7 +117,6 @@
                                                         <asp:ListItem Value="21"></asp:ListItem>
                                                         <asp:ListItem Value="22"></asp:ListItem>
                                                         <asp:ListItem Value="23"></asp:ListItem>
-                                                        <asp:ListItem Value="24"></asp:ListItem>
                                                         </asp:DropDownList></td>
                                     <td><asp:Label ID="lblMinutosIni" runat="server" CssClass="pLabel" Text="Minutos:"></asp:Label></td>
                                     <td><asp:DropDownList ID="ddlMinutosIni" runat="server" CssClass="textEntry" AutoPostBack="True">
@@ -162,7 +161,6 @@
                                                         <asp:ListItem Value="21"></asp:ListItem>
                                                         <asp:ListItem Value="22"></asp:ListItem>
                                                         <asp:ListItem Value="23"></asp:ListItem>
-                                                        <asp:ListItem Value="24"></asp:ListItem>
                                                         </asp:DropDownList></td>
                                     <td><asp:Label ID="lblMinutosFin" runat="server" CssClass="pLabel" Text="Minutos:"></asp:Label></td>
                                     <td><asp:DropDownList ID="ddlMinutosFin" runat="server" CssClass="textEntry" AutoPostBack="True">

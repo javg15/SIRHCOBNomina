@@ -99,6 +99,15 @@ Partial Class Consultas_Empleados_Historia
 
     Protected Sub Page_LoadComplete(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.LoadComplete
         If Not IsPostBack Then
+            Dim oUsuario As New Usuario
+
+            If oUsuario.EsAdministrador(Session("Login")) Or oUsuario.EsSuperAdmin(Session("Login")) Then
+                pnlConsultaBase.Visible = True
+            Else
+                pnlConsultaBase.Visible = False
+            End If
+
+
             IdPlazaAsignadoParaBase = False
             BindDatos()
         End If

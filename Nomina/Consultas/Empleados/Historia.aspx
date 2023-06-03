@@ -15,9 +15,11 @@
         </tr>
         <tr>
             <td align="center" valign="middle">
-                <asp:ImageButton ID="ImageButton1" runat="server"  ImageUrl="~/Imagenes/Zoom.png" />
-                <asp:LinkButton ID="lnDirectoPlazasBase" runat="server" Font-Bold="False"
-                    SkinID="SkinLinkButton" ToolTip="Ver estrucutra de plazas" ForeColor="#003300" PostBackUrl="../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1" CausesValidation="False">Consultar estructura de plazas BASE</asp:LinkButton>
+                <asp:Panel ID="pnlConsultaBase" runat="server">
+                    <asp:ImageButton ID="ImageButton1" runat="server"  ImageUrl="~/Imagenes/Zoom.png" />
+                    <asp:LinkButton ID="lnDirectoPlazasBase" runat="server" Font-Bold="False"
+                        SkinID="SkinLinkButton" ToolTip="Ver estrucutra de plazas" ForeColor="#003300" PostBackUrl="../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1" CausesValidation="False">Consultar estructura de plazas BASE</asp:LinkButton>
+                </asp:Panel>
             </td>
         </tr>
         <tr>

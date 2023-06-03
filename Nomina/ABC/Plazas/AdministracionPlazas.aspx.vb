@@ -255,7 +255,7 @@ Partial Class AdministracionPlazas
                 'End If
                 '/\ bloque temporal, para que los analistas no vean (operen aun) el apartado de plazas
 
-                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
                 gvPlazas.DataBind()
 
                 Dim hidIdPlazas As TextBox = CType(Me.dvPlaza.FindControl("hidIdPlazas"), TextBox)
@@ -461,7 +461,7 @@ Partial Class AdministracionPlazas
                 End If
 
                 'Plazas base
-                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
                 gvPlazas.DataBind()
 
                 Dim hidIdPlazas As TextBox = CType(Me.dvPlaza.FindControl("hidIdPlazas"), TextBox)
@@ -481,6 +481,8 @@ Partial Class AdministracionPlazas
         Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+
         Dim chkbxInterinoPuro As CheckBox = CType(Me.dvPlaza.FindControl("chkbxInterinoPuro"), CheckBox)
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
@@ -488,9 +490,9 @@ Partial Class AdministracionPlazas
         Dim oSMP_Plaza As New SMP_Plazas
 
         If Not chkbxInterinoPuro.Checked Then
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         Else
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         End If
         gvPlazas.DataBind()
     End Sub
@@ -499,6 +501,7 @@ Partial Class AdministracionPlazas
         Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
         Dim chkbxInterinoPuro As CheckBox = CType(Me.dvPlaza.FindControl("chkbxInterinoPuro"), CheckBox)
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
@@ -506,9 +509,9 @@ Partial Class AdministracionPlazas
         Dim oSMP_Plaza As New SMP_Plazas
 
         If Not chkbxInterinoPuro.Checked Then
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         Else
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         End If
         gvPlazas.DataBind()
     End Sub
@@ -697,6 +700,8 @@ Partial Class AdministracionPlazas
         Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
         Dim ddlPuesto As DropDownList = CType(Me.dvPlaza.FindControl("ddlPuesto"), DropDownList)
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
         Dim oSMP_Plaza As New SMP_Plazas
         Dim oQna As New Quincenas
@@ -710,7 +715,7 @@ Partial Class AdministracionPlazas
                 LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenPosiblesParaPago(CType(Request.Params("IdPlaza"), Integer)))
             End If
         End If
-        gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+        gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         gvPlazas.DataBind()
     End Sub
 
@@ -789,7 +794,10 @@ Partial Class AdministracionPlazas
                 Dim lblIdPlazas_Ocup As Label = CType(e.Row.FindControl("lblIdPlazas_Ocup"), Label)
                 Dim gvPlazas As GridView = CType(dvPlaza.FindControl("gvPlazas"), GridView)
 
-                If lblDescEstatusPlaza.Text.ToUpper = "(VACANTE)" Or lblDescEstatusPlaza.Text.ToUpper = "" Then
+                e.Row.Cells(4).Attributes.Add("style", "white-space: pre-wrap;")
+                e.Row.Cells(13).Attributes.Add("style", "white-space: pre-wrap;")
+
+                If lblDescEstatusPlaza.Text.ToUpper = "(VACANTE)" Or lblDescEstatusPlaza.Text.ToUpper = "-" Then
                     lnSelectPlaza.Visible = True
                     e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
                     e.Row.Attributes.Add("OnMouseOut", "Resaltar_Off(this);")
@@ -816,6 +824,54 @@ Partial Class AdministracionPlazas
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+
+        Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
+
+        Dim tblEsquemaPagoPorDefault As DataTable
+
+        Dim oTipoDeNomina As New TipoDeNomina
+        Dim SelectedValueAnt As String
+        Dim oNomina As New Nomina
+        Dim oPlaza As New SMP_Plazas
+
+
+        SelectedValueAnt = ddlTiposDeNominas.SelectedValue
+        LlenaDDL(ddlTiposDeNominas, "DescFondoPresup", "IdTipoNomina", oTipoDeNomina.ObtenPorCategoria(CShort(ddlCategorias.SelectedValue)))
+
+        tblEsquemaPagoPorDefault = oNomina.getEsquemasDePago(Session("RFCParaCons").ToString, CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue))
+        LlenaDDL(ddlEsquemaPago, "DescEsquemaPago", "IdEsquemaPago", oNomina.getEsquemasDePago(Session("RFCParaCons").ToString, CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue), True), tblEsquemaPagoPorDefault.Rows(0).Item("IdEsquemaPago").ToString)
+
+        'CODIGO AGREGADO POR ALEXIS CORTEZ 01/09/2021'
+        LlenaDDL(ddlPuesto, "Puesto", "IdPuesto", oNomina.ObtenPuestos(CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue), Session("RFCParaCons").ToString))
+        'CODIGO AGREGADO POR ALEXIS CORTEZ 01/09/2021'
+
+        'ddlTiposDeNominas.DataSource = oTipoDeNomina.ObtenPorCategoria(CByte(ddlCategorias.SelectedValue))
+        'ddlTiposDeNominas.DataBind()
+        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+        gvPlazas.DataBind()
+
+        'Para evitar el error de que se quiera asignar un valor a SelectedValue inexistente
+        Try
+            ddlTiposDeNominas.SelectedValue = SelectedValueAnt
+            ddlPlazasTipoOcup_SelectedIndexChanged(sender, e)
+        Catch ex As Exception
+
+        End Try
+
+    End Sub
+
+    Protected Sub ddlSindicatos_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim ddlTiposDeNominas As DropDownList = CType(Me.dvPlaza.FindControl("ddlTiposDeNominas"), DropDownList)
+        Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
+        Dim ddlEsquemaPago As DropDownList = CType(Me.dvPlaza.FindControl("ddlEsquemaPago"), DropDownList)
+        Dim ddlPlanteles As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlanteles"), DropDownList)
+        Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
+        Dim ddlPuesto As DropDownList = CType(Me.dvPlaza.FindControl("ddlPuesto"), DropDownList)
+        Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
+        Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+        Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
 
 
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
@@ -840,7 +896,7 @@ Partial Class AdministracionPlazas
 
         'ddlTiposDeNominas.DataSource = oTipoDeNomina.ObtenPorCategoria(CByte(ddlCategorias.SelectedValue))
         'ddlTiposDeNominas.DataBind()
-        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         gvPlazas.DataBind()
 
         'Para evitar el error de que se quiera asignar un valor a SelectedValue inexistente
@@ -861,6 +917,7 @@ Partial Class AdministracionPlazas
         Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
         Dim ddlEsquemaPago As DropDownList = CType(Me.dvPlaza.FindControl("ddlEsquemaPago"), DropDownList)
         Dim ddlPuesto As DropDownList = CType(Me.dvPlaza.FindControl("ddlPuesto"), DropDownList)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
 
         Dim oCT As New CentroDeTrabajo
         Dim dtPlantelAdscripFisica As DataTable
@@ -902,6 +959,7 @@ Partial Class AdministracionPlazas
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
 
         Dim oCategoria As New Categoria
         Dim drCategoriaHomologada As DataRow
@@ -985,7 +1043,7 @@ Partial Class AdministracionPlazas
         'If Request.Params("TipoOperacion") <> "4" Then
         LlenaDDL(ddlMotivosDeBaja, "MotGralBaja", "IdMotGralBaja", oEmp.ObtenMotivosDeBajaSegunTipoOcupacion(ddlPlazasTipoOcup.SelectedValue))
         'End If
-        gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+        gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         gvPlazas.DataBind()
     End Sub
 
@@ -1089,6 +1147,7 @@ Partial Class AdministracionPlazas
         Dim lblZEPlantelAdscripReal As Label = CType(Me.dvPlaza.FindControl("lblZEPlantelAdscripReal"), Label)
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
         Dim dtPlantelAdscripReal As DataTable
@@ -1102,7 +1161,7 @@ Partial Class AdministracionPlazas
         lblZEPlantelAdscripReal.Text = "Zona económica " + drPlantelAdscripReal("ClaveZonaEco").ToString
 
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
-        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"))
+        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         gvPlazas.DataBind()
     End Sub
 

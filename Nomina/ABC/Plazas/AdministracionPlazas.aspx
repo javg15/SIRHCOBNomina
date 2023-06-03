@@ -163,7 +163,7 @@
         <asp:Panel ID="pnlInfPlaza" runat="server" GroupingText="Información de la plaza asignada o por asignar">
             <asp:DetailsView ID="dvPlaza" runat="server" AutoGenerateRows="False" SkinID="SkinDetailsView"
                 DefaultMode="Insert" Width="100%">
-                <FieldHeaderStyle Width="250px" Wrap="True" />
+                <FieldHeaderStyle Width="200px" Wrap="True" />
                 <Fields>
                     <asp:TemplateField HeaderText="Funci&#243;n">
                         <EditItemTemplate>
@@ -269,13 +269,26 @@
                         <HeaderStyle  HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Sindicato">
+                        <EditItemTemplate>
+                            <asp:DropDownList ID="ddlSindicatos" runat="server" SkinID="SkinDropDownList">
+                            </asp:DropDownList>
+                        </EditItemTemplate>
+                        <InsertItemTemplate>
+                            <asp:DropDownList ID="ddlSindicatos" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
+                                        OnSelectedIndexChanged="ddlSindicatos_SelectedIndexChanged">
+                            </asp:DropDownList>
+                        </InsertItemTemplate>
+                        <HeaderStyle HorizontalAlign="Left" Wrap="False" />
+                        <ItemStyle HorizontalAlign="Left" Wrap="False" />
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Plazas">
                         <EditItemTemplate>
                         </EditItemTemplate>
                         <InsertItemTemplate>
                             <asp:CheckBox ID="chkMostrarTodas" runat="server" SkinID="SkinCheckBox" Text="Mostrar todas" AutoPostBack="True" OnCheckedChanged="chkMostrarTodas_CheckedChanged"/>
                             <asp:GridView ID="gvPlazas" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe plazas disponibles."
-                                            PageSize="20" SkinID="SkinGridView" Width="100%" OnRowDataBound="gvPlazas_RowDataBound" OnSelectedIndexChanged="gvPlazas_SelectedIndexChanged" OnDataBound="gvPlazas_DataBound" 
+                                            PageSize="20" SkinID="SkinGridView" Width="80%" OnRowDataBound="gvPlazas_RowDataBound" OnSelectedIndexChanged="gvPlazas_SelectedIndexChanged" OnDataBound="gvPlazas_DataBound" 
                                                 OnSelectedIndexChanging="gvPlazas_SelectedIndexChanging" >
                                             <EmptyDataTemplate>
                                                 <div>
@@ -320,7 +333,7 @@
                                                                     <HeaderStyle HorizontalAlign="Center" />
                                                                     <ItemStyle HorizontalAlign="Center" />
                                                                     <ItemTemplate>
-                                                                        <asp:Label ID="lblTitular" runat="server" Text='<%# Bind("OcupanteBase") %>'></asp:Label>
+                                                                        <asp:Label ID="lblTitular" runat="server" Text='<%# Bind("OcupanteBase") %>' Width="200px"></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="RFC (Ocupante)" Visible="false">
@@ -372,7 +385,7 @@
                                                                     <HeaderStyle HorizontalAlign="Left" />
                                                                     <ItemStyle HorizontalAlign="Left" />
                                                                     <ItemTemplate>
-                                                                        <asp:Label ID="lblNombre" runat="server" Text='<%# Bind("NomEmpOcup") %>'></asp:Label>
+                                                                        <asp:Label ID="lblNombre" runat="server" Text='<%# Bind("NomEmpOcup") %>' ></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="Núm. Emp (Ocupante)" Visible="false">
@@ -386,14 +399,14 @@
                                                                     <HeaderStyle HorizontalAlign="Left" />
                                                                     <ItemStyle HorizontalAlign="Left" />
                                                                     <ItemTemplate>
-                                                                        <asp:Label ID="lblNombreCompleto" runat="server" Text='<%# Bind("OcupanteActual") %>'></asp:Label>
+                                                                        <asp:Label ID="lblNombreCompleto" runat="server" Text='<%# Bind("OcupanteActual") %>'  Width="200px"></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="Tipo ocupación">
                                                                     <HeaderStyle HorizontalAlign="Left" />
                                                                     <ItemStyle HorizontalAlign="Left" />
                                                                     <ItemTemplate>
-                                                                        <asp:Label ID="lblDescEstatusPlaza" runat="server" Text='<%# Bind("DescEstatusPlaza") %>'></asp:Label>
+                                                                        <asp:Label ID="lblDescEstatusPlaza" runat="server" Text='<%# Bind("OcupanteEstatus") %>'></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="Plantel (Adsc. de plaza)">
@@ -401,6 +414,13 @@
                                                                     <ItemStyle HorizontalAlign="Left" />
                                                                     <ItemTemplate>
                                                                         <asp:Label ID="lblPlantel" runat="server" Text='<%# Bind("Plantel") %>'></asp:Label>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="Sindicato">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                    <ItemTemplate>
+                                                                        <asp:Label ID="lblSindicato" runat="server" Text='<%# Bind("Sindicato") %>'></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="Observaciones" Visible="false">
@@ -426,18 +446,7 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Sindicato">
-                        <EditItemTemplate>
-                            <asp:DropDownList ID="ddlSindicatos" runat="server" SkinID="SkinDropDownList">
-                            </asp:DropDownList>
-                        </EditItemTemplate>
-                        <InsertItemTemplate>
-                            <asp:DropDownList ID="ddlSindicatos" runat="server" SkinID="SkinDropDownList">
-                            </asp:DropDownList>
-                        </InsertItemTemplate>
-                        <HeaderStyle HorizontalAlign="Left" Wrap="False" />
-                        <ItemStyle HorizontalAlign="Left" Wrap="False" />
-                    </asp:TemplateField>
+                    
                     
                     <asp:TemplateField HeaderText="Motivo interinato">
                         <EditItemTemplate>

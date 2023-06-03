@@ -97,14 +97,18 @@ Namespace COBAEV.Plazas
                                             , ByVal idCategoria As String _
                                             , ByVal idTipoPlaza As String _
                                             , ByVal rfcEmp As String _
-                                            , ByVal estatusPlaza As String
+                                            , ByVal estatusPlaza As String _
+                                            , ByVal IdUsuario As String _
+                                            , ByVal IdSindicato As String
                                        ) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)}
 
                 Prms(0).Value = "&idplantel=" + idPlantel + "&idtipoplaza=" + idTipoPlaza _
                         + "&idcategoria=" + idCategoria + "&rfcemp =" + rfcEmp _
-                        + "&estatusplaza=" + estatusPlaza
+                        + "&estatusplaza=" + estatusPlaza _
+                        + "&idsindicato=" + IdSindicato _
+                        + "&idusuario=" + IdUsuario
 
                 Return _DataCOBAEV.RunProc("SP_SPlazasEstructura", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
             Catch ex As Exception
@@ -320,7 +324,7 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenPlazasOcupacion(ByVal IdPlantel As Integer, ByVal IdCategoria As Integer, ByVal TipoOcupacion As Integer, ByVal SoloDisponibles As Byte, ByVal IdPlaza As Integer, ByVal IdQuincena As Integer, ByVal RFCEmpleado As String) As DataTable
+        Public Function ObtenPlazasOcupacion(ByVal IdPlantel As Integer, ByVal IdCategoria As Integer, ByVal TipoOcupacion As Integer, ByVal SoloDisponibles As Byte, ByVal IdPlaza As Integer, ByVal IdQuincena As Integer, ByVal RFCEmpleado As String, ByVal IdSindicato As Integer) As DataTable
             Try
                 Dim Prms As SqlParameter() = {
                                                 New SqlParameter("@IdPlantel", SqlDbType.Int),
@@ -329,7 +333,8 @@ Namespace COBAEV.Plazas
                                                 New SqlParameter("@SoloDisponibles", SqlDbType.Bit),
                                                 New SqlParameter("@IdPlaza", SqlDbType.Int),
                                                 New SqlParameter("@IdQuincena", SqlDbType.Int),
-                                                New SqlParameter("@RFCEmpleado", SqlDbType.VarChar, 13)
+                                                New SqlParameter("@RFCEmpleado", SqlDbType.VarChar, 13),
+                                                New SqlParameter("@IdSindicato", SqlDbType.Int)
                                               }
 
                 Prms(0).Value = IdPlantel
@@ -339,6 +344,7 @@ Namespace COBAEV.Plazas
                 Prms(4).Value = IdPlaza
                 Prms(5).Value = IdQuincena
                 Prms(6).Value = RFCEmpleado
+                Prms(7).Value = IdSindicato
 
                 Return _DataCOBAEV.RunProc("SP_SSMP_PlazaOcupacionPlazas", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
             Catch ex As Exception
