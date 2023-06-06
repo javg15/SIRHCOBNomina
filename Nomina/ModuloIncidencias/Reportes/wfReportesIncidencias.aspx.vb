@@ -108,6 +108,8 @@ Partial Class ReportesIncidencias
             Select Case dr("VariableAsociada").ToString
                 Case "Ejercicio"
                     Valor = ddlAños.SelectedValue
+                Case "Anio"
+                    Valor = ddlAños.SelectedValue
                 Case "NumEmp"
                     Valor = IIf(txtbxNumEmp.Text.Trim <> String.Empty, txtbxNumEmp.Text.Trim, Nothing)
                 Case "IdQuincena"
@@ -154,6 +156,10 @@ Partial Class ReportesIncidencias
                     ibExportPDF.Visible = True
                     'If chbxRptParaEmp.Checked Then ibExportarExcel.Visible = txtbxRFC.Text <> String.Empty
                 Case "163" 'REGISTROS
+                    ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" + strOnClientClick
+                    ibExportarExcel.Visible = True
+
+                Case "166" 'RESUMEN ANUAL DE INCIDENCIAS
                     ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" + strOnClientClick
                     ibExportarExcel.Visible = True
             End Select
@@ -243,10 +249,17 @@ Partial Class ReportesIncidencias
                 chbxRptParaEmp.Visible = True
                 chbxRptParaEmp.Checked = True
 
+                pnlTipoReporte.Visible = chbxRptParaEmp.Checked
                 pnlEmp.Visible = chbxRptParaEmp.Checked
                 wucSearchEmps1.Visible = chbxRptParaEmp.Checked
             Case "163" 'REGISTROS
                 pnlQuincena.Visible = True
+            Case "166" 'RESUMEN ANUAL DE INCIDENCIAS POR EMPLEADO
+                chbxRptParaEmp.Visible = True
+                chbxRptParaEmp.Checked = True
+
+                pnlEmp.Visible = chbxRptParaEmp.Checked
+                wucSearchEmps1.Visible = chbxRptParaEmp.Checked
         End Select
     End Sub
     Private Sub gvReportesSelectedIndexChanged(ByVal gvr As GridViewRow)

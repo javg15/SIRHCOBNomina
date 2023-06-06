@@ -164,9 +164,9 @@
                             <tr>
                                 <td>
                                     
-<asp:Panel ID="pnlEmp" runat="server" Visible="False">
-<table>
-<tr>
+        <asp:Panel ID="pnlTipoReporte" runat="server" Visible="False">
+            <table>
+                <tr>
                                 <td>
                                     <asp:CheckBox ID="chbxRptParaEmp" runat="server" AutoPostBack="True" Enabled="False" SkinID="SkinCheckBox" Text="Imprimir reporte para un empleado específico" />
                                 </td>
@@ -181,15 +181,23 @@
                                     </asp:DropDownList>
                                     <br />
                                     <br />
-                                    
-                                        <uc1:wucSearchEmps ID="wucSearchEmps1" runat="server" Visible="False" />
-                                    
-                                    
                                 </td>
                                 <td>&nbsp;</td>
                             </tr>
-</table>							
-</asp:Panel>
+        </table>
+    </asp:Panel>
+    <asp:Panel ID="pnlEmp" runat="server" Visible="False">
+            <table>
+                    <tr>
+                        <td>
+                                <uc1:wucSearchEmps ID="wucSearchEmps1" runat="server" Visible="False" />
+                                    
+                                    
+                        </td>
+                        <td>&nbsp;</td>
+                    </tr>
+        </table>							
+    </asp:Panel>
                                 </td>
                             </tr>
                             <tr>

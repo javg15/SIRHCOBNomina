@@ -658,6 +658,10 @@
       <Name>VisorExpedientes.rdl</Name>
       <FullPath>VisorExpedientes.rdl</FullPath>
     </ProjectItem>
+    <ProjectItem>
+      <Name>rptResumenIncidenciasXEmp.rdl</Name>
+      <FullPath>rptResumenIncidenciasXEmp.rdl</FullPath>
+    </ProjectItem>
   </Reports>
   <Configurations>
     <Configuration>
