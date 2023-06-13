@@ -186,6 +186,22 @@
                             </tr>
         </table>
     </asp:Panel>
+    <asp:Panel ID="pnlPlantel" runat="server" Visible="False">
+            <table>
+            <tr>
+                <td>
+                    <asp:Label ID="Label1" runat="server" Text='Plantel'></asp:Label>
+                    <br />
+                    <br />
+                    <asp:DropDownList ID="ddlPlantel" runat="server" SkinID="SkinDropDownList"  >
+                    </asp:DropDownList>
+                    <br />
+                    <br />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+    </asp:Panel>
     <asp:Panel ID="pnlEmp" runat="server" Visible="False">
             <table>
                     <tr>

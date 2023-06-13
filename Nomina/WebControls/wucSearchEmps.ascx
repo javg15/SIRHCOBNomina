@@ -50,7 +50,7 @@
                                                 Text="Nueva búsqueda" />
                                             &nbsp;<asp:Button ID="BtnCancelSearch" runat="server" CausesValidation="False" SkinID="SkinBoton"
                                                 Text="Cancelar" ToolTip="Cancelar búsqueda" />
-                                        </td>
+                                            &nbsp;</td>
                                         <td rowspan="7" style="text-align: center; vertical-align:top;" >
                                             <uc1:wucMuestraFoto ID="wucMuestraFoto1" runat="server" />
                                         </td>

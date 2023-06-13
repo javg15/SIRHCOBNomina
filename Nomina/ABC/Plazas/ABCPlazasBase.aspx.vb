@@ -70,6 +70,7 @@ Partial Class ABCPlazasBase
             Me.MultiView1.SetActiveView(Me.viewPlazas)
             Dim ddlPlantelesEmpleado As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesEmpleado"), DropDownList)
             Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
+            Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
             Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
             Dim ddlPlazasEstatus As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasEstatus"), DropDownList)
             Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
@@ -102,24 +103,27 @@ Partial Class ABCPlazasBase
 
                 If Request.Params("TipoOperacion") = "1" Then 'Insertar
                     'BindgvPlazasHistoria()
+                    BindddlZonaEconomica(ddlZonaEconomica, 0)
                     BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
                     BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")), drTE("IdPlazaTipoOcupacion"))
                     BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
                     BindddlQuincenas(ddlQnaInicio, 0)
                     BindddlEstatusPlaza(ddlPlazasEstatus, 0)
                     BindddlSindicato(ddlSindicato, 0)
-                    BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0)
+                    BindDatos(0, CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0)
                 ElseIf Request.Params("TipoOperacion") = "0" Then 'Actualizar 
+                    BindddlZonaEconomica(ddlZonaEconomica, 0)
                     BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
                     BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")), drTE("IdPlazaTipoOcupacion"))
                     BindddlPlanteles(ddlPlantelesPlaza, CInt(dr("IdPlantel")))
                     BindddlQuincenas(ddlQnaInicio, 0)
                     BindddlEstatusPlaza(ddlPlazasEstatus, 0)
                     BindddlSindicato(ddlSindicato, 0)
-                    BindDatos(CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0)
+                    BindDatos(0, CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0)
                 End If
 
             Else
+                BindddlZonaEconomica(ddlZonaEconomica, 0)
                 BindddlPlanteles(ddlPlantelesEmpleado, 0)
                 BindddlCategorias(ddlCategorias, 0, 0)
                 BindddlPlanteles(ddlPlantelesPlaza, 0)
@@ -147,15 +151,23 @@ Partial Class ABCPlazasBase
 
     End Sub
 
+    Private Sub BindddlZonaEconomica(ByVal ddlZonaEconomica As DropDownList, ByVal IdSelected As Integer)
+        Dim oZE As New ZonaEconomica
+        Dim oUsuario As New Usuario
+
+        LlenaDDL(ddlZonaEconomica, "DescZonaEco", "IdZonaEco", oZE.ObtenTodas(), IdSelected)
+    End Sub
+
+
     Private Sub BindddlPlanteles(ByVal ddlPlantelesEmpleado As DropDownList, ByVal IdSelected As Integer)
         Dim oPlantel As New Plantel
         Dim oUsuario As New Usuario
 
-        If oUsuario.EsAdministrador(Session("Login")) Or oUsuario.EsSuperAdmin(Session("Login")) Then
-            LlenaDDL(ddlPlantelesEmpleado, "DescPlantel", "IdPlantel", oPlantel.ObtenTodos(True), IdSelected)
-        Else
-            LlenaDDL(ddlPlantelesEmpleado, "DescPlantel", "IdPlantel", oPlantel.ObtenPlantelesPorUsr(Session("Login")), IdSelected)
-        End If
+        'If oUsuario.EsAdministrador(Session("Login")) Or oUsuario.EsSuperAdmin(Session("Login")) Then
+        LlenaDDL(ddlPlantelesEmpleado, "DescPlantel", "IdPlantel", oPlantel.ObtenParaPagoPorUsr2(Session("Login"), True), IdSelected)
+        'Else
+        'LlenaDDL(ddlPlantelesEmpleado, "DescPlantel", "IdPlantel", oPlantel.ObtenPorUsuario(Session("Login")), IdSelected)
+        'End If
     End Sub
 
     Private Sub BindddlSindicato(ByVal ddlSindicato As DropDownList, ByVal IdSelected As Integer)
@@ -196,7 +208,8 @@ Partial Class ABCPlazasBase
         ddl.SelectedValue = IdSelected
     End Sub
 
-    Private Sub BindDatos(ByVal IdPlanteles As Integer,
+    Private Sub BindDatos(ByVal IdZonaEconomica As Integer,
+                            IdPlanteles As Integer,
                             IdCategorias As Integer,
                             IdTipoPlaza As Integer,
                             NumEmp As String,
@@ -208,10 +221,12 @@ Partial Class ABCPlazasBase
         Dim drUsr As DataRow
         Dim oUsr As New Usuario
 
+
         drUsr = oUsr.ObtenerPropiedadesDelRol(Session("Login"))
 
         With gvDatos
-            .DataSource = oSMP_Plazas.ObtenEstructura(IdPlanteles _
+            .DataSource = oSMP_Plazas.ObtenEstructura(IdZonaEconomica _
+                                , IdPlanteles _
                                 , IdCategorias _
                                 , IdTipoPlaza _
                                 , 0 _
@@ -219,6 +234,7 @@ Partial Class ABCPlazasBase
                                 , drUsr("IdUsuario") _
                                 , IdSindicato)
             .DataBind()
+            lblTotalRegistros.Text = "Total de registros: " + gvDatos.Rows.Count.ToString
             .Visible = True
         End With
 
@@ -284,6 +300,16 @@ Partial Class ABCPlazasBase
         End If
     End Sub
 
+    Protected Sub ddlZonaEconomica_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
+        Dim ddlPlantelesEmpleado As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
+        Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
+
+        BindddlPlanteles(ddlPlantelesPlaza, ddlPlantelesEmpleado.SelectedValue)
+        'BindDatosDesdeControles()
+
+        ddlPlantelesPlaza.SelectedValue = ddlPlantelesEmpleado.SelectedValue
+    End Sub
     Protected Sub ddlQuincenaInicio_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         BindddlQuincenaTermino()
     End Sub
@@ -293,6 +319,7 @@ Partial Class ABCPlazasBase
         Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
         Dim ddlPlazasEstatus As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasEstatus"), DropDownList)
         Dim ddlSindicato As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicato"), DropDownList)
+        Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
 
         Dim drE As DataRow
         Dim oEmpleado As New Empleado
@@ -302,25 +329,24 @@ Partial Class ABCPlazasBase
         If hidIdEmpleado.Value <> "" Then
             drE = oEmpleado.BuscarPorId(CType(hidIdEmpleado.Value, Integer))
 
-            BindDatos(ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, drE("NumEmp"), If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue)
+            BindDatos(ddlZonaEconomica.SelectedValue, ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, drE("NumEmp"), If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue)
         Else
-            BindDatos(ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, 0, If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue)
+            BindDatos(ddlZonaEconomica.SelectedValue, ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, 0, If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue)
         End If
     End Sub
 
-    Protected Sub ddlSindicato_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    Protected Sub btnConsultar_Click(ByVal sender As Object, ByVal e As System.EventArgs)
         BindDatosDesdeControles()
     End Sub
-    Protected Sub ddlCategorias_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-        BindDatosDesdeControles()
-    End Sub
+
+
 
     Protected Sub ddlPlantelesEmpleado_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim ddlPlantel As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesEmpleado"), DropDownList)
         Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
 
         BindddlPlanteles(ddlPlantelesPlaza, ddlPlantel.SelectedValue)
-        BindDatosDesdeControles()
+        'BindDatosDesdeControles()
 
         ddlPlantelesPlaza.SelectedValue = ddlPlantel.SelectedValue
     End Sub
@@ -331,23 +357,11 @@ Partial Class ABCPlazasBase
             BindddlQuincenaTermino()
         End If
 
-        BindDatosDesdeControles()
+        'BindDatosDesdeControles()
     End Sub
 
     Protected Sub btnUpdTitularPlaza_Click(ByVal sender As Object, ByVal e As System.EventArgs)
 
-    End Sub
-
-    Protected Sub ddlQuincenaTermino_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Protected Sub ddlMotivosDeBaja_SelectedIndexChanged(sender As Object, e As System.EventArgs)
-
-    End Sub
-
-    Protected Sub ddlPlantelesPlaza_SelectedIndexChanged(sender As Object, e As System.EventArgs)
-        BindDatosDesdeControles()
     End Sub
 
     Protected Sub lbReintentarCaptura_Click(sender As Object, e As System.EventArgs) Handles lbReintentarCaptura.Click

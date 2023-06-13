@@ -34,6 +34,8 @@
                         <FieldHeaderStyle Width="250px" Wrap="True" />
                         <Fields>
                             <asp:TemplateField HeaderText="Empleado"><InsertItemTemplate><asp:Label ID="lblNombreEmpleado" runat="server" SkinID="SkinLblNormal" Text=""></asp:Label><asp:HiddenField  ID="hidIdEmpleado" runat="server" /></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
+                            <asp:TemplateField HeaderText="Zona Económica"><InsertItemTemplate><asp:DropDownList ID="ddlZonaEconomica" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
+                                        OnSelectedIndexChanged="ddlZonaEconomica_SelectedIndexChanged"></asp:DropDownList></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                             <asp:TemplateField HeaderText="Centro de Adscripción<br />(Ubicación física del empleado)"><InsertItemTemplate><asp:DropDownList ID="ddlPlantelesEmpleado" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
                                         OnSelectedIndexChanged="ddlPlantelesEmpleado_SelectedIndexChanged"></asp:DropDownList><asp:CompareValidator ID="CVPlantelesEmpleado" runat="server"
                                                 ControlToValidate="ddlPlantelesEmpleado" Display="Dynamic" ErrorMessage="Seleccione el centro de adscripción del empleado"
@@ -41,13 +43,13 @@
                                                 ValidationGroup="gpoGuarda" ValueToCompare="0">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                     
                             <asp:TemplateField HeaderText="Centro de Adscripción al que pertenece la Plaza<br />(Utilizado para pago)"><InsertItemTemplate><asp:DropDownList ID="ddlPlantelesPlaza" runat="server" SkinID="SkinDropDownList" AutoPostBack="True" 
-                                        OnSelectedIndexChanged="ddlPlantelesPlaza_SelectedIndexChanged"></asp:DropDownList><asp:CompareValidator ID="CVPlantelesPlaza" runat="server"
+                                        ></asp:DropDownList><asp:CompareValidator ID="CVPlantelesPlaza" runat="server"
                                                 ControlToValidate="ddlPlantelesPlaza" Display="Dynamic" ErrorMessage="Seleccione el centro de adscripción de la plaza"
                                                 Operator="NotEqual" ToolTip="Seleccione el centro de adscripción de la plaza" Type="Integer"
                                                 ValidationGroup="gpoGuarda" ValueToCompare="0">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                     
                             <asp:TemplateField HeaderText="Categor&#237;a"><InsertItemTemplate><asp:DropDownList ID="ddlCategorias" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
-                                                OnSelectedIndexChanged="ddlCategorias_SelectedIndexChanged"></asp:DropDownList><asp:CompareValidator ID="CVCategorias" runat="server"
+                                                ></asp:DropDownList><asp:CompareValidator ID="CVCategorias" runat="server"
                                                 ControlToValidate="ddlCategorias" Display="Dynamic" ErrorMessage="Seleccione la categoría"
                                                 Operator="NotEqual" ToolTip="Seleccione la categoría" Type="Integer"
                                                 ValidationGroup="gpoGuarda" ValueToCompare="0">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle  HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
@@ -66,12 +68,12 @@
                                                 Operator="NotEqual" ToolTip="Seleccione la quincena de inicio" Type="Integer"
                                                 ValidationGroup="gpoGuarda" ValueToCompare="0">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                             <asp:TemplateField HeaderText="T&#233;rmino"><InsertItemTemplate><asp:DropDownList ID="ddlQuincenaTermino" runat="server" SkinID="SkinDropDownList"
-                                                AutoPostBack="True" OnSelectedIndexChanged="ddlQuincenaTermino_SelectedIndexChanged"></asp:DropDownList><asp:CompareValidator ID="CVVigencia" runat="server" ControlToCompare="ddlQuincenaInicio"
+                                                AutoPostBack="True" ></asp:DropDownList><asp:CompareValidator ID="CVVigencia" runat="server" ControlToCompare="ddlQuincenaInicio"
                                                 ControlToValidate="ddlQuincenaTermino" Display="Dynamic" ErrorMessage="Vigencia incorrecta."
                                                 Operator="GreaterThanEqual" ToolTip="Vigencia incorrecta." Type="Integer"
                                                 ValidationGroup="gpoGuarda">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                             <asp:TemplateField HeaderText="Sindicato"><InsertItemTemplate><asp:DropDownList ID="ddlSindicato" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
-                                                OnSelectedIndexChanged="ddlSindicato_SelectedIndexChanged"></asp:DropDownList></InsertItemTemplate><HeaderStyle  HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
+                                                ></asp:DropDownList></InsertItemTemplate><HeaderStyle  HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                             <asp:TemplateField HeaderText="Observaciones"><InsertItemTemplate><asp:textbox ID="txtObservaciones" runat="server" 
                                                 AutoPostBack="True" Rows="2" TextMode="MultiLine" Width="300"></asp:textbox></InsertItemTemplate>
                                                 <HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
@@ -82,10 +84,21 @@
                                 <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                                 <ItemStyle HorizontalAlign="Left" Wrap="False" />
                             </asp:TemplateField>
+                            <asp:TemplateField HeaderText=""><InsertItemTemplate>
+                                <asp:Button ID="btnConsultar" runat="server" Text="Consultar" SkinID="SkinBoton"  OnClick="btnConsultar_Click"/></InsertItemTemplate>
+                                                <HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                        </Fields>
                 </asp:DetailsView>
                     <asp:Panel ID="pnlDatos" runat="server" Width="100%" GroupingText="Plazas">
-                                        <asp:GridView ID="gvDatos" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe información."
+                        <table>
+                            <tr>
+                                <td align="right">
+                                    <asp:Label ID="lblTotalRegistros" runat="server" Text="..."></asp:Label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <asp:GridView ID="gvDatos" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe información."
                                             PageSize="20" SkinID="SkinGridView" Width="100%" OnSelectedIndexChanging="gvDatos_SelectedIndexChanging">
                                             <EmptyDataTemplate>
                                                 <div>
@@ -103,12 +116,15 @@
                                                 <asp:TemplateField HeaderText="Id"><ItemTemplate><asp:Label ID="lblIdPlazas" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Centro de Adscripción (Ubicación física del empleado)"><ItemTemplate><asp:Label ID="lbl2" runat="server" Text='<%# Bind("DescPlantelEmpleado") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Centro de Adscripción al que pertenece la Plaza (Utilizado para pago)"><ItemTemplate><asp:Label ID="lblPlazaEmp" runat="server" Text='<%# Bind("DescPlantelPlaza") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Zona económica"><ItemTemplate><asp:Label ID="lbl22" runat="server" Text='<%# Bind("DescZonaEco") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Tipo plantel"><ItemTemplate><asp:Label ID="lbl20" runat="server" Text='<%# Bind("TipoPlantel") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Tipo de plaza"><ItemTemplate><asp:Label ID="lbl30" runat="server" Text='<%# Bind("CvePlazaTipo") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Categoría"><ItemTemplate><asp:Label ID="lbl3" runat="server" Text='<%# Bind("DescCategoria") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Estatus (Base)"><ItemTemplate><asp:Label ID="lbl4" runat="server" Text='<%# Bind("Estatus") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Inicio (Base)"><ItemTemplate><asp:Label ID="lblQuinInicio" runat="server" Text='<%# Bind("QuinInicio") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Termino (Base)"><ItemTemplate><asp:Label ID="lblQuinTermino" runat="server" Text='<%# Bind("QuinTermino") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Empleado Titular"><ItemTemplate><asp:Label ID="lblTitular" runat="server" Text='<%# Bind("NombT") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Ult. Mot. Baja del Titular"><ItemTemplate><asp:Label ID="lblUltDescMotGralBaja" runat="server" Text='<%# Bind("UltDescMotGralBaja") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Observaciones"><ItemTemplate><asp:Label ID="lblObservaciones" runat="server" Text='<%# Bind("Observaciones") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Ocupante"><ItemTemplate><asp:Label ID="lblOcupante" runat="server" Text='<%# Bind("NombO") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Estatus (Ocupante)"><ItemTemplate><asp:Label ID="lblOcupanteEstatus" runat="server" Text='<%# Bind("EstatusO") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
@@ -124,6 +140,11 @@
                                                 </asp:TemplateField>
                                             </Columns>
                                         </asp:GridView>
+                                </td>
+                            </tr>
+                            
+                        </table>
+                                        
                                         <asp:TextBox  ID="hidIdPlazas" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" />
                                         <asp:TextBox  ID="hidIdTitular" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" text="0"/>
                                         <asp:RequiredFieldValidator ID="CVIdPlazas" runat="server"

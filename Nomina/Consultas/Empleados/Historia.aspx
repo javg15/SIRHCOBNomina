@@ -197,11 +197,11 @@
                                                                         <asp:Label ID="lblDescEstatusPlaza" runat="server" Text='<%# Bind("DescEstatusPlaza") %>'></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
-                                                                <asp:TemplateField HeaderText="Plantel">
+                                                                <asp:TemplateField HeaderText="Plantel (Ocupante)">
                                                                     <HeaderStyle HorizontalAlign="Left" />
                                                                     <ItemStyle HorizontalAlign="Left" />
                                                                     <ItemTemplate>
-                                                                        <asp:Label ID="lblPlantel" runat="server" Text='<%# Bind("Plantel") %>'></asp:Label>
+                                                                        <asp:Label ID="lblPlantel" runat="server" Text='<%# Bind("OcupantePlantel") %>'></asp:Label>
                                                                     </ItemTemplate>
                                                                 </asp:TemplateField>
                                                                 <asp:TemplateField HeaderText="Observaciones">

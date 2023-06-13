@@ -79,11 +79,32 @@
                         <asp:HiddenField ID="hidIdHorariosClase" runat="server" />
                         <asp:HiddenField ID="hidCantidadHorasHorario" runat="server" />
 
-                        <asp:Panel ID="pnlHoras" runat="server" GroupingText="" Visible="true" HorizontalAlign="Left">
-                            <asp:LinkButton ID="lbBackPlanteles" runat="server" Font-Bold="False"
-                                SkinID="SkinLinkButton" ToolTip="Agregar horario" ForeColor="#003300" PostBackUrl="../../Consultas/Empleados/CargaHoraria.aspx">Regresar a carga horaria</asp:LinkButton>
-                            &nbsp;&nbsp;
-                            </asp:Panel>
+                        <table><tr>
+                            <td>
+                            <asp:Panel ID="pnlHoras" runat="server" GroupingText="" Visible="true" HorizontalAlign="Left">
+                                <asp:LinkButton ID="lbBackPlanteles" runat="server" Font-Bold="False"
+                                    SkinID="SkinLinkButton" ToolTip="Agregar horario" ForeColor="#003300" PostBackUrl="../../Consultas/Empleados/CargaHoraria.aspx">Regresar a carga horaria</asp:LinkButton>
+                                &nbsp;&nbsp;
+                                </asp:Panel>
+                            </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;<asp:ImageButton ID="ibEmpleados" runat="server" 
+                                        ImageUrl="~/Imagenes/ExcelExport.jpg" 
+                                        ToolTip="Mostrar en formato Excel  reporte para impresión" Visible="True" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                </td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <asp:ImageButton ID="ibGrupo" runat="server" 
+                                        ImageUrl="~/Imagenes/ExcelExport.jpg" 
+                                        ToolTip="Mostrar en formato Excel  reporte para impresión" Visible="True" />
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                            <tr>
+                                <td></td>
+                                <td><asp:Label ID="Label1" runat="server" Text="Docente"></asp:Label></td>
+                                <td><asp:Label ID="Label2" runat="server" Text="Grupo"></asp:Label></td>
+                            </tr>
+                        </table>
                         <br />
                         <asp:GridView ID="gvHoras" runat="server" EmptyDataText="No hay horarios registrados actualmente."
                                         SkinID="SkinGridViewEmpty" RowStyle-CssClass="GvGrid" ViewStateMode="Enabled">

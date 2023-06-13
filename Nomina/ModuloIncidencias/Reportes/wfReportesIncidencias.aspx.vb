@@ -30,11 +30,23 @@ Partial Class ReportesIncidencias
     End Sub
 
     Private Sub LlenaDDL(ByVal ddl As DropDownList, ByVal TextField As String, ByVal ValueField As String, ByVal dt As DataTable, Optional ByVal SelectedValue As String = "")
+        Dim R As DataRow = dt.NewRow
+
+        If ddl.ID = "ddlPlantel" Then
+            R(TextField) = "-"
+            R(ValueField) = "0"
+            dt.Rows.InsertAt(R, 0)
+        End If
+
         ddl.DataSource = dt
         ddl.DataTextField = TextField
         ddl.DataValueField = ValueField
         ddl.DataBind()
         If SelectedValue <> String.Empty Then ddl.SelectedValue = SelectedValue
+    End Sub
+    Private Sub BindddlPlanteles()
+        Dim oPlantel As New Plantel
+        LlenaDDL(ddlPlantel, "DescPlantel", "IdPlantel", oPlantel.ObtenParaPagoPorUsr2(Session("Login"), True))
     End Sub
     Private Sub BindddlTipoDeNomina()
         Dim oQna As New Nomina
@@ -91,7 +103,7 @@ Partial Class ReportesIncidencias
         Dim RFCEmp As String
         Dim hfRFC As HiddenField = CType(wucSearchEmps1.FindControl("hfRFC"), HiddenField)
         'Imprime reporte
-        RFCEmp = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
+        RFCEmp = hfRFC.Value.Trim
 
 
         oUsr.Login = Session("Login")
@@ -121,7 +133,9 @@ Partial Class ReportesIncidencias
                 Case "PeriodoActual"
                     Valor = ddlPeriodoEmpleadoLM.SelectedValue
                 Case "RFCEmp"
-                    Valor = RFCEmp
+                    Valor = IIf(String.IsNullOrEmpty(RFCEmp), "NULL", RFCEmp)
+                Case "IdPlantel"
+                    Valor = ddlPlantel.SelectedValue
 
             End Select
             If dr("ValorDefault").ToString <> String.Empty Then
@@ -177,6 +191,7 @@ Partial Class ReportesIncidencias
             BindddlTipoDeNomina()
             BindddlTipoUsuario()
             BindddlTipoReporteEmpleadoLM()
+            BindddlPlanteles()
             If ddlAños.SelectedValue <> -1 Then
                 BindgvReportes()
                 Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
@@ -239,6 +254,8 @@ Partial Class ReportesIncidencias
         chbxRptParaEmp.Checked = False
         pnlEmp.Visible = False
         pnlQuincena.Visible = False
+        pnlTipoReporte.Visible = False
+        pnlPlantel.Visible = False
 
         Select Case lblIdReporte.Text
             Case "150" 'REPORTE ANUAL DE PERMISOS ECONÓMICOS DESGLOSADO POR EMPLEADO Y MESES
@@ -258,8 +275,9 @@ Partial Class ReportesIncidencias
                 chbxRptParaEmp.Visible = True
                 chbxRptParaEmp.Checked = True
 
-                pnlEmp.Visible = chbxRptParaEmp.Checked
-                wucSearchEmps1.Visible = chbxRptParaEmp.Checked
+                pnlEmp.Visible = True
+                pnlPlantel.Visible = True
+                wucSearchEmps1.Visible = True
         End Select
     End Sub
     Private Sub gvReportesSelectedIndexChanged(ByVal gvr As GridViewRow)

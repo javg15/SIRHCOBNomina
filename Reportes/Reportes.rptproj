@@ -555,8 +555,8 @@
       <FullPath>resumenLicMedxEmp.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>ResumenPlantelGrupoHorasPorQna.rdl</Name>
-      <FullPath>ResumenPlantelGrupoHorasPorQna.rdl</FullPath>
+      <Name>rptHorariosGrupo.rdl</Name>
+      <FullPath>rptHorariosGrupo.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>ResumenPorClaveDecAnual.rdl</Name>
@@ -639,6 +639,10 @@
       <FullPath>RptResumenDispersionNomina.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
+      <Name>rptResumenIncidenciasXEmp.rdl</Name>
+      <FullPath>rptResumenIncidenciasXEmp.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
       <Name>rptResumenInciLicMed.rdl</Name>
       <FullPath>rptResumenInciLicMed.rdl</FullPath>
     </ProjectItem>
@@ -659,8 +663,8 @@
       <FullPath>VisorExpedientes.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>rptResumenIncidenciasXEmp.rdl</Name>
-      <FullPath>rptResumenIncidenciasXEmp.rdl</FullPath>
+      <Name>rptHorariosEmpleado.rdl</Name>
+      <FullPath>rptHorariosEmpleado.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>

@@ -93,7 +93,8 @@ Namespace COBAEV.Plazas
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
-        Public Function ObtenEstructura(ByVal idPlantel As String _
+        Public Function ObtenEstructura(ByVal idZonaEconomica As String _
+                                            , ByVal idPlantel As String _
                                             , ByVal idCategoria As String _
                                             , ByVal idTipoPlaza As String _
                                             , ByVal rfcEmp As String _
@@ -108,6 +109,7 @@ Namespace COBAEV.Plazas
                         + "&idcategoria=" + idCategoria + "&rfcemp =" + rfcEmp _
                         + "&estatusplaza=" + estatusPlaza _
                         + "&idsindicato=" + IdSindicato _
+                        + "&idzonaeconomica=" + idZonaEconomica _
                         + "&idusuario=" + IdUsuario
 
                 Return _DataCOBAEV.RunProc("SP_SPlazasEstructura", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)

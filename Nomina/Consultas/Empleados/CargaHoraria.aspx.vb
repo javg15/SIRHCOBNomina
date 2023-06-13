@@ -652,7 +652,10 @@ Partial Class Consultas_Empleados_CargaHoraria
                 Dim oEmp As New Empleado
                 oEmp.RFC = hfRFC.Value
                 ibHorariosAdmin.Visible = False
-                If Not oEmp.EsDocenteEnSemestre(oEmp.RFC, CShort(Me.ddlSemestres.SelectedValue)) Then
+                If lblNombreFuncionPri.Text.ToUpper = "ADMINISTRATIVA" Then
+                    ibHorariosAdmin.Visible = True
+                    ibHorariosAdmin.PostBackUrl = "../../ABC/Empleados/AdministracionHorariosAdmin.aspx?RFCEmp=" + hfRFC.Value.Trim + "&TipoOperacion=4&IdPlaza=" + lblIdPlaza.Text
+                ElseIf Not oEmp.EsDocenteEnSemestre(oEmp.RFC, CShort(Me.ddlSemestres.SelectedValue)) Then
                     ibHorariosAdmin.Visible = True
                     ibHorariosAdmin.PostBackUrl = "../../ABC/Empleados/AdministracionHorariosAdmin.aspx?RFCEmp=" + hfRFC.Value.Trim + "&TipoOperacion=4&IdPlaza=" + lblIdPlaza.Text
                 End If

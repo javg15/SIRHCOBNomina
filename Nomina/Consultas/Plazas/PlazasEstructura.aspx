@@ -54,11 +54,32 @@
                                                     <asp:Label ID="lblDescCatego" runat="server" Text='<%# Bind("DescCatego") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Empleado (Base)">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblEmpleadoBase" runat="server" Text='<%# Bind("NomCompletoEmpTit") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Estatus (Base)">
                                                 <HeaderStyle HorizontalAlign="Center" />
                                                 <ItemStyle HorizontalAlign="Center" />
                                                 <ItemTemplate>
                                                     <asp:Label ID="lblEstatusBase" runat="server" Text='<%# Bind("DescEstatusPlazaBase") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Quincena Inicio (Base)">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblQuinIniBase" runat="server" Text='<%# Bind("QnaIniBase") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Quincena Fin (Base)">
+                                                <HeaderStyle HorizontalAlign="Center" />
+                                                <ItemStyle HorizontalAlign="Center" />
+                                                <ItemTemplate>
+                                                    <asp:Label ID="lblQuinFinBase" runat="server" Text='<%# Bind("QnaFinBase") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             <asp:TemplateField HeaderText="RFC (Ocupante)">
@@ -120,39 +141,39 @@
                                                     <asp:Label ID="lblNombreCompleto" runat="server" Text='<%# Bind("OcupanteActual") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Tipo ocupación">
+                                            <asp:TemplateField HeaderText="Tipo ocupación (Ocupante)">
                                                 <HeaderStyle HorizontalAlign="Left" />
                                                 <ItemStyle HorizontalAlign="Left" />
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblDescEstatusPlaza" runat="server" Text='<%# Bind("DescEstatusPlaza") %>'></asp:Label>
+                                                    <asp:Label ID="lblDescEstatusPlaza" runat="server" Text='<%# Bind("EstatusOcup") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Plantel">
+                                            <asp:TemplateField HeaderText="Plantel (Ocupante)">
                                                 <HeaderStyle HorizontalAlign="Left" />
                                                 <ItemStyle HorizontalAlign="Left" />
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblPlantel" runat="server" Text='<%# Bind("Plantel") %>'></asp:Label>
+                                                    <asp:Label ID="lblPlantel" runat="server" Text='<%# Bind("PlantelOcup") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Quincena Inicio">
+                                            <asp:TemplateField HeaderText="Quincena Inicio (Ocupante)">
                                                 <HeaderStyle HorizontalAlign="Left" />
                                                 <ItemStyle HorizontalAlign="Left" />
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblQuinIni" runat="server" Text='<%# Bind("QuinIni") %>'></asp:Label>
+                                                    <asp:Label ID="lblQuinIni" runat="server" Text='<%# Bind("QuinIniOcup") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Quincena Fin">
+                                            <asp:TemplateField HeaderText="Quincena Fin (Ocupante)">
                                                 <HeaderStyle HorizontalAlign="Left" />
                                                 <ItemStyle HorizontalAlign="Left" />
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblQuinFin" runat="server" Text='<%# Bind("QuinFin") %>'></asp:Label>
+                                                    <asp:Label ID="lblQuinFin" runat="server" Text='<%# Bind("QuinFinOcup") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Motivo Baja">
+                                            <asp:TemplateField HeaderText="Motivo Baja (Ocupante)">
                                                 <HeaderStyle HorizontalAlign="Left" />
                                                 <ItemStyle HorizontalAlign="Left" />
                                                 <ItemTemplate>
-                                                    <asp:Label ID="lblMotBaja" runat="server" Text='<%# Bind("MotBaja") %>'></asp:Label>
+                                                    <asp:Label ID="lblMotBaja" runat="server" Text='<%# Bind("MotBajaOcup") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>

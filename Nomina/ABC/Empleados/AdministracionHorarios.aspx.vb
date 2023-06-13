@@ -61,6 +61,15 @@ Partial Class AdministracionHorarios
                     Next
 
                     lblTotalHoras.Text = oHora.Horas
+                    Dim myByte As Byte() = System.Text.Encoding.UTF8.GetBytes("&idhora=" + Request.Params("IdHora") _
+                            + "&TodoDeEmpleado=1&tododegrupo=0&idsemestre=" + Request.Params("IdSemestre"))
+                    Me.ibEmpleados.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
+                            + "?binario=1&IdReporte=169&parametros=" + Convert.ToBase64String(myByte) + "'); return false;"
+
+                    myByte = System.Text.Encoding.UTF8.GetBytes("&idhora=" + Request.Params("IdHora") _
+                            + "&TodoDeEmpleado=0&tododegrupo=1&idsemestre=" + Request.Params("IdSemestre"))
+                    Me.ibGrupo.OnClientClick = "javascript: abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
+                            + "?binario=1&IdReporte=171&parametros=" + Convert.ToBase64String(myByte) + "'); return false;"
 
 
                     BindDatos(CInt(Request.Params("IdHora")))

@@ -28,11 +28,18 @@ Partial Class VisorDeReportesExcel
 
             deviceInfo = "<DeviceInfo>" + "<SimplePageHeaders>False</SimplePageHeaders>" + "</DeviceInfo>"
 
-            For Each dr As DataRow In dt.Rows
-                If Request.Params(dr("VariableAsociada")) Is Nothing = False Then
-                    paramList.Add(New Microsoft.Reporting.WebForms.ReportParameter(dr("NombreParametro").ToString, Request.Params(dr("VariableAsociada").ToString)))
-                End If
-            Next
+            If Not Request.Params("binario") Is Nothing Then
+                Dim myBase64ret As Byte() = Convert.FromBase64String(Request.Params("parametros"))
+                Dim myStr As String = System.Text.Encoding.UTF8.GetString(myBase64ret)
+                paramList.Add(New Microsoft.Reporting.WebForms.ReportParameter("parametros", myStr))
+            Else
+                For Each dr As DataRow In dt.Rows
+                    If Request.Params(dr("VariableAsociada")) Is Nothing = False Then
+                        paramList.Add(New Microsoft.Reporting.WebForms.ReportParameter(dr("NombreParametro").ToString, Request.Params(dr("VariableAsociada").ToString)))
+                    End If
+                Next
+            End If
+
             'rview.ServerReport.ReportServerUrl = New Uri(dt.Rows(0).Item("URL").ToString)
             rview.ServerReport.ReportServerUrl = New Uri(ConfigurationManager.AppSettings("ServerReportes"))
             rview.ServerReport.ReportPath = ConfigurationManager.AppSettings("PathReportes") + dt.Rows(0).Item("NombreReporte").ToString

@@ -203,8 +203,7 @@ Partial Class AdministracionHorariosAdmin
         HoraFin = DateTime.Parse(ddlHoraFin.SelectedValue + ":" + ddlMinutosFin.SelectedValue)
 
         If HoraFin < HoraInicio Then
-            HoraInicio = HoraInicio.AddHours(24)
-            txtJornada.Text = (HoraInicio - HoraFin).ToString
+            txtJornada.Text = (HoraFin.AddHours(24) - HoraInicio).ToString
         Else
             txtJornada.Text = (HoraFin - HoraInicio).ToString
         End If
