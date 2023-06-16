@@ -100,7 +100,8 @@ Namespace COBAEV.Plazas
                                             , ByVal rfcEmp As String _
                                             , ByVal estatusPlaza As String _
                                             , ByVal IdUsuario As String _
-                                            , ByVal IdSindicato As String
+                                            , ByVal IdSindicato As String _
+                                            , ByVal IdZonaGeografica As String
                                        ) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)}
@@ -110,6 +111,7 @@ Namespace COBAEV.Plazas
                         + "&estatusplaza=" + estatusPlaza _
                         + "&idsindicato=" + IdSindicato _
                         + "&idzonaeconomica=" + idZonaEconomica _
+                        + "&idzonageografica=" + IdZonaGeografica _
                         + "&idusuario=" + IdUsuario
 
                 Return _DataCOBAEV.RunProc("SP_SPlazasEstructura", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)

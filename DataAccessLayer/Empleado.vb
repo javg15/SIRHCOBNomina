@@ -110,6 +110,14 @@ Namespace COBAEV.Empleados
 #Region "Clase EmpleadoPlazas"
     Public Class EmpleadoPlazas
 #Region "Clase EmpleadoPlazas: Propiedades públicas"
+        Public Property NuevoIngreso() As Integer
+            Get
+                Return _NuevoIngreso
+            End Get
+            Set(ByVal Value As Integer)
+                _NuevoIngreso = Value
+            End Set
+        End Property
         Public Property IdEsquemaPago() As Byte
             Get
                 Return _IdEsquemaPago
@@ -324,6 +332,7 @@ Namespace COBAEV.Empleados
         Private _FechaInicio, _FechaFin, _FechaFinLSGS As String
         Private _IdPlantelAdscripReal As Short
         Private _IdPuesto As Short
+        Private _NuevoIngreso As Integer
 #End Region
 #Region "Clase EmpleadoPlazas: Métodos públicos"
         Public Function ObtenInfDeTblPlazasHistoria(ByVal pIdPlaza As Integer) As DataRow
@@ -625,8 +634,10 @@ Namespace COBAEV.Empleados
                             New SqlParameter("@IdEsquemaPago", SqlDbType.TinyInt),
                             New SqlParameter("@IdPuesto", SqlDbType.SmallInt),
                             New SqlParameter("@FechaFinLSGS", SqlDbType.DateTime),
-                            New SqlParameter("@IdPlazaOcup", SqlDbType.Int)
+                            New SqlParameter("@IdPlazaOcup", SqlDbType.Int),
+                            New SqlParameter("@NuevoIngreso", SqlDbType.Int)
                             }
+
 
                 If TipoOperacion = 0 Then
                     Prms(0).Value = DBNull.Value
@@ -684,6 +695,7 @@ Namespace COBAEV.Empleados
                 End If
 
                 Prms(27).Value = IdPlazaOcup
+                Prms(28).Value = Me._NuevoIngreso
 
                 _DataCOBAEV.RunProc("SP_IoUEmpleadosPlazas", Prms, Nomina, ArregloAuditoria)
 

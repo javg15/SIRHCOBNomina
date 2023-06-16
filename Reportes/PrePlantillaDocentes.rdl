@@ -1015,11 +1015,11 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Suma.Value.ToString() + "hrs -" + Fields!idhora.Value.ToString()</Value>
+                                  <Value>=Fields!Suma.Value.ToString() + " hrs"</Value>
                                   <Style>
                                     <FontFamily>Verdana</FontFamily>
                                     <FontSize>6pt</FontSize>
-                                    <TextDecoration>= IIf(Fields!Suma.Value&lt;&gt;Fields!Cantidad.Value Or Fields!Suma.Value="0","Underline","Default")</TextDecoration>
+                                    <TextDecoration>None</TextDecoration>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -1040,7 +1040,6 @@
                             <VerticalAlign>Middle</VerticalAlign>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                   </TablixCells>
@@ -1504,10 +1503,10 @@
               <Width>2.41576cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>4.06108cm</Width>
+              <Width>5.36159cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>5.2251cm</Width>
+              <Width>3.92459cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.91823cm</Width>
@@ -2117,10 +2116,48 @@
                         <VerticalAlign>Middle</VerticalAlign>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox16">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>CLAVE PRESUPUESTAL</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>7pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox16</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>Black</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox46">
@@ -2367,10 +2404,48 @@
                         <VerticalAlign>Middle</VerticalAlign>
                       </Style>
                     </Textbox>
-                    <ColSpan>2</ColSpan>
                   </CellContents>
                 </TablixCell>
-                <TablixCell />
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Parameters!pClavePresupuestal.Value</Value>
+                              <Style>
+                                <FontFamily>Verdana</FontFamily>
+                                <FontSize>7pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox17</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <TopBorder>
+                          <Style>None</Style>
+                        </TopBorder>
+                        <BottomBorder>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                          <Width>1pt</Width>
+                        </BottomBorder>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
                 <TablixCell>
                   <CellContents>
                     <Textbox Name="Textbox64">
@@ -2820,6 +2895,10 @@ Order By  N.AbrevNombramiento Asc, G.Grupo Asc,  M.NombreMateria Asc, H.Cantidad
     <ReportParameter Name="pIdPlantel">
       <DataType>String</DataType>
       <Prompt>IdPlantel</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pClavePresupuestal">
+      <DataType>String</DataType>
+      <Prompt>ClavePresupuestal</Prompt>
     </ReportParameter>
   </ReportParameters>
   <Language>es-MX</Language>

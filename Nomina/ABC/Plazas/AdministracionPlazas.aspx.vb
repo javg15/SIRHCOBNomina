@@ -161,7 +161,7 @@ Partial Class AdministracionPlazas
             Dim oSMP_Plaza As New SMP_Plazas
 
             If Request.Params("TipoOperacion") = "1" And Request.Params("CopiarUltVig") Is Nothing Then 'Insertar
-                'BindgvPlazasHistoria()
+                BindgvPlazasHistoria()
 
                 lbOtraOperacion.Visible = False
                 LlenaDDL(ddlEmpleadosFunciones, "DescEmpFuncion", "IdEmpFuncion", oEmp.ObtenFunciones)
@@ -264,11 +264,14 @@ Partial Class AdministracionPlazas
                     gvPlazas.SelectedIndex = 0
                 End If
 
+                Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
+                Dim gvPlazasHistoria As GridView = CType(Me.pnlUltPlazaVig.FindControl("gvPlazasHistoria"), GridView)
+                BindddlNuevoIngreso(ddlNuevoIngreso, gvPlazasHistoria.Rows.Count > 0)
 
             ElseIf Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "2" Or Request.Params("TipoOperacion") = "4" _
               Or (Request.Params("TipoOperacion") = "1" And Request.Params("CopiarUltVig") = "SI") Then 'Actualizar o Eliminar
-                    'BindgvPlazasHistoria()
-                    If Request.Params("CopiarUltVig") Is Nothing Then
+                BindgvPlazasHistoria()
+                If Request.Params("CopiarUltVig") Is Nothing Then
                     oEmpleadoPlaza.IdPlaza = CType(Request.Params("IdPlaza"), Integer)
                     dr = oEmpleadoPlaza.ObtenPorIdConOcup()
                     drPlazasHistoria = oEmpleadoPlaza.ObtenInfDeTblPlazasHistoria(CType(Request.Params("IdPlaza"), Integer))
@@ -474,7 +477,26 @@ Partial Class AdministracionPlazas
                         End If
                     Next
                 End If
+
+                Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
+                BindddlNuevoIngreso(ddlNuevoIngreso, -1)
             End If
+        End If
+    End Sub
+    Private Sub BindddlNuevoIngreso(ByVal ddl As DropDownList, ByVal IdSelected As Integer)
+        Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+
+        'LlenaDDL(ddlEstatusPlaza, "DescEstatusPlaza", "IdEstatusPlaza", oSMP_Plazas.ObtenEstatus(), Nothing)
+        ddl.Items.Clear()
+        ddl.Items.Add(New ListItem("-", "-1"))
+        ddl.Items.Add(New ListItem("No", "0"))
+        ddl.Items.Add(New ListItem("Sí", "1"))
+
+        ddl.SelectedValue = IdSelected
+        If IdSelected = -1 Then
+            ddl.Enabled = False
+        Else
+            ddl.Enabled = True
         End If
     End Sub
     Protected Sub CheckedChanged_chkbxInterinoPuro(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -560,6 +582,7 @@ Partial Class AdministracionPlazas
             Dim txtbxFechaBajaISSSTE As TextBox = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE"), TextBox)
             Dim txtbxFechaBajaISSSTE2 As TextBox = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE2"), TextBox)
             Dim ddlPuesto As DropDownList = CType(Me.dvPlaza.FindControl("ddlPuesto"), DropDownList) 'CODIGO AGREGADO POR ALEXIS CORTEZ 01/09/2021'
+            Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
             Dim vl_IdPlaza As Integer
 
             'Código de validación
@@ -630,6 +653,7 @@ Partial Class AdministracionPlazas
                 .FechaInicio = String.Empty
                 .IdEsquemaPago = CByte(ddlEsquemaPago.SelectedValue)
                 .IdPuesto = CShort(ddlPuesto.SelectedValue)
+                .NuevoIngreso = CInt(ddlNuevoIngreso.SelectedValue)
                 If txtbxFechaBajaISSSTE.Visible = True Then
                     .FechaFin = IIf(txtbxFechaBajaISSSTE.Text <> String.Empty, txtbxFechaBajaISSSTE.Text, String.Empty)
                 Else
@@ -841,6 +865,7 @@ Partial Class AdministracionPlazas
 
         tblEsquemaPagoPorDefault = oNomina.getEsquemasDePago(Session("RFCParaCons").ToString, CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue))
         LlenaDDL(ddlEsquemaPago, "DescEsquemaPago", "IdEsquemaPago", oNomina.getEsquemasDePago(Session("RFCParaCons").ToString, CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue), True), tblEsquemaPagoPorDefault.Rows(0).Item("IdEsquemaPago").ToString)
+
 
         'CODIGO AGREGADO POR ALEXIS CORTEZ 01/09/2021'
         LlenaDDL(ddlPuesto, "Puesto", "IdPuesto", oNomina.ObtenPuestos(CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue), Session("RFCParaCons").ToString))

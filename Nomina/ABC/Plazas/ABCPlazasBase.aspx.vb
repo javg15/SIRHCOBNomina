@@ -71,6 +71,7 @@ Partial Class ABCPlazasBase
             Dim ddlPlantelesEmpleado As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesEmpleado"), DropDownList)
             Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
             Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
+            Dim ddlZonaGeografica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaGeografica"), DropDownList)
             Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
             Dim ddlPlazasEstatus As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasEstatus"), DropDownList)
             Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
@@ -101,8 +102,11 @@ Partial Class ABCPlazasBase
                 hidIdEmpleado.Value = CType(dr("IdEmp"), Integer)
                 drTE = oEmpleadoPlaza.ObtenUltimaOcupada(drE("RFC"))
 
+                ddlZonaEconomica.Enabled = False
+
                 If Request.Params("TipoOperacion") = "1" Then 'Insertar
                     'BindgvPlazasHistoria()
+                    BindddlZonaGeografica(ddlZonaGeografica, 0)
                     BindddlZonaEconomica(ddlZonaEconomica, 0)
                     BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
                     BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")), drTE("IdPlazaTipoOcupacion"))
@@ -110,8 +114,9 @@ Partial Class ABCPlazasBase
                     BindddlQuincenas(ddlQnaInicio, 0)
                     BindddlEstatusPlaza(ddlPlazasEstatus, 0)
                     BindddlSindicato(ddlSindicato, 0)
-                    BindDatos(0, CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0)
+                    BindDatos(0, CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0, 0)
                 ElseIf Request.Params("TipoOperacion") = "0" Then 'Actualizar 
+                    BindddlZonaGeografica(ddlZonaGeografica, 0)
                     BindddlZonaEconomica(ddlZonaEconomica, 0)
                     BindddlPlanteles(ddlPlantelesEmpleado, CInt(dr("IdPlantel")))
                     BindddlCategorias(ddlCategorias, CInt(dr("IdCategoria")), drTE("IdPlazaTipoOcupacion"))
@@ -119,10 +124,11 @@ Partial Class ABCPlazasBase
                     BindddlQuincenas(ddlQnaInicio, 0)
                     BindddlEstatusPlaza(ddlPlazasEstatus, 0)
                     BindddlSindicato(ddlSindicato, 0)
-                    BindDatos(0, CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0)
+                    BindDatos(0, CInt(dr("IdPlantel")), CInt(dr("IdCategoria")), 0, drE("NumEmp"), 0, 0, 0)
                 End If
 
             Else
+                BindddlZonaGeografica(ddlZonaGeografica, 0)
                 BindddlZonaEconomica(ddlZonaEconomica, 0)
                 BindddlPlanteles(ddlPlantelesEmpleado, 0)
                 BindddlCategorias(ddlCategorias, 0, 0)
@@ -150,7 +156,12 @@ Partial Class ABCPlazasBase
         End If
 
     End Sub
+    Private Sub BindddlZonaGeografica(ByVal ddlZonaGeografica As DropDownList, ByVal IdSelected As Integer)
+        Dim oZG As New Zonageografica
+        Dim oUsuario As New Usuario
 
+        LlenaDDL(ddlZonaGeografica, "NombreZonaGeografica", "IdZonaGeografica", oZG.ObtenTodas(), IdSelected)
+    End Sub
     Private Sub BindddlZonaEconomica(ByVal ddlZonaEconomica As DropDownList, ByVal IdSelected As Integer)
         Dim oZE As New ZonaEconomica
         Dim oUsuario As New Usuario
@@ -214,7 +225,8 @@ Partial Class ABCPlazasBase
                             IdTipoPlaza As Integer,
                             NumEmp As String,
                             IdEstatusPlaza As Integer,
-                            IdSindicato As Integer
+                            IdSindicato As Integer,
+                            IdZonaGeografica As Integer
                             )
         Dim oEmp As New Empleado
         Dim oSMP_Plazas As New SMP_Plazas
@@ -232,7 +244,8 @@ Partial Class ABCPlazasBase
                                 , 0 _
                                 , IdEstatusPlaza _
                                 , drUsr("IdUsuario") _
-                                , IdSindicato)
+                                , IdSindicato _
+                                , IdZonaGeografica)
             .DataBind()
             lblTotalRegistros.Text = "Total de registros: " + gvDatos.Rows.Count.ToString
             .Visible = True
@@ -310,6 +323,12 @@ Partial Class ABCPlazasBase
 
         ddlPlantelesPlaza.SelectedValue = ddlPlantelesEmpleado.SelectedValue
     End Sub
+    Protected Sub ddlZonaGeografica_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        Dim ddlZonaGeografica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaGeografica"), DropDownList)
+
+    End Sub
+
+
     Protected Sub ddlQuincenaInicio_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         BindddlQuincenaTermino()
     End Sub
@@ -320,6 +339,8 @@ Partial Class ABCPlazasBase
         Dim ddlPlazasEstatus As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasEstatus"), DropDownList)
         Dim ddlSindicato As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicato"), DropDownList)
         Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
+        Dim ddlZonaGeografica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaGeografica"), DropDownList)
+
 
         Dim drE As DataRow
         Dim oEmpleado As New Empleado
@@ -329,9 +350,9 @@ Partial Class ABCPlazasBase
         If hidIdEmpleado.Value <> "" Then
             drE = oEmpleado.BuscarPorId(CType(hidIdEmpleado.Value, Integer))
 
-            BindDatos(ddlZonaEconomica.SelectedValue, ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, drE("NumEmp"), If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue)
+            BindDatos(ddlZonaEconomica.SelectedValue, ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, drE("NumEmp"), If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue, ddlZonaGeografica.SelectedValue)
         Else
-            BindDatos(ddlZonaEconomica.SelectedValue, ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, 0, If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue)
+            BindDatos(ddlZonaEconomica.SelectedValue, ddlPlantelesPlaza.SelectedValue, ddlCategorias.SelectedValue, 0, 0, If(Request.Params("IdPlaza") Is Nothing, ddlPlazasEstatus.SelectedValue, "0"), ddlSindicato.SelectedValue, ddlZonaGeografica.SelectedValue)
         End If
     End Sub
 

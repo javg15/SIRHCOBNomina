@@ -623,6 +623,18 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
+                    <asp:TemplateField HeaderText="¿Es nuevo ingreso?">
+                        <EditItemTemplate>
+                                    <asp:DropDownList ID="ddlNuevoIngresoE" runat="server" SkinID="SkinDropDownList">
+                                    </asp:DropDownList>
+                        </EditItemTemplate>
+                        <InsertItemTemplate>
+                                    <asp:DropDownList ID="ddlNuevoIngreso" runat="server" SkinID="SkinDropDownList">
+                                    </asp:DropDownList>
+                        </InsertItemTemplate>
+                        <HeaderStyle HorizontalAlign="Left" Wrap="False" />
+                        <ItemStyle HorizontalAlign="Left" Wrap="False" />
+                    </asp:TemplateField>
                     <asp:TemplateField ShowHeader="False">
                         <EditItemTemplate>
                                     <asp:Button ID="btnUpdTitularPlaza" runat="server" SkinID="SkinBoton" Text="Actualizar titular"
