@@ -319,7 +319,9 @@ Partial Class ABCPlazasBase
         Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
 
         BindddlPlanteles(ddlPlantelesPlaza, ddlPlantelesEmpleado.SelectedValue)
-        'BindDatosDesdeControles()
+        If Not (Request.Params("IdPlaza") Is Nothing) Then
+            BindDatosDesdeControles()
+        End If
 
         ddlPlantelesPlaza.SelectedValue = ddlPlantelesEmpleado.SelectedValue
     End Sub
@@ -367,7 +369,9 @@ Partial Class ABCPlazasBase
         Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
 
         BindddlPlanteles(ddlPlantelesPlaza, ddlPlantel.SelectedValue)
-        'BindDatosDesdeControles()
+        If Not (Request.Params("IdPlaza") Is Nothing) Then
+            BindDatosDesdeControles()
+        End If
 
         ddlPlantelesPlaza.SelectedValue = ddlPlantel.SelectedValue
     End Sub
@@ -378,7 +382,9 @@ Partial Class ABCPlazasBase
             BindddlQuincenaTermino()
         End If
 
-        'BindDatosDesdeControles()
+        If Not (Request.Params("IdPlaza") Is Nothing) Then
+            BindDatosDesdeControles()
+        End If
     End Sub
 
     Protected Sub btnUpdTitularPlaza_Click(ByVal sender As Object, ByVal e As System.EventArgs)

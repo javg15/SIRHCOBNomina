@@ -199,13 +199,29 @@ Namespace COBAEV
         End Function
         Public Overloads Function ObtenEmpsPorMateria(pIdPlantel As Short, pIdMateria As Short, pIdQuincena As Short) As DataTable
             Try
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt), _
-                                              New SqlParameter("@IdMateria", SqlDbType.SmallInt), _
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                                              New SqlParameter("@IdMateria", SqlDbType.SmallInt),
                                               New SqlParameter("@IdQuincena", SqlDbType.SmallInt)}
 
                 Prms(0).Value = pIdPlantel
                 Prms(1).Value = pIdMateria
                 Prms(2).Value = pIdQuincena
+
+                Return _DataCOBAEV.RunProc("SP_SMateriaEnPlantel", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+        Public Overloads Function ObtenEmpsHistorial(pIdPlantel As Short, pIdMateria As Short, pIdEmpleado As Short) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlantel", SqlDbType.SmallInt),
+                                              New SqlParameter("@IdMateria", SqlDbType.SmallInt),
+                                              New SqlParameter("@IdEmp", SqlDbType.SmallInt)}
+
+                Prms(0).Value = pIdPlantel
+                Prms(1).Value = pIdMateria
+                Prms(2).Value = pIdEmpleado
 
                 Return _DataCOBAEV.RunProc("SP_SMateriaEnPlantel", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
 

@@ -958,7 +958,10 @@ Partial Class wfControlIncidenciasPorEmp
         End If
 
         ddlSubtipo.Enabled = True
-        txtId.Text = ""
+        If btnGuardarIncidencia.CommandArgument = "CAPTURA" Then
+            txtId.Text = ""
+        End If
+
         txtbxFolioIncidencia.Text = "POR ASIGNAR"
         lblMensajePrevio.Text = ""
         txtbxFechaIni.Text = String.Empty

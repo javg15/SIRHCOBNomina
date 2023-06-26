@@ -243,11 +243,13 @@ Partial Class AdministracionPlazas
                 'CODIGO AGREGADO POR ALEXIS 29/09/2021'
 
                 '\/bloque temporal, para que los analistas no vean (operen aun) el apartado de plazas
-                Dim CVIdPlazas As RequiredFieldValidator = CType(dvPlaza.FindControl("CVIdPlazas"), RequiredFieldValidator)
+                Dim CVIdPlazas As CompareValidator = CType(dvPlaza.FindControl("CVIdPlazas"), CompareValidator)
+                Dim RVIdPlazas As RequiredFieldValidator = CType(dvPlaza.FindControl("RVIdPlazas"), RequiredFieldValidator)
                 Dim CVIdTitular As CompareValidator = CType(dvPlaza.FindControl("CVIdTitular"), CompareValidator)
 
                 'If oUsuario.EsAdministrador(Session("Login")) Or oUsuario.EsSuperAdmin(Session("Login")) Then
                 CVIdPlazas.Enabled = True
+                RVIdPlazas.Enabled = True
                 gvPlazas.Visible = True
                 'Else
                 '   CVIdPlazas.Enabled = False
@@ -266,7 +268,7 @@ Partial Class AdministracionPlazas
 
                 Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
                 Dim gvPlazasHistoria As GridView = CType(Me.pnlUltPlazaVig.FindControl("gvPlazasHistoria"), GridView)
-                BindddlNuevoIngreso(ddlNuevoIngreso, gvPlazasHistoria.Rows.Count > 0)
+                BindddlNuevoIngreso(ddlNuevoIngreso, -1) 'If(gvPlazasHistoria.Rows.Count > 0, 1, 1)
 
             ElseIf Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "2" Or Request.Params("TipoOperacion") = "4" _
               Or (Request.Params("TipoOperacion") = "1" And Request.Params("CopiarUltVig") = "SI") Then 'Actualizar o Eliminar
@@ -362,11 +364,13 @@ Partial Class AdministracionPlazas
                 'CODIGO AGREGADO POR ALEXIS CORTEZ 24/08/2021'
 
                 '\/bloque temporal, para que los analistas no vean (operen aun) el apartado de plazas
-                Dim CVIdPlazas As RequiredFieldValidator = CType(dvPlaza.FindControl("CVIdPlazas"), RequiredFieldValidator)
+                Dim CVIdPlazas As CompareValidator = CType(dvPlaza.FindControl("CVIdPlazas"), CompareValidator)
+                Dim RVIdPlazas As RequiredFieldValidator = CType(dvPlaza.FindControl("RVIdPlazas"), RequiredFieldValidator)
                 Dim CVIdTitular As CompareValidator = CType(dvPlaza.FindControl("CVIdTitular"), CompareValidator)
 
                 'If oUsuario.EsAdministrador(Session("Login")) Or oUsuario.EsSuperAdmin(Session("Login")) Then
                 CVIdPlazas.Enabled = True
+                RVIdPlazas.Enabled = True
                 gvPlazas.Visible = True
                 'Else
                 'CVIdPlazas.Enabled = False

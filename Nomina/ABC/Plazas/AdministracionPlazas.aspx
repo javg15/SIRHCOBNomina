@@ -434,10 +434,14 @@
                                         </asp:GridView>
                                         <asp:TextBox  ID="hidIdPlazas" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" />
                                         <asp:TextBox  ID="hidIdTitular" runat="server" BackColor="White" BorderColor="White" BorderWidth="0px" ForeColor="White" Width="1px" text="0"/>
-                                        <asp:RequiredFieldValidator ID="CVIdPlazas" runat="server" 
-                                                ControlToValidate="hidIdPlazas" Display="Dynamic" ErrorMessage="Seleccione la plaza a asignar como titular"
-                                                ToolTip="Seleccione la plaza a asignar como titular" Type="Text"
+                                        <asp:RequiredFieldValidator ID="RVIdPlazas" runat="server" 
+                                                ControlToValidate="hidIdPlazas" Display="Dynamic" ErrorMessage="Seleccione la plaza a asignar como ocupada"
+                                                ToolTip="Seleccione la plaza a asignar como ocupada" Type="Text"
                                                 ValidationGroup="gpoGuarda" >*</asp:RequiredFieldValidator>
+                                        <asp:CompareValidator ID="CVIdPlazas" runat="server"
+                                                ControlToValidate="hidIdPlazas" Display="Dynamic" ErrorMessage="Seleccione la plaza a ocupar"
+                                                ToolTip="Seleccione la plaza a ocupar" 
+                                                ValidationGroup="gpoGuarda" ValueToCompare="0" Operator="NotEqual">*</asp:CompareValidator>
                                         <asp:CompareValidator ID="CVIdTitular" runat="server"
                                                 ControlToValidate="hidIdTitular" Display="Dynamic" ErrorMessage="La plaza ya tiene titular"
                                                 ToolTip="La plaza ya tiene titular" 
@@ -623,7 +627,7 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="¿Es nuevo ingreso?">
+                    <asp:TemplateField HeaderText="¿Es cambio de adscripción?">
                         <EditItemTemplate>
                                     <asp:DropDownList ID="ddlNuevoIngresoE" runat="server" SkinID="SkinDropDownList">
                                     </asp:DropDownList>

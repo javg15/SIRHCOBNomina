@@ -97,6 +97,18 @@
             </tr>
             <tr>
                 <td style="text-align: left; vertical-align: top;">
+                    <asp:DropDownList ID="ddlSemestres" runat="server" AutoPostBack="True" 
+                        OnSelectedIndexChanged="ddlSemestres_SelectedIndexChanged" 
+                        SkinID="SkinDropDownList">
+                    </asp:DropDownList>
+                    <asp:Button ID="btnConsultar" runat="server" 
+                        OnClick="btnConsultar_Click" SkinID="SkinBoton" 
+                        Text="Consultar" 
+                        ToolTip="Consultar historial" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: left; vertical-align: top;">
                     <asp:Label ID="lblInfRelQna" runat="server" SkinID="SkinLblDatos"></asp:Label>
                     <asp:GridView ID="gvEmpleados" runat="server" CellPadding="1" SkinID="SkinGridView"
                         Width="100%">
@@ -147,6 +159,12 @@
                                 <HeaderStyle HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:BoundField>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:ImageButton ID="ibHistorial" runat="server" ImageUrl="~/Imagenes/detalles.gif" ToolTip="Ver historial." CommandName="HistorialPlaza" CommandArgument='<%# Container.DataItemIndex%>' />
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
                 </td>

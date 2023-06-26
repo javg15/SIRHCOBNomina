@@ -193,7 +193,7 @@
                     <asp:Label ID="Label1" runat="server" Text='Plantel'></asp:Label>
                     <br />
                     <br />
-                    <asp:DropDownList ID="ddlPlantel" runat="server" SkinID="SkinDropDownList"  >
+                    <asp:DropDownList ID="ddlPlantel" runat="server" SkinID="SkinDropDownList"  OnSelectedIndexChanged="ddlPlantel_SelectedIndexChanged" AutoPostBack="True">
                     </asp:DropDownList>
                     <br />
                     <br />

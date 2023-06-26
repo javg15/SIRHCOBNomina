@@ -201,6 +201,11 @@ Partial Class ReportesIncidencias
         End If
     End Sub
 
+    Protected Sub ddlPlantel_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlPlantel.SelectedIndexChanged
+        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+        CreaLinkParaImpresion(gvr)
+    End Sub
+
     Protected Sub ddlAños_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlAños.SelectedIndexChanged
         Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
         CreaLinkParaImpresion(gvr)

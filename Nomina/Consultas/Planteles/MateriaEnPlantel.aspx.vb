@@ -42,7 +42,7 @@ Partial Class Consulta_MateriaEnPlantel
         Dim oQna As New Quincenas
 
         'If Request.Params("IdQuincena") Is Nothing Then
-        drQna = oQna.ObtenQnaParaConsultaDeDatosDeCargaHoraria(CShort(Request.Params("IdSemestre")))
+        drQna = oQna.ObtenQnaParaConsultaDeDatosDeCargaHoraria(ddlSemestres.SelectedValue)
         lblInfRelQna.Text = "INFORMACIÓN RELACIONADA CON LA QUINCENA " + drQna("Quincena")
         dtEmpleados = oPlantel.ObtenEmpsPorMateria(CShort(Request.Params("IdPlantel")), CShort(Request.Params("IdMateria")), CShort(drQna("IdQuincena")))
         'dtEmpleados = oPlantel.ObtenEmpsPorMateria2(CShort(Request.Params("IdPlantel")), CShort(Request.Params("IdMateria")), CShort(Request.Params("IdSemestre")))
@@ -65,6 +65,35 @@ Partial Class Consulta_MateriaEnPlantel
         Me.gvEmpleados.DataSource = dtEmpleados
         Me.gvEmpleados.DataBind()
     End Sub
+
+    Protected Sub ddlSemestres_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles ddlSemestres.SelectedIndexChanged
+        Dim oSemestre As New Semestre
+        Dim EsSemestreActual As Boolean = oSemestre.EsActual(CShort(Me.ddlSemestres.SelectedValue))
+
+        BindgvEmpleados()
+    End Sub
+
+    Protected Sub btnConsultar_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnConsultar.Click
+        BindgvEmpleados()
+    End Sub
+
+    Private Sub BindSemestres()
+        Dim oSem As New Semestre
+        Me.ddlSemestres.DataSource = oSem.ObtenSemestres
+        Me.ddlSemestres.DataTextField = "Semestre"
+        Me.ddlSemestres.DataValueField = "IdSemestre"
+        Me.ddlSemestres.DataBind()
+        If Me.ddlSemestres.Items.Count = 0 Then
+            Me.ddlSemestres.Items.Insert(0, "No existe información de semestres")
+            Me.ddlSemestres.Items(0).Value = -1
+        Else
+            If Request.Params("IdSemestre") Is Nothing = False Then
+                ddlSemestres.SelectedValue = Request.Params("IdSemestre")
+            End If
+        End If
+        Me.btnConsultar.Enabled = Me.ddlSemestres.Items.Count > 0
+    End Sub
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If Not IsPostBack Then
             Dim oUsr As New Usuario
@@ -72,6 +101,8 @@ Partial Class Consulta_MateriaEnPlantel
             dt = oUsr.ObtenPermisosSobreTabla(Session("Login"), "Materias")
 
             If Not CBool(dt.Rows(0).Item("Consulta")) Then Response.Redirect("~/SinPermiso.aspx")
+            BindSemestres()
+
             BindgvEmpleados()
         End If
     End Sub
@@ -82,8 +113,10 @@ Partial Class Consulta_MateriaEnPlantel
         Select Case e.Row.RowType
             Case DataControlRowType.DataRow
                 Dim lblIdGrupo As Label = CType(e.Row.FindControl("lblIdGrupo"), Label)
+                Dim lblIdEmp As Label = CType(e.Row.FindControl("lblIdEmp"), Label)
                 Dim lblGrupoAux As Label = CType(e.Row.FindControl("lblGrupoAux"), Label)
                 Dim lbGrupo As LinkButton = CType(e.Row.FindControl("lbGrupo"), LinkButton)
+                Dim ibHistorial As ImageButton = CType(e.Row.FindControl("ibHistorial"), ImageButton)
 
                 lbGrupo.Visible = lbGrupo.Text <> "N/D"
                 lblGrupoAux.Visible = lbGrupo.Text = "N/D"
@@ -92,6 +125,8 @@ Partial Class Consulta_MateriaEnPlantel
 
                 e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
                 e.Row.Attributes.Add("OnMouseOut", "Resaltar_Off(this);")
+
+                ibHistorial.OnClientClick = "javascript:abreVentMediaScreen('MateriaHistorialEmpleado.aspx?IdPlantel=" + Request.Params("IdPlantel") + "&IdMateria=" + Request.Params("IdMateria") + "&IdEmpleado=" + lblIdEmp.Text + "','MateriasEmpleadoHistorial');"
         End Select
     End Sub
 
