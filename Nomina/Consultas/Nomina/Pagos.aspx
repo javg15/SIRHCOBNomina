@@ -297,6 +297,160 @@
                                             </tr>
                                             <tr>
                                                 <td style="vertical-align: top; width: 100%; text-align: left" colspan="2">
+                                                    <asp:Panel ID="pnlPagoSeparado" runat="server" Width="100%" BorderWidth="1px"
+                                                        BorderStyle="Solid" BorderColor="White" CssClass="collapsePanelHeader">
+                                                        <asp:Image ID="Image4" runat="server" ImageUrl="~/Imagenes/expand_blue.jpg" />
+                                                        Percepciones - Deducciones / Separadas por categoría
+                                                        <asp:Label ID="Label8" runat="server">(Mostrar detalles...)</asp:Label>
+                                                    </asp:Panel>
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                    <td style="vertical-align: top; text-align: left; width:40%" >
+                                                        <asp:Label ID="Label9" runat="server" SkinID="SkinLblNormal" Text="Seleccione una categoría"></asp:Label>&nbsp;
+                                                        <asp:GridView ID="gvCategorias" runat="server" 
+                                                            AutoGenerateColumns="False" EmptyDataText="No existe detalle de pago para generar resumen de plazas."
+                                                            SkinID="SkinGridView">
+                                                            <Columns>
+                                                                <asp:TemplateField>
+                                                                    <ItemTemplate>
+                                                                        <asp:ImageButton ID="lnSelectPlaza" runat="server" ImageUrl="~/Imagenes/Select.png"
+                                                                            CausesValidation="false" ToolTip="Seleccionar registro" CommandName="Select" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="IdCategoria" Visible="false"><ItemTemplate>
+                                                                    <asp:Label ID="lblIdCategoria" runat="server" Text='<%# Bind("IdCategoria") %>'></asp:Label>
+                                                                </ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                                <asp:TemplateField HeaderText="IdZonaEco" Visible="false"><ItemTemplate>
+                                                                    <asp:Label ID="lblIdZonaEco" runat="server" Text='<%# Bind("IdZonaEco") %>'></asp:Label>
+                                                                </ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                                <asp:BoundField DataField="ClaveCategoriaPago" HeaderText="Clave de Categoría" >
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                </asp:BoundField>
+                                                                <asp:BoundField DataField="DescCategoriaPago" HeaderText="Categor&#237;a">
+                                                                    <HeaderStyle HorizontalAlign="Left" />
+                                                                    <ItemStyle HorizontalAlign="Left" />
+                                                                </asp:BoundField>
+                                                                <asp:BoundField DataField="ZonaEcoPago" HeaderText="Zona econ&#243;mica">
+                                                                    <HeaderStyle HorizontalAlign="Center" />
+                                                                    <ItemStyle HorizontalAlign="Center" />
+                                                                </asp:BoundField>
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                </td>
+                                                <td>
+                                                    
+                                                    <asp:Button ID="btnCategoriasSeparado" runat="server"
+                                                        SkinID="SkinBoton" Text="Consultar detalle"></asp:Button><br />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align: top; width: 100%; text-align: left" colspan="2">
+                                                    <asp:Panel ID="Panel2Categoria" runat="server" Width="100%" BorderWidth="1px" BorderStyle="Solid"
+                                                        BorderColor="White" CssClass="collapsePanelHeader">
+                                                        <asp:Image ID="Image7" runat="server" ImageUrl="~/Imagenes/expand_blue.jpg" />
+                                                        <asp:Label ID="Label10" runat="server">(Mostrar detalles...)</asp:Label>
+                                                    </asp:Panel>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align: top; width: 100%; text-align: left" colspan="2">
+                                                    
+                                                        <table style="width: 100%" cellspacing="0" cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="vertical-align: top; width: 50%; text-align: left">
+                                                                        <asp:GridView ID="grdPercepcionesCategoria" runat="server" Width="100%" SkinID="SkinGridView"
+                                                                            AutoGenerateColumns="False" EmptyDataText="Sin información de percepciones">
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ClavePercDeduc" HeaderText="Clave"></asp:BoundField>
+                                                                                <asp:BoundField DataField="NombrePercDeduc" HeaderText="Percepciones"></asp:BoundField>
+                                                                                <asp:BoundField DataField="Importe" DataFormatString="{0:c}" HeaderText="Importe">
+                                                                                    <ItemStyle HorizontalAlign="Right"></ItemStyle>
+                                                                                </asp:BoundField>
+                                                                            </Columns>
+                                                                        </asp:GridView>
+                                                                    </td>
+                                                                    <td style="vertical-align: top; width: 50%; text-align: left">
+                                                                        <asp:GridView ID="grdDeduccionesCategoria" runat="server" Width="100%" SkinID="SkinGridView"
+                                                                            AutoGenerateColumns="False" EmptyDataText="Sin información de deducciones">
+                                                                            <Columns>
+                                                                                <asp:BoundField DataField="ClavePercDeduc" HeaderText="Clave"></asp:BoundField>
+                                                                                <asp:BoundField DataField="NombrePercDeduc" HeaderText="Deducciones"></asp:BoundField>
+                                                                                <asp:BoundField DataField="Importe" DataFormatString="{0:c}" HeaderText="Importe">
+                                                                                    <ItemStyle HorizontalAlign="Right"></ItemStyle>
+                                                                                </asp:BoundField>
+                                                                            </Columns>
+                                                                        </asp:GridView>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align: top; width: 100%; text-align: left" colspan="2">
+                                                    <asp:Panel ID="Panel2" runat="server" Width="100%" BorderWidth="1px" BorderStyle="Solid"
+                                                        BorderColor="White" CssClass="collapsePanelHeader">
+                                                        <asp:Image ID="Image8" runat="server" ImageUrl="~/Imagenes/expand_blue.jpg" />
+                                                        Totales
+                                                        <asp:Label ID="Label11" runat="server">(Mostrar detalles...)</asp:Label>
+                                                    </asp:Panel>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align: top; width: 100%; text-align: left" colspan="2">
+                                                    <table style="width: 100%" cellspacing="0" cellpadding="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td style="vertical-align: top; width: 50%; text-align: left">
+                                                                        <asp:DetailsView ID="detTotalPercepciones" runat="server" Width="100%" SkinID="SkinDetailsView"
+                                                                            EmptyDataText="No existen percepciones a sumar" AutoGenerateRows="False" Height="100%">
+                                                                            <Fields>
+                                                                                <asp:BoundField DataField="TotalPercepciones" DataFormatString="{0:c}" HeaderText="Total percepciones">
+                                                                                    <HeaderStyle Width="50%"></HeaderStyle>
+                                                                                    <ItemStyle HorizontalAlign="Right" Width="50%"></ItemStyle>
+                                                                                </asp:BoundField>
+                                                                            </Fields>
+                                                                        </asp:DetailsView>
+                                                                    </td>
+                                                                    <td style="vertical-align: top; width: 50%; text-align: left">
+                                                                        <asp:DetailsView ID="detTotalDeducciones" runat="server" Width="100%" SkinID="SkinDetailsView"
+                                                                            EmptyDataText="No existen deducciones a sumar" AutoGenerateRows="False" Height="100%">
+                                                                            <Fields>
+                                                                                <asp:BoundField DataField="TotalDeducciones" DataFormatString="{0:c}" HeaderText="Total deducciones">
+                                                                                    <HeaderStyle Width="50%"></HeaderStyle>
+                                                                                    <ItemStyle HorizontalAlign="Right" Width="50%"></ItemStyle>
+                                                                                </asp:BoundField>
+                                                                            </Fields>
+                                                                        </asp:DetailsView>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="vertical-align: top; width: 50%; height: 37px; text-align: center">
+                                                                        
+                                                                    </td>
+                                                                    <td style="vertical-align: top; width: 50%; height: 37px; text-align: left">
+                                                                        <asp:DetailsView ID="detImporteACobrar" runat="server" Width="100%" SkinID="SkinDetailsView"
+                                                                            EmptyDataText="Sin información de pago" AutoGenerateRows="False" Height="100%">
+                                                                            <Fields>
+                                                                                <asp:BoundField DataField="ImporteACobrar" DataFormatString="{0:c}" HeaderText="Neto a pagar">
+                                                                                    <HeaderStyle Width="50%"></HeaderStyle>
+                                                                                    <ItemStyle HorizontalAlign="Right" Width="50%"></ItemStyle>
+                                                                                </asp:BoundField>
+                                                                            </Fields>
+                                                                        </asp:DetailsView>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align: top; width: 100%; text-align: left" colspan="2">
                                                     <br />
                                                     <asp:Panel ID="TitlePanelPA" runat="server" Width="100%" BorderWidth="1px" BorderStyle="Solid"
                                                         BorderColor="White" CssClass="collapsePanelHeader">

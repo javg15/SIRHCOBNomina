@@ -4,7 +4,7 @@
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="Nomina">
-      <DataSourceReference>/Data Sources/Nomina</DataSourceReference>
+      <DataSourceReference>Nomina</DataSourceReference>
       <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>e1ba71b5-23c4-4883-9667-3cf496150b10</rd:DataSourceID>
     </DataSource>

@@ -635,6 +635,11 @@
                         <InsertItemTemplate>
                                     <asp:DropDownList ID="ddlNuevoIngreso" runat="server" SkinID="SkinDropDownList">
                                     </asp:DropDownList>
+                                    <asp:CompareValidator ID="ddlNuevoIngreso_CV" runat="server" 
+                                        ControlToValidate="ddlNuevoIngreso" Display="Dynamic" Enabled="False" 
+                                        ErrorMessage="Seleccione si es cambio de adscripçión" Operator="NotEqual" 
+                                        ToolTip="Seleccione si es cambio de adscripçión" Type="Integer" ValidationGroup="gpoGuarda" ValueToCompare="-1">*</asp:CompareValidator>
+
                         </InsertItemTemplate>
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />

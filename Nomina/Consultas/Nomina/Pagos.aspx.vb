@@ -590,6 +590,17 @@ Partial Class Consultas_Nomina_Pagos
 
                 btnSendEmail.Visible = oUsr.EsAdministrador(Session("Login")) And oEmp.TieneEmail(hfRFC.Value) And hfRFC.Value <> String.Empty _
                                 And ddlQnasPagadas.SelectedValue <> "-1" And oQna.EstaLiberadaParaPortalAdmvo(ddlQnasPagadas.SelectedValue)
+
+                'Categorias pagadas
+                Dim ds As DataSet
+                ds = oEmp.ObtenHistoriaDetallePagoCategorias(oEmp.RFC, CType(Me.ddlQnasPagadas.SelectedValue, Short))
+                gvCategorias.DataSource = ds.Tables(0)
+                gvCategorias.DataBind()
+                grdPercepcionesCategoria.DataBind()
+                grdDeduccionesCategoria.DataBind()
+                detTotalPercepciones.DataBind()
+                detTotalDeducciones.DataBind()
+                detImporteACobrar.DataBind()
             End If
 
             gvPlazas.DataBind()
@@ -646,6 +657,9 @@ Partial Class Consultas_Nomina_Pagos
                     End If
                 End If
             End If
+
+
+
         Catch ex As Exception
             Throw (New System.Exception(ex.Message.ToString))
         End Try
@@ -793,4 +807,29 @@ Partial Class Consultas_Nomina_Pagos
         EnviaEmail(dr)
     End Sub
 
+    Protected Sub btnCategoriasSeparado_Click(sender As Object, e As EventArgs) Handles btnCategoriasSeparado.Click
+        Dim oEmp As New Empleado
+        Dim dsEmpPago As DataSet
+        Dim hfRFC As HiddenField = CType(Me.WucBuscaEmpleados1.FindControl("hfRFC"), HiddenField)
+
+        If gvCategorias.SelectedIndex >= 0 Then
+            Dim lblIdCategoria As Label = CType(gvCategorias.Rows(gvCategorias.SelectedIndex).FindControl("lblIdCategoria"), Label)
+            Dim lblIdZonaEco As Label = CType(gvCategorias.Rows(gvCategorias.SelectedIndex).FindControl("lblIdZonaEco"), Label)
+
+            oEmp.RFC = IIf(Session("RFCParaCons") Is Nothing, hfRFC.Value.Trim, Session("RFCParaCons"))
+            dsEmpPago = oEmp.ConsultaPagoQnalCategoria(CType(Me.ddlQnasPagadas.SelectedValue, Short), CType(lblIdCategoria.Text, Short), CType(lblIdZonaEco.Text, Short))
+
+            grdPercepcionesCategoria.DataSource = dsEmpPago.Tables(0)
+            grdDeduccionesCategoria.DataSource = dsEmpPago.Tables(1)
+            detTotalPercepciones.DataSource = dsEmpPago.Tables(2)
+            detTotalDeducciones.DataSource = dsEmpPago.Tables(3)
+            detImporteACobrar.DataSource = dsEmpPago.Tables(4)
+
+            grdPercepcionesCategoria.DataBind()
+            grdDeduccionesCategoria.DataBind()
+            detTotalPercepciones.DataBind()
+            detTotalDeducciones.DataBind()
+            detImporteACobrar.DataBind()
+        End If
+    End Sub
 End Class

@@ -268,7 +268,7 @@ Partial Class AdministracionPlazas
 
                 Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
                 Dim gvPlazasHistoria As GridView = CType(Me.pnlUltPlazaVig.FindControl("gvPlazasHistoria"), GridView)
-                BindddlNuevoIngreso(ddlNuevoIngreso, -1) 'If(gvPlazasHistoria.Rows.Count > 0, 1, 1)
+                BindddlNuevoIngreso(ddlNuevoIngreso, -1, 1) 'If(gvPlazasHistoria.Rows.Count > 0, 1, 1)
 
             ElseIf Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "2" Or Request.Params("TipoOperacion") = "4" _
               Or (Request.Params("TipoOperacion") = "1" And Request.Params("CopiarUltVig") = "SI") Then 'Actualizar o Eliminar
@@ -483,12 +483,13 @@ Partial Class AdministracionPlazas
                 End If
 
                 Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
-                BindddlNuevoIngreso(ddlNuevoIngreso, -1)
+                BindddlNuevoIngreso(ddlNuevoIngreso, -1, 0)
             End If
         End If
     End Sub
-    Private Sub BindddlNuevoIngreso(ByVal ddl As DropDownList, ByVal IdSelected As Integer)
+    Private Sub BindddlNuevoIngreso(ByVal ddl As DropDownList, ByVal IdSelected As Integer, ByVal modo As Integer)
         Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+        Dim ddlNuevoIngreso_CV As CompareValidator = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso_CV"), CompareValidator)
 
         'LlenaDDL(ddlEstatusPlaza, "DescEstatusPlaza", "IdEstatusPlaza", oSMP_Plazas.ObtenEstatus(), Nothing)
         ddl.Items.Clear()
@@ -497,10 +498,12 @@ Partial Class AdministracionPlazas
         ddl.Items.Add(New ListItem("Sí", "1"))
 
         ddl.SelectedValue = IdSelected
-        If IdSelected = -1 Then
-            ddl.Enabled = False
-        Else
+        If modo = 1 Then
             ddl.Enabled = True
+            ddlNuevoIngreso_CV.Enabled = True
+        Else
+            ddl.Enabled = False
+            ddlNuevoIngreso_CV.Enabled = False
         End If
     End Sub
     Protected Sub CheckedChanged_chkbxInterinoPuro(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -853,6 +856,9 @@ Partial Class AdministracionPlazas
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
         Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+        Dim CVIdPlazas As CompareValidator = CType(dvPlaza.FindControl("CVIdPlazas"), CompareValidator)
+        Dim RVIdPlazas As RequiredFieldValidator = CType(dvPlaza.FindControl("RVIdPlazas"), RequiredFieldValidator)
+
 
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
 
@@ -880,6 +886,15 @@ Partial Class AdministracionPlazas
         gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
         gvPlazas.DataBind()
 
+
+        'esto es un parche temporal, son las categorias designadas por hora, no por espacio en OCUP
+        If ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("CB-") >= 0 Or ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("EMSAD") >= 0 Then
+            CVIdPlazas.Enabled = False
+            RVIdPlazas.Enabled = False
+        Else
+            CVIdPlazas.Enabled = True
+            RVIdPlazas.Enabled = True
+        End If
         'Para evitar el error de que se quiera asignar un valor a SelectedValue inexistente
         Try
             ddlTiposDeNominas.SelectedValue = SelectedValueAnt

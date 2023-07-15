@@ -2517,6 +2517,22 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+        Public Function ConsultaPagoQnalCategoria(ByVal IdQuincena As Short, ByVal IdCategoria As Short, ByVal IdZonaEco As Short) As DataSet
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@IdQuincena", SqlDbType.SmallInt),
+                                                New SqlParameter("@IdCategoria", SqlDbType.SmallInt),
+                                                New SqlParameter("@IdZonaEco", SqlDbType.SmallInt)
+                                            }
+                Prms(0).Value = _RFC
+                Prms(1).Value = IdQuincena
+                Prms(2).Value = IdCategoria
+                Prms(3).Value = IdZonaEco
+                Return _DataCOBAEV.RunProc("SP_SConsultaPagoQnalCategoria", Prms, "PagoQnalEmpleado", Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
         Public Function ConsultaPagoQnal2(ByVal IdQuincena As Short) As DataSet
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
@@ -2564,6 +2580,18 @@ Namespace COBAEV.Empleados
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
         End Function
+        Public Function ObtenHistoriaDetallePagoCategorias(RFCEmp As String, ByVal IdQuincena As Short) As DataSet
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
+                                                New SqlParameter("@IdQuincenaAplicacion", SqlDbType.SmallInt)}
+                Prms(0).Value = _RFC
+                Prms(1).Value = IdQuincena
+                Return _DataCOBAEV.RunProc("SP_SHistoriaDetallePagoCategorias", Prms, "DetallePagoQnal", Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
         Public Function DetalleDePagoQnalAdeudo(ByVal IdQuincena As Short, ByVal IdQuincenaAplicacion As Short) As DataTable
             Try
                 Dim Prms As SqlParameter() = {New SqlParameter("@RFCEmp", SqlDbType.NVarChar, 13),
