@@ -149,7 +149,7 @@ Partial Class ABCPlazasBase
     Private Sub BindddlCategorias(ByVal ddlCategorias As DropDownList, ByVal IdSelected As Integer, ByVal IdTipoEmp As Integer)
         Dim oCategoria As New Categoria
 
-        If IdTipoEmp = 2 Then
+        If IdTipoEmp = 2 Or IdTipoEmp = 0 Then
             LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenTodas(), IdSelected)
         Else
             LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenActivasBasificables(), IdSelected)

@@ -63,7 +63,7 @@ Partial Class Admon_ABCAniosMesesCompe
 
         dr = oCompe.ValidaSiHayMesAbiertoParaCaptura(CShort(lblAnio_E.Text), CByte(lblIdMes_E.Text), CByte(lblAdicional_E.Text))
 
-        ChkBxEstatus_E.Enabled = CBool(dr("MesAdicAbierto")) = False
+        'ChkBxEstatus_E.Enabled = CBool(dr("MesAdicAbierto")) = False
         ChkBxISRRecalculado_E.Visible = lblAdicional_E.Text = "0"
     End Sub
     Protected Sub gvAniosMesesCompe_RowCancelingEdit(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCancelEditEventArgs) Handles gvAniosMesesCompe.RowCancelingEdit
