@@ -39,6 +39,7 @@ Partial Class MateriaHistorialEmpleado
     Private Sub BindDatos(Optional ByVal pSortExpression As String = "Grupo", Optional ByVal pSortDirection As String = "asc")
         Dim oPlantel As New Plantel
         Dim myDataView As New DataView()
+
         Dim EncabezadoSeleccionado As Boolean = False
 
         Dim dt As DataTable = oPlantel.ObtenEmpsHistorial(Request.Params("IdPlantel"), Request.Params("IdMateria"), Request.Params("IdEmpleado"))
@@ -71,6 +72,13 @@ Partial Class MateriaHistorialEmpleado
 
         gvDatos.DataSource = myDataView
         gvDatos.DataBind()
+
+        '-----------
+        'Dim ddlView As DataView = dt2.DefaultView
+        'ddlView.RowFilter.Where()
+        '= IdGrupo
+        'ddlGrupo.DataSource = ddlView
+
     End Sub
 
     Protected Sub gvDatos_Sorting(sender As Object, e As System.Web.UI.WebControls.GridViewSortEventArgs) Handles gvDatos.Sorting

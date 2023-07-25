@@ -11,7 +11,7 @@
         <tr>
             <td style="vertical-align: top; text-align: right">
                 <h2>
-                    Sistema de nómina: Relación Empleado/Materia
+                    Sistema de nómina: Relación Empleado/Materia en el Plantel (Todos los grupos)
                 </h2>
             </td>
         </tr>
@@ -73,6 +73,32 @@
                                     </tr>
                                     <tr>
                                         <td style="text-align: left; vertical-align: top;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left; vertical-align: top;" align="left">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        Grupo:
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="ddlGrupo" runat="server"></asp:DropDownList>
+                                                    </td>
+                                                    <td>
+                                                        Docente:
+                                                    </td>
+                                                    <td>
+                                                        <asp:DropDownList ID="ddlDocente" runat="server"></asp:DropDownList>
+                                                    </td>
+                                                    <td>
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </td>
                                     </tr>
                                     <tr>
