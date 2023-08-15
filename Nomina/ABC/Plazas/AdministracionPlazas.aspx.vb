@@ -269,6 +269,7 @@ Partial Class AdministracionPlazas
                 Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
                 Dim gvPlazasHistoria As GridView = CType(Me.pnlUltPlazaVig.FindControl("gvPlazasHistoria"), GridView)
                 BindddlNuevoIngreso(ddlNuevoIngreso, -1, 1) 'If(gvPlazasHistoria.Rows.Count > 0, 1, 1)
+                ddlNuevoIngreso.Enabled = False
 
             ElseIf Request.Params("TipoOperacion") = "0" Or Request.Params("TipoOperacion") = "2" Or Request.Params("TipoOperacion") = "4" _
               Or (Request.Params("TipoOperacion") = "1" And Request.Params("CopiarUltVig") = "SI") Then 'Actualizar o Eliminar
@@ -484,6 +485,16 @@ Partial Class AdministracionPlazas
 
                 Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
                 BindddlNuevoIngreso(ddlNuevoIngreso, -1, 0)
+
+                If Request.Params("TipoOperacion") = 0 Then
+                    If ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("CB-") >= 0 Or ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("EMSAD") >= 0 Then
+                        CVIdPlazas.Enabled = False
+                        RVIdPlazas.Enabled = False
+                    Else
+                        CVIdPlazas.Enabled = True
+                        RVIdPlazas.Enabled = True
+                    End If
+                End If
             End If
         End If
     End Sub
@@ -1004,6 +1015,7 @@ Partial Class AdministracionPlazas
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
         Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
+        Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
 
         Dim oCategoria As New Categoria
         Dim drCategoriaHomologada As DataRow
@@ -1035,12 +1047,25 @@ Partial Class AdministracionPlazas
             ChckBxTratarComoBase.Checked = False
             chkbxInterinoPuro.Checked = False
         End If
+
         ChckBxTratarComoBase.Enabled = (OcupacionEsInterina = True Or OcupacionEsProvisional = True Or OcupacionEsBase = True)
         chkbxInterinoPuro.Enabled = OcupacionEsInterina = True
+
         If Request.Params("TipoOperacion") = "2" Then
             ChckBxTratarComoBase.Enabled = False
             chkbxInterinoPuro.Enabled = False
+
+        Else
+
         End If
+
+        ddlNuevoIngreso.SelectedValue = "0"
+        If ddlPlazasTipoOcup.SelectedValue = "2" Then
+            ddlNuevoIngreso.Enabled = True
+        Else
+            ddlNuevoIngreso.Enabled = False
+        End If
+
         If drCategoriaHomologada("CategoriaEsHomologada") And (OcupacionEsInterina Or OcupacionEsProvisional Or OcupacionEsBase) Then
             ChckBxTratarComoBase.Enabled = True And Request.Params("TipoOperacion") <> "2"
         Else

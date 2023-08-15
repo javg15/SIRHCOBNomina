@@ -248,14 +248,15 @@
                                             </tr>
                                             <tr>
                                                 <td style="vertical-align: top; width: 100%; text-align: left; height: 18px;">
-                                                    <asp:LinkButton ID="lbAsignarPlazaBase" runat="server" Font-Bold="False"
-                                                                    SkinID="SkinLinkButton" ToolTip="Asignar plaza BASE" ForeColor="#003300" PostBackUrl="../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1">Asignar plaza BASE</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbEditarPlazaBase" runat="server" Font-Bold="False"
+                                                                    SkinID="SkinLinkButton" ToolTip="Editar plaza BASE" ForeColor="#330000">Editar plaza BASE</asp:LinkButton>
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <asp:LinkButton ID="lbQuitarPlazaBase" runat="server" Font-Bold="False"
+                                                    <asp:LinkButton ID="lbQuitarPlazaBase" runat="server" Font-Bold="False" Visible="false"
                                                                     SkinID="SkinLinkButton" ToolTip="Asignar plaza BASE" ForeColor="#330000">Quitar plaza BASE</asp:LinkButton>
                                                     <ajaxToolkit:ConfirmButtonExtender ID="CBQuitarPlazaBase" runat="server" ConfirmText="¿Realmente desea QUITAR la asignación de Plaza Base al empleado?"
                                                                             TargetControlID="lbQuitarPlazaBase">
                                                                         </ajaxToolkit:ConfirmButtonExtender>
+                                                    
                                                 </td>
                                             </tr>
                                             <tr>

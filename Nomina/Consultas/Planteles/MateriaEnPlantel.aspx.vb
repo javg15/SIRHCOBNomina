@@ -126,7 +126,7 @@ Partial Class Consulta_MateriaEnPlantel
                 e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
                 e.Row.Attributes.Add("OnMouseOut", "Resaltar_Off(this);")
 
-                ibHistorial.OnClientClick = "javascript:abreVentMediaScreen('MateriaHistorialEmpleado.aspx?IdPlantel=" + Request.Params("IdPlantel") + "&IdMateria=" + Request.Params("IdMateria") + "&IdEmpleado=" + lblIdEmp.Text + "','MateriasEmpleadoHistorial');"
+                ibHistorial.OnClientClick = "javascript:abreVentanaImpresion('MateriaHistorialEmpleado.aspx?IdPlantel=" + Request.Params("IdPlantel") + "&IdMateria=" + Request.Params("IdMateria") + "&IdEmpleado=" + lblIdEmp.Text + "&IdGrupo=" + lblIdGrupo.Text + "','MateriasEmpleadoHistorial');"
         End Select
     End Sub
 

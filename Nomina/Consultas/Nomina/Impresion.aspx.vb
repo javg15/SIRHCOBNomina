@@ -177,6 +177,14 @@ Partial Class ImpresionDeQuincenas
                         Me.ddlPlanteles_ZonasGeo.Items.Add(New WebControls.ListItem("No hay zonas geográficas disponibles para el usuario.", "0"))
                     End If
                 End If
+            Case "3" 'Zonas económicas
+                Me.pnlPlanteles_ZonasGeo.GroupingText = "Seleccione zona económica"
+                Me.pnlPlanteles_ZonasGeo.Visible = True
+                Dim oZonaEco As New ZonaEconomica
+                If pCargando = True Then
+                    LlenaDDL(Me.ddlPlanteles_ZonasGeo, "DescZonaEco", "IdZonaEco", oZonaEco.ObtenTodas())
+                    ddlPlanteles_ZonasGeo.Items.Add(New WebControls.ListItem("EMSAD", "4"))
+                End If
             Case Else
                 Me.pnlPlanteles_ZonasGeo.Visible = False
         End Select
@@ -196,6 +204,8 @@ Partial Class ImpresionDeQuincenas
         Dim lblIdReporte As Label = CType(gvr.FindControl("lblIdReporte"), Label)
         'Dim lblImplicaMeses As Label = CType(gvr.FindControl("lblImplicaMeses"), Label)
         'Dim lblExportarAExcel As Label = CType(gvr.FindControl("lblExportarAExcel"), Label)
+
+
 
         Select Case lblIdReporte.Text
             Case "1", "123" 'Institucional de percepciones y deducciones
@@ -433,10 +443,25 @@ Partial Class ImpresionDeQuincenas
                 Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
             Case "164" 'CFDI
                 Me.ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
-                     + "?Anio=" + Me.ddlAños.SelectedItem.Text _
+                    + "?Anio=" + Me.ddlAños.SelectedItem.Text _
                     + "&IdMes=" + Me.ddlMeses.SelectedValue _
                     + "&OrigenRecurso=" + Me.ddlOrigenRecurso.SelectedValue _
+                    + "&IdTipoNomina=" + Me.ddlTipoDeNomina.SelectedValue _
+                    + "&IdPlantel=" + Me.ddlPlanteles_ZonasGeo.SelectedValue + "'" _
                     + "&IdReporte=" + lblIdReporte.Text + "'); return false;"
+                Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
+            Case "173" 'nomina por categorias
+                Dim myByte As Byte() = System.Text.Encoding.UTF8.GetBytes(If(ddlTipoConsulta.SelectedValue = "A", "&Anio=" + Me.ddlAños.SelectedItem.Text, "") _
+                    + If(ddlTipoConsulta.SelectedValue = "M", "&IdMes=" + Me.ddlAños.SelectedItem.Text + Me.ddlMeses.SelectedValue.PadLeft(2, "0"), "") _
+                    + If(ddlTipoConsulta.SelectedValue = "Q", "&IdQuincena=" + lblIdQuincena.Text, ""))
+                '+ "&IdTipoFuente=" + Me.ddlTipoDeFuente.SelectedValue _
+                '+ If(ddlTiposDeImpresion.SelectedValue = 1, "&IdPlantel=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "") _
+                '+ If(ddlTiposDeImpresion.SelectedValue = 2, "&IdZonaGeografica=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "") _
+                '+ If(ddlTiposDeImpresion.SelectedValue = 3, "&IdZonaEconomica=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "")
+
+                '+ "&IdTipoNomina=" + Me.ddlTipoDeNomina.SelectedValue _
+                Me.ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
+                            + "?binario=1&IdReporte=173&parametros=" + Convert.ToBase64String(myByte) + "'); return false;"
                 Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
         End Select
     End Sub
@@ -475,6 +500,9 @@ Partial Class ImpresionDeQuincenas
 
         Me.ddlPlanteles_ZonasGeo.Visible = True
         Me.ddlPlantelesPensionAlimenticia.Visible = False
+        Me.ddlTipoConsulta.Visible = False
+        Me.lblTipoConsulta.Visible = False
+
         Select Case lblIdReporte.Text
             Case "1", "123" 'Institucional de percepciones y deducciones
                 Me.ibImprimir.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportes.aspx" _
@@ -724,6 +752,10 @@ Partial Class ImpresionDeQuincenas
                     + "?Anio=" + Me.ddlAños.SelectedItem.Text _
                     + "&IdReporte=" + lblIdReporte.Text + "','ProvTresPorcNominaAnual_" + Me.ddlAños.SelectedItem.Text + "'); return false;"
                 Me.ibImprimir.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
+            Case "173" 'nomina por categorias
+                Dim oUsr As New Usuario
+                Me.ddlTipoConsulta.Visible = True
+                Me.lblTipoConsulta.Visible = True
         End Select
     End Sub
 
@@ -836,12 +868,19 @@ Partial Class ImpresionDeQuincenas
             End If
         ElseIf CType(gvr.FindControl("lblIdReporte"), Label).Text = "164" Then
             Me.pnlOrigenRecurso.Visible = True
+        ElseIf CType(gvr.FindControl("lblIdReporte"), Label).Text = "173" Then
+            Me.ddlTipoDeFuente.Items(0).Enabled = False
+            Me.ddlTipoDeFuente.Items(1).Enabled = False
         Else
             Me.ddlTiposDeImpresion.Items(0).Enabled = False
             Me.ddlTiposDeImpresion.Items(2).Enabled = False
             Me.ddlTiposDeImpresion.Items(0).Selected = False
             Me.ddlTiposDeImpresion.Items(2).Selected = False
             Me.ddlTiposDeImpresion.Items(1).Selected = True
+
+            Me.ddlTipoDeFuente.Items(0).Enabled = True
+            Me.ddlTipoDeFuente.Items(1).Enabled = True
+
             If itemSel <> Me.ddlTiposDeImpresion.SelectedValue Then
                 BindddlPlanteles_ZonasGeo(True)
             Else
@@ -868,5 +907,9 @@ Partial Class ImpresionDeQuincenas
         Else
             Session.Remove("pFchImpRpt")
         End If
+    End Sub
+    Protected Sub ddlOrigenRecurso_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlOrigenRecurso.SelectedIndexChanged
+        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+        CreaLinkParaImpresion(gvr)
     End Sub
 End Class

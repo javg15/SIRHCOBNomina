@@ -103,13 +103,17 @@ Partial Class Consultas_Empleados_Historia
 
             If oUsuario.EsAdministrador(Session("Login")) Or oUsuario.EsSuperAdmin(Session("Login")) Then
                 pnlConsultaBase.Visible = True
+                lbQuitarPlazaBase.Visible = True
             Else
                 pnlConsultaBase.Visible = False
+                lbQuitarPlazaBase.Visible = False
             End If
 
 
             IdPlazaAsignadoParaBase = False
             BindDatos()
+
+
         End If
     End Sub
 
@@ -234,10 +238,16 @@ Partial Class Consultas_Empleados_Historia
 
                 'Obtener los datos de la plaza vigente
                 If e.Row.RowIndex = 0 Then 'por default tomar el dato del primer registro
-                    lbAsignarPlazaBase.PostBackUrl = "../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1&IdPlaza=" + lblIdPlaza.Text
+                    lbEditarPlazaBase.PostBackUrl = lbEditarPlazaBase.PostBackUrl + "&IdPlaza=" + lblIdPlaza.Text
                 End If
                 If lblOcupacion.Text = "B" And IdPlazaAsignadoParaBase = False Then  'si encuentra el dato de base, entonces, sustituir
-                    lbAsignarPlazaBase.PostBackUrl = "../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1&IdPlaza=" + lblIdPlaza.Text
+                    'lbAsignarPlazaBase.PostBackUrl = "../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1&IdPlaza=" + lblIdPlaza.Text
+                    Dim posIdPlaza As Integer
+                    posIdPlaza = lbEditarPlazaBase.PostBackUrl.IndexOf("&IdPlaza=")
+                    If posIdPlaza > 0 Then
+                        lbEditarPlazaBase.PostBackUrl = lbEditarPlazaBase.PostBackUrl.Substring(0, posIdPlaza)
+                    End If
+                    lbEditarPlazaBase.PostBackUrl = lbEditarPlazaBase.PostBackUrl + "&IdPlaza=" + lblIdPlaza.Text
                     IdPlazaAsignadoParaBase = True
                 End If
         End Select
@@ -328,5 +338,19 @@ Partial Class Consultas_Empleados_Historia
         Catch Ex As Exception
 
         End Try
+    End Sub
+
+
+    Protected Sub gvPlazasBase_DataBound(sender As Object, e As EventArgs) Handles gvPlazasBase.DataBound
+        If gvPlazasBase.Rows.Count > 0 Then
+            lbEditarPlazaBase.Text = "Ver plaza BASE"
+            lbEditarPlazaBase.PostBackUrl = "../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=0"
+        Else
+            lbEditarPlazaBase.Text = "Asignar plaza BASE"
+            lbEditarPlazaBase.PostBackUrl = "../../ABC/Plazas/ABCPlazasBase.aspx?TipoOperacion=1"
+        End If
+    End Sub
+    Protected Sub gvPlazasBase_DataBinding(sender As Object, e As EventArgs) Handles gvPlazasBase.DataBinding
+
     End Sub
 End Class

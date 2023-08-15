@@ -82,16 +82,20 @@
                                                     <asp:Label ID="lblQuinFinBase" runat="server" Text='<%# Bind("QnaFinBase") %>'></asp:Label>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="RFC (Ocupante)">
-                                                <HeaderStyle HorizontalAlign="Center" />
-                                                <ItemStyle HorizontalAlign="Center" />
-                                                <ItemTemplate>
-                                                    <asp:LinkButton ID="lnkbtnrfc" runat="server" CommandName="CmdRFC" Text='<%#DataBinder.Eval(Container, "dataitem.RFCEmpOcup") %>' ToolTip="Click en el RFC para seleccionar al empleado para aplicarle operaciones."></asp:LinkButton>
-                                                    <ajaxToolkit:ConfirmButtonExtender ID="CBEEmpSel" runat="server" ConfirmText="¿Seleccionar empleado para consultas posteriores?"
-                                                        TargetControlID="lnkbtnrfc">
-                                                    </ajaxToolkit:ConfirmButtonExtender>
-                                                </ItemTemplate>
-                                            </asp:TemplateField>
+                                        </Columns>
+                                        <EmptyDataRowStyle Font-Bold="True" Font-Italic="True" />
+                                    </asp:GridView>
+                            </asp:Panel>
+                            <asp:Panel ID="PanelHistorial" runat="server" Width="100%" GroupingText="Historial">
+                                        <asp:GridView ID="grdHistorial" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe información."
+                                            PageSize="20" SkinID="SkinGridView" Width="100%" >
+                                            <EmptyDataTemplate>
+                                                <div>
+                                                    <asp:Label ID="lblSinHistorial" runat="server" Text="No existe información."></asp:Label>
+                                                </div>
+                                            </EmptyDataTemplate>
+                                            <EmptyDataRowStyle Font-Italic="True" />
+                                            <Columns>
                                             <asp:TemplateField HeaderText="IdPlaza" Visible="false">
                                                 <HeaderStyle HorizontalAlign="Center" />
                                                 <ItemStyle HorizontalAlign="Center" />
@@ -177,9 +181,8 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
-                                        <EmptyDataRowStyle Font-Bold="True" Font-Italic="True" />
-                                    </asp:GridView>
-                            </asp:Panel>
+                                        </asp:GridView>
+                                    </asp:Panel>
                         </asp:Panel>
                     
                 

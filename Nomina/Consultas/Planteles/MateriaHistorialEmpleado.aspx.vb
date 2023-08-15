@@ -70,14 +70,33 @@ Partial Class MateriaHistorialEmpleado
             End Select
         End If
 
+        '-----------
+        ddlGrupo.DataSource = dt.DefaultView.ToTable(True, {"IdGrupo", "Grupo"})
+        ddlGrupo.DataTextField = "Grupo"
+        ddlGrupo.DataValueField = "IdGrupo"
+        ddlGrupo.DataBind()
+        ddlGrupo.SelectedValue = Request.Params("IdGrupo")
+
+        Dim dtDocente As New DataTable
+        dtDocente = dt.DefaultView.ToTable(True, {"IdEmp", "ApePatEmp", "ApeMatEmp", "NomEmp"})
+
+        Dim row As DataRow
+        row = dtDocente.NewRow()
+        row(0) = 0
+        row(1) = "-"
+        row(2) = "-Todos-"
+        row(3) = "-"
+        dtDocente.Rows.InsertAt(row, 0)
+        ddlDocente.DataSource = dtDocente
+        ddlDocente.DataSource.Columns.Add("NombreEmpleado", GetType(String), "ApePatEmp + ' ' + ApeMatEmp + ' ' + NomEmp")
+        ddlDocente.DataTextField = "NombreEmpleado"
+        ddlDocente.DataValueField = "IdEmp"
+        ddlDocente.DataBind()
+        ddlDocente.SelectedValue = Request.Params("IdEmpleado")
+
+        myDataView.RowFilter = "IdGrupo = '" + ddlGrupo.SelectedValue + "' And IdEmp = '" + ddlDocente.SelectedValue + "'"
         gvDatos.DataSource = myDataView
         gvDatos.DataBind()
-
-        '-----------
-        'Dim ddlView As DataView = dt2.DefaultView
-        'ddlView.RowFilter.Where()
-        '= IdGrupo
-        'ddlGrupo.DataSource = ddlView
 
     End Sub
 
@@ -86,14 +105,14 @@ Partial Class MateriaHistorialEmpleado
     End Sub
 
     Protected Sub gvDatos_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvDatos.RowDataBound
-        Dim lblIdEmp As Label = CType(e.Row.FindControl("lblIdEmp"), Label)
+        'Dim lblIdEmp As Label = CType(e.Row.FindControl("lblIdEmp"), Label)
 
-        Select Case e.Row.RowType
-            Case DataControlRowType.DataRow
-                If lblIdEmp.Text = Request.Params("IdEmpleado") Then
-                    e.Row.BackColor = Drawing.Color.Orange
-                End If
-        End Select
+        'Select Case e.Row.RowType
+        ' Case DataControlRowType.DataRow
+        'If lblIdEmp.Text = Request.Params("IdEmpleado") Then
+        'e.Row.BackColor = Drawing.Color.Orange
+        'End If
+        'End Select
     End Sub
 
     Protected Sub gvEmpleado_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvEmpleado.RowDataBound
@@ -101,5 +120,37 @@ Partial Class MateriaHistorialEmpleado
             Case DataControlRowType.DataRow
                 e.Row.BackColor = Drawing.Color.Orange
         End Select
+    End Sub
+    Protected Sub ddlGrupo_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlGrupo.SelectedIndexChanged
+        Dim oPlantel As New Plantel
+        Dim myDataView As New DataView()
+        Dim dt As DataTable = oPlantel.ObtenEmpsHistorial(Request.Params("IdPlantel"), Request.Params("IdMateria"), Request.Params("IdEmpleado"))
+
+        myDataView = dt.DefaultView
+
+        If ddlDocente.SelectedValue <> "0" Then
+            myDataView.RowFilter = "IdGrupo = '" + ddlGrupo.SelectedValue + "' And IdEmp = '" + ddlDocente.SelectedValue + "'"
+        Else
+            myDataView.RowFilter = "IdGrupo = '" + ddlGrupo.SelectedValue + "'"
+        End If
+
+        gvDatos.DataSource = myDataView
+        gvDatos.DataBind()
+    End Sub
+    Protected Sub ddlDocente_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlDocente.SelectedIndexChanged
+        Dim oPlantel As New Plantel
+        Dim myDataView As New DataView()
+        Dim dt As DataTable = oPlantel.ObtenEmpsHistorial(Request.Params("IdPlantel"), Request.Params("IdMateria"), Request.Params("IdEmpleado"))
+
+        myDataView = dt.DefaultView
+
+        If ddlDocente.SelectedValue <> "0" Then
+            myDataView.RowFilter = "IdGrupo = '" + ddlGrupo.SelectedValue + "' And IdEmp = '" + ddlDocente.SelectedValue + "'"
+        Else
+            myDataView.RowFilter = "IdGrupo = '" + ddlGrupo.SelectedValue + "'"
+        End If
+
+        gvDatos.DataSource = myDataView
+        gvDatos.DataBind()
     End Sub
 End Class

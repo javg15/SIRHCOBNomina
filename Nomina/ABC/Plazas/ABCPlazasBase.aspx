@@ -69,8 +69,13 @@
                                                 ControlToValidate="ddlQuincenaInicio" Display="Dynamic" ErrorMessage="Seleccione la quincena de inicio"
                                                 Operator="NotEqual" ToolTip="Seleccione la quincena de inicio" Type="Integer"
                                                 ValidationGroup="gpoGuarda" ValueToCompare="0">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
-                            <asp:TemplateField HeaderText="T&#233;rmino"><InsertItemTemplate><asp:DropDownList ID="ddlQuincenaTermino" runat="server" SkinID="SkinDropDownList"
-                                                AutoPostBack="True" ></asp:DropDownList><asp:CompareValidator ID="CVVigencia" runat="server" ControlToCompare="ddlQuincenaInicio"
+                            <asp:TemplateField HeaderText="T&#233;rmino"><InsertItemTemplate>
+                                <asp:DropDownList ID="ddlQuincenaTermino" runat="server" SkinID="SkinDropDownList"
+                                                AutoPostBack="True" ></asp:DropDownList>
+                                <asp:CheckBox ID="chkLiberarPlaza" runat="server" Text="Liberar plaza" Font-Size="10" 
+                                        
+                                        />
+                                <asp:CompareValidator ID="CVVigencia" runat="server" ControlToCompare="ddlQuincenaInicio"
                                                 ControlToValidate="ddlQuincenaTermino" Display="Dynamic" ErrorMessage="Vigencia incorrecta."
                                                 Operator="GreaterThanEqual" ToolTip="Vigencia incorrecta." Type="Integer"
                                                 ValidationGroup="gpoGuarda">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
@@ -81,7 +86,7 @@
                                                 <HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
                             <asp:TemplateField HeaderText="">
                                 <InsertItemTemplate><asp:CheckBox ID="chkPermitirReasignacion" runat="server" Text="Permitir reasignación de titular" Font-Size="10" AutoPostBack="True"
-                                        OnCheckedChanged="chkPermitirReasignacion_CheckedChanged"
+                                        OnCheckedChanged="chkPermitirReasignacion_CheckedChanged" Visible="false"
                                         /></InsertItemTemplate>
                                 <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                                 <ItemStyle HorizontalAlign="Left" Wrap="False" />
@@ -122,7 +127,7 @@
                                                 <asp:TemplateField HeaderText="Tipo plantel"><ItemTemplate><asp:Label ID="lbl20" runat="server" Text='<%# Bind("TipoPlantel") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Tipo de plaza"><ItemTemplate><asp:Label ID="lbl30" runat="server" Text='<%# Bind("CvePlazaTipo") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Categoría"><ItemTemplate><asp:Label ID="lbl3" runat="server" Text='<%# Bind("DescCategoria") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
-                                                <asp:TemplateField HeaderText="Estatus (Base)"><ItemTemplate><asp:Label ID="lbl4" runat="server" Text='<%# Bind("Estatus") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Estatus (Base)"><ItemTemplate><asp:Label ID="lblEstatusBase" runat="server" Text='<%# Bind("Estatus") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Inicio (Base)"><ItemTemplate><asp:Label ID="lblQuinInicio" runat="server" Text='<%# Bind("QuinInicio") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Termino (Base)"><ItemTemplate><asp:Label ID="lblQuinTermino" runat="server" Text='<%# Bind("QuinTermino") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Empleado Titular"><ItemTemplate><asp:Label ID="lblTitular" runat="server" Text='<%# Bind("NombT") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
@@ -134,6 +139,17 @@
                                                 <asp:TemplateField HeaderText="Termino (Ocupante)"><ItemTemplate><asp:Label ID="lblOcupanteFin" runat="server" Text='<%# Bind("QuinFinO") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Plantel (Ocupante)"><ItemTemplate><asp:Label ID="lblOcupantePlantel" runat="server" Text='<%# Bind("PlantelO") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Sindicato (Ocupante)"><ItemTemplate><asp:Label ID="lblOcupanteSindicato" runat="server" Text='<%# Bind("SindicatoO") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Ids" Visible="false"><ItemTemplate>
+                                                    <asp:Label ID="lblIdEstatusPlazaBase" runat="server" Text='<%# Bind("IdEstatusPlazaBase") %>'></asp:Label>
+                                                    <asp:Label ID="lblIdQnaVigIni" runat="server" Text='<%# Bind("IdQnaVigIni") %>'></asp:Label>
+                                                    <asp:Label ID="lblIdQnaVigFin" runat="server" Text='<%# Bind("IdQnaVigFin") %>'></asp:Label>
+                                                    </ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:ImageButton ID="ibEditar" Visible="false" runat="server" ImageUrl="~/Imagenes/Modificar.png" ToolTip="Editar" CommandName="EditarPlaza" CommandArgument='<%# Container.DataItemIndex%>' OnClientClick="$('html, body').animate({ scrollTop: 0 }, 'fast');" />
+                                                    </ItemTemplate>
+                                                    <ItemStyle HorizontalAlign="Center" />
+                                                </asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
                                                         <asp:ImageButton ID="ibHistorial" runat="server" ImageUrl="~/Imagenes/detalles.gif" ToolTip="Ver historial." CommandName="HistorialPlaza" CommandArgument='<%# Container.DataItemIndex%>' />
@@ -174,18 +190,18 @@
                                             </EmptyDataTemplate>
                                             <EmptyDataRowStyle Font-Italic="True" />
                                             <Columns>
-                                                <asp:CommandField ButtonType="Image" SelectImageUrl="~/Imagenes/Select.png" ShowSelectButton="True"><ItemStyle HorizontalAlign="Center" /></asp:CommandField>
                                                 <asp:TemplateField HeaderText="Id"><ItemTemplate><asp:Label ID="lblIdPlazas" runat="server" Text='<%# Bind("IdPlazas") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Centro de Adscripción (Ubicación física del empleado)"><ItemTemplate><asp:Label ID="lbl2" runat="server" Text='<%# Bind("DescPlantelEmpleado") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Centro de Adscripción al que pertenece la Plaza (Utilizado para pago)"><ItemTemplate><asp:Label ID="lblPlazaEmp" runat="server" Text='<%# Bind("DescPlantelPlaza") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Tipo de plaza"><ItemTemplate><asp:Label ID="lbl30" runat="server" Text='<%# Bind("CvePlazaTipo") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Tipo de Ocupación"><ItemTemplate><asp:Label ID="lbl33" runat="server" Text='<%# Bind("Estatus") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Categoría"><ItemTemplate><asp:Label ID="lbl3" runat="server" Text='<%# Bind("DescCategoria") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Quincena Inicio"><ItemTemplate><asp:Label ID="lblQuinInicio" runat="server" Text='<%# Bind("QuinInicio") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Quincena Termino"><ItemTemplate><asp:Label ID="lblQuinTermino" runat="server" Text='<%# Bind("QuinTermino") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Observaciones"><ItemTemplate><asp:Label ID="lblObservaciones" runat="server" Text='<%# Bind("Observaciones") %>'></asp:Label></ItemTemplate><HeaderStyle HorizontalAlign="Center" /><ItemStyle HorizontalAlign="Center" /></asp:TemplateField>
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
-                                                        <asp:ImageButton ID="ibBaja" runat="server" ImageUrl="~/Imagenes/Eliminar.png" ToolTip="Quitar registro." CommandName="EliminarPlaza" CommandArgument='<%# Container.DataItemIndex%>' />
+                                                        <asp:ImageButton ID="ibBaja" runat="server" ImageUrl="~/Imagenes/Eliminar.png" ToolTip="Quitar registro." CommandName="EliminarPlaza" CommandArgument='<%# Container.DataItemIndex%>' Visible="false" />
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" />
                                                 </asp:TemplateField>

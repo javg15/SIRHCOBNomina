@@ -627,13 +627,13 @@
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="¿Es cambio de adscripción?">
+                    <asp:TemplateField HeaderText="">
                         <EditItemTemplate>
-                                    <asp:DropDownList ID="ddlNuevoIngresoE" runat="server" SkinID="SkinDropDownList">
+                                    <asp:DropDownList ID="ddlNuevoIngresoE" runat="server" SkinID="SkinDropDownList" Enabled="false">
                                     </asp:DropDownList>
                         </EditItemTemplate>
                         <InsertItemTemplate>
-                                    <asp:DropDownList ID="ddlNuevoIngreso" runat="server" SkinID="SkinDropDownList">
+                                    <asp:DropDownList ID="ddlNuevoIngreso" runat="server" SkinID="SkinDropDownList" Enabled="false">
                                     </asp:DropDownList>
                                     <asp:CompareValidator ID="ddlNuevoIngreso_CV" runat="server" 
                                         ControlToValidate="ddlNuevoIngreso" Display="Dynamic" Enabled="False" 
@@ -642,6 +642,7 @@
 
                         </InsertItemTemplate>
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
+                        <HeaderTemplate>   <div style="word-wrap: break-word;white-space:normal" runat="server">En caso de cobrar Compactable ¿La seguirá cobrando? (si no cobra actualmente, entonces, elija NO)</div></HeaderTemplate>
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />
                     </asp:TemplateField>
                     <asp:TemplateField ShowHeader="False">

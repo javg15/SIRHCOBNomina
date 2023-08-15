@@ -83,13 +83,13 @@
                                                         Grupo:
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="ddlGrupo" runat="server"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlGrupo" runat="server" AutoPostBack="True"></asp:DropDownList>
                                                     </td>
                                                     <td>
                                                         Docente:
                                                     </td>
                                                     <td>
-                                                        <asp:DropDownList ID="ddlDocente" runat="server"></asp:DropDownList>
+                                                        <asp:DropDownList ID="ddlDocente" runat="server" AutoPostBack="True"></asp:DropDownList>
                                                     </td>
                                                     <td>
                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

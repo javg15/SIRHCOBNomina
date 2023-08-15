@@ -16,14 +16,27 @@
         </tr>
         <tr>
             <td style="vertical-align: top; text-align: left">
+                <asp:UpdatePanel ID="UpdatePanel8" runat="server">
+                    <ContentTemplate>
                 <asp:Panel ID="pnlAños" runat="server" DefaultButton="btnConsultarQuincenas" Font-Names="Verdana"
                     Font-Size="X-Small" GroupingText="Seleccione año">
                     <br />
                     <asp:DropDownList ID="ddlAños" runat="server" SkinID="SkinDropDownList">
                     </asp:DropDownList>
                     <asp:Button ID="btnConsultarQuincenas" runat="server" SkinID="SkinBoton" Text="Consultar"
-                        ToolTip="Consultar información relacionada con el año seleccionado" OnClick="btnConsultarQuincenas_Click" /><br />
+                        ToolTip="Consultar información relacionada con el año seleccionado" OnClick="btnConsultarQuincenas_Click" />
+                    <br />
+                    <br />
+                    <asp:Label ID="lblTipoConsulta" runat="server" Text="Consultar por:" ></asp:Label>
+                    <br />
+                    <asp:DropDownList ID="ddlTipoConsulta" runat="server" SkinID="SkinDropDownList" >
+                        <asp:ListItem Selected="True" Value="A">Año</asp:ListItem>
+                        <asp:ListItem Value="M">Mes</asp:ListItem>
+                        <asp:ListItem Value="Q">Quincena</asp:ListItem>
+                    </asp:DropDownList>
                 </asp:Panel>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
             </td>
         </tr>
         <tr>
@@ -93,6 +106,7 @@
                                 <asp:ListItem Value="0">General</asp:ListItem>
                                 <asp:ListItem Value="1" Selected="True">Plantel</asp:ListItem>
                                 <asp:ListItem Value="2">Zona geogr&#225;fica</asp:ListItem>
+                                <asp:ListItem Value="3">Zona econ&#243;mica</asp:ListItem>
                             </asp:DropDownList>
                             <br />
                             <br />

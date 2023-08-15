@@ -20,13 +20,17 @@ Partial Class ABCPlazasBase
         dt.Rows.InsertAt(R, 0)
 
         If ddl.ID = "ddlQuincenaTermino" Then
-            R = dt.NewRow
-            R(TextField) = "999999"
-            R(ValueField) = "32767"
-            dt.Rows.InsertAt(R, 1)
+            If (dt.Rows.Count > 1) Then
+                If (dt.Rows(1).Item(ValueField).ToString <> "32767") Then
+                    R = dt.NewRow
+                    R(TextField) = "999999"
+                    R(ValueField) = "32767"
+                    dt.Rows.InsertAt(R, 1)
+                End If
+            End If
         End If
 
-        ddl.DataSource = dt
+            ddl.DataSource = dt
         ddl.DataTextField = TextField
         ddl.DataValueField = ValueField
         ddl.DataBind()
@@ -41,11 +45,11 @@ Partial Class ABCPlazasBase
 
             btnCancelar = CType(dvBotones.FindControl("btnCancelar"), Button)
 
-            If Request.Params("TipoOperacion") = "1" Then
-                lbOtraOperacion.Visible = False
-            Else
-                lbOtraOperacion.Visible = True
-            End If
+            'If Request.Params("TipoOperacion") = "1" Then
+            lbOtraOperacion.Visible = False
+            'Else
+            'lbOtraOperacion.Visible = True
+            'End If
 
             Dim vlComplementoURL As String = String.Empty
 
@@ -80,9 +84,12 @@ Partial Class ABCPlazasBase
             Dim lblNombreEmpleado As Label = CType(Me.dvPlaza.FindControl("lblNombreEmpleado"), Label)
             Dim hidIdEmpleado As HiddenField = CType(Me.dvPlaza.FindControl("hidIdEmpleado"), HiddenField)
             Dim chkPermitirReasignacion As CheckBox = CType(Me.dvPlaza.FindControl("chkPermitirReasignacion"), CheckBox)
+            Dim chkLiberarPlaza As CheckBox = CType(Me.dvPlaza.FindControl("chkLiberarPlaza"), CheckBox)
 
             hidIdPlazas.Text = ""
             hidIdTitular.Text = "0"
+            chkLiberarPlaza.Checked = False
+            chkLiberarPlaza.Visible = False
 
             Dim oPlantel As New Plantel
             Dim dr, drE As DataRow
@@ -149,11 +156,11 @@ Partial Class ABCPlazasBase
     Private Sub BindddlCategorias(ByVal ddlCategorias As DropDownList, ByVal IdSelected As Integer, ByVal IdTipoEmp As Integer)
         Dim oCategoria As New Categoria
 
-        If IdTipoEmp = 2 Or IdTipoEmp = 0 Then
-            LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenTodas(), IdSelected)
-        Else
-            LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenActivasBasificables(), IdSelected)
-        End If
+        'If IdTipoEmp = 2 Or IdTipoEmp = 0 Then
+        LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenTodas(), IdSelected)
+        'Else
+        'LlenaDDL(ddlCategorias, "Categoria", "IdCategoria", oCategoria.ObtenActivasBasificables(), IdSelected)
+        'End If
 
     End Sub
     Private Sub BindddlZonaGeografica(ByVal ddlZonaGeografica As DropDownList, ByVal IdSelected As Integer)
@@ -273,13 +280,14 @@ Partial Class ABCPlazasBase
             Dim hidIdEmpleado As HiddenField = CType(Me.dvPlaza.FindControl("hidIdEmpleado"), HiddenField)
             Dim ddlPlazasEstatus As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasEstatus"), DropDownList)
             Dim txtObservaciones As TextBox = CType(Me.dvPlaza.FindControl("txtObservaciones"), TextBox)
+            Dim chkLiberarPlaza As CheckBox = CType(Me.dvPlaza.FindControl("chkLiberarPlaza"), CheckBox)
 
             'Dim ddlEmpleadosFunciones As DropDownList = CType(Me.dvPlaza.FindControl("ddlEmpleadosFunciones"), DropDownList)
             Dim oPlaza As New SMP_Plazas
             Dim oEP As New EmpleadoPlazas
 
             With oEP
-                .IdPlaza = CType(Me.gvDatos.SelectedRow.FindControl("lblIdPlazas"), Label).Text
+                .IdPlaza = hidIdPlazas.Text
                 .IdPlantel = CType(ddlPlantelesEmpleado.SelectedValue, Short)
                 .IdPlantelAdscripReal = CType(ddlPlantelesPlaza.SelectedValue, Short)
                 .IdCategoria = CType(ddlCategorias.SelectedValue, Short)
@@ -287,8 +295,9 @@ Partial Class ABCPlazasBase
             End With
             oPlaza.Guardar_SMP_PlazasECBOcup(oEP.IdPlaza, oEP.IdPlantel, oEP.IdPlantelAdscripReal, oEP.IdCategoria,
                         CType(ddlQnaInicio.SelectedValue, Short), CType(ddlQnaTermino.SelectedValue, Short),
-                        CType(hidIdEmpleado.Value, Integer), 0, CType(ddlPlazasEstatus.SelectedValue, Short), txtObservaciones.Text,
-                        4, CType(Session("ArregloAuditoria"), String()))
+                        CType(hidIdEmpleado.Value, Integer), 0,
+                        IIf(chkLiberarPlaza.Checked = True, 0, CType(ddlPlazasEstatus.SelectedValue, Short)), txtObservaciones.Text,
+                        IIf(Request.Params("TipoOperacion") = 1, 4, Request.Params("TipoOperacion")), CType(Session("ArregloAuditoria"), String()))
 
             Me.MultiView1.SetActiveView(Me.viewExito)
         Catch Ex As Exception
@@ -416,16 +425,16 @@ Partial Class ABCPlazasBase
 
     Protected Sub Page_LoadComplete(sender As Object, e As System.EventArgs) Handles Me.LoadComplete
         If Not IsPostBack Then
-            If Request.Params("TipoOperacion") <> "1" Then
-                pnlDatos.Visible = False
-                gvDatos.Visible = False
-                pnlInfPlaza.GroupingText = "Información de la plaza"
-            Else
-                pnlInfPlaza.GroupingText = "Información de la plaza asignada o por asignar"
-                pnlDatos.Visible = True
+            'If Request.Params("TipoOperacion") <> "1" Then
+            'pnlDatos.Visible = False
+            'gvDatos.Visible = False
+            'pnlInfPlaza.GroupingText = "Información de la plaza"
+            'Else
+            pnlInfPlaza.GroupingText = "Información de la plaza asignada o por asignar"
+            pnlDatos.Visible = True
                 gvDatos.Visible = True
 
-            End If
+            'End If
         End If
     End Sub
 
@@ -460,9 +469,10 @@ Partial Class ABCPlazasBase
         Dim lblIdPlazas_Ocup As Label = CType(e.Row.FindControl("lblIdPlazas_Ocup"), Label)
         Dim gvPlazas As GridView = CType(dvPlaza.FindControl("gvPlazas"), GridView)
         Dim ibHistorial As ImageButton = CType(e.Row.FindControl("ibHistorial"), ImageButton)
+        Dim ibEditar As ImageButton = CType(e.Row.FindControl("ibEditar"), ImageButton)
 
-        If lblTitular Is Nothing = False Then
-            ibHistorial.OnClientClick = "javascript:abreVentMediaScreen('../../Consultas/Plazas/PlazasEstructura.aspx?idPlazaOcup=" + lblIdPlazas.Text + "','PlazasHistorial');"
+        If Not lblTitular Is Nothing Then
+            ibHistorial.OnClientClick = "javascript:abreVentanaImpresion('../../Consultas/Plazas/PlazasEstructura.aspx?idPlazaOcup=" + lblIdPlazas.Text + "','PlazasHistorial');"
             If lblTitular.Text = "" And (Not (Request.Params("IdPlaza") Is Nothing)) Then
                 lnSelectPlaza.Visible = True
                 e.Row.Attributes.Add("OnMouseOver", "Resaltar_On(this);")
@@ -478,8 +488,14 @@ Partial Class ABCPlazasBase
                 If lblNombreEmpleado.Text = lblTitular.Text Then
                     lblTitular.BackColor = Drawing.Color.LightGreen
                     e.Row.BackColor = Drawing.Color.Orange
+                    If Request.Params("TipoOperacion") = 0 Then
+                        ibEditar.Visible = True
+                    End If
+                Else
+                    ibEditar.Visible = False
                 End If
             End If
+
         End If
     End Sub
 
@@ -508,4 +524,60 @@ Partial Class ABCPlazasBase
 
     End Sub
 
+    Protected Sub gvDatos_RowCommand(sender As Object, e As GridViewCommandEventArgs) Handles gvDatos.RowCommand
+        Try
+            Select Case e.CommandName
+                Case "EditarPlaza"
+                    Dim index As Integer = Convert.ToInt32(e.CommandArgument)
+                    Dim gvRow As GridViewRow = gvDatos.Rows(index)
+                    Dim oQna As New Quincenas
+
+                    Dim lblIdPlazas As Label = CType(gvDatos.Rows(index).FindControl("lblIdPlazas"), Label)
+                    Dim lblIdEstatusPlazaBase As Label = CType(gvDatos.Rows(index).FindControl("lblIdEstatusPlazaBase"), Label)
+                    Dim lblIdQnaVigIni As Label = CType(gvDatos.Rows(index).FindControl("lblIdQnaVigIni"), Label)
+                    Dim lblIdQnaVigFin As Label = CType(gvDatos.Rows(index).FindControl("lblIdQnaVigFin"), Label)
+
+                    Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
+                    Dim ddlZonaGeografica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaGeografica"), DropDownList)
+                    Dim ddlPlantelesEmpleado As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesEmpleado"), DropDownList)
+                    Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
+                    Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
+                    Dim ddlSindicato As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicato"), DropDownList)
+                    Dim txtObservaciones As TextBox = CType(Me.dvPlaza.FindControl("txtObservaciones"), TextBox)
+                    Dim ddlPlazasEstatus As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasEstatus"), DropDownList)
+
+                    Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
+                    Dim ddlQnaTermino As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaTermino"), DropDownList)
+                    Dim chkLiberarPlaza As CheckBox = CType(Me.dvPlaza.FindControl("chkLiberarPlaza"), CheckBox)
+
+                    CType(Me.pnlDatos.FindControl("hidIdPlazas"), TextBox).Text = lblIdPlazas.Text
+
+                    ddlPlazasEstatus.SelectedValue = CInt(lblIdEstatusPlazaBase.Text)
+                    ddlQnaInicio.SelectedValue = CInt(lblIdQnaVigIni.Text)
+                    LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CShort(lblIdQnaVigIni.Text), True), 32767)
+                    ddlQnaTermino.SelectedValue = CInt(lblIdQnaVigFin.Text)
+
+                    ddlZonaEconomica.Enabled = False
+                    ddlZonaGeografica.Enabled = False
+                    ddlPlantelesEmpleado.Enabled = False
+                    ddlPlantelesPlaza.Enabled = False
+                    ddlCategorias.Enabled = False
+                    ddlSindicato.Enabled = False
+                    txtObservaciones.Enabled = False
+                    ddlPlazasEstatus.Enabled = False
+
+                    CVIdPlazas.Enabled = False
+                    CVIdTitular.Enabled = False
+
+                    chkLiberarPlaza.Visible = True
+                Case Else
+                    CVIdPlazas.Enabled = True
+                    CVIdTitular.Enabled = True
+
+            End Select
+        Catch Ex As Exception
+            Me.lblError.Text = Ex.Message
+            Me.MultiView1.SetActiveView(Me.viewError)
+        End Try
+    End Sub
 End Class
