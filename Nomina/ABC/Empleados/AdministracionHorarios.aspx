@@ -75,6 +75,7 @@
                             </tr>
                         </table>
                         <asp:TextBox ID="hidIdHora" runat="server" BackColor="White" ForeColor="White" Width="1px" BorderColor="White" BorderStyle="None" ></asp:TextBox>
+                        <asp:TextBox ID="hidIdSemestre" runat="server" BackColor="White" ForeColor="White" Width="1px" BorderColor="White" BorderStyle="None" ></asp:TextBox>
 
                         <asp:HiddenField ID="hidIdHorariosClase" runat="server" />
                         <asp:HiddenField ID="hidCantidadHorasHorario" runat="server" />

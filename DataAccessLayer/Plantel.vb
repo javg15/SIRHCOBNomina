@@ -718,6 +718,14 @@ Namespace COBAEV
                 _IdHora = Value
             End Set
         End Property
+        Public Property IdSemestre() As Integer
+            Get
+                Return _IdSemestre
+            End Get
+            Set(ByVal Value As Integer)
+                _IdSemestre = Value
+            End Set
+        End Property
         Public Property Dia() As String
             Get
                 Return _Dia
@@ -753,18 +761,21 @@ Namespace COBAEV
 
 #End Region
 #Region "Clase HorariosClase: Métodos públicos"
-        Private _IdHorariosClase, _IdHora As Integer
+        Private _IdHorariosClase, _IdSemestre, _IdHora As Integer
         Private _Dia, _Observaciones As String
         Private _HoraInicio, _HoraFin As TimeSpan
 
-        Public Function ObtenPorId(IdHora As Integer) As DataTable
+        Public Function ObtenPorId(IdHora As Integer, IdSemestre As Integer) As DataTable
             Try
                 Dim dt As DataTable
-                Dim Prms As SqlParameter() = {New SqlParameter("@IdHora", SqlDbType.Int)
+                Dim Prms As SqlParameter() = {
+                        New SqlParameter("@IdHora", SqlDbType.Int),
+                        New SqlParameter("@IdSemestre", SqlDbType.Int)
                 }
 
 
                 Prms(0).Value = IdHora
+                Prms(1).Value = IdSemestre
 
                 dt = _DataCOBAEV.RunProc("SP_SHorariosClase", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
 
@@ -796,6 +807,7 @@ Namespace COBAEV
                 Dim Prms As SqlParameter() = {
                             New SqlParameter("@IdHorariosClase", SqlDbType.Int),
                             New SqlParameter("@IdHora", SqlDbType.Int),
+                            New SqlParameter("@IdSemestre", SqlDbType.Int),
                             New SqlParameter("@Dia", SqlDbType.NVarChar, 50),
                             New SqlParameter("@HoraInicio", SqlDbType.Time),
                             New SqlParameter("@HoraFin", SqlDbType.Time),
@@ -810,11 +822,12 @@ Namespace COBAEV
                 End If
                 Prms(0).Direction = ParameterDirection.InputOutput
                 Prms(1).Value = Me._IdHora
-                Prms(2).Value = Me._Dia
-                Prms(3).Value = Me._HoraInicio
-                Prms(4).Value = Me._HoraFin
-                Prms(5).Value = ""
-                Prms(6).Direction = ParameterDirection.Output
+                Prms(2).Value = Me._IdSemestre
+                Prms(3).Value = Me._Dia
+                Prms(4).Value = Me._HoraInicio
+                Prms(5).Value = Me._HoraFin
+                Prms(6).Value = ""
+                Prms(7).Direction = ParameterDirection.Output
 
                 _DataCOBAEV.RunProc("SP_IoUHorariosClase", Prms, Nomina, ArregloAuditoria)
 
@@ -828,12 +841,14 @@ Namespace COBAEV
             Try
                 Dim Prms As SqlParameter() = {
                             New SqlParameter("@IdHorariosClase", SqlDbType.Int),
+                            New SqlParameter("@IdSemestre", SqlDbType.Int),
                             New SqlParameter("@error", SqlDbType.NVarChar, 200)
                             }
 
                 Prms(0).Value = IdHorariosClase
-                Prms(1).Value = ""
-                Prms(1).Direction = ParameterDirection.Output
+                Prms(1).Value = IdSemestre
+                Prms(2).Value = ""
+                Prms(2).Direction = ParameterDirection.Output
 
                 _DataCOBAEV.RunProc("SP_DHorariosClase", Prms, Nomina, ArregloAuditoria)
 
@@ -875,7 +890,14 @@ Namespace COBAEV
                 _IdPlantel = Value
             End Set
         End Property
-
+        Public Property IdSemestre() As Integer
+            Get
+                Return _IdSemestre
+            End Get
+            Set(ByVal Value As Integer)
+                _IdSemestre = Value
+            End Set
+        End Property
 
         Public Property TipoJornada() As String
             Get
@@ -921,20 +943,22 @@ Namespace COBAEV
 
 #End Region
 #Region "Clase HorariosAdmin: Métodos públicos"
-        Private _IdHorariosAdmin, _IdEmpleado, _IdPlantel As Integer
+        Private _IdHorariosAdmin, _IdEmpleado, _IdPlantel, _IdSemestre As Integer
         Private _TipoJornada, _Observaciones, _Dia As String
         Private _HoraInicio, _HoraFin As TimeSpan
 
-        Public Function ObtenPorId(IdEmpleado As Integer, IdPlantel As Integer) As DataTable
+        Public Function ObtenPorId(IdEmpleado As Integer, IdPlantel As Integer, IdSemestre As Integer) As DataTable
             Try
                 Dim dt As DataTable
                 Dim Prms As SqlParameter() = {New SqlParameter("@IdEmpleado", SqlDbType.Int),
-                                              New SqlParameter("@IdPlantel", SqlDbType.Int)
+                                              New SqlParameter("@IdPlantel", SqlDbType.Int),
+                                              New SqlParameter("@IdSemestre", SqlDbType.Int)
                 }
 
 
                 Prms(0).Value = IdEmpleado
                 Prms(1).Value = IdPlantel
+                Prms(2).Value = IdSemestre
 
                 dt = _DataCOBAEV.RunProc("SP_SHorariosAdmin", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
 
@@ -950,6 +974,7 @@ Namespace COBAEV
                             New SqlParameter("@IdHorariosAdmin", SqlDbType.Int),
                             New SqlParameter("@IdEmpleado", SqlDbType.Int),
                             New SqlParameter("@IdPlantel", SqlDbType.Int),
+                            New SqlParameter("@IdSemestre", SqlDbType.Int),
                             New SqlParameter("@Dia", SqlDbType.NVarChar, 50),
                             New SqlParameter("@TipoJornada", SqlDbType.NVarChar, 50),
                             New SqlParameter("@HoraInicio", SqlDbType.Time),
@@ -966,12 +991,13 @@ Namespace COBAEV
                 Prms(0).Direction = ParameterDirection.InputOutput
                 Prms(1).Value = Me._IdEmpleado
                 Prms(2).Value = Me._IdPlantel
-                Prms(3).Value = Me._Dia
-                Prms(4).Value = Me._TipoJornada
-                Prms(5).Value = Me._HoraInicio
-                Prms(6).Value = Me._HoraFin
-                Prms(7).Value = ""
-                Prms(8).Direction = ParameterDirection.Output
+                Prms(3).Value = Me._IdSemestre
+                Prms(4).Value = Me._Dia
+                Prms(5).Value = Me._TipoJornada
+                Prms(6).Value = Me._HoraInicio
+                Prms(7).Value = Me._HoraFin
+                Prms(8).Value = ""
+                Prms(9).Direction = ParameterDirection.Output
 
                 _DataCOBAEV.RunProc("SP_IoUHorariosAdmin", Prms, Nomina, ArregloAuditoria)
 
@@ -985,12 +1011,14 @@ Namespace COBAEV
             Try
                 Dim Prms As SqlParameter() = {
                             New SqlParameter("@IdHorariosAdmin", SqlDbType.Int),
+                            New SqlParameter("@IdSemestre", SqlDbType.Int),
                             New SqlParameter("@error", SqlDbType.NVarChar, 200)
                             }
 
                 Prms(0).Value = IdHorariosAdmin
-                Prms(1).Value = ""
-                Prms(1).Direction = ParameterDirection.Output
+                Prms(1).Value = IdSemestre
+                Prms(2).Value = ""
+                Prms(2).Direction = ParameterDirection.Output
 
                 _DataCOBAEV.RunProc("SP_DHorariosAdmin", Prms, Nomina, ArregloAuditoria)
 

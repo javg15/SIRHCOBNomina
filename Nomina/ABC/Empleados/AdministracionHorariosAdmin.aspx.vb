@@ -31,6 +31,8 @@ Partial Class AdministracionHorariosAdmin
                 Dim IdPlantel As Integer = drPlantel("IdPlantel")
                 hidIdPlantel.Value = IdPlantel
 
+                hidIdSemestre.Value = CInt(Request.Params("IdSemestre"))
+
                 dr = oPlantel.ObtenPorId(IdPlantel).Rows(0)
                 lblPlantel.Text = dr("ClavePlantel") + " - " + dr("DescPlantel")
                 lblCategoria.Text = drPlantel("DescCategoria")
@@ -65,7 +67,7 @@ Partial Class AdministracionHorariosAdmin
 
     Private Sub ActualizarControles()
         Dim oHorariosAdmin As New HorariosAdmin
-        Dim dtForm As DataTable = oHorariosAdmin.ObtenPorId(hidIdEmpleado.Value, hidIdPlantel.Value)
+        Dim dtForm As DataTable = oHorariosAdmin.ObtenPorId(hidIdEmpleado.Value, hidIdPlantel.Value, hididsemestre.value)
 
         chkLunes.Enabled = True
         chkMartes.Enabled = True
@@ -155,6 +157,7 @@ Partial Class AdministracionHorariosAdmin
                         .HoraInicio = TimeSpan.Parse(ddlHoraInicio.SelectedValue + ":" + ddlMinutosIni.SelectedValue)
                         .HoraFin = TimeSpan.Parse(ddlHoraFin.SelectedValue + ":" + ddlMinutosFin.SelectedValue)
                         .IdPlantel = CInt(hidIdPlantel.Value)
+                        .IdSemestre = CInt(hidIdSemestre.Value)
                     End With
 
                     If (hidIdHorariosAdmin.Value Is Nothing Or hidIdHorariosAdmin.Value = "0") Then

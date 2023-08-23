@@ -451,9 +451,9 @@ Partial Class ImpresionDeQuincenas
                     + "&IdReporte=" + lblIdReporte.Text + "'); return false;"
                 Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
             Case "173" 'nomina por categorias
-                Dim myByte As Byte() = System.Text.Encoding.UTF8.GetBytes(If(ddlTipoConsulta.SelectedValue = "A", "&Anio=" + Me.ddlAños.SelectedItem.Text, "") _
-                    + If(ddlTipoConsulta.SelectedValue = "M", "&IdMes=" + Me.ddlAños.SelectedItem.Text + Me.ddlMeses.SelectedValue.PadLeft(2, "0"), "") _
-                    + If(ddlTipoConsulta.SelectedValue = "Q", "&IdQuincena=" + lblIdQuincena.Text, ""))
+                Dim myByte As Byte() = System.Text.Encoding.UTF8.GetBytes(If(ddlTipoConsulta.SelectedValue = "A", "&tc=A&Anio=" + Me.ddlAños.SelectedItem.Text, "") _
+                    + If(ddlTipoConsulta.SelectedValue = "M", "&tc=M&IdMes=" + Me.ddlAños.SelectedItem.Text + Me.ddlMeses.SelectedValue.PadLeft(2, "0"), "") _
+                    + If(ddlTipoConsulta.SelectedValue = "Q", "&tc=Q&IdQuincena=" + lblIdQuincena.Text, ""))
                 '+ "&IdTipoFuente=" + Me.ddlTipoDeFuente.SelectedValue _
                 '+ If(ddlTiposDeImpresion.SelectedValue = 1, "&IdPlantel=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "") _
                 '+ If(ddlTiposDeImpresion.SelectedValue = 2, "&IdZonaGeografica=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "") _

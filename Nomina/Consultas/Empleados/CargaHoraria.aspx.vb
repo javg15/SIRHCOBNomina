@@ -654,10 +654,10 @@ Partial Class Consultas_Empleados_CargaHoraria
                 ibHorariosAdmin.Visible = False
                 If lblNombreFuncionPri.Text.ToUpper = "ADMINISTRATIVA" Then
                     ibHorariosAdmin.Visible = True
-                    ibHorariosAdmin.PostBackUrl = "../../ABC/Empleados/AdministracionHorariosAdmin.aspx?RFCEmp=" + hfRFC.Value.Trim + "&TipoOperacion=4&IdPlaza=" + lblIdPlaza.Text
+                    ibHorariosAdmin.PostBackUrl = "../../ABC/Empleados/AdministracionHorariosAdmin.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&TipoOperacion=4&IdPlaza=" + lblIdPlaza.Text
                 ElseIf Not oEmp.EsDocenteEnSemestre(oEmp.RFC, CShort(Me.ddlSemestres.SelectedValue)) Then
                     ibHorariosAdmin.Visible = True
-                    ibHorariosAdmin.PostBackUrl = "../../ABC/Empleados/AdministracionHorariosAdmin.aspx?RFCEmp=" + hfRFC.Value.Trim + "&TipoOperacion=4&IdPlaza=" + lblIdPlaza.Text
+                    ibHorariosAdmin.PostBackUrl = "../../ABC/Empleados/AdministracionHorariosAdmin.aspx?RFCEmp=" + hfRFC.Value.Trim + "&IdSemestre=" + Me.ddlSemestres.SelectedValue + "&TipoOperacion=4&IdPlaza=" + lblIdPlaza.Text
                 End If
         End Select
     End Sub

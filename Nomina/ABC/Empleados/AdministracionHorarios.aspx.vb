@@ -31,12 +31,14 @@ Partial Class AdministracionHorarios
                     oHora.IdPlantel = dr("IdPlantel")
                     oHora.IdMateria = dr("IdMateria")
                     oHora.IdGrupo = dr("IdGrupo")
+                    oHora.IdSemestre = dr("IdSemestre")
                     oHora.Horas = dr("Cantidad")
 
                     oHorariosClase.IdHora = Request.Params("IdHora")
-                    Dim dt As DataTable = oHorariosClase.ObtenPorId(oHorariosClase.IdHora)
+                    Dim dt As DataTable = oHorariosClase.ObtenPorId(oHorariosClase.IdHora, oHorariosClase.IdSemestre)
 
                     hidIdHora.Text = Request.Params("IdHora")
+                    hidIdSemestre.Text = Request.Params("IdSemestre")
                     dr = oPlantel.ObtenPorId(oHora.IdPlantel).Rows(0)
 
                     lblPlantel.Text = dr("ClavePlantel") + " - " + dr("DescPlantel")
@@ -72,7 +74,7 @@ Partial Class AdministracionHorarios
                             + "?binario=1&IdReporte=171&parametros=" + Convert.ToBase64String(myByte) + "'); return false;"
 
 
-                    BindDatos(CInt(Request.Params("IdHora")))
+                    BindDatos(CInt(Request.Params("IdHora")), CInt(Request.Params("IdSemestre")))
                 ElseIf Request.Params("TipoOperacion") = "1" Or Request.Params("TipoOperacion") = "2" Then
                     Actualizar()
                 End If
@@ -90,6 +92,7 @@ Partial Class AdministracionHorarios
         Dim HoraInicio As String = Request.Params("HoraInicio")
         Dim HoraFin As String = Request.Params("HoraFin")
         Dim Dia As String = Request.Params("dia")
+        Dim IdSemestre As String = Request.Params("IdSemestre")
 
         Try
 
@@ -108,6 +111,7 @@ Partial Class AdministracionHorarios
                     .Dia = Dia
                     .HoraInicio = TimeSpan.Parse(HoraInicio)
                     .HoraFin = TimeSpan.Parse(HoraFin)
+                    .IdSemestre = CInt(IdSemestre)
                 End With
 
 
@@ -115,6 +119,7 @@ Partial Class AdministracionHorarios
             ElseIf Request.Params("TipoOperacion") = 2 Then
                 With oHorariosClase
                     .IdHorariosClase = CInt(IdHorariosClase)
+                    .IdSemestre = CInt(IdSemestre)
                 End With
                 respuesta = oHorariosClase.Eliminar(CType(Session("ArregloAuditoria"), String()))
             End If
@@ -125,15 +130,15 @@ Partial Class AdministracionHorarios
             Else
                 'Me.lblError.Text = respuesta.Split("&")(1)
             End If
-            BindDatos(CInt(Request.Params("IdHora")))
+            BindDatos(CInt(Request.Params("IdHora")), CInt(Request.Params("IdSemestre")))
         Catch Ex As Exception
             'Me.lblError.Text = Ex.Message
         End Try
     End Sub
 
-    Public Sub BindDatos(ByVal IdHoras As Integer)
+    Public Sub BindDatos(ByVal IdHoras As Integer, IdSemestre As Integer)
         Dim oHoras As New HorariosClase
-        Dim dt As DataTable = oHoras.ObtenHorariosClase("&IdHora=" + IdHoras.ToString)
+        Dim dt As DataTable = oHoras.ObtenHorariosClase("&IdHora=" + IdHoras.ToString + "&IdSemestre=" + IdSemestre.ToString)
         hidCantidadHorasHorario.Value = dt.Rows(0).Item("horassuma")
         With Me.gvHoras
             .DataSource = dt
@@ -194,6 +199,7 @@ Partial Class AdministracionHorarios
 
                 Dim clickAgregar As String = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=1" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&dia=[dia]" _
                     + "&HoraInicio=" + lblHoraInicio.Text _
                     + "&HoraFin=" + lblHoraFin.Text + "&sub=1','HorariosSub');"
@@ -201,30 +207,37 @@ Partial Class AdministracionHorarios
                 ibAdd1.OnClientClick = clickAgregar.Replace("[dia]", "lunes")
                 ibEliminar1.OnClientClick = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=2" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&IdHorariosClase=" + lblLunes.Text + "&sub=1','HorariosSub');"
                 ibAdd2.OnClientClick = clickAgregar.Replace("[dia]", "martes")
                 ibEliminar2.OnClientClick = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=2" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&IdHorariosClase=" + lblMartes.Text + "&sub=1','HorariosSub');"
                 ibAdd3.OnClientClick = clickAgregar.Replace("[dia]", "miercoles")
                 ibEliminar3.OnClientClick = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=2" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&IdHorariosClase=" + lblMiercoles.Text + "&sub=1','HorariosSub');"
                 ibAdd4.OnClientClick = clickAgregar.Replace("[dia]", "jueves")
                 ibEliminar4.OnClientClick = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=2" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&IdHorariosClase=" + lblJueves.Text + "&sub=1','HorariosSub');"
                 ibAdd5.OnClientClick = clickAgregar.Replace("[dia]", "viernes")
                 ibEliminar5.OnClientClick = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=2" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&IdHorariosClase=" + lblViernes.Text + "&sub=1','HorariosSub');"
                 ibAdd6.OnClientClick = clickAgregar.Replace("[dia]", "sabado")
                 ibEliminar6.OnClientClick = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=2" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&IdHorariosClase=" + lblSabado.Text + "&sub=1','HorariosSub');"
                 ibAdd7.OnClientClick = clickAgregar.Replace("[dia]", "domingo")
                 ibEliminar7.OnClientClick = "javascript:abreVentMediaScreen('../../ABC/Empleados/AdministracionHorarios.aspx?TipoOperacion=2" _
                     + "&IdHora=" + hidIdHora.Text _
+                    + "&IdSemestre=" + hidIdSemestre.Text _
                     + "&IdHorariosClase=" + lblDomingo.Text + "&sub=1','HorariosSub');"
 
                 ibAdd1.Visible = False

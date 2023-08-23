@@ -3598,7 +3598,7 @@
           <QueryParameter Name="@Anio">
             <Value>=Parameters!pAnio.Value</Value>
           </QueryParameter>
-          <QueryParameter Name="@RFCEMP">
+          <QueryParameter Name="@RFCEmp">
             <Value>=Parameters!pRFCEmp.Value</Value>
           </QueryParameter>
           <QueryParameter Name="@IdPlantel">
@@ -3632,7 +3632,7 @@
         </Field>
         <Field Name="FchIngCOBAEV">
           <DataField>FchIngCOBAEV</DataField>
-          <rd:TypeName>System.DateTime</rd:TypeName>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="ClavePlantel">
           <DataField>ClavePlantel</DataField>

@@ -60,6 +60,8 @@
                             <asp:HiddenField ID="hidIdHorariosAdmin" runat="server" />
                             <asp:HiddenField ID="hidIdEmpleado" runat="server" />
                             <asp:HiddenField ID="hidIdPlantel" runat="server" />
+                            <asp:HiddenField ID="hidIdSemestre" runat="server" />
+                            
                             <table>
                                 <tr>
                                     <td><asp:Label ID="lblModalidad" runat="server" CssClass="pLabel" Text="Modalidad:"></asp:Label></td>

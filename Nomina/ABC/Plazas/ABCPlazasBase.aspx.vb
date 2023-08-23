@@ -536,6 +536,7 @@ Partial Class ABCPlazasBase
                     Dim lblIdEstatusPlazaBase As Label = CType(gvDatos.Rows(index).FindControl("lblIdEstatusPlazaBase"), Label)
                     Dim lblIdQnaVigIni As Label = CType(gvDatos.Rows(index).FindControl("lblIdQnaVigIni"), Label)
                     Dim lblIdQnaVigFin As Label = CType(gvDatos.Rows(index).FindControl("lblIdQnaVigFin"), Label)
+                    Dim lblQuinTermino As Label = CType(gvDatos.Rows(index).FindControl("lblQuinTermino"), Label)
 
                     Dim ddlZonaEconomica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaEconomica"), DropDownList)
                     Dim ddlZonaGeografica As DropDownList = CType(Me.dvPlaza.FindControl("ddlZonaGeografica"), DropDownList)
@@ -555,7 +556,15 @@ Partial Class ABCPlazasBase
                     ddlPlazasEstatus.SelectedValue = CInt(lblIdEstatusPlazaBase.Text)
                     ddlQnaInicio.SelectedValue = CInt(lblIdQnaVigIni.Text)
                     LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenParaVigFin(CShort(lblIdQnaVigIni.Text), True), 32767)
-                    ddlQnaTermino.SelectedValue = CInt(lblIdQnaVigFin.Text)
+                    Try
+                        ddlQnaTermino.SelectedValue = CInt(lblIdQnaVigFin.Text)
+                    Catch ex As Exception
+                        Dim newListItem As ListItem
+                        newListItem = New ListItem(lblQuinTermino.text, CInt(lblIdQnaVigFin.Text))
+                        newListItem.Selected = True
+                        ddlQnaTermino.Items.Add(newListItem)
+                        ddlQnaTermino.SelectedValue = CInt(lblIdQnaVigFin.Text)
+                    End Try
 
                     ddlZonaEconomica.Enabled = False
                     ddlZonaGeografica.Enabled = False
