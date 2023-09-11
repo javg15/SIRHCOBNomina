@@ -705,6 +705,7 @@ Partial Class AdministracionPlazasAnt
         Dim lblFechaBajaISSSTE As Label = CType(Me.dvPlaza.FindControl("lblFechaBajaISSSTE"), Label)
         Dim txtbxFechaBajaISSSTE As TextBox = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE"), TextBox)
         Dim txtbxFechaBajaISSSTE_CV As CompareValidator = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE_CV"), CompareValidator)
+
         Dim drMotGralDeBaja As DataRow
         Dim oEmp2 As New Empleado
 

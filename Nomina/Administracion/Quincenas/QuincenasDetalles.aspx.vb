@@ -27,6 +27,8 @@ Partial Class Administracion_Quincenas_Detalles
         Dim txtbxFecCierre As TextBox = CType(Me.dvQuincenas.FindControl("txtbxFecCierre"), TextBox)
         Dim hfFecCierre As HiddenField = CType(Me.dvQuincenas.FindControl("hfFecCierre"), HiddenField)
         Dim chbxPermiteABCdeRecibos As CheckBox = CType(Me.dvQuincenas.FindControl("chbxPermiteABCdeRecibos"), CheckBox)
+        Dim chbxSubsidiado As CheckBox = CType(Me.dvQuincenas.FindControl("Subsidiado"), CheckBox)
+
         txtbxFecNac.Text = txtbxFecNac.Text.Substring(0, 10)
         hfFecNac.Value = txtbxFecNac.Text
         ibFecNac.Attributes.Add("onclick", "javascript:abreCalendario('../../Calendario.aspx','" + txtbxFecNac.ClientID + "','" + hfFecNac.ClientID + "'); return false")
@@ -107,6 +109,8 @@ Partial Class Administracion_Quincenas_Detalles
             Dim chbxPagoDeRetro As CheckBox = CType(Me.dvQuincenas.FindControl("chbxPagoDeRetro"), CheckBox)
             Dim chbxLiberadaParaPortalAdmvo As CheckBox = CType(Me.dvQuincenas.FindControl("chbxLiberadaParaPortalAdmvo"), CheckBox)
             Dim chbxPermiteABCdeRecibos As CheckBox = CType(Me.dvQuincenas.FindControl("chbxPermiteABCdeRecibos"), CheckBox)
+            Dim chbxSubsidiado As CheckBox = CType(Me.dvQuincenas.FindControl("chbxSubsidiado"), CheckBox)
+
             oQna.IdQuincena = CShort(Request.Params("IdQuincena"))
             oQna.Adicional = CByte(lbltxtNuevaAdic.Text)
             oQna.IdEstatusQuincena = CByte(ddlEstatusQuincena.SelectedValue)
@@ -123,6 +127,8 @@ Partial Class Administracion_Quincenas_Detalles
             oQna.PagoDeRetroactividad = chbxPagoDeRetro.Checked
             oQna.LiberadaParaPortalAdmvo = chbxLiberadaParaPortalAdmvo.Checked
             oQna.PermiteABCdeRecibos = chbxPermiteABCdeRecibos.Checked
+            oQna.Subsidiado = chbxSubsidiado.Checked
+
             If Request.Params("TipoOperacion") = "0" Then
                 oQna.Actualizar(0, CType(Session("ArregloAuditoria"), String()))
                 Me.MultiView1.SetActiveView(Me.viewCapturaExitosa)

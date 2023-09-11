@@ -161,9 +161,9 @@ title="COBAEV - Nómina - Empleados con reducción de sueldo" StylesheetTheme="S
                                                             ErrorMessage="El porcentage de la Reducción es obligatorio.">
                                                         </asp:RequiredFieldValidator>
                                                         <asp:CompareValidator ID="vldCprReduccion2" runat="server" ControlToValidate="txtbxPorcentageReduccion"
-                                                            Display="Dynamic" ErrorMessage="Importe incorrecto. No puede ser cero o menor que cero."
-                                                            Operator="GreaterThan" ToolTip="Importe incorrecto. No puede ser cero o menor que cero." 
-                                                            Type="Currency" ValueToCompare="0" Text="*"></asp:CompareValidator>
+                                                            Display="Dynamic" ErrorMessage="Importe incorrecto. No puede ser menor que cero."
+                                                            Operator="GreaterThan" ToolTip="Importe incorrecto. No puede ser menor que cero." 
+                                                            Type="Currency" ValueToCompare="-1" Text="*"></asp:CompareValidator>
                                                         <asp:CompareValidator ID="CompareValidator2" runat="server" ControlToValidate="txtbxPorcentageReduccion"
                                                             Display="Dynamic" ErrorMessage="Importe incorrecto. No puede ser mayor que 100."
                                                             Operator="LessThanEqual" ToolTip="Importe incorrecto. No puede ser mayor que 100." 

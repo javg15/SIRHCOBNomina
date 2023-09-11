@@ -79,8 +79,68 @@ Namespace COBAEV.Plazas
     Public Class SMP_Plazas
 #Region "Clase SMP_Plazas: Propiedades privadas"
         Private _DataCOBAEV As New DataCOBAEV
+        Private _Horas, _IdPlazas, _IdPlantel, _IdCategoria, _IdSindicato As Integer
+        Private _EstatusPlaza, _CvePlazaTipo As String
 #End Region
+#Region "Clase SMP_Plazas: Propiedade públicas"
 
+        Public Property CvePlazaTipo As String
+            Get
+                Return _CvePlazaTipo
+            End Get
+            Set(ByVal Value As String)
+                _CvePlazaTipo = Value
+            End Set
+        End Property
+        Public Property Horas As Integer
+            Get
+                Return _Horas
+            End Get
+            Set(ByVal Value As Integer)
+                _Horas = Value
+            End Set
+        End Property
+        Public Property IdPlazas As Integer
+            Get
+                Return _IdPlazas
+            End Get
+            Set(ByVal Value As Integer)
+                _IdPlazas = Value
+            End Set
+        End Property
+        Public Property IdPlantel() As Integer
+            Get
+                Return _IdPlantel
+            End Get
+            Set(ByVal Value As Integer)
+                _IdPlantel = Value
+            End Set
+        End Property
+        Public Property IdCategoria() As Integer
+            Get
+                Return _IdCategoria
+            End Get
+            Set(ByVal Value As Integer)
+                _IdCategoria = Value
+            End Set
+        End Property
+        Public Property IdSindicato() As Integer
+            Get
+                Return _IdSindicato
+            End Get
+            Set(ByVal value As Integer)
+                _IdSindicato = value
+            End Set
+        End Property
+        Public Property EstatusPlaza() As String
+            Get
+                Return _EstatusPlaza
+            End Get
+            Set(ByVal value As String)
+                _EstatusPlaza = value
+            End Set
+        End Property
+#End Region
 #Region "Clase SMP_Plazas: Métodos públicos"
         Public Function ObtenHistorial(ByVal idPlazaOcup As String) As DataTable
             Try
@@ -113,6 +173,18 @@ Namespace COBAEV.Plazas
                         + "&idzonaeconomica=" + idZonaEconomica _
                         + "&idzonageografica=" + IdZonaGeografica _
                         + "&idusuario=" + IdUsuario
+
+                Return _DataCOBAEV.RunProc("SP_SPlazasEstructura", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function ObtenInfoDePlazaSMPOcup(ByVal idPlaza As String) As DataTable
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@parametros", SqlDbType.NVarChar, 500)}
+
+                Prms(0).Value = "&idplaza=" + idPlaza
 
                 Return _DataCOBAEV.RunProc("SP_SPlazasEstructura", Prms, DataCOBAEV.Tipoconsulta.Table, Nomina)
             Catch ex As Exception
@@ -154,7 +226,18 @@ Namespace COBAEV.Plazas
                 Prms(1).Value = pCveCategoCOBACH
                 Prms(2).Value = pConsecutivo
 
-                Return _DataCOBAEV.RunProc("SP_SSMP_ConsultaPlaza", Prms, DataCOBAEV.Tipoconsulta.DataRow, Nomina)
+                Return _DataCOBAEV.RunProc("SP_SSMP_ObtenRegistro", Prms, DataCOBAEV.Tipoconsulta.DataRow, Nomina)
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+        Public Function ObtenRegistro(ByVal IdPlaza As Integer) As DataRow
+            Try
+                Dim Prms As SqlParameter() = {New SqlParameter("@IdPlaza", SqlDbType.Int)}
+
+                Prms(0).Value = IdPlaza
+
+                Return _DataCOBAEV.RunProc("SP_SSMP_ObtenRegistro", Prms, DataCOBAEV.Tipoconsulta.DataRow, Nomina)
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
@@ -389,7 +472,7 @@ Namespace COBAEV.Plazas
             End Try
         End Function
 
-        Public Function Guardar_SMP_PlazasECBOcup(ByVal IdPlaza As Integer, ByVal IdPlantel As Integer, ByVal IdPlantelAdsReal As Integer, ByVal IdCategoria As Integer,
+        Public Function Guardar_SMP_PlazasECBOcupTitulares(ByVal IdPlaza As Integer, ByVal IdPlantel As Integer, ByVal IdPlantelAdsReal As Integer, ByVal IdCategoria As Integer,
                                 ByVal IdQnaVigIni As Short, ByVal IdQnaVigFin As Short,
                                 ByVal IdEmpTitular As Integer, ByVal IdEmpOcupante As Integer,
                                 ByVal IdEstatusPlaza As Short, ByVal observaciones As String,
@@ -418,6 +501,36 @@ Namespace COBAEV.Plazas
                 Prms(7).Value = IdEstatusPlaza
                 Prms(8).Value = TipoOperacion
                 Prms(9).Value = observaciones
+
+                _DataCOBAEV.RunProc("SP_IoUSMP_PlazasECBOcupTitulares", Prms, Nomina, ArregloAuditoria)
+
+                Return 0 'Retornamos el IdPlaza creado
+            Catch ex As Exception
+                Throw (New System.Exception(ex.Message.ToString))
+            End Try
+        End Function
+
+        Public Function Guardar_SMP_PlazasECBOcup(ByVal TipoOperacion As Integer, ByVal ArregloAuditoria() As String) As Integer
+            Try
+                Dim Prms As SqlParameter() = {
+                            New SqlParameter("@TipoOperacion", SqlDbType.Int),
+                            New SqlParameter("@IdPlazas", SqlDbType.Int),
+                            New SqlParameter("@IdPlantel", SqlDbType.Int),
+                            New SqlParameter("@IdCategoria", SqlDbType.Int),
+                            New SqlParameter("@IdSindicato", SqlDbType.Int),
+                            New SqlParameter("@EstatusPlaza", SqlDbType.VarChar, 1),
+                            New SqlParameter("@TipoPlaza", SqlDbType.VarChar, 4),
+                            New SqlParameter("@Horas", SqlDbType.Int)
+                            }
+                Prms(0).Value = TipoOperacion
+                Prms(1).Value = _IdPlazas
+                Prms(1).Direction = ParameterDirection.InputOutput
+                Prms(2).Value = _IdPlantel
+                Prms(3).Value = _IdCategoria
+                Prms(4).Value = _IdSindicato
+                Prms(5).Value = _EstatusPlaza
+                Prms(6).Value = _CvePlazaTipo
+                Prms(7).Value = _Horas
 
                 _DataCOBAEV.RunProc("SP_IoUSMP_PlazasECBOcup", Prms, Nomina, ArregloAuditoria)
 

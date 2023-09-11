@@ -1705,7 +1705,6 @@ IIF(Fields!orden.Value= 1
                         <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -4539,7 +4538,7 @@ IIF(Fields!orden.Value= 1
             <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
         </QueryParameters>
-        <CommandText>SP_SFirmantesPorReporte 157, '16/02/2022'</CommandText>
+        <CommandText>SP_SFirmantesPorReporte 157, '01/09/2022'</CommandText>
       </Query>
       <Fields>
         <Field Name="Firmante">

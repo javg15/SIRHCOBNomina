@@ -10,7 +10,15 @@ Namespace COBAEV.Nominas
         Private _PeriodoVacacional, _AplicarAjusteISPT, _PagoDeRetroactividad, _LiberadaParaPortalAdmvo As Boolean
         Private _FechaDePago, _FechaCierre As Date
         Private _Observaciones, _Observaciones2 As String
-        Private _PermiteABCdeRecibos As Boolean
+        Private _PermiteABCdeRecibos, _Subsidiado As Boolean
+        Public Property Subsidiado() As Boolean
+            Get
+                Return _Subsidiado
+            End Get
+            Set(ByVal value As Boolean)
+                _Subsidiado = value
+            End Set
+        End Property
         Public Property PermiteABCdeRecibos() As Boolean
             Get
                 Return _PermiteABCdeRecibos
@@ -18,6 +26,7 @@ Namespace COBAEV.Nominas
             Set(ByVal value As Boolean)
                 _PermiteABCdeRecibos = value
             End Set
+
         End Property
         Public Property LiberadaParaPortalAdmvo() As Boolean
             Get
@@ -299,7 +308,8 @@ Namespace COBAEV.Nominas
                                             New SqlParameter("@AplicarAjusteISPT", SqlDbType.Bit), _
                                             New SqlParameter("@PagoDeRetroactividad", SqlDbType.Bit), _
                                             New SqlParameter("@LiberadaParaPortalAdmvo", SqlDbType.Bit), _
-                                            New SqlParameter("@PermiteABCdeRecibos", SqlDbType.Bit)}
+                                            New SqlParameter("@PermiteABCdeRecibos", SqlDbType.Bit),
+                                            New SqlParameter("@Subsidiado", SqlDbType.Bit)}
 
                 Prms(0).Value = _IdQuincena
                 Prms(1).Value = _Adicional
@@ -314,6 +324,7 @@ Namespace COBAEV.Nominas
                 Prms(10).Value = _PagoDeRetroactividad
                 Prms(11).Value = _LiberadaParaPortalAdmvo
                 Prms(12).Value = _PermiteABCdeRecibos
+                Prms(13).Value = _Subsidiado
 
                 Return _DataCOBAEV.RunProc("SP_IoUQuincenas", Prms, DataCOBAEV.BD.Nomina, ArregloAuditoria)
             Catch ex As Exception

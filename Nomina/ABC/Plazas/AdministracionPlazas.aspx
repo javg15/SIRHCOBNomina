@@ -286,7 +286,7 @@
                         <EditItemTemplate>
                         </EditItemTemplate>
                         <InsertItemTemplate>
-                            <asp:CheckBox ID="chkMostrarTodas" runat="server" SkinID="SkinCheckBox" Text="Mostrar todas" AutoPostBack="True" OnCheckedChanged="chkMostrarTodas_CheckedChanged"/>
+                            <asp:CheckBox ID="chkMostrarTodas" runat="server" SkinID="SkinCheckBox" Text="Mostrar todas" AutoPostBack="True" OnCheckedChanged="chkMostrarTodas_CheckedChanged" Visible="False" />
                             <asp:GridView ID="gvPlazas" runat="server" AutoGenerateColumns="False" EmptyDataText="No existe plazas disponibles."
                                             PageSize="20" SkinID="SkinGridView" Width="80%" OnRowDataBound="gvPlazas_RowDataBound" OnSelectedIndexChanged="gvPlazas_SelectedIndexChanged" OnDataBound="gvPlazas_DataBound" 
                                                 OnSelectedIndexChanging="gvPlazas_SelectedIndexChanging" >
@@ -595,6 +595,19 @@
                                         ErrorMessage="Fecha de baja incorrecta." Operator="DataTypeCheck" 
                                         ToolTip="Fecha incorrecta." Type="Date" ValidationGroup="gpoGuarda">*</asp:CompareValidator>
                                     <!-- CODIGO AGREGADO POR ALEXIS 29/09/2021, PARA AÑADIR FECHA DE TERMINO L.S.G.S. -->
+                                    
+                                    <!-- Esta casilla es para liberar la plaza BASE, si es que aplica-->
+                                    <asp:Label ID="lblLiberarPlaza" runat="server" SkinID="SkinLbl9pt" 
+                                        Text="¿Liberar PLAZA BASE?" Visible="false" ForeColor="#FF3300" Font-Bold="True"></asp:Label>
+                                    <asp:DropDownList ID="ddlLiberarPlaza" runat="server" SkinID="SkinDropDownList" Visible="false">
+                                        <asp:ListItem Value="-1" Text="-"></asp:ListItem>
+                                        <asp:ListItem Value="0" Text="No"></asp:ListItem>
+                                        <asp:ListItem Value="1" Text="Sí"></asp:ListItem>
+                                    </asp:DropDownList>
+                                    <asp:CompareValidator ID="CVLiberarPlazas" runat="server"
+                                                ControlToValidate="ddlLiberarPlaza" Display="Dynamic" ErrorMessage="Seleccione si se libera la plaza"
+                                                ToolTip="Seleccione si se libera la plaza" 
+                                                ValidationGroup="gpoGuarda" ValueToCompare="-1" Operator="NotEqual" enabled="False">*</asp:CompareValidator>
                         </InsertItemTemplate>
                         <HeaderStyle HorizontalAlign="Left" Wrap="False" />
                         <ItemStyle HorizontalAlign="Left" Wrap="False" />

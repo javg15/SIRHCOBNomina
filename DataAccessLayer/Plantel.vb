@@ -831,7 +831,7 @@ Namespace COBAEV
 
                 _DataCOBAEV.RunProc("SP_IoUHorariosClase", Prms, Nomina, ArregloAuditoria)
 
-                Return Prms(0).Value & "&" & Prms(6).Value 'Retornamos IdHorariosClase & posible error
+                Return Prms(0).Value & "&" & Prms(7).Value 'Retornamos IdHorariosClase & posible error
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
@@ -852,7 +852,7 @@ Namespace COBAEV
 
                 _DataCOBAEV.RunProc("SP_DHorariosClase", Prms, Nomina, ArregloAuditoria)
 
-                Return Prms(0).Value & "&" & Prms(1).Value 'Retornamos IdReduccion & posible error
+                Return Prms(0).Value & "&" & Prms(2).Value 'Retornamos IdReduccion & posible error
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
@@ -1001,7 +1001,7 @@ Namespace COBAEV
 
                 _DataCOBAEV.RunProc("SP_IoUHorariosAdmin", Prms, Nomina, ArregloAuditoria)
 
-                Return Prms(0).Value & "&" & Prms(8).Value 'Retornamos IdHorariosAdmin & posible error
+                Return Prms(0).Value & "&" & Prms(9).Value 'Retornamos IdHorariosAdmin & posible error
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try
@@ -1022,7 +1022,7 @@ Namespace COBAEV
 
                 _DataCOBAEV.RunProc("SP_DHorariosAdmin", Prms, Nomina, ArregloAuditoria)
 
-                Return Prms(0).Value & "&" & Prms(1).Value 'Retornamos IdReduccion & posible error
+                Return Prms(0).Value & "&" & Prms(2).Value 'Retornamos IdReduccion & posible error
             Catch ex As Exception
                 Throw (New System.Exception(ex.Message.ToString))
             End Try

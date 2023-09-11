@@ -110,6 +110,14 @@ Namespace COBAEV.Empleados
 #Region "Clase EmpleadoPlazas"
     Public Class EmpleadoPlazas
 #Region "Clase EmpleadoPlazas: Propiedades públicas"
+        Public Property LiberarPlaza As Boolean
+            Get
+                Return _LiberarPlaza
+            End Get
+            Set(ByVal Value As Boolean)
+                _LiberarPlaza = Value
+            End Set
+        End Property
         Public Property NuevoIngreso() As Integer
             Get
                 Return _NuevoIngreso
@@ -326,7 +334,7 @@ Namespace COBAEV.Empleados
         Private _IdEmpFuncion, _IdTipoNomina, _IdSindicato, _IdPlazaTipoOcupacion, _IdMotivoInterinato, _IdFuncionSec, _IdMotGralBaja As Byte
         Private _IdPlantel, _IdCT, _IdCategoria, _IdFuncionPri As Short
         Private _RFCEmpTitular As String
-        Private _TratarComoBase, _InterinoPuro As Boolean
+        Private _TratarComoBase, _InterinoPuro, _LiberarPlaza As Boolean
         Private _IdTipoSemestre, _IdEsquemaPago As Byte
         Private _FechaAlta, _FechaBaja As Date
         Private _FechaInicio, _FechaFin, _FechaFinLSGS As String
@@ -635,7 +643,8 @@ Namespace COBAEV.Empleados
                             New SqlParameter("@IdPuesto", SqlDbType.SmallInt),
                             New SqlParameter("@FechaFinLSGS", SqlDbType.DateTime),
                             New SqlParameter("@IdPlazaOcup", SqlDbType.Int),
-                            New SqlParameter("@NuevoIngreso", SqlDbType.Int)
+                            New SqlParameter("@NuevoIngreso", SqlDbType.Int),
+                            New SqlParameter("@LiberarPlaza", SqlDbType.Bit)
                             }
 
 
@@ -696,6 +705,7 @@ Namespace COBAEV.Empleados
 
                 Prms(27).Value = IdPlazaOcup
                 Prms(28).Value = Me._NuevoIngreso
+                Prms(29).Value = Me._LiberarPlaza
 
                 _DataCOBAEV.RunProc("SP_IoUEmpleadosPlazas", Prms, Nomina, ArregloAuditoria)
 
@@ -735,7 +745,9 @@ Namespace COBAEV.Empleados
                             New SqlParameter("@InterinoPuro", SqlDbType.Bit),
                             New SqlParameter("@FechaAlta", SqlDbType.DateTime),
                             New SqlParameter("@FechaBaja", SqlDbType.DateTime),
-                            New SqlParameter("@IdPuesto", SqlDbType.TinyInt)}
+                            New SqlParameter("@IdPuesto", SqlDbType.TinyInt),
+                            New SqlParameter("@LiberarPlaza", SqlDbType.Bit)
+                                             }
 
                 If TipoOperacion = 0 Then
                     Prms(0).Value = DBNull.Value
@@ -773,6 +785,7 @@ Namespace COBAEV.Empleados
                 Prms(21).Value = Me._FechaAlta
                 Prms(22).Value = Me._FechaBaja
                 Prms(23).Value = Me._IdPuesto
+                Prms(24).Value = Me._LiberarPlaza
 
                 _DataCOBAEV.RunProc("SP_IoUEmpleadosPlazas", Prms, Nomina, ArregloAuditoria)
 

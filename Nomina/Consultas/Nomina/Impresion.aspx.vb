@@ -451,8 +451,8 @@ Partial Class ImpresionDeQuincenas
                     + "&IdReporte=" + lblIdReporte.Text + "'); return false;"
                 Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
             Case "173" 'nomina por categorias
-                Dim myByte As Byte() = System.Text.Encoding.UTF8.GetBytes(If(ddlTipoConsulta.SelectedValue = "A", "&tc=A&Anio=" + Me.ddlAños.SelectedItem.Text, "") _
-                    + If(ddlTipoConsulta.SelectedValue = "M", "&tc=M&IdMes=" + Me.ddlAños.SelectedItem.Text + Me.ddlMeses.SelectedValue.PadLeft(2, "0"), "") _
+                Dim myByte As Byte() = System.Text.Encoding.UTF8.GetBytes(If(ddlTipoConsulta.SelectedValue = "A", "&tc=A&Anio=" + Me.ddlAños.SelectedItem.Text + "&IdMes=" + Me.ddlMeses.SelectedValue, "") _
+                    + If(ddlTipoConsulta.SelectedValue = "M", "&tc=M&Anio=" + Me.ddlAños.SelectedItem.Text + "&IdMes=" + Me.ddlMeses.SelectedValue, "") _
                     + If(ddlTipoConsulta.SelectedValue = "Q", "&tc=Q&IdQuincena=" + lblIdQuincena.Text, ""))
                 '+ "&IdTipoFuente=" + Me.ddlTipoDeFuente.SelectedValue _
                 '+ If(ddlTiposDeImpresion.SelectedValue = 1, "&IdPlantel=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "") _
@@ -911,5 +911,10 @@ Partial Class ImpresionDeQuincenas
     Protected Sub ddlOrigenRecurso_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlOrigenRecurso.SelectedIndexChanged
         Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
         CreaLinkParaImpresion(gvr)
+    End Sub
+
+    Protected Sub ddlTipoConsulta_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ddlTipoConsulta.SelectedIndexChanged
+        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
+        CreaLinkParaImpresion2(gvr)
     End Sub
 End Class

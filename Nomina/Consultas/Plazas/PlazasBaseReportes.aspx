@@ -1,5 +1,5 @@
 <%@ Page Language="VB" EnableEventValidation="false" MasterPageFile="~/MasterPageSesionIniciada.master"
-    AutoEventWireup="false" CodeFile="Impresion.aspx.vb" Inherits="ImpresionDeQuincenas"
+    AutoEventWireup="false" CodeFile="PlazasBaseReportes.aspx.vb" Inherits="PlazasBaseReportes"
     Title="COBAEV - Nómina - Impresión de nóminas" StylesheetTheme="SkinFile" %>
 
 <%@ Register Src="~/WebControls/wucUpdateProgress.ascx" TagName="wucUpdateProgress"
@@ -26,35 +26,9 @@
                     <asp:Button ID="btnConsultarQuincenas" runat="server" SkinID="SkinBoton" Text="Consultar"
                         ToolTip="Consultar información relacionada con el año seleccionado" OnClick="btnConsultarQuincenas_Click" />
                     <br />
-                    <br />
-                    <asp:Label ID="lblTipoConsulta" runat="server" Text="Consultar por:" ></asp:Label>
-                    <br />
-                    <asp:DropDownList ID="ddlTipoConsulta" runat="server" SkinID="SkinDropDownList" AutoPostBack="True" >
-                        <asp:ListItem Selected="True" Value="A">Año</asp:ListItem>
-                        <asp:ListItem Value="M">Mes</asp:ListItem>
-                        <asp:ListItem Value="Q">Quincena</asp:ListItem>
-                    </asp:DropDownList>
                 </asp:Panel>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: top; text-align: left">
-                <asp:UpdatePanel ID="UpdatePanel6" runat="server">
-                    <ContentTemplate>
-                        <asp:Panel ID="pnlMeses" runat="server" Font-Names="Verdana" Font-Size="X-Small"
-                            GroupingText="Meses pagados durante el año">
-                            <br />
-                            <asp:DropDownList ID="ddlMeses" runat="server" SkinID="SkinDropDownList" AutoPostBack="True">
-                            </asp:DropDownList>
-                        </asp:Panel>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="gvReportes" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="btnConsultarQuincenas" EventName="Click" />
-                    </Triggers>
-                </asp:UpdatePanel>
             </td>
         </tr>
         <tr>
@@ -103,9 +77,7 @@
                             <br />
                             <asp:DropDownList ID="ddlTiposDeImpresion" runat="server" SkinID="SkinDropDownList"
                                 AutoPostBack="True" OnSelectedIndexChanged="ddlTiposDeImpresion_SelectedIndexChanged">
-                                <asp:ListItem Value="0">General</asp:ListItem>
                                 <asp:ListItem Value="1" Selected="True">Plantel</asp:ListItem>
-                                <asp:ListItem Value="2">Zona geogr&#225;fica</asp:ListItem>
                                 <asp:ListItem Value="3">Zona econ&#243;mica</asp:ListItem>
                             </asp:DropDownList>
                             <br />
@@ -127,11 +99,6 @@
                             <asp:DropDownList ID="ddlPlanteles_ZonasGeo" runat="server" SkinID="SkinDropDownList"
                                 AutoPostBack="True" OnSelectedIndexChanged="ddlPlanteles_ZonasGeo_SelectedIndexChanged">
                             </asp:DropDownList>
-                            <asp:DropDownList ID="ddlPlantelesPensionAlimenticia" runat="server" SkinID="SkinDropDownList"
-                                AutoPostBack="True" OnSelectedIndexChanged="ddlPlanteles_ZonasGeo_SelectedIndexChanged"
-                                Visible="False">
-                            </asp:DropDownList>
-                            <br />
                             <br />
                         </asp:Panel>
                     </ContentTemplate>
@@ -142,69 +109,7 @@
                 </asp:UpdatePanel>
             </td>
         </tr>
-        <tr>
-            <td style="text-align: left">
-                <asp:UpdatePanel ID="UpdatePanel4" runat="server">
-                    <ContentTemplate>
-                        <asp:Panel ID="pnlTipoDeNomina" runat="server" Font-Names="Verdana" Font-Size="X-Small"
-                            GroupingText="Seleccione tipo de nómina">
-                            <br />
-                            <asp:DropDownList ID="ddlTipoDeNomina" runat="server" SkinID="SkinDropDownList" AutoPostBack="True"
-                                OnSelectedIndexChanged="ddlTipoDeNomina_SelectedIndexChanged">
-                            </asp:DropDownList>
-                            <br />
-                            <br />
-                        </asp:Panel>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ddlTipoDeNomina" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="gvReportes" EventName="SelectedIndexChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: left">
-                <asp:UpdatePanel ID="UpdatePanel7" runat="server">
-                    <ContentTemplate>
-                        <asp:Panel ID="pnlTipoDeFF" runat="server" Font-Names="Verdana" Font-Size="X-Small"
-                            GroupingText="Seleccione tipo de fuente de financiamiento">
-                            <br />
-                            <asp:DropDownList ID="ddlTipoDeFuente" runat="server"  SkinID="SkinDropDownList" AutoPostBack="True"
-                                OnSelectedIndexChanged="ddlTipoDeFuente_SelectedIndexChanged"></asp:DropDownList>
-                            <br />
-                            <br />
-                        </asp:Panel>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ddlTipoDeFuente" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="gvReportes" EventName="SelectedIndexChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-            </td>
-        </tr>
-        <tr>
-                <td style="text-align: left">
-                    <asp:UpdatePanel ID="UpdatePanel9" runat="server">
-                        <ContentTemplate>
-                            <asp:Panel ID="pnlOrigenRecurso" runat="server" Font-Names="Verdana" Font-Size="X-Small"
-                                GroupingText="Seleccione el origen del recurso" Visible="False">
-                                <br />
-                                <asp:DropDownList ID="ddlOrigenRecurso" runat="server"  SkinID="SkinDropDownList" AutoPostBack="True">
-                                    <asp:ListItem Value="0">-</asp:ListItem>
-                                    <asp:ListItem Value="IM">Federales y Estatales</asp:ListItem>
-                                    <asp:ListItem Value="IP">Estatales</asp:ListItem>
-                                </asp:DropDownList>
-                                <br />
-                                <br />
-                            </asp:Panel>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="gvReportes" EventName="SelectedIndexChanged" />
-                        </Triggers>
-                    </asp:UpdatePanel>
-                </td>
-            </tr>
+        
         <tr>
             <td style="text-align: left">
                 <asp:UpdatePanel ID="UpdatePanel5" runat="server">
@@ -282,19 +187,6 @@
                                 <td>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <asp:Panel ID="pnlFchImpRpt" runat="server" Visible="False">
-                                        <asp:Label ID="lblFechaImp" runat="server" SkinID="SkinLblNormal" 
-                                            Text="Fecha de impresión"></asp:Label>
-                                        <br />
-                                        <asp:TextBox ID="txtbxFchImpRpt" runat="server" MaxLength="10" 
-                                            SkinID="SkinTextBox" AutoPostBack="True"></asp:TextBox>
-                                    </asp:Panel>
-                                </td>
-                                <td>
-                                    &nbsp;</td>
-                            </tr>
                         </table>
                         &nbsp;
                     </ContentTemplate>
@@ -304,10 +196,7 @@
                         <asp:AsyncPostBackTrigger ControlID="gvQuincenas" EventName="SelectedIndexChanged" />
                         <asp:AsyncPostBackTrigger ControlID="ddlTiposDeImpresion" EventName="SelectedIndexChanged" />
                         <asp:AsyncPostBackTrigger ControlID="ddlPlanteles_ZonasGeo" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="ddlTipoDeNomina" EventName="SelectedIndexChanged" />
                         <asp:AsyncPostBackTrigger ControlID="gvReportes" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="ddlMeses" EventName="SelectedIndexChanged" />
-                        <asp:AsyncPostBackTrigger ControlID="ddlPlantelesPensionAlimenticia" EventName="SelectedIndexChanged" />
                     </Triggers>
                 </asp:UpdatePanel>
             </td>

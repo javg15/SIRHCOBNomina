@@ -124,6 +124,10 @@ Partial Class AdministracionPlazas
             Dim txtbxFechaBajaISSSTE2 As TextBox = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE2"), TextBox) 'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
             Dim txtbxFechaBajaISSSTE_CV2 As CompareValidator = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE_CV2"), CompareValidator) 'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
             Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
+            Dim lblLiberarPlaza As Label = CType(Me.dvPlaza.FindControl("lblLiberarPlaza"), Label)
+            Dim ddlLiberarPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlLiberarPlaza"), DropDownList)
+            Dim CVLiberarPlazas As CompareValidator = CType(Me.dvPlaza.FindControl("CVLiberarPlazas"), CompareValidator) 'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
+
             Dim oEmp As New EmpleadoFuncion
             Dim oPlantel As New Plantel
             Dim oTipoDeNomina As New TipoDeNomina
@@ -182,7 +186,7 @@ Partial Class AdministracionPlazas
                 LlenaDDL(ddlTiposDeNominas, "DescFondoPresup", "IdTipoNomina", oTipoDeNomina.ObtenPorCategoria(CShort(ddlCategorias.SelectedValue)))
                 LlenaDDL(ddlSindicatos, "SiglasSindicato", "IdSindicato", oSindicato.ObtenTodos(True))
                 LlenaDDL(ddlPlazasTipoOcup, "DescPlazaTipoOcupacion", "IdPlazaTipoOcupacion", oPlazaTipoOcupacion.ObtenTodos)
-                ddlPlazasTipoOcup_SelectedIndexChanged(sender, e)
+                ddlPlazasTipoOcup_SelectedIndexChanged(sender, e, True)
                 LlenaDDL(ddlMotivoInterinato, "DescMotivoInterinato", "IdMotivoHoraInterina", oPlaza.ObtenMotivosInterinatos(), String.Empty)
                 LlenaDDL(ddlFuncionesPri, "FuncionPri", "IdFuncionPri", oEmp2.ObtenFuncionesPrimarias())
 
@@ -335,7 +339,7 @@ Partial Class AdministracionPlazas
                     Session.Add("NombreParaCons2", dr2("NomEmp"))
                     Session.Add("NumEmpParaCons2", dr2("NumEmp"))
                 End If
-                ddlPlazasTipoOcup_SelectedIndexChanged(sender, e)
+                ddlPlazasTipoOcup_SelectedIndexChanged(sender, e, True)
                 LlenaDDL(ddlMotivoInterinato, "DescMotivoInterinato", "IdMotivoHoraInterina", oPlaza.ObtenMotivosInterinatos(), dr2("IdMotivoInterinato"))
 
                 LlenaDDL(ddlFuncionesPri, "FuncionPri", "IdFuncionPri", oEmp2.ObtenFuncionesPrimarias(), drEmpsPlazasDatosComplemen("IdFuncionPri").ToString)
@@ -469,7 +473,11 @@ Partial Class AdministracionPlazas
                 End If
 
                 'Plazas base
-                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+                If Request.Params("TipoOperacion") = "4" Then
+                    gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 1, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+                Else
+                    gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+                End If
                 gvPlazas.DataBind()
 
                 Dim hidIdPlazas As TextBox = CType(Me.dvPlaza.FindControl("hidIdPlazas"), TextBox)
@@ -484,10 +492,11 @@ Partial Class AdministracionPlazas
                 End If
 
                 Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
-                BindddlNuevoIngreso(ddlNuevoIngreso, -1, 0)
+                BindddlNuevoIngreso(ddlNuevoIngreso, dr("IncEnCompactable"), 0)
+                ddlNuevoIngreso.Enabled = True
 
                 If Request.Params("TipoOperacion") = 0 Then
-                    If ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("CB-") >= 0 Or ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("EMSAD") >= 0 Then
+                    If ddlEmpleadosFunciones.SelectedValue = 2 And oCategoria.ObtenSiEsHomologada(CShort(ddlCategorias.SelectedValue))("CategoriaEsHomologada") = 0 Then
                         CVIdPlazas.Enabled = False
                         RVIdPlazas.Enabled = False
                     Else
@@ -495,6 +504,20 @@ Partial Class AdministracionPlazas
                         RVIdPlazas.Enabled = True
                     End If
                 End If
+
+                If Request.Params("TipoOperacion") = 2 Then
+                    drMotGralDeBaja = oEmp2.ObtenMotivosDeBaja(CShort(ddlMotivosDeBaja.SelectedValue))
+                    If ddlPlazasTipoOcup.SelectedValue = 1 And drMotGralDeBaja("PermiteMovimientoPosterior") = False Then
+                        lblLiberarPlaza.Visible = True
+                        ddlLiberarPlaza.Visible = True
+                        CVLiberarPlazas.Enabled = True
+                    Else
+                        lblLiberarPlaza.Visible = False
+                        ddlLiberarPlaza.Visible = False
+                        CVLiberarPlazas.Enabled = False
+                    End If
+                End If
+
             End If
         End If
     End Sub
@@ -517,7 +540,7 @@ Partial Class AdministracionPlazas
             ddlNuevoIngreso_CV.Enabled = False
         End If
     End Sub
-    Protected Sub CheckedChanged_chkbxInterinoPuro(ByVal sender As Object, ByVal e As System.EventArgs)
+    Protected Sub CheckedChanged_chkbxInterinoPuro(ByVal sender As Object, ByVal e As System.EventArgs, Optional ByVal Iniciando As Boolean = False)
         Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
@@ -529,15 +552,17 @@ Partial Class AdministracionPlazas
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
         Dim oSMP_Plaza As New SMP_Plazas
 
-        If Not chkbxInterinoPuro.Checked Then
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
-        Else
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+        If Not Iniciando Then
+            If Not chkbxInterinoPuro.Checked Then
+                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            Else
+                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            End If
+            gvPlazas.DataBind()
         End If
-        gvPlazas.DataBind()
     End Sub
 
-    Protected Sub chkMostrarTodas_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    Protected Sub chkMostrarTodas_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs, Optional ByVal Iniciando As Boolean = False)
         Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
@@ -548,12 +573,14 @@ Partial Class AdministracionPlazas
         Dim chkMostrarTodas As CheckBox = CType(Me.dvPlaza.FindControl("chkMostrarTodas"), CheckBox)
         Dim oSMP_Plaza As New SMP_Plazas
 
-        If Not chkbxInterinoPuro.Checked Then
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
-        Else
-            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+        If Not Iniciando Then
+            If Not chkbxInterinoPuro.Checked Then
+                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            Else
+                gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, 8, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            End If
+            gvPlazas.DataBind()
         End If
-        gvPlazas.DataBind()
     End Sub
     Protected Sub gvPlazas_SelectedIndexChanging(ByVal sender As Object, ByVal e As GridViewSelectEventArgs)
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
@@ -601,6 +628,7 @@ Partial Class AdministracionPlazas
             Dim txtbxFechaBajaISSSTE2 As TextBox = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE2"), TextBox)
             Dim ddlPuesto As DropDownList = CType(Me.dvPlaza.FindControl("ddlPuesto"), DropDownList) 'CODIGO AGREGADO POR ALEXIS CORTEZ 01/09/2021'
             Dim ddlNuevoIngreso As DropDownList = CType(Me.dvPlaza.FindControl("ddlNuevoIngreso"), DropDownList)
+            Dim ddlLiberarPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlLiberarPlaza"), DropDownList)
             Dim vl_IdPlaza As Integer
 
             'Código de validación
@@ -682,6 +710,7 @@ Partial Class AdministracionPlazas
                 Else
                     .FechaFinLSGS = String.Empty
                 End If
+                .LiberarPlaza = IIf(ddlLiberarPlaza.SelectedValue = 1, True, vbFalse)
 
                 hidIdPlazas.Text = If(hidIdPlazas.Text = "", "0", hidIdPlazas.Text)
                 If Request.Params("TipoOperacion") = "0" Then
@@ -731,7 +760,7 @@ Partial Class AdministracionPlazas
         End Try
     End Sub
 
-    Protected Sub ddlQuincenaInicio_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    Protected Sub ddlQuincenaInicio_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs, Optional ByVal Iniciando As Boolean = False)
         Dim ddlQnaInicio As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaInicio"), DropDownList)
         Dim ddlQnaTermino As DropDownList = CType(Me.dvPlaza.FindControl("ddlQuincenaTermino"), DropDownList)
         Dim chkFueraTiempo As CheckBox = CType(Me.dvPlaza.FindControl("chkFueraTiempo"), CheckBox)
@@ -757,8 +786,11 @@ Partial Class AdministracionPlazas
                 LlenaDDL(ddlQnaTermino, "Quincena", "IdQuincena", oQna.ObtenPosiblesParaPago(CType(Request.Params("IdPlaza"), Integer)))
             End If
         End If
-        gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
-        gvPlazas.DataBind()
+
+        If Not Iniciando Then
+            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            gvPlazas.DataBind()
+        End If
     End Sub
 
     Protected Sub ddlEmpleadosFunciones_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -856,7 +888,8 @@ Partial Class AdministracionPlazas
         End Select
     End Sub
 
-    Protected Sub ddlCategorias_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    Protected Sub ddlCategorias_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs, Optional ByVal Iniciando As Boolean = False)
+        Dim ddlEmpleadosFunciones As DropDownList = CType(Me.dvPlaza.FindControl("ddlEmpleadosFunciones"), DropDownList)
         Dim ddlTiposDeNominas As DropDownList = CType(Me.dvPlaza.FindControl("ddlTiposDeNominas"), DropDownList)
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlEsquemaPago As DropDownList = CType(Me.dvPlaza.FindControl("ddlEsquemaPago"), DropDownList)
@@ -869,7 +902,7 @@ Partial Class AdministracionPlazas
         Dim ddlSindicatos As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicatos"), DropDownList)
         Dim CVIdPlazas As CompareValidator = CType(dvPlaza.FindControl("CVIdPlazas"), CompareValidator)
         Dim RVIdPlazas As RequiredFieldValidator = CType(dvPlaza.FindControl("RVIdPlazas"), RequiredFieldValidator)
-
+        Dim oCategoria As New Categoria
 
         Dim gvPlazas As GridView = CType(Me.dvPlaza.FindControl("gvPlazas"), GridView)
 
@@ -894,12 +927,14 @@ Partial Class AdministracionPlazas
 
         'ddlTiposDeNominas.DataSource = oTipoDeNomina.ObtenPorCategoria(CByte(ddlCategorias.SelectedValue))
         'ddlTiposDeNominas.DataBind()
-        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
-        gvPlazas.DataBind()
+        If Not Iniciando Then
+            gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            gvPlazas.DataBind()
+        End If
 
 
         'esto es un parche temporal, son las categorias designadas por hora, no por espacio en OCUP
-        If ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("CB-") >= 0 Or ddlCategorias.SelectedItem.Text.ToUpper.IndexOf("EMSAD") >= 0 Then
+        If ddlEmpleadosFunciones.SelectedValue = 2 And oCategoria.ObtenSiEsHomologada(CShort(ddlCategorias.SelectedValue))("CategoriaEsHomologada") = 0 Then
             CVIdPlazas.Enabled = False
             RVIdPlazas.Enabled = False
         Else
@@ -916,7 +951,7 @@ Partial Class AdministracionPlazas
 
     End Sub
 
-    Protected Sub ddlSindicatos_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    Protected Sub ddlSindicatos_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs, Optional ByVal Iniciando As Boolean = False)
         Dim ddlTiposDeNominas As DropDownList = CType(Me.dvPlaza.FindControl("ddlTiposDeNominas"), DropDownList)
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
         Dim ddlEsquemaPago As DropDownList = CType(Me.dvPlaza.FindControl("ddlEsquemaPago"), DropDownList)
@@ -951,8 +986,10 @@ Partial Class AdministracionPlazas
 
         'ddlTiposDeNominas.DataSource = oTipoDeNomina.ObtenPorCategoria(CByte(ddlCategorias.SelectedValue))
         'ddlTiposDeNominas.DataBind()
-        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
-        gvPlazas.DataBind()
+        If Not Iniciando = False Then
+            gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            gvPlazas.DataBind()
+        End If
 
         'Para evitar el error de que se quiera asignar un valor a SelectedValue inexistente
         Try
@@ -998,7 +1035,7 @@ Partial Class AdministracionPlazas
         ddlCTAdscipReal_SelectedIndexChanged(sender, e)
     End Sub
 
-    Protected Sub ddlPlazasTipoOcup_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+    Protected Sub ddlPlazasTipoOcup_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs, optional byval Iniciando As Boolean=false)
         Dim oPlaza As New Plazas.TipoOcupacion
         Dim ddlPlazasTipoOcup As DropDownList = Nothing
         Dim ddlMotivoInterinato As DropDownList = Nothing
@@ -1112,8 +1149,10 @@ Partial Class AdministracionPlazas
         'If Request.Params("TipoOperacion") <> "4" Then
         LlenaDDL(ddlMotivosDeBaja, "MotGralBaja", "IdMotGralBaja", oEmp.ObtenMotivosDeBajaSegunTipoOcupacion(ddlPlazasTipoOcup.SelectedValue))
         'End If
-        gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
-        gvPlazas.DataBind()
+        If Not Iniciando Then
+            gvPlazas.DataSource = oSMP_Plaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            gvPlazas.DataBind()
+        End If
     End Sub
 
     Protected Sub btnUpdTitularPlaza_Click(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -1180,12 +1219,17 @@ Partial Class AdministracionPlazas
 
     Protected Sub ddlMotivosDeBaja_SelectedIndexChanged(sender As Object, e As System.EventArgs)
         Dim ddlMotivosDeBaja As DropDownList = CType(Me.dvPlaza.FindControl("ddlMotivosDeBaja"), DropDownList)
+        Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
         Dim lblFechaBajaISSSTE As Label = CType(Me.dvPlaza.FindControl("lblFechaBajaISSSTE"), Label)
         Dim txtbxFechaBajaISSSTE As TextBox = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE"), TextBox)
         Dim txtbxFechaBajaISSSTE_CV As CompareValidator = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE_CV"), CompareValidator)
         Dim lblFechaBajaISSSTE2 As Label = CType(Me.dvPlaza.FindControl("lblFechaBajaISSSTE2"), Label)  'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
         Dim txtbxFechaBajaISSSTE2 As TextBox = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE2"), TextBox) 'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
         Dim txtbxFechaBajaISSSTE_CV2 As CompareValidator = CType(Me.dvPlaza.FindControl("txtbxFechaBajaISSSTE_CV2"), CompareValidator) 'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
+        Dim CVLiberarPlazas As CompareValidator = CType(Me.dvPlaza.FindControl("CVLiberarPlazas"), CompareValidator) 'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
+        Dim lblLiberarPlaza As Label = CType(Me.dvPlaza.FindControl("lblLiberarPlaza"), Label)
+        Dim ddlLiberarPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlLiberarPlaza"), DropDownList)
+
         Dim drMotGralDeBaja As DataRow
         Dim oEmp2 As New Empleado
         Dim fechaActual As Date = Date.Now
@@ -1209,9 +1253,19 @@ Partial Class AdministracionPlazas
         txtbxFechaBajaISSSTE_CV2.Enabled = txtbxFechaBajaISSSTE2.Visible
         txtbxFechaBajaISSSTE2.Text = fechaActual.AddDays(2).ToShortDateString
         'CODIGO AGREGADO POR ALEXIS CORTEZ 29/09/2021'
+
+        If ddlPlazasTipoOcup.SelectedValue = 1 And drMotGralDeBaja("PermiteMovimientoPosterior") = False Then
+            ddlLiberarPlaza.Visible = True
+            lblLiberarPlaza.Visible = True
+            CVLiberarPlazas.Enabled = True
+        Else
+            ddlLiberarPlaza.Visible = False
+            lblLiberarPlaza.Visible = False
+            CVLiberarPlazas.Enabled = False
+        End If
     End Sub
 
-    Protected Sub ddlCTAdscipReal_SelectedIndexChanged(sender As Object, e As System.EventArgs)
+    Protected Sub ddlCTAdscipReal_SelectedIndexChanged(sender As Object, e As System.EventArgs, Optional ByVal Iniciando As Boolean = False)
         Dim ddlCTAdscipReal As DropDownList = CType(Me.dvPlaza.FindControl("ddlCTAdscipReal"), DropDownList)
         Dim lblZEPlantelAdscripReal As Label = CType(Me.dvPlaza.FindControl("lblZEPlantelAdscripReal"), Label)
         Dim ddlPlazasTipoOcup As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlazasTipoOcup"), DropDownList)
@@ -1230,8 +1284,10 @@ Partial Class AdministracionPlazas
         lblZEPlantelAdscripReal.Text = "Zona económica " + drPlantelAdscripReal("ClaveZonaEco").ToString
 
         Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
-        gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
-        gvPlazas.DataBind()
+        If Not Iniciando Then
+            gvPlazas.DataSource = oPlaza.ObtenPlazasOcupacion(ddlCTAdscipReal.SelectedValue, ddlCategorias.SelectedValue, ddlPlazasTipoOcup.SelectedValue, (Not chkMostrarTodas.Checked), CType(Request.Params("IdPlaza"), Integer), CShort(If(ddlQnaInicio.SelectedValue = "", 0, ddlQnaInicio.SelectedValue)), Request.Params("RFCEmp"), ddlSindicatos.SelectedValue)
+            gvPlazas.DataBind()
+        End If
     End Sub
 
     Protected Sub lbReintentarCaptura_Click(sender As Object, e As System.EventArgs) Handles lbReintentarCaptura.Click

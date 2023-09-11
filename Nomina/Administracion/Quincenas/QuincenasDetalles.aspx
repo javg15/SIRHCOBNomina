@@ -177,6 +177,12 @@ Culture="Auto" UICulture="Auto" %>
                                                                         SkinID="SkinCheckBox" />
                                                                 </ItemTemplate>
                                                             </asp:TemplateField> 
+                                                            <asp:TemplateField HeaderText="Es quincena subsidiada (50% Federal, 50% Estatal)">
+                                                                <ItemTemplate>
+                                                                    <asp:CheckBox ID="chbxSubsidiado" runat="server" Checked='<%# Bind("Subsidiado") %>'
+                                                                        SkinID="SkinCheckBox" />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField> 
                                                             <asp:TemplateField ShowHeader="False">
                                                                 <HeaderStyle Wrap="False" />
                                                                 <ItemStyle HorizontalAlign="Right" Wrap="False" />

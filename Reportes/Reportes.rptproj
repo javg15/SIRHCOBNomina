@@ -159,10 +159,6 @@
       <FullPath>Copia de PagomaticopORbANCO.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>Copy of ReporteQnalDeClavesDesgPorEmp.rdl</Name>
-      <FullPath>Copy of ReporteQnalDeClavesDesgPorEmp.rdl</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>DecAnualResumenPercDeducPorEmp.rdl</Name>
       <FullPath>DecAnualResumenPercDeducPorEmp.rdl</FullPath>
     </ProjectItem>
@@ -297,6 +293,10 @@
     <ProjectItem>
       <Name>NominaPensionAlimenticia.rdl</Name>
       <FullPath>NominaPensionAlimenticia.rdl</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>NominaPorCategorias.rdl</Name>
+      <FullPath>NominaPorCategorias.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
       <Name>NominaResumenesGlobalesPorPlantel.rdl</Name>
@@ -667,8 +667,8 @@
       <FullPath>VisorExpedientes.rdl</FullPath>
     </ProjectItem>
     <ProjectItem>
-      <Name>NominaPorCategorias.rdl</Name>
-      <FullPath>NominaPorCategorias.rdl</FullPath>
+      <Name>PlazasAnalisis.rdl</Name>
+      <FullPath>PlazasAnalisis.rdl</FullPath>
     </ProjectItem>
   </Reports>
   <Configurations>
