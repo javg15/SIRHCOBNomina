@@ -64,6 +64,11 @@ Partial Class WebControls_wucSearchEmps
         txtbxNomEmp.Text = pTxtBxNombre
         txtbxNumEmp.Text = pTxtBxNumEmp
     End Sub
+    Public Sub SetButtonVisible(pBtnNewSearch As Boolean, pBtnCancelSearch As Boolean, pBtnSearch As Boolean)
+        BtnNewSearch.Visible = pBtnNewSearch
+        BtnCancelSearch.Visible = pBtnCancelSearch
+        BtnSearch.Visible = pBtnSearch
+    End Sub
     Public Sub SetPropertyReadOnly_TxtBx(pTxtBxRFC As Boolean, pTxtBxNombre As Boolean, pTxtBxNumEmp As Boolean)
         txtbxRFC.ReadOnly = pTxtBxRFC
         txtbxNomEmp.ReadOnly = pTxtBxNombre

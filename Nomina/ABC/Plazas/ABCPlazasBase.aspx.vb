@@ -152,6 +152,7 @@ Partial Class ABCPlazasBase
             ddlFuncionPlaza.SelectedValue = IIf(dr("IdEmpFuncion") Is System.DBNull.Value, 0, dr("IdEmpFuncion"))
             txtHoras.Text = IIf(dr("Horas") Is System.DBNull.Value, 0, dr("Horas"))
             ddlCategorias_SelectedIndexChanged(Nothing, Nothing)
+            LlenaDDL(ddlEsquemaPago, "DescEsquemaPago", "IdEsquemaPago", oNomina.getEsquemasDePago(Session("RFCParaCons").ToString, CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue), True), drEmpsPlazasDatosComplemen("IdEsquemaPago").ToString)
         Else
             hidIdPlazas.Text = "0"
 

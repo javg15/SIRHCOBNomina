@@ -1,5 +1,4 @@
 ﻿Imports DataAccessLayer.COBAEV.Administracion
-Imports DataAccessLayer.COBAEV.InformacionAcademica
 Imports DataAccessLayer.COBAEV.Nominas
 Imports DataAccessLayer.COBAEV
 Imports System.Data
@@ -189,19 +188,7 @@ Partial Class PlazasBaseReportes
                     + "&IdPlantel=" + Me.ddlPlanteles_ZonasGeo.SelectedValue + "'" _
                     + "&IdReporte=" + lblIdReporte.Text + "'); return false;"
                 Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
-            Case "173" 'nomina por categorias
-                Dim myByte As Byte() = System.Text.Encoding.UTF8.GetBytes(If(ddlTipoConsulta.SelectedValue = "A", "&tc=A&Anio=" + Me.ddlAños.SelectedItem.Text + "&IdMes=" + Me.ddlMeses.SelectedValue, "") _
-                    + If(ddlTipoConsulta.SelectedValue = "M", "&tc=M&Anio=" + Me.ddlAños.SelectedItem.Text + "&IdMes=" + Me.ddlMeses.SelectedValue, "") _
-                    + If(ddlTipoConsulta.SelectedValue = "Q", "&tc=Q&IdQuincena=" + lblIdQuincena.Text, ""))
-                '+ "&IdTipoFuente=" + Me.ddlTipoDeFuente.SelectedValue _
-                '+ If(ddlTiposDeImpresion.SelectedValue = 1, "&IdPlantel=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "") _
-                '+ If(ddlTiposDeImpresion.SelectedValue = 2, "&IdZonaGeografica=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "") _
-                '+ If(ddlTiposDeImpresion.SelectedValue = 3, "&IdZonaEconomica=" + Me.ddlPlanteles_ZonasGeo.SelectedValue, "")
 
-                '+ "&IdTipoNomina=" + Me.ddlTipoDeNomina.SelectedValue _
-                Me.ibExportarExcel.OnClientClick = "javascript:abreVentanaImpresion('../../VisorDeReportesExcel.aspx" _
-                            + "?binario=1&IdReporte=173&parametros=" + Convert.ToBase64String(myByte) + "'); return false;"
-                Me.ibExportarExcel.Visible = CShort(ddlAños.SelectedItem.Text) >= 2014
         End Select
     End Sub
     Private Sub CreaLinkParaImpresion(ByVal gvr As GridViewRow, Optional ByVal pFchImpRpt As String = "")
@@ -368,10 +355,7 @@ Partial Class PlazasBaseReportes
         CreaLinkParaImpresion(gvr)
     End Sub
 
-    Protected Sub ddlMeses_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ddlMeses.SelectedIndexChanged
-        Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
-        CreaLinkParaImpresion(gvr)
-    End Sub
+
 
     Protected Sub chbxPrioridadQna_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Dim gvr As GridViewRow = Me.gvReportes.SelectedRow
