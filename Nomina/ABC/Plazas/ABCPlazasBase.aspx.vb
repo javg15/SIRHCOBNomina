@@ -95,6 +95,17 @@ Partial Class ABCPlazasBase
 
     End Sub
 
+    Private Sub BindddlEsquemaPago(ByVal ddlEsquemaPago As DropDownList, ByVal IdSelected As Integer)
+        Dim oCategoria As New Categoria
+        Dim oNomina As New Nomina
+        Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
+        Dim ddlCategorias As DropDownList = CType(Me.dvPlaza.FindControl("ddlCategorias"), DropDownList)
+
+        LlenaDDL(ddlEsquemaPago, "DescEsquemaPago", "IdEsquemaPago", oNomina.getEsquemasDePago(Session("RFCParaCons").ToString, CShort(ddlCategorias.SelectedValue), CShort(ddlPlantelesPlaza.SelectedValue), True), IdSelected)
+
+    End Sub
+
+
     Private Sub BindddlPlanteles(ByVal ddlPlantelesEmpleado As DropDownList, ByVal IdSelected As Integer)
         Dim oPlantel As New Plantel
         Dim oUsuario As New Usuario
@@ -139,6 +150,7 @@ Partial Class ABCPlazasBase
         Dim ddlSindicato As DropDownList = CType(Me.dvPlaza.FindControl("ddlSindicato"), DropDownList)
         Dim ddlPlantelesPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlPlantelesPlaza"), DropDownList)
         Dim ddlFuncionPlaza As DropDownList = CType(Me.dvPlaza.FindControl("ddlFuncionPlaza"), DropDownList)
+        Dim ddlEsquemaPago As DropDownList = CType(Me.dvPlaza.FindControl("ddlEsquemaPago"), DropDownList)
         Dim txtHoras As TextBox = CType(Me.dvPlaza.FindControl("txtHoras"), TextBox)
 
         If Not dr Is Nothing Then
@@ -152,7 +164,7 @@ Partial Class ABCPlazasBase
             ddlFuncionPlaza.SelectedValue = IIf(dr("IdEmpFuncion") Is System.DBNull.Value, 0, dr("IdEmpFuncion"))
             txtHoras.Text = IIf(dr("Horas") Is System.DBNull.Value, 0, dr("Horas"))
             ddlCategorias_SelectedIndexChanged(Nothing, Nothing)
-            LlenaDDL(ddlEsquemaPago, "DescEsquemaPago", "IdEsquemaPago", oNomina.getEsquemasDePago(Session("RFCParaCons").ToString, CShort(ddlCategorias.SelectedValue), CShort(ddlPlanteles.SelectedValue), True), drEmpsPlazasDatosComplemen("IdEsquemaPago").ToString)
+            BindddlEsquemaPago(ddlEsquemaPago, CInt(dr("IdEsquemaPago")))
         Else
             hidIdPlazas.Text = "0"
 
@@ -163,6 +175,7 @@ Partial Class ABCPlazasBase
             ddlTipoPlaza.SelectedValue = ""
             ddlFuncionPlaza.SelectedValue = ""
             txtHoras.Text = "0"
+            BindddlEsquemaPago(ddlEsquemaPago, 0)
         End If
 
 

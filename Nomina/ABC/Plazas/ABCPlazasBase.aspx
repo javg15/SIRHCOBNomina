@@ -94,6 +94,14 @@
                                                 ControlToValidate="ddlEstatusPlaza" Display="Dynamic" ErrorMessage="Seleccione el estatus"
                                                 Operator="NotEqual" ToolTip="Seleccione el estatus de la plaza base" Type="String"
                                                 ValidationGroup="gpoGuarda" ValueToCompare="-">*</asp:CompareValidator></InsertItemTemplate><HeaderStyle  HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>                            
+                            <asp:TemplateField HeaderText="Esquema de pago">
+                                <InsertItemTemplate>
+                                            <asp:DropDownList ID="ddlEsquemaPago" runat="server" SkinID="SkinDropDownList">
+                                            </asp:DropDownList>
+                                </InsertItemTemplate>
+                                <HeaderStyle HorizontalAlign="Left" Wrap="False" />
+                                <ItemStyle HorizontalAlign="Left" Wrap="False" />
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText=""><InsertItemTemplate></InsertItemTemplate><HeaderStyle HorizontalAlign="Left" Wrap="False" /><ItemStyle HorizontalAlign="Left" Wrap="False" /></asp:TemplateField>
 
                             
