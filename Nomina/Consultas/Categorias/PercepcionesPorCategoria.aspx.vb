@@ -35,12 +35,12 @@ Partial Class Consultas_PercepcionesPorCategoria
                 Dim lblIdQnaVigIniPerc As Label = CType(e.Row.FindControl("lblIdQnaVigIniPerc"), Label)
                 If CShort(lblIdQnaVigIniPerc.Text) = 0 Then
                     ibModificar.Visible = False
-                    ibNuevosValores.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Categorias/AdministracionPercepcionesPorCategoria.aspx?IdCategoria=" + Request.Params("IdCategoria") + "&IdPercepcion=" + lblIdPercepcion.Text + _
+                    ibNuevosValores.OnClientClick = "javascript:abreVentana('../../ABC/Categorias/AdministracionPercepcionesPorCategoria.aspx?IdCategoria=" + Request.Params("IdCategoria") + "&IdPercepcion=" + lblIdPercepcion.Text + _
                                                     "&IdZonaEco=" + lblIdZonaEco.Text + "&IdQnaVigIniPerc=" + lblIdQnaVigIniPerc.Text + "&TipoOperacion=1'); return false;"
                 Else
-                    ibModificar.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Categorias/AdministracionPercepcionesPorCategoria.aspx?IdCategoria=" + Request.Params("IdCategoria") + "&IdPercepcion=" + lblIdPercepcion.Text + _
+                    ibModificar.OnClientClick = "javascript:abreVentana('../../ABC/Categorias/AdministracionPercepcionesPorCategoria.aspx?IdCategoria=" + Request.Params("IdCategoria") + "&IdPercepcion=" + lblIdPercepcion.Text + _
                                                 "&IdZonaEco=" + lblIdZonaEco.Text + "&IdQnaVigIniPerc=" + lblIdQnaVigIniPerc.Text + "&TipoOperacion=0'); return false;"
-                    ibNuevosValores.OnClientClick = "javascript:abreVentMedAncha('../../ABC/Categorias/AdministracionPercepcionesPorCategoria.aspx?IdCategoria=" + Request.Params("IdCategoria") + "&IdPercepcion=" + lblIdPercepcion.Text + _
+                    ibNuevosValores.OnClientClick = "javascript:abreVentana('../../ABC/Categorias/AdministracionPercepcionesPorCategoria.aspx?IdCategoria=" + Request.Params("IdCategoria") + "&IdPercepcion=" + lblIdPercepcion.Text + _
                     "&IdZonaEco=" + lblIdZonaEco.Text + "&IdQnaVigIniPerc=" + lblIdQnaVigIniPerc.Text + "&TipoOperacion=1'); return false;"
                 End If
 
